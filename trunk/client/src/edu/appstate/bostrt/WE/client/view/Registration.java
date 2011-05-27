@@ -37,7 +37,7 @@ public class Registration extends View
 
 	interface RegistrationUiBinder extends UiBinder<Widget, Registration>{}
 
-	public static final String registerURL = "http://localhost:80/~robert/we_server/index.php?cmd=RegisterUser";
+	public static final String registerURL = "http://student.cs.appstate.edu/~bostrt/wags/index.php?cmd=RegisterUser";
 	
 	@UiField Button registerButton;
 	@UiField TextBox email;

@@ -23,7 +23,7 @@ public class Uploader extends View
 	public Uploader()
 	{
 		initWidget(uiBinder.createAndBindUi(this));
-		form.setAction("http://localhost:80/~robert/we_server/index.php?cmd=UploadFile");
+		//form.setAction("http://localhost:80/~robert/we_server/index.php?cmd=UploadFile");
 	}
 	
 	@Override

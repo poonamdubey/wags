@@ -1,6 +1,7 @@
 package edu.appstate.bostrt.WE.client;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
@@ -47,13 +48,14 @@ public class WE implements EntryPoint
 		else{
 			// DEFAULT
 			// Attempt to get user's details.
-			String isLoggedInURL = "http://localhost:80/~robert/we_server/index.php?cmd=GetUserDetails";
+			String isLoggedInURL = "http://student.cs.appstate.edu/~bostrt/wags/index.php?cmd=GetUserDetails";
 			RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, URL.encode(isLoggedInURL));
 			try{
 				@SuppressWarnings("unused")
 				Request req = builder.sendRequest(null, new RequestCallback(){
 					@Override
 					public void onResponseReceived(Request request,	Response response) {
+						Window.alert(response.toString());
 						WEStatus status = new WEStatus(response);
 						if(status.getStat() == WEStatus.STATUS_ERROR){
 							// No one is logged in.
