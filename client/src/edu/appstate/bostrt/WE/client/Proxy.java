@@ -20,7 +20,7 @@ import edu.appstate.bostrt.WE.client.view.Notification;
 
 public class Proxy
 {
-	private static final String baseURL = "http://localhost:80/~robert/we_server/index.php";
+	private static final String baseURL = "http://student.cs.appstate.edu/~bostrt/wags/index.php";
 	private static final String getFileContents = baseURL+"?cmd=GetFileContents";
 	private static final String saveFileContents = baseURL+"?cmd=SaveFileContents";
 	private static final String deleteFile = baseURL+"?cmd=DeleteFile";
