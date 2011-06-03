@@ -33,6 +33,16 @@
 				<g:Anchor styleName="{style.anchor}" ui:field="logout">Logout</g:Anchor>
 			</g:HTMLPanel>
 		</g:north>
+	 	<g:south size="30">
+     		<g:HTMLPanel styleName="{style.codeAndFile}">
+     			<g:FormPanel ui:field="form">
+	     			<g:HorizontalPanel>
+	     				<g:FileUpload ui:field="uploadField" name="the_file"/>
+	     				<g:SubmitButton ui:field="submitButton">Upload</g:SubmitButton>
+	     			</g:HorizontalPanel>
+     			</g:FormPanel>
+     		</g:HTMLPanel>
+     	</g:south>
 		<g:center size="600">
 	 	<g:HorizontalSplitPanel>
 		 	<g:HTMLPanel styleName="{style.codeAndFile}">
@@ -40,11 +50,14 @@
 					<g:TextBox styleName="{style.fileName}" ui:field="fileName"></g:TextBox>
 					<g:Anchor ui:field="save" styleName="{style.anchor}">Save</g:Anchor>
 					<g:Anchor ui:field="delete" styleName="{style.anchor}">Delete</g:Anchor>
+					
 				</g:HTMLPanel>
 				<my:CodeEditor styleName="{style.editor}" ui:field="editor"></my:CodeEditor>
 			</g:HTMLPanel>
-	 		<my:FileBrowser ui:field="browser"></my:FileBrowser>
+	 		<my:FileBrowser ui:field="browser">	</my:FileBrowser>
 	     </g:HorizontalSplitPanel>
      </g:center>
+
+     
      </g:DockLayoutPanel>
  </ui:UiBinder> 
