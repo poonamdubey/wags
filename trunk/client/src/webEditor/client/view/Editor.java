@@ -15,12 +15,20 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.FileUpload;
+import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.SubmitButton;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
+import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
+import com.google.gwt.user.client.ui.FormPanel.SubmitHandler;
 
 
 public class Editor extends View
@@ -34,6 +42,9 @@ public class Editor extends View
 	@UiField Anchor logout;
 	@UiField Anchor save;
 	@UiField Anchor delete;
+	@UiField FileUpload uploadField;
+	@UiField SubmitButton submitButton;
+	@UiField FormPanel form;
 	@UiField TextBox fileName;
 	@UiField Label hello;
 	@UiField CodeEditor editor;
@@ -46,7 +57,26 @@ public class Editor extends View
 		fileName.setVisible(false);
 		save.setVisible(false);
 		delete.setVisible(false);
+		
+		form.setAction(Proxy.getBaseurl() + "?cmd=UploadFile");
+		form.setEncoding(FormPanel.ENCODING_MULTIPART);
+		form.setMethod(FormPanel.METHOD_POST);
+		form.addSubmitHandler(new SubmitHandler(){
+			@Override
+			public void onSubmit(SubmitEvent event) {
+				Window.alert("Submitting");
+			}
+		});
+		form.addSubmitCompleteHandler(new SubmitCompleteHandler(){
 
+			@Override
+			public void onSubmitComplete(SubmitCompleteEvent event) {
+				Window.alert("Submitted");
+				Proxy.loadFileListing(browser, "/");
+			}
+			
+		});
+		
 		// Add selection handler to file browser
 		browser.getTree().addSelectionHandler(new SelectionHandler<TreeItem>() {
 			@Override
@@ -126,6 +156,14 @@ public class Editor extends View
 	{
 		Proxy.logout();
 	}
+	
+	@UiHandler("submitButton")
+	void onSubmitClick(ClickEvent event)
+	{
+		form.submit();
+	}
+	
+	
 
 	@Override
 	public WEAnchor getLink()
