@@ -17,6 +17,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RootPanel;
 
 
 public class Proxy
@@ -28,6 +29,7 @@ public class Proxy
 	private static final String getFileListing = baseURL+"?cmd=GetFileListing";
 	private static final String logout = baseURL+"?cmd=Logout";
 	private static final String login = baseURL+"?cmd=Login";
+	private static final String registerURL = Proxy.baseURL+"?cmd=RegisterUser";
 	
 	private static Timer pleaseHold(String holdMessage)
 	{
@@ -282,6 +284,43 @@ public class Proxy
 				{}
 			});
 		}catch(RequestException e){
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Register a user.
+	 */
+	public static void register(String email, final String username, final String password, String firstName, String lastName)
+	{
+ 		String completeURL = Proxy.registerURL+"&email="+email+
+		 "&username="+username+
+		 "&password="+password+
+		 "&firstName="+firstName+
+		 "&lastName="+lastName;
+ 		
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, completeURL);
+		try{
+			@SuppressWarnings("unused")
+			Request req = builder.sendRequest(null, new RequestCallback() {
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					RootPanel root = RootPanel.get();
+					WEStatus status = new WEStatus(response);
+					if(status.getStat() == WEStatus.STATUS_SUCCESS){
+						// Login user.
+						Notification.notify(status.getStat(), status.getMessage());
+						Proxy.login(username, password);
+					}else{
+						Notification.notify(status.getStat(), status.getMessage());
+					}
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception) {
+				}
+			});
+		} catch (RequestException e){
 			e.printStackTrace();
 		}
 	}
