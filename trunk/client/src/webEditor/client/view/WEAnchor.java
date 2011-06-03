@@ -20,12 +20,12 @@ public class WEAnchor extends Anchor
 {
 	private String url;
 
-	public WEAnchor(String text, final View view, final String hash)
+	public WEAnchor(String text, final View view, final String locationName)
 	{
 		// Set text of link.
 		this.setText(text);
 		UrlBuilder builder = Location.createUrlBuilder();
-		builder.setHash(hash);
+		builder.setParameter("loc", locationName);
 		url = builder.buildString();
 		// Set CSS class
 		this.setStyleName("we-anchor");
@@ -37,10 +37,12 @@ public class WEAnchor extends Anchor
 			}
 		});
 	}
-	
+
+	/**
+	 * Go to this URL.
+	 */
 	public void go()
 	{
 		Window.Location.assign(url);
-		Window.Location.reload();
 	}
 }

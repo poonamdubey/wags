@@ -3,7 +3,6 @@ package webEditor.client;
 import webEditor.client.view.Editor;
 import webEditor.client.view.Login;
 import webEditor.client.view.Registration;
-import webEditor.client.Proxy;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.http.client.Request;
@@ -35,21 +34,25 @@ public class WE implements EntryPoint
 {
 	public void onModuleLoad() 
 	{
-		String hash = Location.getHash();
+		/** Get location name **/
+		String hash = Location.getParameter("loc");
+
 		// Put the contents of these if statements in functions
-		if(hash.equals("#register")){
+		if(hash.equals("register")){
 			register();
 		}
-		else if(hash.equals("#editor")){
+		else if(hash.equals("editor")){
 			editor();
 		}
-		else if(hash.equals("#login")){
+		else if(hash.equals("login")){
 			login();
 		}
 		else{
-			// DEFAULT
-			// Attempt to get user's details.
-			String isLoggedInURL = Proxy.baseURL+"?cmd=GetUserDetails";
+			/* 
+			 * Default. No location given in URL. 
+			 * Attempt to get user's details.
+			 */
+			String isLoggedInURL = Proxy.getBaseurl()+"?cmd=GetUserDetails";
 			RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, URL.encode(isLoggedInURL));
 			try{
 				@SuppressWarnings("unused")
@@ -58,13 +61,11 @@ public class WE implements EntryPoint
 					public void onResponseReceived(Request request,	Response response) {
 						WEStatus status = new WEStatus(response);
 						if(status.getStat() == WEStatus.STATUS_ERROR){
-							// No one is logged in.
+							/* No one is logged in. Redirect to login. */
 							RootPanel root = RootPanel.get("main-content");
 							root.add(new Login());
 						}else if(status.getStat() == WEStatus.STATUS_SUCCESS){
-							// Success status returned from server.
-							// User is logged in.
-							// TODO: Switch over HASH(#) in the URL.
+							/* User is logged in. Show Editor. */
 							RootLayoutPanel root = RootLayoutPanel.get();
 							root.add(new Editor());
 						}
