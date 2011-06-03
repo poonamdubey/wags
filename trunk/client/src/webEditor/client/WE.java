@@ -3,9 +3,9 @@ package webEditor.client;
 import webEditor.client.view.Editor;
 import webEditor.client.view.Login;
 import webEditor.client.view.Registration;
+import webEditor.client.Proxy;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;

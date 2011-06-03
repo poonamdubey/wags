@@ -39,8 +39,6 @@ public class Registration extends View
 
 	interface RegistrationUiBinder extends UiBinder<Widget, Registration>{}
 
-	public static final String registerURL = Proxy.baseURL+"?cmd=RegisterUser";
-	
 	@UiField Button registerButton;
 	@UiField TextBox email;
 	@UiField TextBox username;
@@ -69,31 +67,8 @@ public class Registration extends View
 			Notification.notify(WEStatus.STATUS_ERROR, "Please check your password.");
 			return;
 		}
-		// Passwords match...move along.
-		String completeURL = Registration.registerURL+"&email="+email.getText()+
-							 "&username="+username.getText()+
-							 "&password="+password.getText()+
-							 "&firstName="+firstName.getText()+
-							 "&lastName="+lastName.getText();
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, completeURL);
-		try{
-			@SuppressWarnings("unused")
-			Request req = builder.sendRequest(null, new RequestCallback() {
-				@Override
-				public void onResponseReceived(Request request, Response response) {
-					// TODO: Do something...
-					RootPanel root = RootPanel.get();
-					WEStatus status = new WEStatus(response);
-					Notification.notify(status.getStat(), status.getMessage());
-				}
-				
-				@Override
-				public void onError(Request request, Throwable exception) {
-				}
-			});
-		} catch (RequestException e){
-			e.printStackTrace();
-		}
+		
+		Proxy.register(email.getText(), username.getText(), password.getText(), firstName.getText(), lastName.getText());
 	}
 	
 	/**
