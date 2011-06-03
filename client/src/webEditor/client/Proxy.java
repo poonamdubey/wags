@@ -22,14 +22,14 @@ import com.google.gwt.user.client.ui.RootPanel;
 
 public class Proxy
 {
-	public static final String baseURL = "http://localhost/~wags/wagsServer/index.php";
-	private static final String getFileContents = baseURL+"?cmd=GetFileContents";
-	private static final String saveFileContents = baseURL+"?cmd=SaveFileContents";
-	private static final String deleteFile = baseURL+"?cmd=DeleteFile";
-	private static final String getFileListing = baseURL+"?cmd=GetFileListing";
-	private static final String logout = baseURL+"?cmd=Logout";
-	private static final String login = baseURL+"?cmd=Login";
-	private static final String registerURL = Proxy.baseURL+"?cmd=RegisterUser";
+	private static final String baseURL = "http://localhost/~wags/wagsServer/index.php";
+	private static final String getFileContents = getBaseurl()+"?cmd=GetFileContents";
+	private static final String saveFileContents = getBaseurl()+"?cmd=SaveFileContents";
+	private static final String deleteFile = getBaseurl()+"?cmd=DeleteFile";
+	private static final String getFileListing = getBaseurl()+"?cmd=GetFileListing";
+	private static final String logout = getBaseurl()+"?cmd=Logout";
+	private static final String login = getBaseurl()+"?cmd=Login";
+	private static final String registerURL = Proxy.getBaseurl()+"?cmd=RegisterUser";
 	
 	private static Timer pleaseHold(String holdMessage)
 	{
@@ -230,7 +230,7 @@ public class Proxy
 	 */
 	public static void getUsersName(final Label label)
 	{
-		String completeURL = baseURL+"?cmd=GetUserDetails";
+		String completeURL = getBaseurl()+"?cmd=GetUserDetails";
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, URL.encode(completeURL));
 		try {
 			@SuppressWarnings("unused")
@@ -260,7 +260,7 @@ public class Proxy
 	 */
 	public static void renameFile(String oldName, final String newName, final FileBrowser browser)
 	{
-		String url = baseURL+"?cmd=RenameFile&old="+oldName+"&new="+newName;
+		String url = getBaseurl()+"?cmd=RenameFile&old="+oldName+"&new="+newName;
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, URL.encode(url));
 		try{
 			@SuppressWarnings("unused")
@@ -323,5 +323,9 @@ public class Proxy
 		} catch (RequestException e){
 			e.printStackTrace();
 		}
+	}
+
+	public static String getBaseurl() {
+		return baseURL;
 	}
 }
