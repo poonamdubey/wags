@@ -21,7 +21,7 @@ import com.google.gwt.user.client.ui.Label;
 
 public class Proxy
 {
-	private static final String baseURL = "http://student.cs.appstate.edu/~bostrt/wags/index.php";
+	public static final String baseURL = "http://localhost/~wags/wagsServer/index.php";
 	private static final String getFileContents = baseURL+"?cmd=GetFileContents";
 	private static final String saveFileContents = baseURL+"?cmd=SaveFileContents";
 	private static final String deleteFile = baseURL+"?cmd=DeleteFile";

@@ -1,5 +1,6 @@
 package webEditor.client.view;
 
+import webEditor.client.Proxy;
 import webEditor.client.WEStatus;
 
 import com.google.gwt.core.client.GWT;
@@ -38,7 +39,7 @@ public class Registration extends View
 
 	interface RegistrationUiBinder extends UiBinder<Widget, Registration>{}
 
-	public static final String registerURL = "http://student.cs.appstate.edu/~bostrt/wags/index.php?cmd=RegisterUser";
+	public static final String registerURL = Proxy.baseURL+"?cmd=RegisterUser";
 	
 	@UiField Button registerButton;
 	@UiField TextBox email;
