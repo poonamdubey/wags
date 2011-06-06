@@ -37,7 +37,6 @@ public class CodeEditor extends View implements HasHandlers
 			@Override
 			public void run()
 			{
-				//codeArea.setHTML(PHPSyntax.parse(codeArea.getText()));
 				codeArea.setHTML(php.parse(codeArea.getText()));
 			}
 		};
