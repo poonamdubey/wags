@@ -136,11 +136,12 @@ class User extends Model
     public static function isUsername($username)
     {
         require_once('Database.php');
-        
+
         $db = Database::getDb();
+
         $sth = $db->prepare('SELECT count(*) as count FROM user WHERE username LIKE :username');
         $sth->execute(array(':username' => $username));
-        
+
         $result = $sth->fetch(PDO::FETCH_ASSOC);
         
         return $result['count'] == 1;
