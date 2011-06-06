@@ -53,7 +53,8 @@ public class Proxy
 	 * Put those contents in the passed CodeEditor.
 	 */
 	public static void getFileContents(String fileName, final CodeEditor editor){
-		String urlCompl = getFileContents+"&name="+fileName.trim();
+		//fileName.trim() leaves leading /, this is causing select errors
+		String urlCompl = getFileContents+"&name="+fileName.trim().substring(1);
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, urlCompl);
 		try {
 			@SuppressWarnings("unused")
@@ -76,7 +77,7 @@ public class Proxy
 	}
 	
 	public static void deleteFile(final String fileName){
-		String urlCompl = deleteFile+"&name="+fileName.trim();
+		String urlCompl = deleteFile+"&name="+fileName.trim().substring(1);
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, urlCompl);
 		try {
 			@SuppressWarnings("unused")

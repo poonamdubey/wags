@@ -15,7 +15,6 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FileUpload;
@@ -27,8 +26,7 @@ import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
-import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
-import com.google.gwt.user.client.ui.FormPanel.SubmitHandler;
+
 
 
 public class Editor extends View
@@ -49,6 +47,7 @@ public class Editor extends View
 	@UiField Label hello;
 	@UiField CodeEditor editor;
 	@UiField FileBrowser browser;
+	@UiField TextBox curDir;
 	
 	public Editor()
 	{
@@ -58,20 +57,13 @@ public class Editor extends View
 		save.setVisible(false);
 		delete.setVisible(false);
 		
-		form.setAction(Proxy.getBaseurl() + "?cmd=UploadFile");
+		form.setAction(Proxy.getBaseurl() + "?cmd=UploadFile&dir=" + curDir.getText().toString());
 		form.setEncoding(FormPanel.ENCODING_MULTIPART);
 		form.setMethod(FormPanel.METHOD_POST);
-		form.addSubmitHandler(new SubmitHandler(){
-			@Override
-			public void onSubmit(SubmitEvent event) {
-				Window.alert("Submitting");
-			}
-		});
+		
 		form.addSubmitCompleteHandler(new SubmitCompleteHandler(){
-
 			@Override
 			public void onSubmitComplete(SubmitCompleteEvent event) {
-				Window.alert("Submitted");
 				Proxy.loadFileListing(browser, "/");
 			}
 			
@@ -85,6 +77,8 @@ public class Editor extends View
 				// If clicked item is directory then just open it
 				TreeItem i = event.getSelectedItem();
 				if(i.getChildCount() > 0){
+					String path = browser.getItemPath(i);
+					curDir.setText(path.substring(1)+"/");
 					return;
 				}
 
@@ -95,6 +89,7 @@ public class Editor extends View
 				save.setVisible(true);
 				delete.setVisible(true);
 				fileName.setText(browser.getItemPath(i));
+				curDir.setText("");
 			}
 		});
 

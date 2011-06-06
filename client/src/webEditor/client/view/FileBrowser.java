@@ -3,11 +3,14 @@ package webEditor.client.view;
 import webEditor.client.Proxy;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.uibinder.client.UiHandler;
 
 
 public class FileBrowser extends View
@@ -128,4 +131,8 @@ public class FileBrowser extends View
 	{
 		return this.browser;
 	}
+	
+	
+	
+	
 }
