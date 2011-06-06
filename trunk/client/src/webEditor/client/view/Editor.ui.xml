@@ -11,6 +11,7 @@
 		.hello-logout { border-bottom: 5px solid #E3E3E3; width: 100%; text-align: right;}
 		.anchor { cursor: pointer; }
 		.anchor:hover { text-decoration: underline; }
+		.std-txt { padding-top: 6px }
 		.title { 
 			font-size: 40px;
 			font-weight: light;
@@ -33,16 +34,6 @@
 				<g:Anchor styleName="{style.anchor}" ui:field="logout">Logout</g:Anchor>
 			</g:HTMLPanel>
 		</g:north>
-	 	<g:south size="30">
-     		<g:HTMLPanel styleName="{style.codeAndFile}">
-     			<g:FormPanel ui:field="form">
-	     			<g:HorizontalPanel>
-	     				<g:FileUpload ui:field="uploadField" name="the_file"/>
-	     				<g:SubmitButton ui:field="submitButton">Upload</g:SubmitButton>
-	     			</g:HorizontalPanel>
-     			</g:FormPanel>
-     		</g:HTMLPanel>
-     	</g:south>
 		<g:center size="600">
 	 	<g:HorizontalSplitPanel>
 		 	<g:HTMLPanel styleName="{style.codeAndFile}">
@@ -57,6 +48,18 @@
 	 		<my:FileBrowser ui:field="browser">	</my:FileBrowser>
 	     </g:HorizontalSplitPanel>
      </g:center>
+     <g:south size="30">
+     		<g:HTMLPanel styleName="{style.codeAndFile}">
+     			<g:FormPanel ui:field="form">
+	     			<g:HorizontalPanel>
+	     				<g:SubmitButton ui:field="submitButton">Upload</g:SubmitButton>
+	     				<g:FileUpload ui:field="uploadField" name="the_file"/>
+	     				<g:Label styleName="{style.std-txt}">Upload Directory: </g:Label>
+	     				<g:TextBox styleName="{style.fileName}" ui:field="curDir" name="curDir"></g:TextBox>
+	     			</g:HorizontalPanel>
+     			</g:FormPanel>
+     		</g:HTMLPanel>
+     	</g:south>
 
      
      </g:DockLayoutPanel>
