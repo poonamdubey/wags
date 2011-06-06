@@ -56,7 +56,7 @@ function installSqlite(){
     sqlite3 $dbName < install.sqlite.sql
 # The chmod's below are specific to sqlite
     chmod o+w $dbName
-    chmod o+w ../we_server
+    chmod o+w $(pwd)
 }
 
 # Setup for a Mysql database. 

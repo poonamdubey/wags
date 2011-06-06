@@ -19,7 +19,11 @@ class Database
         if(!is_null(self::$_conn)){
             return self::$_conn;
         }else{
-            self::$_conn = new PDO(WE_DB_DSN, WE_DB_USER, WE_DB_PASS);
+	try{	
+        	    self::$_conn = new PDO(WE_DB_DSN, WE_DB_USER, WE_DB_PASS);
+	    }catch(PDOException $e){
+	    		x($e);
+	    }
             return self::$_conn;
         }
     }

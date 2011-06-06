@@ -17,9 +17,16 @@ class UploadFile extends Command
         if(!Auth::isLoggedIn()){
             return JSON::error('Must be logged in to upload file.');
         }
-        
+	if(!isset($_FILES['the_file'])){
+		return JSON::Error('No file');
+	}        
+
         $file = $_FILES['the_file'];
         $user = Auth::getCurrentUser();
+
+	if($file == null){
+		return JSON::Error('No file');
+	}
 
         // Check that mimetype is plain text.
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
@@ -30,10 +37,11 @@ class UploadFile extends Command
         }
         
         $contents = file_get_contents($file['tmp_name']);
-
+	$directory = $_POST['curDir'];
+	
         $f = new CodeFile();
-        //$file->setName($_REQUEST['name']);
-        $f->setName($file['tmp_name']);
+        $f->setName($directory.$file['name']);
+        //$f->setName($file['name']);
         $f->setOwnerId($user->getId());
         $f->setContents($contents);
         $now = time();
@@ -43,6 +51,7 @@ class UploadFile extends Command
             $f->save();
         }catch(PDOException $e){
             echo $e->getMessage();
+	    logError($e);
         }
 
         finfo_close($finfo);
