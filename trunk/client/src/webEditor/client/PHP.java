@@ -11,9 +11,9 @@ public class PHP
 		String split[] = str.split("\n");
 		
 		String parsed = "";
-		for(String s : split){
+		for(String line : split){
 			// Scan line for keywords...
-			parsed += keyword(variable(commentLine(string(s))))+"\n";
+			parsed += keyword(variable(commentLine(string(line))))+"<br />";
 		}
 
 		return parsed;
