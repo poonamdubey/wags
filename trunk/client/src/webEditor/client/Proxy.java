@@ -109,7 +109,7 @@ public class Proxy
 	public static void saveFile(String fileName, String contents)
 	{
 		final Timer t = pleaseHold("Saving...");
-		String completeURL = saveFileContents+"&name="+fileName.trim()+"&contents="+contents;
+		String completeURL = saveFileContents+"&name="+fileName.trim().substring(1)+"&contents="+contents;
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, URL.encode(completeURL));
 		try{
 			@SuppressWarnings("unused")

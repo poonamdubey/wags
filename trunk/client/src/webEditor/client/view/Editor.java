@@ -88,7 +88,7 @@ public class Editor extends View
 				fileName.setVisible(true);
 				save.setVisible(true);
 				delete.setVisible(true);
-				fileName.setText(browser.getItemPath(i));
+				fileName.setText(browser.getItemPath(i).toString().substring(1));
 				curDir.setText("");
 			}
 		});
@@ -127,10 +127,8 @@ public class Editor extends View
 		if(directory.startsWith("/", 0))
 			directory = directory.substring(1);
 		
-		if(!directory.endsWith("/"))
+		if(!directory.endsWith("/") && directory.length() != 0)
 			directory = directory + "/";
-		
-		Window.alert(directory);
 		
 		curDir.setText(directory);
 	}
@@ -151,10 +149,12 @@ public class Editor extends View
 	void onDeleteClick(ClickEvent event)
 	{
 		TreeItem i = browser.getTree().getSelectedItem();
-		Proxy.deleteFile(browser.getSelectedPath());
+		
+		deleteChildren(i);
 		Notification.notify(WEStatus.STATUS_SUCCESS, i.getText()+" deleted");
 		i.remove();
 		editor.setContents("");
+		Proxy.loadFileListing(browser, "/");
 	}
 	
 	/**
@@ -180,4 +180,36 @@ public class Editor extends View
 	{
 		return new WEAnchor("Editor", this, "editor");
 	}
+	
+	/**
+	 * deleteChildren
+	 * Description: recursively remove all children of a deleted directory
+	 * @param i The directory
+	 * @return none
+	 */
+	private void deleteChildren(TreeItem i){
+		for(int childIndex = 0; childIndex < i.getChildCount(); childIndex++){
+			TreeItem child = i.getChild(childIndex);
+			
+			if(child.getChildCount() > 0)
+				deleteChildren(child); //recurses down to leaf
+			
+			Proxy.deleteFile(getPath(child)); //deletes leaf using path
+			child.remove(); //remove from browser
+		}
+		
+		Proxy.deleteFile(getPath(i));
+		i.remove();
+	}
+	
+	private String getPath(TreeItem i){
+		String path = "";
+		while(i != null && i.getParentItem() != null){
+			path = "/"+i.getText()+path;
+			i = i.getParentItem();
+		}
+		
+		return path;
+	}
+	
 }
