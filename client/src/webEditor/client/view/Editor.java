@@ -15,6 +15,7 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FileUpload;
@@ -26,7 +27,6 @@ import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
-
 
 
 public class Editor extends View
@@ -121,6 +121,20 @@ public class Editor extends View
 		Proxy.getUsersName(hello);
 	}
 	
+	private void formatDirectory(){
+		String directory = curDir.getText().toString();
+		
+		if(directory.startsWith("/", 0))
+			directory = directory.substring(1);
+		
+		if(!directory.endsWith("/"))
+			directory = directory + "/";
+		
+		Window.alert(directory);
+		
+		curDir.setText(directory);
+	}
+	
 	/**
 	 * Send contents of text area to server. 
 	 */
@@ -155,11 +169,12 @@ public class Editor extends View
 	@UiHandler("submitButton")
 	void onSubmitClick(ClickEvent event)
 	{
+		//Can and perhaps should be moved to a 
+		//SubmitHandler for form. ?
+		this.formatDirectory();
 		form.submit();
 	}
 	
-	
-
 	@Override
 	public WEAnchor getLink()
 	{
