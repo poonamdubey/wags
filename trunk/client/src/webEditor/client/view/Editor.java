@@ -15,7 +15,6 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FileUpload;
@@ -64,7 +63,7 @@ public class Editor extends View
 		form.addSubmitCompleteHandler(new SubmitCompleteHandler(){
 			@Override
 			public void onSubmitComplete(SubmitCompleteEvent event) {
-				Proxy.loadFileListing(browser, "/");
+				Proxy.loadFileListing(browser, "/"+curDir.getText().toString());
 			}
 			
 		});
@@ -130,6 +129,8 @@ public class Editor extends View
 		if(!directory.endsWith("/") && directory.length() != 0)
 			directory = directory + "/";
 		
+		directory = directory.replaceAll("//+", "/");
+		
 		curDir.setText(directory);
 	}
 	
@@ -149,12 +150,21 @@ public class Editor extends View
 	void onDeleteClick(ClickEvent event)
 	{
 		TreeItem i = browser.getTree().getSelectedItem();
+		TreeItem parent = i.getParentItem();
 		
 		deleteChildren(i);
 		Notification.notify(WEStatus.STATUS_SUCCESS, i.getText()+" deleted");
 		i.remove();
+		
+		String reloadPath;
+		if(parent.getChildCount() > 0){
+			reloadPath = getPath(parent.getChild(0));
+		} else {
+			reloadPath = getPath(parent);
+		}
+
 		editor.setContents("");
-		Proxy.loadFileListing(browser, "/");
+		Proxy.loadFileListing(browser, reloadPath);
 	}
 	
 	/**
