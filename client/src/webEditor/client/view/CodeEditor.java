@@ -1,7 +1,5 @@
 package webEditor.client.view;
 
-import java.awt.Color;
-
 import webEditor.client.PHP;
 
 import com.google.gwt.core.client.GWT;
@@ -15,10 +13,21 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.RichTextArea;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.RichTextArea.Formatter;
 
 
 public class CodeEditor extends View implements HasHandlers
 {
+	//Will probably want to move this to an external class later, for now
+	//using in color completion checking.  Suffix 'S' means it needs
+	//a shift as well
+	private static final int QUOTE = 222;
+	private static final int FSLASH = 191;
+	private static final int SPLATS = 56;
+	private static final int OCURLS = 219;
+	private static final int CCURLS = 221;
+	private static final int OPARENS = 57;
+	private static final int CPARENTS = 48;
 
 	private static CodeEditorUiBinder uiBinder = GWT
 			.create(CodeEditorUiBinder.class);
@@ -46,12 +55,10 @@ public class CodeEditor extends View implements HasHandlers
 		};
 		
 		codeArea.addKeyDownHandler(new KeyDownHandler(){
-
-			@Override
-			public void onKeyDown(KeyDownEvent event) {
-				realTimeParse(event);	
+			public void onKeyDown(KeyDownEvent event)
+			{
+				colorCompletionCheck(event);
 			}
-			
 		});
 		
 		codeArea.addKeyPressHandler(new KeyPressHandler() {
@@ -72,13 +79,23 @@ public class CodeEditor extends View implements HasHandlers
 		return this.codeArea.getText();
 	}
 	
-	public void realTimeParse(KeyDownEvent event){
-		if(event.getNativeKeyCode() == 52 && event.isShiftKeyDown())
-			codeArea.getFormatter().setForeColor("FF0000");
+	public void colorCompletionCheck(KeyDownEvent event){
+		Formatter formatter = codeArea.getFormatter();
+		boolean cBlock, pBlock, comment, quote;
+		cBlock = pBlock = comment = quote = false;
 		
-		if(event.getNativeKeyCode() == 32)
-			codeArea.getFormatter().setForeColor("000000");
+		//Block brace check
+		if(event.getNativeKeyCode() == OCURLS && event.isShiftKeyDown()){
+			formatter.setForeColor("#FF00FF");
+			cBlock = true;
+		}
+		
+		if(cBlock = true && event.getNativeKeyCode() == CCURLS &&
+				event.isShiftKeyDown()){
+			formatter.setForeColor("#000000");
+		}
 	}
+	
 	
 	@Override
 	public WEAnchor getLink()

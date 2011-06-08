@@ -43,6 +43,7 @@ public class PHP
 		return line.replaceAll(regex, "<span style='color: green;'>$&</span>");
 	}
 	
+	@SuppressWarnings("unused")
 	private void test(String regex, String line){
 		RegExp reg = RegExp.compile(regex);
 		MatchResult result = reg.exec(line);
