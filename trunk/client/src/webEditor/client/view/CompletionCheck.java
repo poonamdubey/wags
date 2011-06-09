@@ -6,6 +6,8 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.RichTextArea;
+import com.sun.xml.internal.fastinfoset.util.CharArray;
 
 public class CompletionCheck {
 	private ColorCounter curColor;
@@ -28,6 +30,9 @@ public class CompletionCheck {
 	private static final int CPARENS = 48;
 	private static final int BACKSPACE = 8;
 	private static final int SHIFT = 16;
+	private boolean newSQuote;
+	private boolean newDQuote;
+	private boolean dQuoteFlag;
 
 	private Stack<ColorCounter> stack = new Stack<ColorCounter>();
 	
@@ -36,6 +41,7 @@ public class CompletionCheck {
 	public CompletionCheck(){
 		//curColor starts black
 		curColor = new ColorCounter(BLACK);
+		newDQuote = true;
 	}
 	
 	public String pushCheck(KeyDownEvent event){
@@ -61,7 +67,6 @@ public class CompletionCheck {
 		else if (key == QUOTE && shift){ 			// "
 			if(curColor.COLOR != LIGHTBLUE){
 				stack.push(curColor);
-				//Window.alert("pushed curColor " + curColor.COLOR);
 				curColor = new ColorCounter(LIGHTBLUE);
 			}
 		} 
@@ -70,6 +75,7 @@ public class CompletionCheck {
 			if(curColor.COLOR != DARKBLUE){
 				stack.push(curColor);
 				curColor = new ColorCounter(DARKBLUE);
+				newSQuote = false;
 			}
 		}
 		
@@ -82,7 +88,6 @@ public class CompletionCheck {
 			if(count == 0 && curColor.COLOR != BLACK){
 				curColor = stack.pop();
 			}
-			
 		} else {
 			//Set right before return in case color changes
 			if(key != SHIFT) curColor.setCount(curColor.count + 1);
@@ -108,9 +113,8 @@ public class CompletionCheck {
 						curColor = stack.pop();
 					break;
 				case QUOTE:  	// "
-					if(checkColor == LIGHTBLUE){
+					if(checkColor == LIGHTBLUE && curColor.count > 1){
 						curColor = stack.pop();
-						//Window.alert("popped color " + curColor.COLOR);
 					}
 					break;
 				default:
@@ -123,8 +127,9 @@ public class CompletionCheck {
 						curColor = stack.pop();
 					break;
 				case QUOTE: 	// '
-					if(checkColor == DARKBLUE && curColor.count > 1)
+					if(checkColor == DARKBLUE && newSQuote)
 						curColor = stack.pop();
+					newSQuote = true;
 					break;
 				default:
 					break;
@@ -133,7 +138,6 @@ public class CompletionCheck {
 		
 		return curColor.COLOR;
 	}
-	
 	
 	private class ColorCounter{
 		private final String COLOR;
@@ -148,4 +152,5 @@ public class CompletionCheck {
 			this.count = count;
 		}
 	}
+	
 }

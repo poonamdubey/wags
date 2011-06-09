@@ -15,7 +15,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.RichTextArea;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.RichTextArea.Formatter;
+
 
 
 public class CodeEditor extends View implements HasHandlers
@@ -65,7 +65,7 @@ public class CodeEditor extends View implements HasHandlers
 			@Override
 			public void onKeyPress(KeyPressEvent event)
 			{
-				//codeArea.getFormatter().setForeColor(colorCheck.pushCheck(event));
+				//codeArea.getFormatter().setForeColor(colorCheck.pushCheck(event))
 			}
 		});
 	}
