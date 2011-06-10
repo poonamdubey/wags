@@ -38,6 +38,7 @@ public class CodeEditor extends View implements HasHandlers
 
 		codeArea.setFocus(true);
 		codeArea.setEnabled(true);
+		codeArea.getFormatter().setFontName("monospace");
 		php = new PHP();
 	
 		timer = new Timer() {
@@ -58,6 +59,9 @@ public class CodeEditor extends View implements HasHandlers
 		codeArea.addKeyUpHandler(new KeyUpHandler(){
 			public void onKeyUp(KeyUpEvent event){
 				codeArea.getFormatter().setForeColor(colorCheck.popCheck(event));
+				if(event.getNativeKeyCode() == 191){
+					codeArea.getFormatter().insertHTML("&nbsp; &nbsp; &nbsp;");
+				}
 			}
 		});
 		
