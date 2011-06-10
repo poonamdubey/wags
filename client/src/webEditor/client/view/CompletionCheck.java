@@ -33,8 +33,12 @@ public class CompletionCheck {
 	private boolean newSQuote;
 	private boolean newDQuote;
 	private int lastKeyUp;
+	private int unPairedOpenBracket;
+	private int unPairedOpenParen;
+	private int unPairedOpenCurl;
 
 	private Stack<ColorCounter> stack = new Stack<ColorCounter>();
+	private Stack<int[]> tabStack = new Stack<int[]>();
 	
 	
 	
@@ -92,7 +96,7 @@ public class CompletionCheck {
 			}
 		} else {
 			//Set right before return in case color changes
-			if(key != SHIFT) curColor.setCount(curColor.count + 1);
+			if(!skipKey(key)) curColor.setCount(curColor.count + 1);
 		}
 		
 		return curColor.COLOR;
@@ -156,6 +160,14 @@ public class CompletionCheck {
 		lastKeyUp = key;
 		
 		return curColor.COLOR;
+	}
+	
+	private boolean skipKey(int key){
+		if(key == SHIFT || key == 13 || key == 9 || key == 20 || 
+				key == 17 || key == 18 || key == 36 || key == 45)
+			return true;
+		
+		return false;
 	}
 	
 	private class ColorCounter{
