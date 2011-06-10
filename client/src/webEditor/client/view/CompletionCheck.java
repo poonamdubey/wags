@@ -32,7 +32,7 @@ public class CompletionCheck {
 	private static final int SHIFT = 16;
 	private boolean newSQuote;
 	private boolean newDQuote;
-	private boolean dQuoteFlag;
+	private int lastKeyUp;
 
 	private Stack<ColorCounter> stack = new Stack<ColorCounter>();
 	
@@ -41,7 +41,6 @@ public class CompletionCheck {
 	public CompletionCheck(){
 		//curColor starts black
 		curColor = new ColorCounter(BLACK);
-		newDQuote = true;
 	}
 	
 	public String pushCheck(KeyDownEvent event){
@@ -68,6 +67,7 @@ public class CompletionCheck {
 			if(curColor.COLOR != LIGHTBLUE){
 				stack.push(curColor);
 				curColor = new ColorCounter(LIGHTBLUE);
+				newDQuote = false;
 			}
 		} 
 		
@@ -87,6 +87,8 @@ public class CompletionCheck {
 			//If it's black, you can't pop
 			if(count == 0 && curColor.COLOR != BLACK){
 				curColor = stack.pop();
+				if (curColor.COLOR == LIGHTBLUE) newDQuote = true;
+				if (curColor.COLOR == DARKBLUE) newSQuote = true;
 			}
 		} else {
 			//Set right before return in case color changes
@@ -101,8 +103,8 @@ public class CompletionCheck {
 		boolean shift = event.isShiftKeyDown();
 		
 		String checkColor = curColor.COLOR;
-		/*-{ console.log(key); }-*/
-		if(shift){
+		
+		if(shift || lastKeyUp == SHIFT){
 			switch (key){
 				case CPARENS: 	// )
 					if(checkColor == PURPLE)
@@ -113,9 +115,10 @@ public class CompletionCheck {
 						curColor = stack.pop();
 					break;
 				case QUOTE:  	// "
-					if(checkColor == LIGHTBLUE && curColor.count > 1){
+					if(checkColor == LIGHTBLUE && newDQuote){
 						curColor = stack.pop();
 					}
+					newDQuote = true;
 					break;
 				default:
 					break;
@@ -136,13 +139,15 @@ public class CompletionCheck {
 			}
 		}
 		
+		lastKeyUp = key;
+		
 		return curColor.COLOR;
 	}
 	
 	private class ColorCounter{
 		private final String COLOR;
 		private int count;
-		
+				
 		public ColorCounter(String hexColor){
 			COLOR = hexColor;
 			count = 0;
