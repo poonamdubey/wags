@@ -41,6 +41,7 @@ public class CompletionCheck {
 	public CompletionCheck(){
 		//curColor starts black
 		curColor = new ColorCounter(BLACK);
+		curColor.lastColor = null;
 	}
 	
 	public String pushCheck(KeyDownEvent event){
@@ -72,7 +73,7 @@ public class CompletionCheck {
 		} 
 		
 		else if (key == QUOTE) { 					// '
-			if(curColor.COLOR != DARKBLUE){
+			if(curColor.COLOR != DARKBLUE && curColor.COLOR != LIGHTBLUE){
 				stack.push(curColor);
 				curColor = new ColorCounter(DARKBLUE);
 				newSQuote = false;
@@ -81,11 +82,10 @@ public class CompletionCheck {
 		
 		//special delete key logic
 		if(key == BACKSPACE){
-			int count = curColor.count - 1;
-			curColor.setCount(count);
+			curColor.count = curColor.count - 1;
 			
 			//If it's black, you can't pop
-			if(count == 0 && curColor.COLOR != BLACK){
+			if(curColor.count == 0 && curColor.lastColor != null){
 				curColor = stack.pop();
 				if (curColor.COLOR == LIGHTBLUE) newDQuote = true;
 				if (curColor.COLOR == DARKBLUE) newSQuote = true;
@@ -107,16 +107,24 @@ public class CompletionCheck {
 		if(shift || lastKeyUp == SHIFT){
 			switch (key){
 				case CPARENS: 	// )
-					if(checkColor == PURPLE)
-						curColor = stack.pop();
+					if(checkColor == PURPLE){
+						curColor.closed = true;
+						stack.push(curColor);
+						curColor = new ColorCounter(curColor.giveColor());
+					}
 					break;
 				case CCURLS:  	// }
-					if(checkColor == GREEN)
-						curColor = stack.pop();
+					if(checkColor == GREEN){
+						curColor.closed = true;
+						stack.push(curColor);
+						curColor = new ColorCounter(curColor.giveColor());
+					}
 					break;
 				case QUOTE:  	// "
 					if(checkColor == LIGHTBLUE && newDQuote){
-						curColor = stack.pop();
+						curColor.closed = true;
+						stack.push(curColor);
+						curColor = new ColorCounter(curColor.giveColor());
 					}
 					newDQuote = true;
 					break;
@@ -126,12 +134,18 @@ public class CompletionCheck {
 		} else {
 			switch (key){
 				case CCURLS:  	// ]
-					if(checkColor == RED)
-						curColor = stack.pop();
+					if(checkColor == RED){
+						curColor.closed = true;
+						stack.push(curColor);
+						curColor = new ColorCounter(curColor.giveColor());
+					}
 					break;
 				case QUOTE: 	// '
-					if(checkColor == DARKBLUE && newSQuote)
-						curColor = stack.pop();
+					if(checkColor == DARKBLUE && newSQuote){
+						curColor.closed = true;
+						stack.push(curColor);
+						curColor = new ColorCounter(curColor.giveColor());
+					}
 					newSQuote = true;
 					break;
 				default:
@@ -145,16 +159,40 @@ public class CompletionCheck {
 	}
 	
 	private class ColorCounter{
-		private final String COLOR;
+		private String COLOR;
 		private int count;
+		private ColorCounter lastColor;
+		boolean closed;
 				
 		public ColorCounter(String hexColor){
 			COLOR = hexColor;
 			count = 0;
+			if(!stack.empty()){
+				lastColor = stack.peek(); //needed to avoid null pointer for first curColor
+			}
+			closed = false;
 		}
 		
 		private void setCount(int count){
 			this.count = count;
+		}
+		
+		private String giveColor(){
+			return giveColor(false);
+		}
+		
+		private String giveColor(boolean stop){
+			if(curColor.closed == true && 
+					curColor.COLOR == this.COLOR && stop == false){
+				this.closed = true;
+				stop = true;
+			}
+			
+			if(closed) return lastColor.giveColor(stop);
+			
+			if(stop == true) closed = true;
+			
+			return COLOR;
 		}
 	}
 	
