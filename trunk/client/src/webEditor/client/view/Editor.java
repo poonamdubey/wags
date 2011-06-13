@@ -39,14 +39,13 @@ public class Editor extends View
 	@UiField Anchor logout;
 	@UiField Anchor save;
 	@UiField Anchor delete;
-	@UiField FileUpload uploadField;
-	@UiField SubmitButton submitButton;
-	@UiField FormPanel form;
+	
+	
 	@UiField TextBox fileName;
 	@UiField Label hello;
 	@UiField CodeEditor editor;
 	@UiField FileBrowser browser;
-	@UiField TextBox curDir;
+	
 	
 	public Editor()
 	{
@@ -56,17 +55,7 @@ public class Editor extends View
 		save.setVisible(false);
 		delete.setVisible(false);
 		
-		form.setAction(Proxy.getBaseurl() + "?cmd=UploadFile&dir=" + curDir.getText().toString());
-		form.setEncoding(FormPanel.ENCODING_MULTIPART);
-		form.setMethod(FormPanel.METHOD_POST);
-		
-		form.addSubmitCompleteHandler(new SubmitCompleteHandler(){
-			@Override
-			public void onSubmitComplete(SubmitCompleteEvent event) {
-				Proxy.loadFileListing(browser, "/"+curDir.getText().toString());
-			}
-			
-		});
+
 		
 		// Add selection handler to file browser
 		browser.getTree().addSelectionHandler(new SelectionHandler<TreeItem>() {
@@ -75,12 +64,6 @@ public class Editor extends View
 			{
 				// If clicked item is directory then just open it
 				TreeItem i = event.getSelectedItem();
-				if(i.getChildCount() > 0){
-					String path = browser.getItemPath(i);
-					curDir.setText(path.substring(1)+"/");
-					return;
-				}
-
 				// If clicked item is a leaf TreeItem then open it in editor
 				Proxy.getFileContents(browser.getItemPath(i), editor);
 				// Set filename, save, and delete stuff visible
@@ -88,7 +71,6 @@ public class Editor extends View
 				save.setVisible(true);
 				delete.setVisible(true);
 				fileName.setText(browser.getItemPath(i).toString().substring(1));
-				curDir.setText("");
 			}
 		});
 
@@ -118,20 +100,6 @@ public class Editor extends View
 		});
 		
 		Proxy.getUsersName(hello);
-	}
-	
-	private void formatDirectory(){
-		String directory = curDir.getText().toString();
-		
-		if(directory.startsWith("/", 0))
-			directory = directory.substring(1);
-		
-		if(!directory.endsWith("/") && directory.length() != 0)
-			directory = directory + "/";
-		
-		directory = directory.replaceAll("//+", "/");
-		
-		curDir.setText(directory);
 	}
 	
 	/**
@@ -176,14 +144,7 @@ public class Editor extends View
 		Proxy.logout();
 	}
 	
-	@UiHandler("submitButton")
-	void onSubmitClick(ClickEvent event)
-	{
-		//Can and perhaps should be moved to a 
-		//SubmitHandler for form. ?
-		this.formatDirectory();
-		form.submit();
-	}
+
 	
 	@Override
 	public WEAnchor getLink()

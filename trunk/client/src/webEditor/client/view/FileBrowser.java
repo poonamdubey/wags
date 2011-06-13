@@ -3,16 +3,31 @@ package webEditor.client.view;
 import webEditor.client.Proxy;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.ui.FileUpload;
+import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.SubmitButton;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
 
 
 
 public class FileBrowser extends View
 {
+	
+	@UiField FileUpload uploadField;
+	@UiField SubmitButton submitButton;
+	@UiField TextBox curDir;
+	@UiField FormPanel form;
 
 	private static FileBrowserUiBinder uiBinder = GWT
 			.create(FileBrowserUiBinder.class);
@@ -31,7 +46,49 @@ public class FileBrowser extends View
 	{
 		initWidget(uiBinder.createAndBindUi(this));
 		Proxy.loadFileListing(this, "/");
+		
+		form.setAction(Proxy.getBaseurl() + "?cmd=UploadFile&dir=" + curDir.getText().toString());
+		form.setEncoding(FormPanel.ENCODING_MULTIPART);
+		form.setMethod(FormPanel.METHOD_POST);
+		final FileBrowser me = this;
+		form.addSubmitCompleteHandler(new SubmitCompleteHandler(){
+			@Override
+			public void onSubmitComplete(SubmitCompleteEvent event) {
+				Proxy.loadFileListing(me, "/"+curDir.getText().toString());
+			}
+			
+		});
+		
+		browser.addSelectionHandler(new SelectionHandler<TreeItem>() {
+			@Override
+			public void onSelection(SelectionEvent<TreeItem> event)
+			{
+				// If clicked item is directory then just open it
+				TreeItem i = event.getSelectedItem();
+				if(i.getChildCount() > 0){
+					String path = getItemPath(i);
+					curDir.setText(path.substring(1)+"/");
+					return;
+				}
+				curDir.setText("");
+			}
+		});
 	}
+	
+	private void formatDirectory(){
+		String directory = curDir.getText().toString();
+		
+		if(directory.startsWith("/", 0))
+			directory = directory.substring(1);
+		
+		if(!directory.endsWith("/") && directory.length() != 0)
+			directory = directory + "/";
+		
+		directory = directory.replaceAll("//+", "/");
+		
+		curDir.setText(directory);
+	}
+	
 	
 	/*
 	 * Get the full path of the passed tree item.
@@ -128,6 +185,15 @@ public class FileBrowser extends View
 	public Tree getTree()
 	{
 		return this.browser;
+	}
+	
+	@UiHandler("submitButton")
+	void onSubmitClick(ClickEvent event)
+	{
+		//Can and perhaps should be moved to a 
+		//SubmitHandler for form. ?
+		this.formatDirectory();
+		form.submit();
 	}
 	
 	
