@@ -22,9 +22,9 @@ import com.google.gwt.user.client.ui.RootPanel;
  *
  * This is the entry point for this GWT application.
  * Check if user is currently logged in or not.
- * If they are logged in direct them to appropriate view
- * according to hash (#) in url.
- * If they are not logged in show them to the login view.
+ * If they are logged in direct them to the Editor.
+ * If they are not logged redirect them based on
+ * the loc variable in URL.
  *
  * @author Robert Bost <bostrt@appstate.edu>
  *
@@ -34,52 +34,44 @@ public class WE implements EntryPoint
 {
 	public void onModuleLoad() 
 	{
-		/** Get location name **/
-		String hash = Location.getParameter("loc");
-
-		// Put the contents of these if statements in functions
-		if(hash.equals("register")){
-			register();
-		}
-		else if(hash.equals("editor")){
-			editor();
-		}
-		else if(hash.equals("login")){
-			login();
-		}
-		else{
-			/* 
-			 * Default. No location given in URL. 
-			 * Attempt to get user's details.
-			 */
-			String isLoggedInURL = Proxy.getBaseurl()+"?cmd=GetUserDetails";
-			RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, URL.encode(isLoggedInURL));
-			try{
-				@SuppressWarnings("unused")
-				Request req = builder.sendRequest(null, new RequestCallback(){
-					@Override
-					public void onResponseReceived(Request request,	Response response) {
-						WEStatus status = new WEStatus(response);
-						if(status.getStat() == WEStatus.STATUS_ERROR){
-							/* No one is logged in. Redirect to login. */
-							RootPanel root = RootPanel.get("main-content");
-							root.add(new Login());
-						}else if(status.getStat() == WEStatus.STATUS_SUCCESS){
-							/* User is logged in. Show Editor. */
-							RootLayoutPanel root = RootLayoutPanel.get();
-							root.add(new Editor());
+		// Check if the user is logged in already.
+		String isLoggedInURL = Proxy.getBaseurl()+"?cmd=GetUserDetails";
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, URL.encode(isLoggedInURL));
+		try{
+			@SuppressWarnings("unused")
+			Request req = builder.sendRequest(null, new RequestCallback(){
+				@Override
+				public void onResponseReceived(Request request,	Response response) 
+				{
+					WEStatus status = new WEStatus(response);
+					
+					if(status.getStat() == WEStatus.STATUS_ERROR){
+						// No one is logged in. Redirect based on location variable.
+						String loc = Location.getParameter("loc");
+						if(loc.equals("register")){
+							register();
+						}
+						else if(loc.equals("login")){
+							login();
+						}
+						else{
+							login();
 						}
 					}
-					@Override
-					public void onError(Request request, Throwable exception) {
-						// TODO: Show this message in a notification area.
-						Window.alert("Could not connect to server.");
+					else if(status.getStat() == WEStatus.STATUS_SUCCESS){
+						// User is logged in. Show Editor.
+						editor();
 					}
-				});
-			}catch(RequestException e){
-				Window.alert(e.getMessage());
-				e.printStackTrace();
-			}			
+				}
+				@Override
+				public void onError(Request request, Throwable exception) {
+					// TODO: Show this message in a notification area.
+					Window.alert("Could not connect to server.");
+				}
+			});
+		}catch(RequestException e){
+			Window.alert(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 	

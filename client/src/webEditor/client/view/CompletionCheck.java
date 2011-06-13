@@ -3,11 +3,7 @@ package webEditor.client.view;
 import java.util.Stack;
 
 import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.RichTextArea;
-import com.sun.xml.internal.fastinfoset.util.CharArray;
 
 public class CompletionCheck {
 	private ColorCounter curColor;

@@ -1,7 +1,5 @@
 package webEditor.client.view;
 
-import webEditor.client.PHP;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
@@ -13,7 +11,6 @@ import com.google.gwt.event.shared.HasHandlers;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RichTextArea;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -30,7 +27,6 @@ public class CodeEditor extends View implements HasHandlers
 	 
 	@UiField RichTextArea codeArea;
 	private Timer timer;
-	private PHP php;
 	private CompletionCheck colorCheck = new CompletionCheck();
 
 	public CodeEditor()
@@ -40,7 +36,6 @@ public class CodeEditor extends View implements HasHandlers
 		codeArea.setFocus(true);
 		codeArea.setEnabled(true);
 		codeArea.getFormatter().setFontName("monospace");
-		php = new PHP();
 	
 		timer = new Timer() {
 			@Override

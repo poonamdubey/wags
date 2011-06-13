@@ -309,9 +309,9 @@ public class Proxy
 					RootPanel root = RootPanel.get();
 					WEStatus status = new WEStatus(response);
 					if(status.getStat() == WEStatus.STATUS_SUCCESS){
-						// Login user.
-						Notification.notify(status.getStat(), status.getMessage());
+						// Log the user in automatically.
 						Proxy.login(username, password);
+						Notification.notify(status.getStat(), status.getMessage());
 					}else{
 						Notification.notify(status.getStat(), status.getMessage());
 					}
