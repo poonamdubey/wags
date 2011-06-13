@@ -59,23 +59,6 @@ class CodeFile extends Model
     }
 
     /**
-     * Get a CodeFile object from database by it's ID.
-     *
-     * @return CodeFile
-     */
-    public static function getCodeFileById($id, User $user)
-    {
-        require_once('Database.php');
-        
-        $db = Database::getDb();
-
-        $sth = $db->prepare('SELECT * FROM file WHERE id = :id');
-        $sth->execute(array(':id' => $id));
-        
-        return $sth->fetchObject('CodeFile');
-    }
-
-    /**
      * Get an array of CodeFile objects by user.
      */
     public static function getCodeFilesByUser(User $user)
@@ -87,6 +70,20 @@ class CodeFile extends Model
         $sth->execute(array(':id' => $user->getId()));
         
         return $sth->fetchAll(PDO::FETCH_CLASS, 'CodeFile');
+    }
+
+    /**
+     * Check if one or more file exists with the passed name.
+     */
+    public static function codeFileExistsByName($name, User $user)
+    {
+      require_once('Database.php');
+      $db = Database::getDb();
+      
+      $sth = $db->prepare('SELECT * FROM file WHERE ownerId = :id AND name LIKE :name');
+      $sth->execute(array(':id' => $user->getId(), ':name' => $name));
+
+      return sizeof($sth->fetchAll()) > 0;
     }
 }
 ?>

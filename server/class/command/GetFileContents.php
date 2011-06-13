@@ -19,10 +19,14 @@ class GetFileContents extends Command
 
         // A file name must be asked for.
         if(isset($_REQUEST['name'])){
+            $name = $_REQUEST['name'];
+            // File name must begin with '/'
+            if(substr($name, 0, 1) != '/')
+                $name = '/'.$name;
             $user = Auth::getCurrentUser();
-            $file = CodeFile::getCodeFileByName($_REQUEST['name'], $user);
+            $file = CodeFile::getCodeFileByName($name, $user);
             if(empty($file)){
-                return JSON::warn("File not found with name ".$_REQUEST['name']);
+                return JSON::warn("File not found with name ".$name);
             }
             echo ($file->getContents());
         }else{
