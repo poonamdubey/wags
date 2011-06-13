@@ -17,16 +17,16 @@ class UploadFile extends Command
         if(!Auth::isLoggedIn()){
             return JSON::error('Must be logged in to upload file.');
         }
-	if(!isset($_FILES['the_file'])){
-		return JSON::Error('No file');
-	}        
+        if(!isset($_FILES['the_file'])){
+            return JSON::Error('No file');
+        }        
 
         $file = $_FILES['the_file'];
         $user = Auth::getCurrentUser();
 
-	if($file == null){
-		return JSON::Error('No file');
-	}
+        if($file == null){
+            return JSON::Error('No file');
+        }
 
         // Check that mimetype is plain text.
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
@@ -35,23 +35,42 @@ class UploadFile extends Command
             // mimetype is not acceptable.
             return JSON::error('Please only upload plain text or source files.');
         }
-        
+
         $contents = file_get_contents($file['tmp_name']);
-	$directory = $_POST['curDir'];
-	
-        $f = new CodeFile();
-        $f->setName($directory.$file['name']);
-        //$f->setName($file['name']);
-        $f->setOwnerId($user->getId());
+
+        $directory = $_POST['curDir'];
+        
+        // Directory should begin and end with /
+        if(substr($directory, 0, 1) != '/'){
+            $directory = '/'.$directory;
+        }
+        if(substr($directory, -1) != '/'){
+            $directory .= '/';
+        }
+
+        // If file exists with the same full path, just update that one
+        if(CodeFile::codeFileExistsByName($directory.$file['name'], Auth::getCurrentUser())){
+            $f = CodeFile::getCodeFileByName($directory.$file['name'], Auth::getCurrentUser());
+            $update = true;
+        }else{
+            $f = new CodeFile();
+            $f->setName($directory.$file['name']);
+            $f->setOwnerId($user->getId());
+        }
+
         $f->setContents($contents);
         $now = time();
         $f->setAdded($now);
 
         try{
             $f->save();
+            if(isset($update) && $update)
+                JSON::success('Overwrote file '.$f->getName());
+            else
+                JSON::success('Uploaded file '.$f->getName());
         }catch(PDOException $e){
             echo $e->getMessage();
-	    logError($e);
+            logError($e);
         }
 
         finfo_close($finfo);
