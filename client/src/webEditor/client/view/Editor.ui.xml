@@ -48,18 +48,7 @@
 	 		<my:FileBrowser ui:field="browser">	</my:FileBrowser>
 	     </g:HorizontalSplitPanel>
      </g:center>
-     <g:south size="30">
-     		<g:HTMLPanel styleName="{style.codeAndFile}">
-     			<g:FormPanel ui:field="form">
-	     			<g:HorizontalPanel>
-	     				<g:SubmitButton ui:field="submitButton">Upload</g:SubmitButton>
-	     				<g:FileUpload ui:field="uploadField" name="the_file"/>
-	     				<g:Label styleName="{style.std-txt}">Upload Directory: </g:Label>
-	     				<g:TextBox styleName="{style.fileName}" ui:field="curDir" name="curDir"></g:TextBox>
-	     			</g:HorizontalPanel>
-     			</g:FormPanel>
-     		</g:HTMLPanel>
-     	</g:south>
+ 
 
      
      </g:DockLayoutPanel>
