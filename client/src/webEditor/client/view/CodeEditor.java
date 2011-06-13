@@ -13,6 +13,7 @@ import com.google.gwt.event.shared.HasHandlers;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RichTextArea;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -58,10 +59,15 @@ public class CodeEditor extends View implements HasHandlers
 		
 		codeArea.addKeyUpHandler(new KeyUpHandler(){
 			public void onKeyUp(KeyUpEvent event){
-				codeArea.getFormatter().setForeColor(colorCheck.popCheck(event));
-				if(event.getNativeKeyCode() == 191){
-					codeArea.getFormatter().insertHTML("&nbsp; &nbsp; &nbsp;");
+				
+				if(event.getNativeKeyCode() == 13){
+					for(int i = 0; i < colorCheck.getTabCount(); i++)
+						codeArea.getFormatter().insertHTML("&nbsp; &nbsp; &nbsp;");
+					colorCheck.enterIncrement(colorCheck.getTabCount() * 5);
 				}
+				
+				
+				codeArea.getFormatter().setForeColor(colorCheck.popCheck(event));
 			}
 		});
 		
