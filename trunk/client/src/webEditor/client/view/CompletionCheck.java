@@ -11,6 +11,7 @@ import com.sun.xml.internal.fastinfoset.util.CharArray;
 
 public class CompletionCheck {
 	private ColorCounter curColor;
+	private TabCounter curTab;
 	final static String PURPLE = "#B300B3";
 	final static String RED = "#CC0000";
 	final static String GREEN = "#336633";
@@ -33,19 +34,18 @@ public class CompletionCheck {
 	private boolean newSQuote;
 	private boolean newDQuote;
 	private int lastKeyUp;
-	private int unPairedOpenBracket;
-	private int unPairedOpenParen;
-	private int unPairedOpenCurl;
+	private int tabCount;
 
+	private Stack<TabCounter> tabStack = new Stack<TabCounter>();
 	private Stack<ColorCounter> stack = new Stack<ColorCounter>();
-	private Stack<int[]> tabStack = new Stack<int[]>();
-	
-	
 	
 	public CompletionCheck(){
 		//curColor starts black
 		curColor = new ColorCounter(BLACK);
 		curColor.lastColor = null;
+		tabCount = 0;
+		curTab = new TabCounter(false); //dodge nullpointers on first push
+		curTab.count = 10000; //make first tab unreachable
 	}
 	
 	public String pushCheck(KeyDownEvent event){
@@ -56,16 +56,28 @@ public class CompletionCheck {
 		if(key == OPARENS && shift){ 				// (
 			stack.push(curColor);
 			curColor = new ColorCounter(PURPLE);
+			
+			tabStack.push(curTab);
+			curTab = new TabCounter(true);
+			tabCount++;
 		} 
 		
 		else if (key == OCURLS && shift){ 		// {
 			stack.push(curColor);
 			curColor = new ColorCounter(GREEN);
+			
+			tabStack.push(curTab);
+			curTab = new TabCounter(true);
+			tabCount++;
 		}
 		
 		else if (key == OCURLS){ 					// [
 			stack.push(curColor);
 			curColor = new ColorCounter(RED);
+			
+			tabStack.push(curTab);
+			curTab = new TabCounter(true);
+			tabCount++;
 		} 
 		
 		else if (key == QUOTE && shift){ 			// "
@@ -84,19 +96,37 @@ public class CompletionCheck {
 			}
 		}
 		
+		
+		
 		//special delete key logic
 		if(key == BACKSPACE){
 			curColor.count = curColor.count - 1;
+			curTab.count = curTab.count - 1;
 			
 			//If it's black, you can't pop
 			if(curColor.count == 0 && curColor.lastColor != null){
 				curColor = stack.pop();
+				curColor.count = curColor.count - 1;
 				if (curColor.COLOR == LIGHTBLUE) newDQuote = true;
 				if (curColor.COLOR == DARKBLUE) newSQuote = true;
 			}
+			if(curTab.count == 0){
+				if(curTab.open){
+					tabCount--;
+				} else {
+					tabCount ++;
+				}
+				
+				curTab = tabStack.pop();
+				curTab.count = curTab.count - 1;
+			}
+			
 		} else {
 			//Set right before return in case color changes
-			if(!skipKey(key)) curColor.setCount(curColor.count + 1);
+			if(!skipKey(key)){
+				curColor.setCount(curColor.count + 1);
+				curTab.count = curTab.count + 1;
+			}
 		}
 		
 		return curColor.COLOR;
@@ -115,6 +145,10 @@ public class CompletionCheck {
 						curColor.closed = true;
 						stack.push(curColor);
 						curColor = new ColorCounter(curColor.giveColor());
+						
+						tabStack.push(curTab);
+						curTab = new TabCounter(false);
+						tabCount--;
 					}
 					break;
 				case CCURLS:  	// }
@@ -122,6 +156,10 @@ public class CompletionCheck {
 						curColor.closed = true;
 						stack.push(curColor);
 						curColor = new ColorCounter(curColor.giveColor());
+						
+						tabStack.push(curTab);
+						curTab = new TabCounter(false);
+						tabCount--;
 					}
 					break;
 				case QUOTE:  	// "
@@ -142,6 +180,10 @@ public class CompletionCheck {
 						curColor.closed = true;
 						stack.push(curColor);
 						curColor = new ColorCounter(curColor.giveColor());
+						
+						tabStack.push(curTab);
+						curTab = new TabCounter(false);
+						tabCount--;
 					}
 					break;
 				case QUOTE: 	// '
@@ -163,11 +205,20 @@ public class CompletionCheck {
 	}
 	
 	private boolean skipKey(int key){
-		if(key == SHIFT || key == 13 || key == 9 || key == 20 || 
+		if(key == SHIFT || key == 9 || key == 20 || 
 				key == 17 || key == 18 || key == 36 || key == 45)
 			return true;
 		
 		return false;
+	}
+	
+	public int getTabCount(){
+		return tabCount;
+	}
+	
+	public void enterIncrement(int inc){
+		curTab.count += inc;
+		curColor.count += inc;
 	}
 	
 	private class ColorCounter{
@@ -194,18 +245,26 @@ public class CompletionCheck {
 		}
 		
 		private String giveColor(boolean stop){
-			if(curColor.closed == true && 
-					curColor.COLOR == this.COLOR && stop == false){
+			if(closed) return lastColor.giveColor(stop);
+			
+			if(curColor.closed == true && curColor.COLOR == this.COLOR && stop == false){ 
 				this.closed = true;
 				stop = true;
 			}
 			
 			if(closed) return lastColor.giveColor(stop);
 			
-			if(stop == true) closed = true;
-			
 			return COLOR;
 		}
 	}
 	
+	private class TabCounter{
+		final boolean open;
+		int count;
+		
+		public TabCounter(boolean open){
+			this.open = open;
+			count = 0;
+		}
+	}
 }
