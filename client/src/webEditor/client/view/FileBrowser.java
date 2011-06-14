@@ -3,16 +3,11 @@ package webEditor.client.view;
 import webEditor.client.Proxy;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.ui.DockLayoutPanel;
-import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FormPanel;
-import com.google.gwt.user.client.ui.SubmitButton;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
@@ -28,7 +23,7 @@ public class FileBrowser extends View
 	private static FileBrowserUiBinder uiBinder = GWT
 			.create(FileBrowserUiBinder.class);
 
-	interface FileBrowserUiBinder extends UiBinder<DockLayoutPanel, FileBrowser>{}
+	interface FileBrowserUiBinder extends UiBinder<Widget, FileBrowser>{}
 
 	@UiField Tree browser;
 	@UiField FormPanel form;

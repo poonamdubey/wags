@@ -17,15 +17,10 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
-import com.google.gwt.user.client.ui.FileUpload;
-import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.SubmitButton;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
-import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
 
 
 public class Editor extends View
@@ -39,7 +34,6 @@ public class Editor extends View
 	@UiField Anchor logout;
 	@UiField Anchor save;
 	@UiField Anchor delete;
-	
 	
 	@UiField TextBox fileName;
 	@UiField Label hello;
@@ -55,8 +49,6 @@ public class Editor extends View
 		save.setVisible(false);
 		delete.setVisible(false);
 		
-
-		
 		// Add selection handler to file browser
 		browser.getTree().addSelectionHandler(new SelectionHandler<TreeItem>() {
 			@Override
@@ -64,6 +56,8 @@ public class Editor extends View
 			{
 				// If clicked item is directory then just open it
 				TreeItem i = event.getSelectedItem();
+				if(i.getChildCount() > 0)
+					return;
 				// If clicked item is a leaf TreeItem then open it in editor
 				Proxy.getFileContents(browser.getItemPath(i), editor);
 				// Set filename, save, and delete stuff visible
