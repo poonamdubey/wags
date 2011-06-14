@@ -8,31 +8,37 @@
 			color: #A0A0FF;
 			font-style: italic;
 		}
-		.bottom {
-			
-			padding-right: 10px;	
+		.bottom{
+			position: relative;
+			top: -200px;		
 		}
 		.fileName { padding: 0px; }
 		.std-txt { padding-top: 6px }
 	</ui:style>
-	<g:DockLayoutPanel unit="EM">
-		<g:north size="30">
-			<g:HTMLPanel>
-				<g:Label styleName="{style.files}">Files</g:Label>
-				<g:Tree ui:field="browser"></g:Tree>
-			</g:HTMLPanel>
-		</g:north>
-		<g:south size = "30">
-			<g:HTMLPanel styleName="{style.bottom}">
-		     			<g:FormPanel ui:field="form">
-			     			<g:HorizontalPanel>
-			     				<g:SubmitButton ui:field="submitButton">Upload</g:SubmitButton>
-			     				<g:FileUpload ui:field="uploadField" name="the_file"/>
-			     				<g:Label styleName="{style.std-txt}">Upload Directory: </g:Label>
-			     				<g:TextBox styleName="{style.fileName}" ui:field="curDir" name="curDir"></g:TextBox>
-			     			</g:HorizontalPanel>
-		     			</g:FormPanel>
-		     </g:HTMLPanel>
-	     </g:south>
-     </g:DockLayoutPanel>
+	
+	<g:DockLayoutPanel unit="PX">
+	<g:north size="78">
+		<g:HTMLPanel height="78px">
+			<g:Label styleName="{style.files}">Files</g:Label>
+			<g:Tree ui:field="browser"></g:Tree>
+		</g:HTMLPanel>
+	</g:north>
+	
+	<g:south size="50">
+		<g:HTMLPanel height="50">
+			<g:FormPanel ui:field="form" height="51px">
+				<g:HorizontalPanel height="50px" width="400px">
+					<g:SubmitButton ui:field="submitButton">Upload</g:SubmitButton>
+					<g:FileUpload ui:field="uploadField" name="the_file" width="179px"/>
+					<g:Label styleName="{style.std-txt}">Upload Directory: </g:Label>
+					<g:TextBox styleName="{style.fileName}" ui:field="curDir" name="curDir" width="123px"></g:TextBox>
+				</g:HorizontalPanel>
+			</g:FormPanel>
+		</g:HTMLPanel>
+	</g:south>
+	
+	<g:center size="50">
+		<g:Label>whatever</g:Label>
+	</g:center>
+	</g:DockLayoutPanel>
 </ui:UiBinder> 
