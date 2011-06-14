@@ -41,14 +41,11 @@
 					<g:TextBox styleName="{style.fileName}" ui:field="fileName"></g:TextBox>
 					<g:Anchor ui:field="save" styleName="{style.anchor}">Save</g:Anchor>
 					<g:Anchor ui:field="delete" styleName="{style.anchor}">Delete</g:Anchor>
-					
 				</g:HTMLPanel>
 				<my:CodeEditor styleName="{style.editor}" ui:field="editor"></my:CodeEditor>
-			</g:HTMLPanel>
-			<g:HorizontalSplitPanel>
 				<my:OutputReview> whatever </my:OutputReview>
-	 			<my:FileBrowser ui:field="browser">	</my:FileBrowser>
-	 		</g:HorizontalSplitPanel>
+			</g:HTMLPanel>
+			<my:FileBrowser ui:field="browser">	</my:FileBrowser>
 	     </g:HorizontalSplitPanel>
      </g:center>
  

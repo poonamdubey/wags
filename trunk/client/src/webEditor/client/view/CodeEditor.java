@@ -10,7 +10,6 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.shared.HasHandlers;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.RichTextArea;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -26,7 +25,6 @@ public class CodeEditor extends View implements HasHandlers
 	interface CodeEditorUiBinder extends UiBinder<Widget, CodeEditor>{}
 	 
 	@UiField RichTextArea codeArea;
-	private Timer timer;
 	private CompletionCheck colorCheck = new CompletionCheck();
 
 	public CodeEditor()
@@ -36,14 +34,6 @@ public class CodeEditor extends View implements HasHandlers
 		codeArea.setFocus(true);
 		codeArea.setEnabled(true);
 		codeArea.getFormatter().setFontName("monospace");
-	
-		timer = new Timer() {
-			@Override
-			public void run()
-			{
-				//codeArea.setHTML(php.parse(codeArea.getText()));
-			}
-		};
 		
 		codeArea.addKeyDownHandler(new KeyDownHandler(){
 			public void onKeyDown(KeyDownEvent event)
