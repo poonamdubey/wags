@@ -45,7 +45,10 @@
 				</g:HTMLPanel>
 				<my:CodeEditor styleName="{style.editor}" ui:field="editor"></my:CodeEditor>
 			</g:HTMLPanel>
-	 		<my:FileBrowser ui:field="browser">	</my:FileBrowser>
+			<g:HorizontalSplitPanel>
+				<my:OutputReview> whatever </my:OutputReview>
+	 			<my:FileBrowser ui:field="browser">	</my:FileBrowser>
+	 		</g:HorizontalSplitPanel>
 	     </g:HorizontalSplitPanel>
      </g:center>
  

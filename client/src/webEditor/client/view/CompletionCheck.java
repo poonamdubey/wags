@@ -99,8 +99,13 @@ public class CompletionCheck {
 			curColor.count = curColor.count - 1;
 			curTab.count = curTab.count - 1;
 			
+			//Problem: open parenthesis needs 0
+			//closed wants -1
 			//If it's black, you can't pop
-			if(curColor.count == 0 && curColor.lastColor != null){
+			if(curColor.count == -1 && curColor.lastColor != null){
+				if(curColor.myOpener != null){
+					curColor.myOpener.closed = false;
+				}
 				curColor = stack.pop();
 				curColor.count = curColor.count - 1;
 				if (curColor.COLOR == LIGHTBLUE) newDQuote = true;
@@ -221,6 +226,7 @@ public class CompletionCheck {
 		private String COLOR;
 		private int count;
 		private ColorCounter lastColor;
+		private ColorCounter myOpener;
 		boolean closed;
 				
 		public ColorCounter(String hexColor){
@@ -230,6 +236,7 @@ public class CompletionCheck {
 				lastColor = stack.peek(); //needed to avoid null pointer for first curColor
 			}
 			closed = false;
+			myOpener = null;
 		}
 		
 		private void setCount(int count){
@@ -245,12 +252,17 @@ public class CompletionCheck {
 			
 			if(curColor.closed == true && curColor.COLOR == this.COLOR && stop == false){ 
 				this.closed = true;
+				curColor.setOpener(this);
 				stop = true;
 			}
 			
 			if(closed) return lastColor.giveColor(stop);
 			
 			return COLOR;
+		}
+		
+		private void setOpener(ColorCounter opener){
+			myOpener = opener;
 		}
 	}
 	

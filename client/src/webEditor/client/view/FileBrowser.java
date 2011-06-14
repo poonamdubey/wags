@@ -9,6 +9,7 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.SubmitButton;
@@ -23,18 +24,15 @@ import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
 
 public class FileBrowser extends View
 {
-	
-	@UiField FileUpload uploadField;
-	@UiField SubmitButton submitButton;
-	@UiField TextBox curDir;
-	@UiField FormPanel form;
 
 	private static FileBrowserUiBinder uiBinder = GWT
 			.create(FileBrowserUiBinder.class);
 
-	interface FileBrowserUiBinder extends UiBinder<Widget, FileBrowser>{}
+	interface FileBrowserUiBinder extends UiBinder<DockLayoutPanel, FileBrowser>{}
 
 	@UiField Tree browser;
+	@UiField FormPanel form;
+	@UiField TextBox curDir;
 
 	/**
 	 * FileBrowser is tightly coupled with CodeEditor. Text from items from file
@@ -185,15 +183,6 @@ public class FileBrowser extends View
 	public Tree getTree()
 	{
 		return this.browser;
-	}
-	
-	@UiHandler("submitButton")
-	void onSubmitClick(ClickEvent event)
-	{
-		//Can and perhaps should be moved to a 
-		//SubmitHandler for form. ?
-		this.formatDirectory();
-		form.submit();
 	}
 	
 	
