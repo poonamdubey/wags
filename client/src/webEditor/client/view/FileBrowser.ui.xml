@@ -7,23 +7,30 @@
 			font-weight: light;
 			color: #A0A0FF;
 			font-style: italic;
+			position: relative;
 		}
 		.fileName { padding: 0px; }
-		.std-txt { padding-top: 6px }
+		.std-txt { padding-top: 8px }
 		.form {
 			position: fixed;
 			bottom: 0px;
+			width: 100%;
+			background-color: #AAAAAA;
+		}
+		.upload{
+			width: 200px;
 		}
 	</ui:style>
 	<g:HTMLPanel>
 		<g:Label styleName="{style.files}">Files</g:Label>
 		<g:Tree ui:field="browser"></g:Tree>
 		<g:FormPanel ui:field="form" styleName="{style.form}">
-			<g:HorizontalPanel height="50px" width="400px">
-				<g:SubmitButton ui:field="submitButton">Upload</g:SubmitButton>
-				<g:FileUpload ui:field="uploadField" name="the_file" width="179px"/>
-				<g:Label styleName="{style.std-txt}">Upload Directory: </g:Label>
-				<g:TextBox styleName="{style.fileName}" ui:field="curDir" name="curDir" width="123px"></g:TextBox>
+			<g:HorizontalPanel height="30px" width="400px">
+				<g:SubmitButton ui:field="uploadButton">Upload</g:SubmitButton> 
+				<g:FileUpload ui:field="uploadField" name="the_file" styleName="{style.upload}"/>
+				<g:Label styleName="{style.std-txt}" width="115px">Upload Directory: </g:Label>
+				<g:TextBox styleName="{style.fileName}" ui:field="curDir" name="curDir"></g:TextBox>
+				<g:Button ui:field="compileButton">Submit</g:Button>
 			</g:HorizontalPanel>
 		</g:FormPanel>
 	</g:HTMLPanel>
