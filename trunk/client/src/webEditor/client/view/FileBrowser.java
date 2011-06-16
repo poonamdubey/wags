@@ -3,11 +3,14 @@ package webEditor.client.view;
 import webEditor.client.Proxy;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.SubmitButton;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
@@ -28,6 +31,7 @@ public class FileBrowser extends View
 	@UiField Tree browser;
 	@UiField FormPanel form;
 	@UiField TextBox curDir;
+	@UiField SubmitButton uploadButton;
 
 	/**
 	 * FileBrowser is tightly coupled with CodeEditor. Text from items from file
@@ -180,6 +184,10 @@ public class FileBrowser extends View
 		return this.browser;
 	}
 	
+	@UiHandler("uploadButton")
+	void onUploadClick(ClickEvent event){
+		formatDirectory();
+	}
 	
 	
 	

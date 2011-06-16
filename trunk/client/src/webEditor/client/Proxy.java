@@ -27,6 +27,7 @@ public class Proxy
 	private static final String saveFileContents = getBaseurl()+"?cmd=SaveFileContents";
 	private static final String deleteFile = getBaseurl()+"?cmd=DeleteFile";
 	private static final String getFileListing = getBaseurl()+"?cmd=GetFileListing";
+	private static final String submitFile = getBaseurl()+"?cmd=submitFile";
 	private static final String logout = getBaseurl()+"?cmd=Logout";
 	private static final String login = getBaseurl()+"?cmd=Login";
 	private static final String registerURL = Proxy.getBaseurl()+"?cmd=RegisterUser";
@@ -106,7 +107,7 @@ public class Proxy
 	 * some sort.
 	 * TODO: Read above.text
 	 */
-	public static void saveFile(String fileName, String contents)
+	public static boolean saveFile(String fileName, String contents)
 	{
 		final Timer t = pleaseHold("Saving...");
 		String completeURL = saveFileContents+"&name="+fileName.trim().substring(1)+"&contents="+contents;
@@ -130,7 +131,10 @@ public class Proxy
 			});
 		}catch(RequestException e){
 			e.printStackTrace();
+			return false;
 		}
+		
+		return true;
 	}
 	
 	/**
@@ -324,6 +328,35 @@ public class Proxy
 		} catch (RequestException e){
 			e.printStackTrace();
 		}
+	}
+	
+	//weird stuff with that timer, look at later
+	public static boolean submit(String code){
+		Timer compilerTimer = pleaseHold("compiling...");
+		compilerTimer.schedule(10000);
+		return true;
+//		RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, submitFile);
+//		try {
+//		      builder.setHeader("Content-Type", "application/x-www-form-urlencoded");
+//		      Request response = builder.sendRequest(code, new RequestCallback() {
+//		        public void onResponseReceived(Request request, Response response) {
+//		          WEStatus status = new WEStatus(response);
+//		          if(status.getStat() == WEStatus.STATUS_SUCCESS){
+//		        	  //go to review tab
+//		          } else {
+//		        	  Notification.notify(status.getStat(), status.getMessage());
+//		          }
+//		        }
+//		        
+//		        public void onError(Request request, Throwable exception) {
+//		        }
+//		      });
+//		    } catch (RequestException e) {
+//		      Window.alert("Failed to send the request: " + e.getMessage());
+//		      return false;
+//		    }
+//		    
+//		    return true;
 	}
 
 	public static String getBaseurl() {
