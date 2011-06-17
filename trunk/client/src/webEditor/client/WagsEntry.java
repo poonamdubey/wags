@@ -1,8 +1,8 @@
 package webEditor.client;
 
-import webEditor.client.view.Editor;
 import webEditor.client.view.Login;
 import webEditor.client.view.Registration;
+import webEditor.client.view.Wags;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.http.client.Request;
@@ -18,7 +18,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 
 
 /**
- * WE
+ * WagsEntry
  *
  * This is the entry point for this GWT application.
  * Check if user is currently logged in or not.
@@ -30,7 +30,7 @@ import com.google.gwt.user.client.ui.RootPanel;
  *
  */
 
-public class WE implements EntryPoint 
+public class WagsEntry implements EntryPoint 
 {
 	public void onModuleLoad() 
 	{
@@ -83,7 +83,7 @@ public class WE implements EntryPoint
 	private static void editor(){
 		// TODO: Is user logged in?
 		RootLayoutPanel root = RootLayoutPanel.get();
-		root.add(new Editor());		
+		root.add(new Wags());		
 	}
 	
 	private static void login(){

@@ -1,10 +1,10 @@
 package webEditor.client;
 
 import webEditor.client.view.CodeEditor;
-import webEditor.client.view.Editor;
 import webEditor.client.view.FileBrowser;
 import webEditor.client.view.Login;
 import webEditor.client.view.Notification;
+import webEditor.client.view.Wags;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.http.client.Request;
@@ -212,7 +212,7 @@ public class Proxy
 					WEStatus status = new WEStatus(response);
 					if(status.getStat() == WEStatus.STATUS_SUCCESS){
 						// Login successful.
-						Editor e = new Editor();
+						Wags e = new Wags();
 						e.go();
 					}else{
 						Notification.notify(WEStatus.STATUS_ERROR, status.getMessage());

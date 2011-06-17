@@ -14,7 +14,6 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -24,12 +23,12 @@ import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
 
 
-public class Editor extends View
+public class Wags extends View
 {
 
 	private static EditorUiBinder uiBinder = GWT.create(EditorUiBinder.class);
 
-	interface EditorUiBinder extends UiBinder<Widget, Editor>{}
+	interface EditorUiBinder extends UiBinder<Widget, Wags>{}
 
 	@UiField DockLayoutPanel dock;
 	@UiField Anchor logout;
@@ -44,7 +43,7 @@ public class Editor extends View
 	@UiField TabLayoutPanel tabPanel;
 	
 	
-	public Editor()
+	public Wags()
 	{
 		initWidget(uiBinder.createAndBindUi(this));
 		
@@ -149,7 +148,7 @@ public class Editor extends View
 	@Override
 	public WEAnchor getLink()
 	{
-		return new WEAnchor("Editor", this, "editor");
+		return new WEAnchor("Wags", this, "editor");
 	}
 	
 	/**
