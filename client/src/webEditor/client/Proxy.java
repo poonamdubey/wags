@@ -1,6 +1,11 @@
 package webEditor.client;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
+
 import webEditor.client.view.CodeEditor;
+import webEditor.client.view.Exercises;
 import webEditor.client.view.FileBrowser;
 import webEditor.client.view.Login;
 import webEditor.client.view.Notification;
@@ -23,14 +28,15 @@ import com.google.gwt.user.client.ui.RootPanel;
 public class Proxy
 {
 	private static final String baseURL = "http://localhost/~wags/wagsServer/index.php";
-	private static final String getFileContents = getBaseurl()+"?cmd=GetFileContents";
-	private static final String saveFileContents = getBaseurl()+"?cmd=SaveFileContents";
-	private static final String deleteFile = getBaseurl()+"?cmd=DeleteFile";
-	private static final String getFileListing = getBaseurl()+"?cmd=GetFileListing";
-	private static final String submitFile = getBaseurl()+"?cmd=submitFile";
-	private static final String logout = getBaseurl()+"?cmd=Logout";
-	private static final String login = getBaseurl()+"?cmd=Login";
-	private static final String registerURL = Proxy.getBaseurl()+"?cmd=RegisterUser";
+	private static final String getFileContents = getBaseURL()+"?cmd=GetFileContents";
+	private static final String saveFileContents = getBaseURL()+"?cmd=SaveFileContents";
+	private static final String deleteFile = getBaseURL()+"?cmd=DeleteFile";
+	private static final String getFileListing = getBaseURL()+"?cmd=GetFileListing";
+	private static final String submitFile = getBaseURL()+"?cmd=submitFile";
+	private static final String logout = getBaseURL()+"?cmd=Logout";
+	private static final String login = getBaseURL()+"?cmd=Login";
+	private static final String registerURL = Proxy.getBaseURL()+"?cmd=RegisterUser";
+	private static final String getExercises = getBaseURL()+"?cmd=GetExerciseList";
 	
 	private static Timer pleaseHold(String holdMessage)
 	{
@@ -235,29 +241,27 @@ public class Proxy
 	 */
 	public static void getUsersName(final Label label)
 	{
-		String completeURL = getBaseurl()+"?cmd=GetUserDetails";
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, URL.encode(completeURL));
-		try {
-			@SuppressWarnings("unused")
-			Request req = builder.sendRequest(null, new RequestCallback() {
-				@Override
-				public void onResponseReceived(Request request, Response response) {
-					WEStatus stat = new WEStatus(response);
-					String first = stat.getMessageMapVal("firstName");
-					if(first == null){
-						// Use email address in greeting.
-						first = stat.getMessageMapVal("email");
-					}
-					label.setText("Hello, "+first+"!");
+		WagsCallback c = new WagsCallback() {
+			@Override
+			void warning(WEStatus status) {}
+			
+			@Override
+			void success(WEStatus status) {
+				String first = status.getMessageMapVal("firstName");
+				if(first == null){
+					// Use email address in greeting.
+					first = status.getMessageMapVal("email");
 				}
-				@Override
-				public void onError(Request request, Throwable exception) {
-					Notification.notify(WEStatus.STATUS_ERROR, "Error fetching user details.");
-				}
-			});
-		} catch (RequestException e) {
-			e.printStackTrace();
-		}
+				label.setText("Hello, "+first+"!");
+			}
+			
+			@Override
+			void error(WEStatus status) {
+				Notification.notify(WEStatus.STATUS_ERROR, "Error fetching user details.");
+			}
+		};
+		
+		Proxy.call("GetUserDetails", null, c);
 	}
 	
 	/**
@@ -265,7 +269,7 @@ public class Proxy
 	 */
 	public static void renameFile(String oldName, final String newName, final FileBrowser browser)
 	{
-		String url = getBaseurl()+"?cmd=RenameFile&old="+oldName+"&new="+newName;
+		String url = getBaseURL()+"?cmd=RenameFile&old="+oldName+"&new="+newName;
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, URL.encode(url));
 		try{
 			@SuppressWarnings("unused")
@@ -330,6 +334,31 @@ public class Proxy
 		}
 	}
 	
+	/**
+	 * Get a list of exercises from the server and put them
+	 * in the FlexTable.
+	 * 
+	 */
+	public static void getExercises(Exercises ex){
+		
+		WagsCallback c = new WagsCallback() {
+			@Override
+			void warning(WEStatus status) {}
+			
+			@Override
+			void success(WEStatus status) {
+				Window.alert(status.getMessageArray().toString());
+			}
+			
+			@Override
+			void error(WEStatus status) {
+				Window.alert(status.getMessage());
+			}
+		};
+		HashMap<String, String> vars = new HashMap<String, String>();
+		Proxy.call("GetExercises", vars, c);
+	}
+	
 	//weird stuff with that timer, look at later
 	public static boolean submit(String code){
 		Timer compilerTimer = pleaseHold("compiling...");
@@ -359,7 +388,43 @@ public class Proxy
 //		    return true;
 	}
 
-	public static String getBaseurl() {
+	public static String getBaseURL() {
 		return baseURL;
 	}
+	
+	public static void call(String command, HashMap<String, String> request, WagsCallback callback){
+		Proxy.call(command, request, callback, RequestBuilder.GET);
+	}
+
+	/*
+	 * Makes a request to server.
+	 * The string command will correspond to a commad on the server.
+	 * The string[] will contain all other request variables.
+	 * The callback will be called when a reponse is received from server.
+	 */
+	public static void call(String command, HashMap<String, String> request, WagsCallback callback, RequestBuilder.Method method)
+	{
+		String completeURL = getBaseURL()+"?cmd="+command;
+
+		if(request != null){
+			/* Loop over request variables appending each to request */
+			Set<String> keys = request.keySet();
+			Iterator<String> keysItr = keys.iterator();
+			while(keysItr.hasNext()){
+				String next = keysItr.next();
+				completeURL += "&"+next+"="+request.get(next);
+			}
+		}
+		
+		RequestBuilder builder = new RequestBuilder(method, completeURL);
+		
+		/* Make request */
+		try {
+			builder.sendRequest(null, callback);
+		} catch (RequestException e) {
+			e.printStackTrace();
+		}
+	}
+	
+
 }

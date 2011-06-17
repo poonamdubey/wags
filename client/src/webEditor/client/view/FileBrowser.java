@@ -18,8 +18,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
 
-
-
 public class FileBrowser extends View
 {
 
@@ -44,7 +42,7 @@ public class FileBrowser extends View
 		initWidget(uiBinder.createAndBindUi(this));
 		Proxy.loadFileListing(this, "/");
 		
-		form.setAction(Proxy.getBaseurl() + "?cmd=UploadFile&dir=" + curDir.getText().toString());
+		form.setAction(Proxy.getBaseURL() + "?cmd=UploadFile&dir=" + curDir.getText().toString());
 		form.setEncoding(FormPanel.ENCODING_MULTIPART);
 		form.setMethod(FormPanel.METHOD_POST);
 		final FileBrowser me = this;
