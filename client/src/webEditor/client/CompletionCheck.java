@@ -1,4 +1,4 @@
-package webEditor.client.view;
+package webEditor.client;
 
 import java.util.Stack;
 
