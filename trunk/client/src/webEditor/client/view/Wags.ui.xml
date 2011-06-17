@@ -52,7 +52,11 @@
 				</g:tab>
 				<g:tab>
 					<g:header> Review </g:header>
-					<my:OutputReview></my:OutputReview>
+					<my:OutputReview ui:field="review"></my:OutputReview>
+				</g:tab>
+				<g:tab>
+					<g:header> Exercises </g:header>
+					<my:Exercises ui:field="exercises"></my:Exercises>
 				</g:tab>
 			</g:TabLayoutPanel>
 	     </g:HorizontalSplitPanel>

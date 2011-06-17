@@ -35,7 +35,7 @@ public class WagsEntry implements EntryPoint
 	public void onModuleLoad() 
 	{
 		// Check if the user is logged in already.
-		String isLoggedInURL = Proxy.getBaseurl()+"?cmd=GetUserDetails";
+		String isLoggedInURL = Proxy.getBaseURL()+"?cmd=GetUserDetails";
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, URL.encode(isLoggedInURL));
 		try{
 			@SuppressWarnings("unused")

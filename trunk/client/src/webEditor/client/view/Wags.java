@@ -40,8 +40,9 @@ public class Wags extends View
 	@UiField Label hello;
 	@UiField CodeEditor editor;
 	@UiField FileBrowser browser;
+	@UiField OutputReview review;
+	@UiField Exercises exercises;
 	@UiField TabLayoutPanel tabPanel;
-	
 	
 	public Wags()
 	{
@@ -67,6 +68,7 @@ public class Wags extends View
 				delete.setEnabled(true);
 				submit.setEnabled(true);
 				fileName.setText(browser.getItemPath(i).toString().substring(1));
+				Proxy.getExercises(exercises);
 			}
 		});
 
