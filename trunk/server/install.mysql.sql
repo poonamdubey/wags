@@ -20,3 +20,23 @@ CREATE TABLE file (
        added INT NOT NULL,
        PRIMARY KEY (id)
 ) ENGINE=InnoDB;
+
+CREATE TABLE exercise (
+       id INT NOT NULL,
+       title VARCHAR(255) NOT NULL,
+       description TEXT,
+       skeleton TEXT,
+       solution TEXT,   
+       added INT NOT NULL,
+       updated INT NOT NULL,
+       PRIMARY KEY(id)
+)ENGINE=InnoDB;
+
+CREATE TABLE submission (
+       id INT NOT NULL,
+       code TEXT NOT NULL,
+       exerciseId NOT NULL REFERENCES exercise(id),
+       studentId NOT NULL REFERENCES user(id),
+       added INT NOT NULL,
+       PRIMARY KEY(id)
+)ENGINE=InnoDB;

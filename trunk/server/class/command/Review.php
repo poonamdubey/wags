@@ -4,7 +4,7 @@
  * Review
  *
  * Compile code that was submitted by the user.
- * Echo output of compiler. 
+ * Echo output of compiler and of program.
  *
  * TODO: Dr. Kurtz said that the file may be named prior to student's
  * typing anything into the web editor. This will make things easier on
