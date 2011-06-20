@@ -66,15 +66,16 @@ class Review extends Command
         if($result == EXEC_ERROR){
             /* Print out error message returned from command line. */
             foreach($output as $line){
-                print_r(str_replace(" ", "&nbsp;", $line)."<br/>");
+                $error .= str_replace(" ", "&nbsp;", $line)."<br/>";
             }
+            return JSON::error($error);
         }else if($result == EXEC_SUCCESS){
             /**
              * Attempt to run. Must set classpath since we're running it from
              * where ever www-data users's home is.
              */
             exec("/usr/bin/java -cp $dir $className 2>&1", $output);
-            x($output);
+            JSON::success($output);
         }
     }
 }
