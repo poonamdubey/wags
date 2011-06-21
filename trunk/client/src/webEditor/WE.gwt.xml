@@ -19,5 +19,9 @@
   <source path='shared'/>
   <inherits name="com.google.gwt.json.JSON"/>
   <inherits name="com.google.gwt.json.JSON"/>
+  <!-- Removes warning message @ compilation due to unsafe html 
+  	templates													  -->
+  <set-configuration-property name="UiBinder.useSafeHtmlTemplates"
+         value="true" />
 
 </module>

@@ -21,7 +21,7 @@ public class WEStatus
 	public static final int STATUS_WARNING = 2;
 	
 	private int stat;
-	private String message;
+	private String message = "";
 	private String[] messageArray;
 	private Map<String, String> messageMap;
 	private boolean bool;
@@ -58,6 +58,14 @@ public class WEStatus
 					String msg = ((JSONValue) array.get(i)).toString();
 					messageArray[i] = msg.substring(1, msg.length() - 1);// Remove quotes
 				}
+				
+				//Set message to concatenated contents of array
+				for (String msg:messageArray){
+					if(msg.length() > 0)
+						this.message += msg + " | ";
+				}
+				
+				this.message = this.message.substring(0, message.length()-3); //remove last " | "
 			}
 			// JSON Object
 			if(object != null){
