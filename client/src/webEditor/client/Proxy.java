@@ -9,6 +9,7 @@ import webEditor.client.view.Exercises;
 import webEditor.client.view.FileBrowser;
 import webEditor.client.view.Login;
 import webEditor.client.view.Notification;
+import webEditor.client.view.OutputReview;
 import webEditor.client.view.Wags;
 
 import com.google.gwt.dom.client.Element;
@@ -32,27 +33,21 @@ public class Proxy
 	private static final String saveFileContents = getBaseURL()+"?cmd=SaveFileContents";
 	private static final String deleteFile = getBaseURL()+"?cmd=DeleteFile";
 	private static final String getFileListing = getBaseURL()+"?cmd=GetFileListing";
-	private static final String submitFile = getBaseURL()+"?cmd=submitFile";
+	private static final String submitFile = getBaseURL()+"?cmd=Review";
 	private static final String logout = getBaseURL()+"?cmd=Logout";
 	private static final String login = getBaseURL()+"?cmd=Login";
 	private static final String registerURL = Proxy.getBaseURL()+"?cmd=RegisterUser";
 	private static final String getExercises = getBaseURL()+"?cmd=GetExerciseList";
-	
-	private static Timer pleaseHold(String holdMessage)
-	{
+		
+	private static void holdMessage(String message){
 		Element parent = DOM.getElementById("notification-area");
 		Notification.clear();
-		final Label l = new Label(holdMessage);
+		final Label l = new Label(message);
 		parent.appendChild(l.getElement());
-		Timer t = new Timer() {
-			@Override
-			public void run()
-			{
-				l.removeFromParent();
-			}
-		};
-
-		return t;
+	}
+	
+	private static void clearMessage(){
+		Notification.clear();
 	}
 	
 	/**
@@ -84,7 +79,7 @@ public class Proxy
 	}
 	
 	public static void deleteFile(final String fileName){
-		String urlCompl = deleteFile+"&name="+fileName.trim().substring(1);
+		String urlCompl = deleteFile+"&name="+fileName.trim();
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, urlCompl);
 		try {
 			@SuppressWarnings("unused")
@@ -113,10 +108,10 @@ public class Proxy
 	 * some sort.
 	 * TODO: Read above.text
 	 */
-	public static boolean saveFile(String fileName, String contents)
+	public static boolean saveFile(String fileName, String contents, final FileBrowser browser)
 	{
-		final Timer t = pleaseHold("Saving...");
-		String completeURL = saveFileContents+"&name="+fileName.trim().substring(1)+"&contents="+contents;
+		holdMessage("Saving...");
+		String completeURL = saveFileContents+"&name="+fileName.trim()+"&contents="+contents;
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, URL.encode(completeURL));
 		try{
 			@SuppressWarnings("unused")
@@ -126,7 +121,8 @@ public class Proxy
 				{
 					WEStatus status = new WEStatus(response);
 					Notification.notify(WEStatus.STATUS_SUCCESS, status.getMessage());
-					t.schedule(0);
+					loadFileListing(browser, "/"); //not working
+					clearMessage();
 				}
 				
 				@Override
@@ -139,6 +135,7 @@ public class Proxy
 			e.printStackTrace();
 			return false;
 		}
+		
 		
 		return true;
 	}
@@ -360,32 +357,34 @@ public class Proxy
 	}
 	
 	//weird stuff with that timer, look at later
-	public static boolean submit(String code){
-		Timer compilerTimer = pleaseHold("compiling...");
-		compilerTimer.schedule(10000);
-		return true;
-//		RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, submitFile);
-//		try {
-//		      builder.setHeader("Content-Type", "application/x-www-form-urlencoded");
-//		      Request response = builder.sendRequest(code, new RequestCallback() {
-//		        public void onResponseReceived(Request request, Response response) {
-//		          WEStatus status = new WEStatus(response);
-//		          if(status.getStat() == WEStatus.STATUS_SUCCESS){
-//		        	  //go to review tab
-//		          } else {
-//		        	  Notification.notify(status.getStat(), status.getMessage());
-//		          }
-//		        }
-//		        
-//		        public void onError(Request request, Throwable exception) {
-//		        }
-//		      });
-//		    } catch (RequestException e) {
-//		      Window.alert("Failed to send the request: " + e.getMessage());
-//		      return false;
-//		    }
-//		    
-//		    return true;
+	public static boolean submit(String code, final OutputReview review){
+		holdMessage("Compiling...");
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, submitFile);
+		try {
+		      builder.setHeader("Content-Type", "application/x-www-form-urlencoded");
+		      @SuppressWarnings("unused")
+			Request req = builder.sendRequest("code="+code, new RequestCallback() {
+		        public void onResponseReceived(Request request, Response response) {
+		          clearMessage();
+		          WEStatus status = new WEStatus(response);
+		          review.setText(status.getMessage());
+		          if(status.getStat() == WEStatus.STATUS_SUCCESS){
+		        	  Notification.notify(WEStatus.STATUS_SUCCESS, "Compilation successful");
+		          } else {
+		        	  Notification.notify(WEStatus.STATUS_ERROR, "Compilation Errors");
+		          }
+		        }
+		        
+		        public void onError(Request request, Throwable exception) {
+		        	Window.alert("error");
+		        }
+		      });
+		    } catch (RequestException e) {
+		      Window.alert("Failed to send the request: " + e.getMessage());
+		      return false;
+		    }
+		   
+		    return true;
 	}
 
 	public static String getBaseURL() {

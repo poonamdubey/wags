@@ -64,9 +64,9 @@ public class Wags extends View
 				// If clicked item is a leaf TreeItem then open it in editor
 				Proxy.getFileContents(browser.getItemPath(i), editor);
 				// Set filename, save, and delete stuff visible
-				save.setEnabled(true);
-				delete.setEnabled(true);
-				submit.setEnabled(true);
+				save.setVisible(true);
+				delete.setVisible(true);
+				submit.setVisible(true);
 				fileName.setText(browser.getItemPath(i).toString().substring(1));
 				Proxy.getExercises(exercises);
 			}
@@ -92,8 +92,7 @@ public class Wags extends View
 	@UiHandler("save")
 	void onSaveClick(ClickEvent event)
 	{
-		if(Proxy.saveFile("/" + fileName.getText().toString(), editor.getContents()))
-			Proxy.loadFileListing(browser, "/");
+		if(Proxy.saveFile("/" + fileName.getText().toString(), editor.getContents(), browser));
 	}
 	
 	@UiHandler("fileName")
@@ -140,7 +139,7 @@ public class Wags extends View
 	@UiHandler("submit")
 	void onSubmitClick(ClickEvent event)
 	{
-		if(Proxy.submit(editor.getContents().toString())){
+		if(Proxy.submit(editor.getContents().toString(), review)){
 			tabPanel.selectTab(1);
 		}
 	}
