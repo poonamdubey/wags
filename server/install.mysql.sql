@@ -8,6 +8,7 @@ CREATE TABLE user (
        added INT NOT NULL,
        updated INT NOT NULL,
        lastLogin INT NOT NULL,
+       admin INT NOT NULL,
        PRIMARY KEY(id)
 )ENGINE=InnoDB;
 
@@ -40,3 +41,7 @@ CREATE TABLE submission (
        added INT NOT NULL,
        PRIMARY KEY(id)
 )ENGINE=InnoDB;
+
+-- Insert some admins
+-- password 123456
+INSERT INTO user VALUES (1, 'admin', 'Admin', 'Istrator', 'bostrt@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 0, 0, 0, 1);
