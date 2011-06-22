@@ -31,7 +31,5 @@ if($cmd){
     }
 }
 
-//x($_SESSION);
-//Database::close();
 Auth::end();
 ?>

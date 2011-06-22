@@ -36,7 +36,7 @@ class RegisterUser extends Command
         $user->setLastLogin($now);
         $user->setAdded($now);
         $user->setUpdated($now);
-       
+        $user->setAdmin(0);
 	
         try{
             $user->save();

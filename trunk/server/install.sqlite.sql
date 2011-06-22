@@ -7,7 +7,8 @@ CREATE TABLE user (
        password VARCHAR(255) NOT NULL,
        added INT NOT NULL,
        updated INT NOT NULL,
-       lastLogin INT NOT NULL
+       lastLogin INT NOT NULL,
+       admin INT NOT NULL
 );
 
 CREATE TABLE file (
@@ -36,3 +37,7 @@ CREATE TABLE submission (
        studentId NOT NULL REFERENCES user(id),
        added INT NOT NULL
 );
+
+-- Insert some admins
+-- password 123456
+INSERT INTO user VALUES (1, 'admin', 'Admin', 'Istrator', 'bostrt@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 0, 0, 0, 1);
