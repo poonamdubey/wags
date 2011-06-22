@@ -9,7 +9,10 @@
 			font-style: italic;
 			position: relative;
 		}
-		.fileName { padding: 0px; }
+		.fileName { 
+			padding: 0px; 
+			width: 120px;
+		}
 		.std-txt { padding-top: 8px }
 		.form {
 			position: fixed;
@@ -20,17 +23,22 @@
 		.upload{
 			width: 200px;
 		}
+		.lbox{
+			width: 100px;
+			padding-left: 10px;	
+		}
 	</ui:style>
 	<g:HTMLPanel>
 		<g:Label styleName="{style.files}">Files</g:Label>
 		<g:Tree ui:field="browser"></g:Tree>
 		<g:FormPanel ui:field="form" styleName="{style.form}">
 			<g:HorizontalPanel height="30px" width="400px">
+				<g:Button ui:field="compileButton">Submit</g:Button>
 				<g:SubmitButton ui:field="uploadButton">Upload</g:SubmitButton> 
 				<g:FileUpload ui:field="uploadField" name="the_file" styleName="{style.upload}"/>
 				<g:Label styleName="{style.std-txt}" width="115px">Upload Directory: </g:Label>
 				<g:TextBox styleName="{style.fileName}" ui:field="curDir" name="curDir"></g:TextBox>
-				<g:Button ui:field="compileButton">Submit</g:Button>
+				<g:ListBox ui:field="exercises" styleName="{style.lbox}"></g:ListBox>
 			</g:HorizontalPanel>
 		</g:FormPanel>
 	</g:HTMLPanel>

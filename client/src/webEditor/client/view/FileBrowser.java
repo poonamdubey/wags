@@ -10,6 +10,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.SubmitButton;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Tree;
@@ -30,6 +31,7 @@ public class FileBrowser extends View
 	@UiField FormPanel form;
 	@UiField TextBox curDir;
 	@UiField SubmitButton uploadButton;
+	@UiField ListBox exercises;
 
 	/**
 	 * FileBrowser is tightly coupled with CodeEditor. Text from items from file
@@ -68,6 +70,8 @@ public class FileBrowser extends View
 				curDir.setText("");
 			}
 		});
+		
+		exercises.addItem("Exercises");
 	}
 	
 	private void formatDirectory(){

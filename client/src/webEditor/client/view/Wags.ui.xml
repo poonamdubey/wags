@@ -55,8 +55,8 @@
 					<my:OutputReview ui:field="review"></my:OutputReview>
 				</g:tab>
 				<g:tab>
-					<g:header> Exercises </g:header>
-					<my:Exercises ui:field="exercises"></my:Exercises>
+					<g:header> Admin </g:header>
+					<my:Admin ui:field="admin"></my:Admin>
 				</g:tab>
 			</g:TabLayoutPanel>
 	     </g:HorizontalSplitPanel>

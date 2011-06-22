@@ -71,10 +71,6 @@ public class CodeEditor extends View implements HasHandlers
 		this.codeArea.setText(contents);
 	}
 	
-	public String getContents(){
-		return this.codeArea.getText();
-	}
-	
 	@Override
 	public WEAnchor getLink()
 	{
