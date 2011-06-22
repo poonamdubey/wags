@@ -18,6 +18,7 @@ class User extends Model
     protected $email;
     protected $lastLogin;
     protected $password;
+    protected $admin;
 
     public function getTable(){
         return 'user';
@@ -80,6 +81,12 @@ class User extends Model
 
     public function setLastLogin($time){
         $this->lastLogin = $time;
+    }
+    public function isAdmin(){
+        return $this->admin == 1;
+    }
+    public function setAdmin($admin=1){
+        $this->admin = $admin;
     }
 
     /************
