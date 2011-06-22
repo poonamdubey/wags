@@ -19,8 +19,8 @@ public class CompletionCheck {
 	//using in color completion checking.  Suffix 'S' means it needs
 	//a shift as well
 	private static final int QUOTE = 222;
-	private static final int FSLASH = 191;
-	private static final int SPLATS = 56;
+//	private static final int FSLASH = 191;
+//	private static final int SPLATS = 56;
 	private static final int OCURLS = 219;
 	private static final int CCURLS = 221;
 	private static final int OPARENS = 57;

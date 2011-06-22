@@ -20,10 +20,10 @@ import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.TabLayoutPanel;
 
 
 public class Proxy
@@ -385,6 +385,28 @@ public class Proxy
 		    }
 		   
 		    return true;
+	}
+	
+	public static void isAdmin(final TabLayoutPanel tabPanel){	
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=IsAdmin");
+		try {
+		      @SuppressWarnings("unused")
+			Request req = builder.sendRequest(null, new RequestCallback() {
+		        public void onResponseReceived(Request request, Response response) {
+		          WEStatus status = new WEStatus(response);
+
+		          if(status.getStat() != WEStatus.STATUS_SUCCESS){
+		        	  tabPanel.remove(2);
+		          }
+		        }
+		        
+		        public void onError(Request request, Throwable exception) {
+		        	Window.alert("error");
+		        }
+		      });
+		    } catch (RequestException e) {
+		      Window.alert("Failed to send the request: " + e.getMessage());
+		    }
 	}
 
 	public static String getBaseURL() {

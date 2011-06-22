@@ -41,7 +41,6 @@ public class Wags extends View
 	@UiField CodeEditor editor;
 	@UiField FileBrowser browser;
 	@UiField OutputReview review;
-	@UiField Exercises exercises;
 	@UiField TabLayoutPanel tabPanel;
 	
 	public Wags()
@@ -51,6 +50,7 @@ public class Wags extends View
 		save.setVisible(false);
 		delete.setVisible(false);
 		submit.setVisible(false);
+		
 
 		// Add selection handler to file browser
 		browser.getTree().addSelectionHandler(new SelectionHandler<TreeItem>() {
@@ -68,7 +68,6 @@ public class Wags extends View
 				delete.setVisible(true);
 				submit.setVisible(true);
 				fileName.setText(browser.getItemPath(i).toString().substring(1));
-				Proxy.getExercises(exercises);
 			}
 		});
 
@@ -83,6 +82,8 @@ public class Wags extends View
 			}
 		});
 		
+		Proxy.isAdmin(tabPanel);
+		
 		Proxy.getUsersName(hello);
 	}
 	
@@ -92,7 +93,7 @@ public class Wags extends View
 	@UiHandler("save")
 	void onSaveClick(ClickEvent event)
 	{
-		if(Proxy.saveFile("/" + fileName.getText().toString(), editor.getContents(), browser));
+		if(Proxy.saveFile("/" + fileName.getText().toString(), editor.codeArea.getText(), browser));
 	}
 	
 	@UiHandler("fileName")
@@ -139,7 +140,20 @@ public class Wags extends View
 	@UiHandler("submit")
 	void onSubmitClick(ClickEvent event)
 	{
-		if(Proxy.submit(editor.getContents().toString(), review)){
+		//Apparently spaces in an RTA get passed as \160, or &nbsp, which is
+		//not an acceptable character for java compilation
+		String codeHTML, codeText;
+		
+		codeHTML = editor.codeArea.getHTML();
+		editor.codeArea.setHTML("&nbsp;" + codeHTML);
+		
+		codeText = editor.codeArea.getText();
+		codeText = codeText.replace(codeText.charAt(0), ' ');
+		codeText = codeText.substring(1);
+		
+		editor.codeArea.setHTML(codeHTML);
+		
+		if(Proxy.submit(codeText, review)){
 			tabPanel.selectTab(1);
 		}
 	}
