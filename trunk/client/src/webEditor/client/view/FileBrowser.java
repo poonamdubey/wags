@@ -71,7 +71,7 @@ public class FileBrowser extends View
 			}
 		});
 		
-		exercises.addItem("Exercises");
+		Proxy.getVisibleExercises(exercises); 
 	}
 	
 	private void formatDirectory(){
