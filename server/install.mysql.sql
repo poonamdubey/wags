@@ -15,6 +15,7 @@ CREATE TABLE user (
 CREATE TABLE file (
        id INTEGER NOT NULL,
        ownerId INT NOT NULL REFERENCES user(id),
+       exceriseId INT NOT NULL REFERENCES exercise(id),
        name VARCHAR(255) NOT NULL,
        contents TEXT ,
        updated INT NOT NULL,
@@ -27,7 +28,8 @@ CREATE TABLE exercise (
        title VARCHAR(255) NOT NULL,
        description TEXT,
        skeleton TEXT,
-       solution TEXT,   
+       solution TEXT,  
+       visible INT NOT NULL, 
        added INT NOT NULL,
        updated INT NOT NULL,
        PRIMARY KEY(id)
@@ -35,10 +37,8 @@ CREATE TABLE exercise (
 
 CREATE TABLE submission (
        id INT NOT NULL,
-       code TEXT NOT NULL,
        exerciseId NOT NULL REFERENCES exercise(id),
-       studentId NOT NULL REFERENCES user(id),
-       added INT NOT NULL,
+       fileId NOT NULL REFERENCES file(id),
        PRIMARY KEY(id)
 )ENGINE=InnoDB;
 
