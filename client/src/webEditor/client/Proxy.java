@@ -22,6 +22,7 @@ import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 
@@ -445,6 +446,34 @@ public class Proxy
 		} catch (RequestException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static void getVisibleExercises(final ListBox exercises) {
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=GetVisibleExercises");
+		try {
+		      @SuppressWarnings("unused")
+			Request req = builder.sendRequest(null, new RequestCallback() {
+		        public void onResponseReceived(Request request, Response response) {
+		          WEStatus status = new WEStatus(response);
+		          
+		          if(status.getStat() == WEStatus.STATUS_SUCCESS){
+		        	  if(status.getMessageArray() != null){
+			        	  for(int i = 0; i < status.getMessageArray().length; i++){
+			        		  exercises.addItem(status.getMessageArray()[i]);
+			        	  }
+		        	  } else {
+		        		  exercises.addItem(status.getMessage());
+		        	  }
+		          }
+		        }
+		        
+		        public void onError(Request request, Throwable exception) {
+		        	Window.alert("error");
+		        }
+		      });
+		    } catch (RequestException e) {
+		      Window.alert("Failed to send the request: " + e.getMessage());
+		    }
 	}
 	
 

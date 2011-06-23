@@ -24,7 +24,7 @@
 			width: 200px;
 		}
 		.lbox{
-			width: 100px;
+			width: 135px;
 			padding-left: 10px;	
 		}
 	</ui:style>
