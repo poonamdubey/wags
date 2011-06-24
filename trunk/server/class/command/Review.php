@@ -4,8 +4,6 @@
  * Review
  *
  * Compile code that was submitted by the user.
- * Echo output of compiler and of program.
- *
  * TODO: Dr. Kurtz said that the file may be named prior to student's
  * typing anything into the web editor. This will make things easier on
  * our side. We can just pass around and "Exercise" object with a filename
@@ -43,6 +41,7 @@ class Review extends Command
             chmod($dir, 0777);
         }
         $fullPath = "$dir/$className.java";
+
         $f = fopen($fullPath, "w+");
 
         if($f === FALSE){
@@ -54,20 +53,22 @@ class Review extends Command
         if($result === FALSE){
             return JSON::error("Error occurred while testing your code. [2]");
         }
-
+		
         // Flush and close file
         fflush($f);
         fclose($f);
-
+		
         /**
          * Compile code using java compiler.
          */
         exec("/usr/bin/javac $fullPath 2>&1", $output, $result);
         if($result == EXEC_ERROR){
             /* Print out error message returned from command line. */
-            foreach($output as $line){
-                $error .= str_replace(" ", "&nbsp;", $line)."<br/>";
+            
+ 	    foreach($output as $line){
+                $error .= $line;
             }
+
             return JSON::error($error);
         }else if($result == EXEC_SUCCESS){
             /**

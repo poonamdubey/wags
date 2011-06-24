@@ -55,7 +55,8 @@ class UploadFile extends Command
         }else{
             $f = new CodeFile();
             $f->setName($directory.$file['name']);
-            $f->setOwnerId($user->getId());
+	    $f->setOwnerId($user->getId());
+	    $f->setExerciseId(0);
         }
 
         $f->setContents($contents);
