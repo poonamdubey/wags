@@ -32,7 +32,8 @@ class SaveFileContents extends Command
             $file = new CodeFile();
             $file->setContents($_REQUEST['contents']);
             $now = time();
-            $file->setName($_REQUEST['name']);
+	    $file->setName($_REQUEST['name']);
+	    $file->setExerciseId(0);
             $file->setOwnerId($user->getId());
             $file->setUpdated($now);
             $file->setAdded($now);

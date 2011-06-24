@@ -14,6 +14,9 @@ class SaveFile extends Command
 {
     public function execute()
     {
+
+	return JSON::success("So far so good");
+
         // Use needs to be logged in to save a file.
         if(!Auth::isLoggedIn()){
             return JSON::error('Must be logged in to save a file.');
@@ -25,7 +28,7 @@ class SaveFile extends Command
         }
 
         // Get the user obj.
-        $user = Auth::getCurrentUser();
+	$user = Auth::getCurrentUser();
 
         $file = CodeFile::getCodeFileByName($_REQUEST['name'], $user);
 
@@ -38,7 +41,7 @@ class SaveFile extends Command
             // User is saving a new file. 
             $file = new CodeFile();
             $file->setOwnerId($user->getId());
-
+	    $file->setExerciseId(0);
             // File needs name.
             if(isset($_REQUEST['name'])){
                 $file->setName($_REQUEST['name']);
@@ -50,7 +53,7 @@ class SaveFile extends Command
             $file->setContents(file_get_contents($_FILES['file']['tmp_name']));
             $now = time();
             $file->setAdded($now);
-            $file->setUpdated($now);
+	    $file->setUpdated($now);
             
             // Save file.
             try{
