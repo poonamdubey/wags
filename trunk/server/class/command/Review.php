@@ -36,9 +36,9 @@ class Review extends Command
 	$file->save();
 	
 	//I don't understand why this is returning false!!!  ARGH.
-	return JSON::error(Submission::submissionExistsByExerciseId($exerciseId, $user->getId()));
+//	return JSON::error(Submission::submissionExistsByExerciseId($exerciseId, $user->getId()));
 
-	if(Submission::submissionExistsByExerciseId($exerciseId, $user)){
+	if(Submission::submissionExistsByExerciseId($exerciseId, $user->getId())){
 	    $sub = getSubmissionByExerciseId($exerciseId, $user);
 	    $sub->setFileId($file->getId());
 	} else {
@@ -46,12 +46,11 @@ class Review extends Command
             $newSub->setExerciseId($exerciseId);
             $newSub->setFileId($file->getId());
             $newSub->setUserId($user->getId());
-	    $now = time();
-	    $newSub->setUpdated($now);
-	    $newSub->setAdded($now);
+            $now = time();
+            $newSub->setUpdated($now);
+  	    $newSub->setAdded($now);
             $newSub->save();
-
-	}
+  	    }
 
 
         preg_match($classRegex, $code, $matches);
