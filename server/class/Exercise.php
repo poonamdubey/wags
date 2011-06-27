@@ -68,6 +68,16 @@ class Exercise extends Model
 		return $result[0] == 1 ? TRUE : FALSE;
 	}
 
+	public static function getExerciseByTitle($title){
+		require_once('Database.php');
+
+		$db = Database::getDb();
+		$sth = $db->prepare('SELECT * FROM exercise WHERE title LIKE :title');
+		$sth->execute(array(':title' => $title));
+
+		return $sth->fetchObject('Exercise');
+	}
+
 	public static function getExerciseById($id){
 		require_once('Database.php');
 
@@ -91,6 +101,18 @@ class Exercise extends Model
 		$sth->execute();		
 
 		return $sth->fetchAll(PDO::FETCH_CLASS, 'Exercise');
+	}
+
+	public static function exerciseExistsByTitle($title){
+		require_once('Database.php');
+		$db = Database::getDb();
+
+
+		$sth = $db->prepare('SELECT * FROM exercise WHERE title LIKE :title');
+		$sth->execute(array(':title' => $title));
+
+		return sizeof($sth->fetchAll()) > 0;
+
 	}
 
 }

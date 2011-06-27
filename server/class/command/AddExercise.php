@@ -27,13 +27,9 @@ class AddExercise extends Command
 
         $solution = $_FILES['solution'];
 
-        if($file == null){
-            return JSON:error('No solution');
-        }
-
         //Grab skeleton
-        if(!isset($_FILES['skeleton']){
-            return JSON:error('No skeleton');
+        if(!isset($_FILES['skeleton'])){
+            return JSON::error('No skeleton');
         }
         
         $skeleton = $_FILES['skeleton'];
@@ -52,9 +48,43 @@ class AddExercise extends Command
 
         $solutionContents = file_get_contents($solution['tmp_name']);
         $skeletonContents = file_get_contents($skeleton['tmp_name']);
-        $description = $_POST['desc'];
+	$description = $_POST['desc'];
+	$name = $_POST['fileName'];
+	$visible = $_POST['visible'];
+
+	if(Exercise::exerciseExistsByTitle($name)){
+		$e = Exercise::getExerciseByTitle($name);
+		$update = true;
+    	} else {
+		$e = new Exercise();
+		$e->setSolution($solutionContents);
+		$e->setSkeleton($skeletonContents);
+		$e->setDescription($description);
+		$e->setTitle($name);
+	}
+
+	$e->setVisible($visible);
+	$now = time();
+	$e->setAdded($now);	
+
+        try{
+            $e->save();
+            if(isset($update) && $update)
+                JSON::success('Overwrote file '.$e->getTitle());
+            else
+                JSON::success('Uploaded file '.$e->getTitle());
+        }catch(PDOException $e){
+            echo $f->getMessage();
+            logError($f);
+        }
+
+	finfo_close($finfo);
+
+	return JSON::success("Exercise Added");
 
     }
+
 }
+
 
 ?>
