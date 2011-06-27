@@ -20,7 +20,40 @@ class Review extends Command
     public function execute()
     {
         $classRegex = "/class\s+([^\d]\w+)/";
-        $code = $_POST['code'];
+	$code = $_POST['code'];
+	$exerciseId = $_POST['id'];
+	
+	//Sets files exerciseID - note:
+	//with submission table, I've lost sight of
+	//why the file has an exercise Id.... oh well.
+	$user = Auth::getCurrentUser();
+	$file = CodeFile::getcodeFileByName($_POST['name'], $user);
+
+	if(!empty($file) && $file instanceof CodeFile){
+	    $file->setExerciseId($exerciseId);
+	}
+
+	$file->save();
+	
+	//I don't understand why this is returning false!!!  ARGH.
+	return JSON::error(Submission::submissionExistsByExerciseId($exerciseId, $user->getId()));
+
+	if(Submission::submissionExistsByExerciseId($exerciseId, $user)){
+	    $sub = getSubmissionByExerciseId($exerciseId, $user);
+	    $sub->setFileId($file->getId());
+	} else {
+            $newSub = new Submission();
+            $newSub->setExerciseId($exerciseId);
+            $newSub->setFileId($file->getId());
+            $newSub->setUserId($user->getId());
+	    $now = time();
+	    $newSub->setUpdated($now);
+	    $newSub->setAdded($now);
+            $newSub->save();
+
+	}
+
+
         preg_match($classRegex, $code, $matches);
         if(empty($matches)){
             /* No class name was found. Tell the user to check their code. */

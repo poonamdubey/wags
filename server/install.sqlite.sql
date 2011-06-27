@@ -15,6 +15,7 @@ CREATE TABLE file (
        id INTEGER PRIMARY KEY AUTOINCREMENT ,
        name VARCHAR(255) NOT NULL,
        ownerId INT NOT NULL REFERENCES user(id),
+       exerciseId INT NOT NULL REFERENCES exercise(id),
        contents TEXT ,
        updated INT NOT NULL,
        added INT NOT NULL
@@ -26,16 +27,18 @@ CREATE TABLE exercise (
        description TEXT,
        skeleton TEXT,
        solution TEXT,   
+       visible INT NOT NULL,
        added INT NOT NULL,
        updated INT NOT NULL
 );
 
 CREATE TABLE submission (
        id INTEGER PRIMARY KEY AUTOINCREMENT,
-       code TEXT NOT NULL,
        exerciseId NOT NULL REFERENCES exercise(id),
-       studentId NOT NULL REFERENCES user(id),
-       added INT NOT NULL
+       fileId NOT NULL REFERENCES file(id),
+       userId NOT NULL REFERENCES user(id),
+       added INT NOT NULL,
+       updated INT NOT NULL
 );
 
 -- Insert some admins
