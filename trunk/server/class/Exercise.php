@@ -16,11 +16,11 @@ class Exercise extends Model
 	}
 
 	public function setDescription($desc){
-		$this->desc = $desc;
+		$this->description = $desc;
 	}
 
 	public function getDescription(){
-		return $this->desc;
+		return $this->description;
 	}
 
 	public function setSkeleton($skeleton){
@@ -40,11 +40,11 @@ class Exercise extends Model
 	}
 
 	public function setTitle($etitle){
-		$this->title = $etitle;
+		$this->title = $title;
 	}
 
 	public function getTitle(){
-		return $this->etitle;
+		return $this->title;
 	}
 
 	public function setVisible($visible){

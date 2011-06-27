@@ -13,6 +13,7 @@ class CodeFile extends Model
     protected $name;
     protected $ownerId;
     protected $contents;
+    protected $exerciseId;
     
     public function getTable(){
         return 'file';
@@ -26,6 +27,9 @@ class CodeFile extends Model
     public function getOwnerId(){
         return $this->ownerId;
     }
+    public function getExerciseId(){
+	return $this->exerciseId;
+    }
 
     public function  setContents($text){
         $this->contents = $text;
@@ -36,6 +40,10 @@ class CodeFile extends Model
     public function setOwnerId($id){
         $this->ownerId = $id;
     }
+    public function setExerciseId($id){
+	    $this->exerciseId = $id;
+    }
+   
 
     /**
      * Static helpers

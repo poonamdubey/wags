@@ -39,6 +39,7 @@ CREATE TABLE submission (
        id INT NOT NULL,
        exerciseId NOT NULL REFERENCES exercise(id),
        fileId NOT NULL REFERENCES file(id),
+       userId NOT NULL REFERENCES user(id),
        PRIMARY KEY(id)
 )ENGINE=InnoDB;
 
