@@ -33,7 +33,7 @@ abstract class Model
         $sth = $db->prepare("SELECT count(*) FROM $table WHERE id = :id");
         $sth->execute(array(':id' => $this->id));
         $result = $sth->fetch(PDO::FETCH_NUM);
-        
+
         /*
          * If nothing exists in the database with this ID.
          * Insert a new row into table.
@@ -88,8 +88,8 @@ abstract class Model
             
             $sqlComplete = $sql.$sqlKeys.$sqlVals;
 
-            $sth = $db->prepare($sqlComplete);
-            
+	    $sth = $db->prepare($sqlComplete);
+
             if($sth == FALSE){
                 throw new PDOException("Database Error: ".$db->errorCode()." ".$db->errorInfo());
             }

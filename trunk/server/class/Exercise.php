@@ -39,7 +39,7 @@ class Exercise extends Model
 		return $this->solution;
 	}
 
-	public function setTitle($etitle){
+	public function setTitle($title){
 		$this->title = $title;
 	}
 

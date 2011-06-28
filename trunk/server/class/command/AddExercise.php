@@ -21,27 +21,27 @@ class AddExercise extends Command
         }
 
         //Grab solution
-        if(!isset($_FILES['solution'])){
+        if(!isset($_FILES['Solution'])){
             return JSON::error('No solution');
         }
 
-        $solution = $_FILES['solution'];
+        $solution = $_FILES['Solution'];
 
         //Grab skeleton
-        if(!isset($_FILES['skeleton'])){
+        if(!isset($_FILES['Skeleton'])){
             return JSON::error('No skeleton');
         }
         
-        $skeleton = $_FILES['skeleton'];
+        $skeleton = $_FILES['Skeleton'];
 
         //check both files for plain text
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
-        $type = finfo_file($finfo_file, $solution['tmp_name']);
+        $type = finfo_file($finfo, $solution['tmp_name']);
         if(strpos($type, 'text') === FALSE){
             return JSON::error('Please only upload plain text or source files (solution)');
         }
         
-        $type = finfo_file($finfo_file, $skeleton['tmp_name']);
+        $type = finfo_file($finfo, $skeleton['tmp_name']);
         if(strpos($type, 'text') === FALSE){
             return JSON::error('Please only upload plain text or source files (skeleton)');
         }
@@ -51,6 +51,9 @@ class AddExercise extends Command
 	$description = $_POST['desc'];
 	$name = $_POST['fileName'];
 	$visible = $_POST['visible'];
+
+	if($visible == "on") $visible = 1;
+	else $visible = 0;
 
 	if(Exercise::exerciseExistsByTitle($name)){
 		$e = Exercise::getExerciseByTitle($name);
@@ -68,14 +71,15 @@ class AddExercise extends Command
 	$e->setAdded($now);	
 
         try{
-            $e->save();
+	    $e->save();
             if(isset($update) && $update)
-                JSON::success('Overwrote file '.$e->getTitle());
+                JSON::success('Overwrote exercise '.$e->getTitle());
             else
-                JSON::success('Uploaded file '.$e->getTitle());
+                JSON::success('Uploaded exercise '.$e->getTitle());
         }catch(PDOException $e){
             echo $f->getMessage();
-            logError($f);
+	    logError($f);
+	    JSON::error($f);
         }
 
 	finfo_close($finfo);
