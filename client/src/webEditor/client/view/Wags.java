@@ -1,6 +1,8 @@
 
 package webEditor.client.view;
 
+import java.util.HashMap;
+
 import webEditor.client.Proxy;
 import webEditor.client.WEStatus;
 
@@ -14,9 +16,11 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TreeItem;
@@ -35,13 +39,17 @@ public class Wags extends View
 	@UiField Anchor save;
 	@UiField Anchor delete;
 	@UiField Anchor submit;
+	@UiField ListBox exercises;
 	
 	@UiField TextBox fileName;
 	@UiField Label hello;
 	@UiField CodeEditor editor;
 	@UiField FileBrowser browser;
+	@UiField Admin admin;
 	@UiField OutputReview review;
 	@UiField TabLayoutPanel tabPanel;
+	
+	private HashMap<String, String> exerciseMap = new HashMap<String, String>();
 	
 	public Wags()
 	{
@@ -50,6 +58,8 @@ public class Wags extends View
 		save.setVisible(false);
 		delete.setVisible(false);
 		submit.setVisible(false);
+		Proxy.getVisibleExercises(exercises, exerciseMap); 
+		exercises.setVisible(false);
 		
 
 		// Add selection handler to file browser
@@ -67,6 +77,7 @@ public class Wags extends View
 				save.setVisible(true);
 				delete.setVisible(true);
 				submit.setVisible(true);
+				exercises.setVisible(true);
 				fileName.setText(browser.getItemPath(i).toString().substring(1));
 			}
 		});
@@ -102,6 +113,7 @@ public class Wags extends View
 		save.setVisible(true);
 		delete.setVisible(true);
 		submit.setVisible(true);
+		exercises.setVisible(true);
 	}
 	
 	/**
@@ -153,7 +165,10 @@ public class Wags extends View
 		
 		editor.codeArea.setHTML(codeHTML);
 		
-		if(Proxy.submit(codeText, review)){
+		String value = exercises.getValue(exercises.getSelectedIndex());
+		
+		//I feel like there has to be a better way to get the text of the selected exercise
+		if(Proxy.submit(codeText, review, exerciseMap.get(value), "/"+fileName.getText().toString())){
 			tabPanel.selectTab(1);
 		}
 	}

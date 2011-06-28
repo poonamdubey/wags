@@ -31,15 +31,15 @@
 			padding: 12px;
 		}
 		.administration{
-			background-color: #A0A0FF;	
+			background-color: #C2C2FF;	
 		}
 	</ui:style>
-	<g:FormPanel styleName="{style.administration}" ui:field="form">
+	<g:FormPanel styleName="{style.administration}" ui:field="adminForm">
 		<g:VerticalPanel width="100%">
 			<g:Label styleName="{style.heading}"> Administration</g:Label>
 			<g:HorizontalPanel styleName="{style.filePanel}">
-				<g:Label styleName="{style.label}">Current ID:</g:Label>
-				<g:TextBox width="100%" ui:field="ID" enabled="false"> </g:TextBox>
+				<g:Label styleName="{style.strange}"> Exercise Name: </g:Label>
+				<g:TextBox width="93%" ui:field="fileName" name="fileName"> </g:TextBox>
 			</g:HorizontalPanel>
 			<g:HorizontalPanel styleName="{style.filePanel}">
 				<g:Label styleName="{style.label}"> Solution: </g:Label>
@@ -50,11 +50,8 @@
 				<g:FileUpload ui:field="skeleton" name="Skeleton"></g:FileUpload>
 			</g:HorizontalPanel>
 			<g:Label> Description: </g:Label>	
-			<g:TextBox height="200px" width="270px" ui:field="desc"></g:TextBox>
-			<g:HorizontalPanel styleName="{style.filePanel}">
-				<g:Label styleName="{style.strange}"> Exercise Name: </g:Label>
-				<g:TextBox width="93%" ui:field="fileName"> </g:TextBox>
-			</g:HorizontalPanel>
+			<g:TextArea height="200px" width="270px" ui:field="desc" name="desc"></g:TextArea>
+			<g:CheckBox ui:field="visible" height="40px" name="visible">Make Visible</g:CheckBox>
 			<g:HorizontalPanel styleName="{style.filePanel}">
 				<g:SubmitButton styleName="{style.button}" ui:field="addButton"> Add </g:SubmitButton>
 			</g:HorizontalPanel>
