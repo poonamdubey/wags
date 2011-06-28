@@ -1,6 +1,7 @@
 package webEditor.client.view;
 
 import webEditor.client.Proxy;
+import webEditor.client.WEStatus;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -31,7 +32,7 @@ public class FileBrowser extends View
 	@UiField FormPanel form;
 	@UiField TextBox curDir;
 	@UiField SubmitButton uploadButton;
-	@UiField ListBox exercises;
+
 
 	/**
 	 * FileBrowser is tightly coupled with CodeEditor. Text from items from file
@@ -48,7 +49,10 @@ public class FileBrowser extends View
 		form.setEncoding(FormPanel.ENCODING_MULTIPART);
 		form.setMethod(FormPanel.METHOD_POST);
 		final FileBrowser me = this;
+		
+		
 		form.addSubmitCompleteHandler(new SubmitCompleteHandler(){
+			
 			@Override
 			public void onSubmitComplete(SubmitCompleteEvent event) {
 				Proxy.loadFileListing(me, "/"+curDir.getText().toString());
@@ -71,7 +75,7 @@ public class FileBrowser extends View
 			}
 		});
 		
-		Proxy.getVisibleExercises(exercises); 
+
 	}
 	
 	private void formatDirectory(){

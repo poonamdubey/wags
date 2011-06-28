@@ -358,13 +358,13 @@ public class Proxy
 	}
 	
 	//weird stuff with that timer, look at later
-	public static boolean submit(String code, final OutputReview review){
+	public static boolean submit(String code, final OutputReview review, String exerciseId, String fileName){
 		holdMessage("Compiling...");
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, submitFile);
 		try {
 		      builder.setHeader("Content-Type", "application/x-www-form-urlencoded");
 		      @SuppressWarnings("unused")
-			Request req = builder.sendRequest("code="+code, new RequestCallback() {
+			Request req = builder.sendRequest("code="+code+"&id="+exerciseId+"&name="+fileName, new RequestCallback() {
 		        public void onResponseReceived(Request request, Response response) {
 		          clearMessage();
 		          WEStatus status = new WEStatus(response);
@@ -448,7 +448,7 @@ public class Proxy
 		}
 	}
 
-	public static void getVisibleExercises(final ListBox exercises) {
+	public static void getVisibleExercises(final ListBox exercises, final HashMap<String, String> exerciseMap) {
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=GetVisibleExercises");
 		try {
 		      @SuppressWarnings("unused")
@@ -457,10 +457,15 @@ public class Proxy
 		          WEStatus status = new WEStatus(response);
 		          
 		          if(status.getStat() == WEStatus.STATUS_SUCCESS){
-		        	  if(status.getMessageArray() != null){
-			        	  for(int i = 0; i < status.getMessageArray().length; i++){
-			        		  exercises.addItem(status.getMessageArray()[i]);
+		        	  if(status.getMessageArray().length > 0){
+		        		  String[] message = status.getMessageArray();
+		        		  int n = message.length/2;
+		        		  
+			        	  for(int i = n; i < message.length; i++){
+			        		  exercises.addItem(message[i]);
+			        		  exerciseMap.put(message[i], message[i-n]);
 			        	  }
+			        	  
 		        	  } else {
 		        		  exercises.addItem(status.getMessage());
 		        	  }
@@ -475,6 +480,35 @@ public class Proxy
 		      Window.alert("Failed to send the request: " + e.getMessage());
 		    }
 	}
+
+/*	public static void addExercise(String desc, String fileName, boolean visible) {
+		int isVisible;
+		
+		if(visible == true) isVisible = 1;
+		else isVisible = 0;
+		
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, Proxy.getBaseURL() + "?cmd=AddExercise");
+		try {
+		      builder.setHeader("Content-Type", "application/x-www-form-urlencoded");
+		      @SuppressWarnings("unused")
+			Request req = builder.sendRequest("desc="+desc+"&fileName="+fileName+"&visible="+isVisible, new RequestCallback() {
+		        public void onResponseReceived(Request request, Response response) {
+		          Window.alert(response.getText());
+		          
+		          WEStatus status = new WEStatus(response);
+		          
+		          Notification.notify(status.getStat(), status.getMessage());
+		        }
+		        
+		        public void onError(Request request, Throwable exception) {
+		        	Window.alert("error");
+		        }
+		      });
+		    } catch (RequestException e) {
+		      Window.alert("Failed to send the request: " + e.getMessage());
+		    }
+		
+	}*/
 	
 
 }
