@@ -67,6 +67,7 @@ class AddExercise extends Command
 	}
 
 	$e->setVisible($visible);
+
 	$now = time();
 	$e->setAdded($now);	
 
@@ -82,9 +83,12 @@ class AddExercise extends Command
 	    JSON::error($f);
         }
 
-	finfo_close($finfo);
+        if($visible == 1){
+		$e->addSkeletons();
+        }
 
-	return JSON::success("Exercise Added");
+
+	finfo_close($finfo);
 
     }
 

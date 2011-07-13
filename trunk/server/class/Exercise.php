@@ -115,6 +115,50 @@ class Exercise extends Model
 
 	}
 
+	public function addSkeletons(){
+		require_once('Database.php');
+		$db = Database::getDb();
+
+		$allUsers = array();
+		$exUsers = array();
+
+		$sth = $db->prepare('SELECT id FROM user');
+		$sth->setFetchMode(PDO::FETCH_ASSOC);
+		$sth->execute();
+
+		while($row = $sth->fetch()){
+			$allUsers[] = $row['id'];
+		}
+
+		JSON::error($allUsers);
+
+		$sth = $db->prepare('SELECT DISTINCT ownerId FROM file WHERE
+			exerciseId = :exerciseId');
+		$sth->setFetchMode(PDO::FETCH_ASSOC);
+		$sth->execute(array(':exerciseId' => $this->exerciseId));
+
+		while($row = $sth->fetch()){
+			$exUsers[] = $row['ownerId'];
+		}
+
+		JSON::error($exUsers);
+
+		foreach ($allUsers as $curUser){
+			if (!in_array($curUser, $exUsers)){
+			     $file = new CodeFile();
+       			     $file->setContents($this->skeleton);
+		             $now = time();
+		             $file->setName("/".$this->title."/skeleton");
+		             $file->setExerciseId($this->id);
+		             $file->setOwnerId($curUser);
+		             $file->setUpdated($now);
+		             $file->setAdded($now);
+		             $file->save();
+			}
+		}
+
+	}
+
 }
 
 ?>
