@@ -74,20 +74,45 @@ class Review extends Command
         }
         $fullPath = "$dir/$className.java";
 
-        $f = fopen($fullPath, "w+");
+		$f = fopen($fullPath, "w+");
 
-        if($f === FALSE){
+		/**
+		 * Creating solutions direcotry,
+		 * adding or grabbing solution from directory
+		 * using exerciseName as key
+		 */
+		$solutionDir = "/tmp/Solutions";
+		if(!is_dir($solutionDir)){
+			mkdir($solutionDir);
+			chmod($solutionDir, 0777);
+		}
+
+		$exercise = Exercise::getExerciseById($exerciseId);
+
+		return JSON::error($exercise);
+		$exerciseName = $exercise->getTitle();
+		$solutionPath = "$dir/"."$exerciseName.java";
+
+		if(!is_file($solutionPath)){
+			$solutionFile = fopen($solutionPath, "w+");
+			$solutionResult = fwrite($solutionFile, $exercise->getSolution());
+		}
+
+        if($f === FALSE || $solutionFile === FALSE){
             return JSON::error("Error occurred while testing your code. [1]");
         }
 
         // Write code to file.
-        $result = fwrite($f, $code);
-        if($result === FALSE){
+		$result = fwrite($f, $code);
+
+        if($result === FALSE || $solutionResult === FALSE){
             return JSON::error("Error occurred while testing your code. [2]");
         }
 		
         // Flush and close file
-        fflush($f);
+		fflush($f);
+		fflush($solutionFile);
+		fclose($solutionFile);
         fclose($f);
 		
         /**

@@ -82,14 +82,10 @@ class Exercise extends Model
 		require_once('Database.php');
 
 		$db = Database::getDb();
-		$sth =$db->prepare('SELECT * FROM exercise WHERE id LIKE :id');
+		$sth =$db->prepare('SELECT * FROM exercise WHERE id = :id');
 		$sth->execute(array(':id' => $id));
 
-		if($result instanceof User){
-			return $result;
-		}
-
-		return NULL;
+		return $sth->fetchObject('Exercise');
 	}
 
 	public static function getVisibleExercises()
