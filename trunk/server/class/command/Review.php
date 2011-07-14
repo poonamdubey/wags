@@ -127,9 +127,13 @@ class Review extends Command
         }else if($result == EXEC_SUCCESS){
             /**
              * Attempt to run. Must set classpath since we're running it from
-             * where ever www-data users's home is.
-             */
-            exec("/usr/bin/java -cp $solutionDir $exerciseName 2>&1", $output);
+	     * where ever www-data users's home is.
+	     *
+	     * Edits: Now, we take the compiled solution class and move it to
+	     * the student directory so it can find the linked classes. 
+	     */
+	    exec("cp $solutionDir/$exerciseName.class $dir/$exerciseName.class");
+            exec("/usr/bin/java -cp $dir $exerciseName 2>&1", $output);
             JSON::success($output);
         }
     }
