@@ -45,21 +45,21 @@ public class Admin extends Composite{
 		adminForm.setEncoding(FormPanel.ENCODING_MULTIPART);
 		adminForm.setMethod(FormPanel.METHOD_POST);
 		
-		adminForm.addSubmitHandler(new SubmitHandler(){
-
-			@Override
-			public void onSubmit(SubmitEvent event) {
-				Window.alert(desc.getText().toString() + "|||" + fileName.getText() + "|||" + isVisible);
-				
-			}
-			
-		});
+//		adminForm.addSubmitHandler(new SubmitHandler(){
+//
+//			@Override
+//			public void onSubmit(SubmitEvent event) {
+//				Window.alert(desc.getText().toString() + "|||" + fileName.getText() + "|||" + isVisible);
+//				
+//			}
+//			
+//		});
 		
 		adminForm.addSubmitCompleteHandler(new SubmitCompleteHandler(){
 			
 			@Override
 			public void onSubmitComplete(SubmitCompleteEvent event) {
-				Window.alert(event.getResults());
+				Notification.notify(1, event.getResults());
 			}
 			
 		});
