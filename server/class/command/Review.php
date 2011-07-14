@@ -74,51 +74,48 @@ class Review extends Command
         }
         $fullPath = "$dir/$className.java";
 
-		$f = fopen($fullPath, "w+");
+	$f = fopen($fullPath, "w+");
 
-		/**
-		 * Creating solutions direcotry,
-		 * adding or grabbing solution from directory
-		 * using exerciseName as key
-		 */
-		$solutionDir = "/tmp/Solutions";
-		if(!is_dir($solutionDir)){
-			mkdir($solutionDir);
-			chmod($solutionDir, 0777);
-		}
+	/**
+	 * Creating solutions direcotry,
+	 * adding or grabbing solution from directory
+	 * using exerciseName as key
+	 */
+	$solutionDir = "/tmp/Solutions";
+	if(!is_dir($solutionDir)){
+		mkdir($solutionDir);
+		chmod($solutionDir, 0777);
+	}
 
-		$exercise = Exercise::getExerciseById($exerciseId);
+	$exerciseArray = Exercise::getExerciseById($exerciseId);
+	$exercise = $exerciseArray[0];
+	$exerciseName = $exercise->getTitle();
+	$solutionPath = "$solutionDir/"."$exerciseName.java";
 
-		return JSON::error($exercise);
-		$exerciseName = $exercise->getTitle();
-		$solutionPath = "$dir/"."$exerciseName.java";
-
-		if(!is_file($solutionPath)){
-			$solutionFile = fopen($solutionPath, "w+");
-			$solutionResult = fwrite($solutionFile, $exercise->getSolution());
-		}
+	$solutionFile = fopen($solutionPath, "w+");
+	$solutionResult = fwrite($solutionFile, $exercise->getSolution());
 
         if($f === FALSE || $solutionFile === FALSE){
             return JSON::error("Error occurred while testing your code. [1]");
         }
 
         // Write code to file.
-		$result = fwrite($f, $code);
+	$result = fwrite($f, $code);
 
         if($result === FALSE || $solutionResult === FALSE){
             return JSON::error("Error occurred while testing your code. [2]");
         }
 		
         // Flush and close file
-		fflush($f);
-		fflush($solutionFile);
-		fclose($solutionFile);
+	fflush($f);
+	fflush($solutionFile);
+	fclose($solutionFile);
         fclose($f);
 		
         /**
          * Compile code using java compiler.
          */
-        exec("/usr/bin/javac $fullPath 2>&1", $output, $result);
+        exec("/usr/bin/javac $solutionPath $fullPath 2>&1", $output, $result);
         if($result == EXEC_ERROR){
             /* Print out error message returned from command line. */
             
@@ -132,7 +129,7 @@ class Review extends Command
              * Attempt to run. Must set classpath since we're running it from
              * where ever www-data users's home is.
              */
-            exec("/usr/bin/java -cp $dir $className 2>&1", $output);
+            exec("/usr/bin/java -cp $solutionDir $exerciseName 2>&1", $output);
             JSON::success($output);
         }
     }

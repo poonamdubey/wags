@@ -82,10 +82,10 @@ class Exercise extends Model
 		require_once('Database.php');
 
 		$db = Database::getDb();
-		$sth =$db->prepare('SELECT * FROM exercise WHERE id = :id');
-		$sth->execute(array(':id' => $id));
+		$sth =$db->prepare('SELECT * FROM exercise WHERE id = :thisId');
+		$sth->execute(array(':thisId' => $id));
 
-		return $sth->fetchObject('Exercise');
+		return $sth->fetchAll(PDO::FETCH_CLASS, 'Exercise');
 	}
 
 	public static function getVisibleExercises()
