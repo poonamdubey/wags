@@ -126,8 +126,6 @@ class Exercise extends Model
 			$allUsers[] = $row['id'];
 		}
 
-		JSON::error($allUsers);
-
 		$sth = $db->prepare('SELECT DISTINCT ownerId FROM file WHERE
 			exerciseId = :exerciseId');
 		$sth->setFetchMode(PDO::FETCH_ASSOC);
@@ -136,8 +134,6 @@ class Exercise extends Model
 		while($row = $sth->fetch()){
 			$exUsers[] = $row['ownerId'];
 		}
-
-		JSON::error($exUsers);
 
 		foreach ($allUsers as $curUser){
 			if (!in_array($curUser, $exUsers)){

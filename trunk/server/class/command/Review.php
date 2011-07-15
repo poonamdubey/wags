@@ -34,13 +34,12 @@ class Review extends Command
 	}
 
 	$file->save();
-	
-	//I don't understand why this is returning false!!!  ARGH.
-//	return JSON::error(Submission::submissionExistsByExerciseId($exerciseId, $user->getId()));
 
 	if(Submission::submissionExistsByExerciseId($exerciseId, $user->getId())){
-	    $sub = getSubmissionByExerciseId($exerciseId, $user);
-	    $sub->setFileId($file->getId());
+	    $sub = Submission::getSubmissionByExerciseId($exerciseId, $user->getId());
+	    $sub[0]->setFileId($file->getId());
+	    $sub[0]->setUpdated(time());
+	    $sub[0]->save();
 	} else {
             $newSub = new Submission();
             $newSub->setExerciseId($exerciseId);
@@ -50,14 +49,13 @@ class Review extends Command
             $newSub->setUpdated($now);
   	    $newSub->setAdded($now);
             $newSub->save();
-  	    }
-
+	}
 
         preg_match($classRegex, $code, $matches);
         if(empty($matches)){
             /* No class name was found. Tell the user to check their code. */
             return JSON::error("Please check you class name.");
-        }
+ 	}      
 
         /**
          * Regex found a class name to use.
@@ -137,6 +135,7 @@ class Review extends Command
             JSON::success($output);
         }
     }
+    
 }
 
 ?>
