@@ -90,7 +90,8 @@ class Review extends Command
 	//must be the same as the solution class
 	$exerciseArray = Exercise::getExerciseById($exerciseId);
 	$exercise = $exerciseArray[0];
-	$exerciseName = $exercise->getTitle();
+	preg_match($classRegex, $exercise->getSolution(), $solMatch);
+	$exerciseName = $solMatch[1];
 	$solutionPath = "$solutionDir/"."$exerciseName.java";
 
 	$solutionFile = fopen($solutionPath, "w+");
