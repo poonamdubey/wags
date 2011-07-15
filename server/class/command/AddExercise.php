@@ -83,6 +83,9 @@ class AddExercise extends Command
 	    JSON::error($f);
         }
 
+	//Seems to only work on second "adding" of exercise...
+	//Problem seems to be within the loop at the end of 
+	//addSkeletons
         if($visible == 1){
 		$e->addSkeletons();
         }

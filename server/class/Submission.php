@@ -37,27 +37,30 @@ class Submission extends Model
 	}
 
 
-	public static function getSubmissionByExerciseId($exerciseId, User $user){
+	public static function getSubmissionByExerciseId($exerciseId, $user){
 		require_once('Database.php');
 
 		$db = Database::getDb();
 
-		$sth = $db->prepare('SELECT * FROM submission WHERE exerciseId = :exId
-			and userId = :userId');
-		$sth->execute(array(':exId' => $exerciseId, ':userId' => $user->getId()));
+		$sth = $db->prepare('SELECT * FROM submission WHERE exerciseId LIKE :exId
+			and userId LIKE :userId');
+		$sth->execute(array(':exId' => $exerciseId, ':userId' => $user));
 
-		return $sth->fetchObject('Submission');
+		return $sth->fetchAll(PDO::FETCH_CLASS, 'Submission');
 	}
 
 	public static function submissionExistsByExerciseId($exerciseId, $user){
 		require_once('Database.php');
+
 		$db = Database::getDb();
 
-		$sth = $db->prepare('SELECT * FROM submission WHERE exerciseId = :exId
-			AND userId = :userId');
+		$sth = $db->prepare('SELECT * FROM submission WHERE exerciseId LIKE :exId 
+			AND userId LIKE :userId');
+
 		$sth->execute(array(':exId' => $exerciseId, ':userId' => $user));
 
-		return sizeof($sth->fetchAll()) > 0;
+		if ($sth->fetch()) return TRUE;
+		return FALSE;
 	}
 
 }
