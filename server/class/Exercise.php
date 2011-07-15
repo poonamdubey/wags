@@ -137,15 +137,17 @@ class Exercise extends Model
 
 		foreach ($allUsers as $curUser){
 			if (!in_array($curUser, $exUsers)){
+				JSON::error("accessed1");
 			     $file = new CodeFile();
-       			     $file->setContents($this->skeleton);
+ 			     $file->setContents($this->skeleton);
 		             $now = time();
 		             $file->setName("/".$this->title."/skeleton");
 		             $file->setExerciseId($this->id);
 		             $file->setOwnerId($curUser);
 		             $file->setUpdated($now);
-		             $file->setAdded($now);
-		             $file->save();
+			     $file->setAdded($now);
+			     $file->save();
+				JSON::error("accessed2");
 			}
 		}
 

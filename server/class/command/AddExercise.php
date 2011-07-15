@@ -64,12 +64,13 @@ class AddExercise extends Command
 		$e->setSkeleton($skeletonContents);
 		$e->setDescription($description);
 		$e->setTitle($name);
+		$e->setAdded(time());
 	}
 
 	$e->setVisible($visible);
 
 	$now = time();
-	$e->setAdded($now);	
+	$e->setUpdated($now);	
 
         try{
 	    $e->save();

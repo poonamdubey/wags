@@ -85,6 +85,9 @@ class Review extends Command
 		chmod($solutionDir, 0777);
 	}
 
+	//May change this to grab name from solution class rather
+	//than depending on the exercise title which currently 
+	//must be the same as the solution class
 	$exerciseArray = Exercise::getExerciseById($exerciseId);
 	$exercise = $exerciseArray[0];
 	$exerciseName = $exercise->getTitle();
