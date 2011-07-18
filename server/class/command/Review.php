@@ -19,7 +19,8 @@ class Review extends Command
 {
     public function execute()
     {
-        $classRegex = "/class\s+([^\d]\w+)/";
+	$classRegex = "/class\s+([^\d]\w+)/";
+	$successRegex = "/Success$/";
 	$code = $_POST['code'];
 	$exerciseId = $_POST['id'];
 	
@@ -36,19 +37,21 @@ class Review extends Command
 	$file->save();
 
 	if(Submission::submissionExistsByExerciseId($exerciseId, $user->getId())){
-	    $sub = Submission::getSubmissionByExerciseId($exerciseId, $user->getId());
-	    $sub[0]->setFileId($file->getId());
-	    $sub[0]->setUpdated(time());
-	    $sub[0]->save();
+	    $subList = Submission::getSubmissionByExerciseId($exerciseId, $user->getId());
+	    $sub = $subList[0];	
+	    $sub->setFileId($file->getId());
+	    $sub->setUpdated(time());
+	    $sub->save();
 	} else {
-            $newSub = new Submission();
-            $newSub->setExerciseId($exerciseId);
-            $newSub->setFileId($file->getId());
-            $newSub->setUserId($user->getId());
+            $sub = new Submission();
+            $sub->setExerciseId($exerciseId);
+            $sub->setFileId($file->getId());
+            $sub->setUserId($user->getId());
             $now = time();
-            $newSub->setUpdated($now);
-  	    $newSub->setAdded($now);
-            $newSub->save();
+            $sub->setUpdated($now);
+	    $sub->setAdded($now);
+	    $sub->setSuccess(0);
+            $sub->save();
 	}
 
         preg_match($classRegex, $code, $matches);
@@ -136,7 +139,13 @@ class Review extends Command
 	     */
 	    exec("cp $solutionDir/$exerciseName.class $dir/$exerciseName.class");
             exec("/usr/bin/java -cp $dir $exerciseName 2>&1", $output);
-            JSON::success($output);
+
+	    if(preg_match($successRegex, $output[0])){
+		    $sub->setSuccess(1); 
+		    $sub->save();
+	    }
+		
+	    JSON::success($output);
         }
     }
     
