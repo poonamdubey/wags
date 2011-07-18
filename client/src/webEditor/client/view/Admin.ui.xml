@@ -33,6 +33,14 @@
 		.administration{
 			background-color: #C2C2FF;	
 		}
+		.bugText{
+			padding-top: 17px;
+		}
+		.lbox{
+			width: 135px;
+			padding-left: 10px;	
+			margin-right: 10px;
+		}
 	</ui:style>
 	<g:FormPanel styleName="{style.administration}" ui:field="adminForm">
 		<g:VerticalPanel width="100%">
@@ -54,6 +62,12 @@
 			<g:CheckBox ui:field="visible" height="40px" name="visible">Make Visible</g:CheckBox>
 			<g:HorizontalPanel styleName="{style.filePanel}">
 				<g:SubmitButton styleName="{style.button}" ui:field="addButton"> Add </g:SubmitButton>
+				<g:Label styleName="{style.bugText}">Click twice to add skeletons</g:Label>
+			</g:HorizontalPanel>
+			<g:HorizontalPanel styleName="{style.filePanel}">
+				<g:ListBox ui:field="exercises" styleName="{style.lbox}"></g:ListBox>
+				<g:Button ui:field="btnAdminReview"> Review </g:Button>
+				<g:Grid ui:field="grdAdminReview"></g:Grid>
 			</g:HorizontalPanel>
 		</g:VerticalPanel>
 	</g:FormPanel>
