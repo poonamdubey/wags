@@ -37,6 +37,7 @@ CREATE TABLE submission (
        exerciseId NOT NULL REFERENCES exercise(id),
        fileId NOT NULL REFERENCES file(id),
        userId NOT NULL REFERENCES user(id),
+       success INT NOT NULL,
        added INT NOT NULL,
        updated INT NOT NULL
 );

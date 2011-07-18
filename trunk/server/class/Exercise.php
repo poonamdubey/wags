@@ -110,6 +110,22 @@ class Exercise extends Model
 		return sizeof($sth->fetchAll()) > 0;
 
 	}
+	
+	public static function getSubmissions($exerciseId){
+		require_once('Database.php');
+		$db = Database::getDb();
+
+		$sth = $db->prepare('SELECT user.username, file.name, submission.success
+			FROM exercise JOIN file, submission, user
+			ON exercise.id = file.exerciseId	
+			AND file.ownerId = user.id
+			AND submission.fileId = file.id
+			WHERE exercise.id LIKE :exId');
+		$sth->setFetchMode(PDO::FETCH_NUM);
+		$sth->execute(array(':exId' => $exerciseId));
+
+		return $sth->fetchAll();
+	}
 
 	public function addSkeletons(){
 		require_once('Database.php');
