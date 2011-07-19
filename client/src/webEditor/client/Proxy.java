@@ -21,6 +21,7 @@ import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -481,34 +482,47 @@ public class Proxy
 		    }
 	}
 
-/*	public static void addExercise(String desc, String fileName, boolean visible) {
-		int isVisible;
+	public static void getSubmissionInfo(int exerciseId, final Grid grid){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=AdminReview&exerciseId="+exerciseId);
 		
-		if(visible == true) isVisible = 1;
-		else isVisible = 0;
+		try{
+			Request req = builder.sendRequest(null, new RequestCallback(){
+
+				@Override
+				public void onError(Request request, Throwable exception) {
+					Window.alert("error");					
+				}
+
+				@Override
+				public void onResponseReceived(Request request,
+						Response response) {
+					
+					int k = 0;
+					WEStatus status = new WEStatus(response);
+			        String subInfo[] = new String[status.getMessageArray().length];
+			        subInfo = status.getMessageArray();
+			        
+			        for (int i = 0; i < subInfo.length; i++){
+			        	if(subInfo[i] == "1") subInfo[i] = "Pass";
+			        	else if (subInfo[i] == "0") subInfo[i] = "Fail";
+			        }
+			        
+			        grid.resize(subInfo.length/3, 3);
+			  		grid.setBorderWidth(1);
+
+			  	    for (int row = 0; row < subInfo.length/3; ++row) {
+			  	      for (int col = 0; col < 3; ++col)
+			  	        grid.setText(row, col, subInfo[k++]);
+			  	    }
+					
+				}
+				
+			});
+		}catch (RequestException e){
+			Window.alert("Failed to send the request: " + e.getMessage());
+		}
 		
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, Proxy.getBaseURL() + "?cmd=AddExercise");
-		try {
-		      builder.setHeader("Content-Type", "application/x-www-form-urlencoded");
-		      @SuppressWarnings("unused")
-			Request req = builder.sendRequest("desc="+desc+"&fileName="+fileName+"&visible="+isVisible, new RequestCallback() {
-		        public void onResponseReceived(Request request, Response response) {
-		          Window.alert(response.getText());
-		          
-		          WEStatus status = new WEStatus(response);
-		          
-		          Notification.notify(status.getStat(), status.getMessage());
-		        }
-		        
-		        public void onError(Request request, Throwable exception) {
-		        	Window.alert("error");
-		        }
-		      });
-		    } catch (RequestException e) {
-		      Window.alert("Failed to send the request: " + e.getMessage());
-		    }
-		
-	}*/
+	}
 	
 
 }

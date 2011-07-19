@@ -53,16 +53,6 @@ public class Admin extends Composite{
 		adminForm.setEncoding(FormPanel.ENCODING_MULTIPART);
 		adminForm.setMethod(FormPanel.METHOD_POST);
 		
-//		adminForm.addSubmitHandler(new SubmitHandler(){
-//
-//			@Override
-//			public void onSubmit(SubmitEvent event) {
-//				Window.alert(desc.getText().toString() + "|||" + fileName.getText() + "|||" + isVisible);
-//				
-//			}
-//			
-//		});
-		
 		adminForm.addSubmitCompleteHandler(new SubmitCompleteHandler(){
 			
 			@Override
@@ -77,7 +67,8 @@ public class Admin extends Composite{
 	void onReviewClick(ClickEvent event)
 	{
 		String value = exercises.getValue(exercises.getSelectedIndex());
-		Window.alert(exerciseMap.get(value));
+		Proxy.getSubmissionInfo(Integer.parseInt(exerciseMap.get(value)), grdAdminReview);
+		
 	}
 
 }
