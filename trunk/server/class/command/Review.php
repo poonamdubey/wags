@@ -41,7 +41,6 @@ class Review extends Command
 	    $sub = $subList[0];	
 	    $sub->setFileId($file->getId());
 	    $sub->setUpdated(time());
-	    $sub->save();
 	} else {
             $sub = new Submission();
             $sub->setExerciseId($exerciseId);
@@ -51,7 +50,6 @@ class Review extends Command
             $sub->setUpdated($now);
 	    $sub->setAdded($now);
 	    $sub->setSuccess(0);
-            $sub->save();
 	}
 
         preg_match($classRegex, $code, $matches);
@@ -142,8 +140,10 @@ class Review extends Command
 
 	    if(preg_match($successRegex, $output[0])){
 		    $sub->setSuccess(1); 
-		    $sub->save();
+	    }else{
+		    $sub->setSuccess(0);
 	    }
+	    $sub->save();
 		
 	    JSON::success($output);
         }
