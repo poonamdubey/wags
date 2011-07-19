@@ -18,12 +18,16 @@ class AdminReview extends Command
 			$exId = $_REQUEST['exerciseId'];
 			$subInfo = Exercise::getSubmissions($exId);
 
-			//look at
-			//http://stackoverflow.com/questions/1519872/pdo-looping-throug-and-printing-fetchall
+			foreach($subInfo as $row){
+				$result[] = $row['username'];
+				$result[] = $row['name'];
+				$result[] = $row['success'];
+			}
+
 			if(empty($subInfo)){
 				return JSON::success("empty");
 			}
-			return JSON::success($subInfo);
+			return JSON::success($result);
 		}else{
 			return JSON::error("No exercise given");
 		}
