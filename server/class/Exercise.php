@@ -121,7 +121,7 @@ class Exercise extends Model
 			AND file.ownerId = user.id
 			AND submission.fileId = file.id
 			WHERE exercise.id LIKE :exId');
-		$sth->setFetchMode(PDO::FETCH_NUM);
+		$sth->setFetchMode(PDO::FETCH_ASSOC);
 		$sth->execute(array(':exId' => $exerciseId));
 
 		return $sth->fetchAll();
