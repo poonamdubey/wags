@@ -497,20 +497,26 @@ public class Proxy
 				public void onResponseReceived(Request request,
 						Response response) {
 					
-					int k = 0;
 					WEStatus status = new WEStatus(response);
 			        String subInfo[] = new String[status.getMessageArray().length];
 			        subInfo = status.getMessageArray();
 			        
 			        for (int i = 0; i < subInfo.length; i++){
-			        	if(subInfo[i] == "1") subInfo[i] = "Pass";
-			        	else if (subInfo[i] == "0") subInfo[i] = "Fail";
+			        	if(subInfo[i] == "1") subInfo[i] = "Yes";
+			        	else if (subInfo[i] == "0") subInfo[i] = "No";
 			        }
 			        
-			        grid.resize(subInfo.length/3, 3);
+			        grid.resize(subInfo.length/3+1, 3);
 			  		grid.setBorderWidth(1);
-
-			  	    for (int row = 0; row < subInfo.length/3; ++row) {
+			  		
+			  		//Sets the headers for the table
+			  		grid.setHTML(0, 0, "<b> Username </b>");
+			  		grid.setHTML(0, 1, "<b> File </b>");
+			  		grid.setHTML(0, 2, "<b> Correct </b>");
+			  		
+			  		int k = 0;
+			  		//Fills table with results from AdminReview.php
+			  	    for (int row = 1; row < subInfo.length/3+1; ++row) {
 			  	      for (int col = 0; col < 3; ++col)
 			  	        grid.setText(row, col, subInfo[k++]);
 			  	    }
