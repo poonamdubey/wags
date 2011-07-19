@@ -41,6 +41,10 @@
 			padding-left: 10px;	
 			margin-right: 10px;
 		}
+		.grid{
+			height: 100%;
+			background-color: #FFFFFF;
+		}
 	</ui:style>
 	<g:FormPanel styleName="{style.administration}" ui:field="adminForm">
 		<g:VerticalPanel width="100%">
@@ -67,8 +71,9 @@
 			<g:HorizontalPanel styleName="{style.filePanel}">
 				<g:ListBox ui:field="exercises" styleName="{style.lbox}"></g:ListBox>
 				<g:Button ui:field="btnAdminReview"> Review </g:Button>
-				<g:Grid ui:field="grdAdminReview"></g:Grid>
 			</g:HorizontalPanel>
+				<g:Grid ui:field="grdAdminReview" styleName="{style.grid}">
+				</g:Grid>
 		</g:VerticalPanel>
 	</g:FormPanel>
 </ui:UiBinder> 
