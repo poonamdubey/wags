@@ -142,18 +142,20 @@ class Exercise extends Model
 			$allUsers[] = $row['id'];
 		}
 
+		//Exusers never being filled
 		$sth = $db->prepare('SELECT DISTINCT ownerId FROM file WHERE
-			exerciseId = :exerciseId');
+			exerciseId LIKE :exerciseId');
 		$sth->setFetchMode(PDO::FETCH_ASSOC);
-		$sth->execute(array(':exerciseId' => $this->exerciseId));
+		$sth->execute(array(':exerciseId' => $this->id));
 
 		while($row = $sth->fetch()){
 			$exUsers[] = $row['ownerId'];
 		}
 
+		JSON::error($exUsers);
+
 		foreach ($allUsers as $curUser){
 			if (!in_array($curUser, $exUsers)){
-				JSON::error("accessed1");
 			     $file = new CodeFile();
  			     $file->setContents($this->skeleton);
 		             $now = time();
@@ -163,7 +165,7 @@ class Exercise extends Model
 		             $file->setUpdated($now);
 			     $file->setAdded($now);
 			     $file->save();
-				JSON::error("accessed2");
+ 			     JSON::error("Added Skeleton for ".$curUser);
 			}
 		}
 

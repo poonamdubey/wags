@@ -121,11 +121,9 @@ class Review extends Command
         exec("/usr/bin/javac $solutionPath $fullPath 2>&1", $output, $result);
         if($result == EXEC_ERROR){
             /* Print out error message returned from command line. */
-            
  	    foreach($output as $line){
-                $error .= $line;
+                  $error .= $line;
             }
-
             return JSON::error($error);
         }else if($result == EXEC_SUCCESS){
             /**
@@ -136,7 +134,8 @@ class Review extends Command
 	     * the student directory so it can find the linked classes. 
 	     */
 	    exec("cp $solutionDir/$exerciseName.class $dir/$exerciseName.class");
-            exec("/usr/bin/java -cp $dir $exerciseName 2>&1", $output);
+//	    exec("/usr/bin/java -cp $dir $exerciseName 2>&1", $output);
+	    $output = $this->runCode($dir, $exerciseName);
 
 	    if(preg_match($successRegex, $output[0])){
 		    $sub->setSuccess(1); 
@@ -148,7 +147,20 @@ class Review extends Command
 	    JSON::success($output);
         }
     }
-    
+
+     /** 
+       * Attempt to run. Must set classpath since we're running it from
+       * where ever www-data users's home is.
+       */  
+      private function runCode($dir, $className){
+          exec("/usr/bin/php class/command/runcode.php $dir $className 2>&1", $output);          
+          return $output;
+      }   
+
 }
 
 ?>
+
+
+
+
