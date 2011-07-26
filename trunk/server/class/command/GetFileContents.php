@@ -28,7 +28,7 @@ class GetFileContents extends Command
             if(empty($file)){
                 return JSON::warn("File not found with name ".$name);
             }
-            echo ($file->getContents());
+            echo ("<pre>".$file->getContents()."</pre>");
         }else{
             return JSON::error("No file name given.");
         }
