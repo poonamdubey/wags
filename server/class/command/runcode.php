@@ -30,8 +30,8 @@ else if ($pid){
      * Manage group.
      * Wait WAIT_TIME seconds
      */
-    $now = time()+WAIT_TIME;
-    $result = null;
+	$now = time()+WAIT_TIME;
+	$result = null;
     while(time() <= $now && $result == null){
         $result = pcntl_waitpid($pid, $status, WNOHANG);
     }
