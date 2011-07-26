@@ -41,9 +41,14 @@ else if ($pid){
 //        print $result;
     }else{
         /* Kill the group */
-	$pgid = posix_getpgid($pid);
-	print "Ran too long - check for efficiency/infinite loops";
-	exec("kill -9 -$pgid"); 
+	//$pgid = posix_getpgid($pid);
+	//exec("kill -9 -$pgid"); 
+
+	/*For some reason, the system recognizes the actual pid
+	 * as two higher than the reported pid.  As such, this works,
+	 * although it is very stange */    
+	print "Ran too long - check for efficiency/infinite loops. Following error message due to killed process -> ";
+	posix_kill($pid+2, 15);
     }
 }
 //child
