@@ -7,7 +7,6 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 
 public class CompletionCheck {
 	private ColorCounter curColor;
-	private TabCounter curTab;
 	final static String PURPLE = "#B300B3";
 	final static String RED = "#CC0000";
 	final static String GREEN = "#336633";
@@ -30,18 +29,13 @@ public class CompletionCheck {
 	private boolean newSQuote;
 	private boolean newDQuote;
 	private int lastKeyUp;
-	private int tabCount;
 
-	private Stack<TabCounter> tabStack = new Stack<TabCounter>();
 	private Stack<ColorCounter> stack = new Stack<ColorCounter>();
 	
 	public CompletionCheck(){
 		//curColor starts black
 		curColor = new ColorCounter(BLACK);
 		curColor.lastColor = null;
-		tabCount = 0;
-		curTab = new TabCounter(false); //dodge nullpointers on first push
-		curTab.count = 10000; //make first tab unreachable
 	}
 	
 	public String pushCheck(KeyDownEvent event){
@@ -52,28 +46,16 @@ public class CompletionCheck {
 		if(key == OPARENS && shift){ 				// (
 			stack.push(curColor);
 			curColor = new ColorCounter(PURPLE);
-			
-			tabStack.push(curTab);
-			curTab = new TabCounter(true);
-			tabCount++;
 		} 
 		
 		else if (key == OCURLS && shift){ 		// {
 			stack.push(curColor);
 			curColor = new ColorCounter(GREEN);
-			
-			tabStack.push(curTab);
-			curTab = new TabCounter(true);
-			tabCount++;
 		}
 		
 		else if (key == OCURLS){ 					// [
 			stack.push(curColor);
 			curColor = new ColorCounter(RED);
-			
-			tabStack.push(curTab);
-			curTab = new TabCounter(true);
-			tabCount++;
 		} 
 		
 		else if (key == QUOTE && shift){ 			// "
@@ -91,13 +73,11 @@ public class CompletionCheck {
 				newSQuote = false;
 			}
 		}
-		
-		
+	
 		
 		//special delete key logic
 		if(key == BACKSPACE){
 			curColor.count = curColor.count - 1;
-			curTab.count = curTab.count - 1;
 			
 			//Problem: open parenthesis needs 0
 			//closed wants -1
@@ -111,22 +91,12 @@ public class CompletionCheck {
 				if (curColor.COLOR == LIGHTBLUE) newDQuote = true;
 				if (curColor.COLOR == DARKBLUE) newSQuote = true;
 			}
-			if(curTab.count == 0){
-				if(curTab.open){
-					tabCount--;
-				} else {
-					tabCount ++;
-				}
-				
-				curTab = tabStack.pop();
-				curTab.count = curTab.count - 1;
-			}
+
 			
 		} else {
 			//Set right before return in case color changes
 			if(!skipKey(key)){
 				curColor.setCount(curColor.count + 1);
-				curTab.count = curTab.count + 1;
 			}
 		}
 		
@@ -146,10 +116,6 @@ public class CompletionCheck {
 						curColor.closed = true;
 						stack.push(curColor);
 						curColor = new ColorCounter(curColor.giveColor());
-						
-						tabStack.push(curTab);
-						curTab = new TabCounter(false);
-						tabCount--;
 					}
 					break;
 				case CCURLS:  	// }
@@ -157,10 +123,6 @@ public class CompletionCheck {
 						curColor.closed = true;
 						stack.push(curColor);
 						curColor = new ColorCounter(curColor.giveColor());
-						
-						tabStack.push(curTab);
-						curTab = new TabCounter(false);
-						tabCount--;
 					}
 					break;
 				case QUOTE:  	// "
@@ -181,10 +143,6 @@ public class CompletionCheck {
 						curColor.closed = true;
 						stack.push(curColor);
 						curColor = new ColorCounter(curColor.giveColor());
-						
-						tabStack.push(curTab);
-						curTab = new TabCounter(false);
-						tabCount--;
 					}
 					break;
 				case QUOTE: 	// '
@@ -212,13 +170,8 @@ public class CompletionCheck {
 		
 		return false;
 	}
-	
-	public int getTabCount(){
-		return tabCount;
-	}
-	
+
 	public void enterIncrement(int inc){
-		curTab.count += inc;
 		curColor.count += inc;
 	}
 	
@@ -266,13 +219,4 @@ public class CompletionCheck {
 		}
 	}
 	
-	private class TabCounter{
-		final boolean open;
-		int count;
-		
-		public TabCounter(boolean open){
-			this.open = open;
-			count = 0;
-		}
-	}
 }

@@ -39,7 +39,7 @@
 			</g:HTMLPanel>
 		</g:north>
 		<g:center size="600">
-	 	<g:HorizontalSplitPanel>
+	 	<g:HorizontalSplitPanel height="100%">
 		 	<g:HTMLPanel styleName="{style.codeAndFile}">
 	 			<g:HTMLPanel>
 					<g:TextBox styleName="{style.fileName}" ui:field="fileName"></g:TextBox>

@@ -1,14 +1,11 @@
 package webEditor.client.view;
 
-import webEditor.client.CompletionCheck;
+
+import webEditor.client.TabCheck;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.shared.HasHandlers;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -27,7 +24,11 @@ public class CodeEditor extends View implements HasHandlers
 	interface CodeEditorUiBinder extends UiBinder<Widget, CodeEditor>{}
 	 
 	@UiField RichTextArea codeArea;
-	private CompletionCheck colorCheck = new CompletionCheck();
+	//private CompletionCheck colorCheck = new CompletionCheck();
+	private TabCheck tabCheck = new TabCheck(codeArea);
+	private int lastKey;
+	private static final int CCURLS = 221;
+	private static final int CPARENS = 48;
 
 	public CodeEditor()
 	{
@@ -37,38 +38,57 @@ public class CodeEditor extends View implements HasHandlers
 		codeArea.setEnabled(true);
 		codeArea.getFormatter().setFontName("monospace");
 		
+		/*
+		 * Commented to remove unsatisfactory coloring logic
+		 * Currently relies on key presses, no functionality for 
+		 * navigation around the text using a mouse
+		 */
 		codeArea.addKeyDownHandler(new KeyDownHandler(){
 			public void onKeyDown(KeyDownEvent event)
 			{
-				codeArea.getFormatter().setForeColor(colorCheck.pushCheck(event));
-			}
-		});
-		
-		codeArea.addKeyUpHandler(new KeyUpHandler(){
-			public void onKeyUp(KeyUpEvent event){
-				
-				if(event.getNativeKeyCode() == 13){
-					for(int i = 0; i < colorCheck.getTabCount(); i++)
-						codeArea.getFormatter().insertHTML("&nbsp; &nbsp; &nbsp;");
-					colorCheck.enterIncrement(colorCheck.getTabCount() * 5);
+				//codeArea.getFormatter().setForeColor(colorCheck.pushCheck(event));
+				int ENTER = 13;
+				int key = event.getNativeKeyCode();
+						
+				if (lastKey == ENTER){
+					if (key == CCURLS || (key == CPARENS && event.isShiftKeyDown())){
+						indent(tabCheck.getTabCount()-1);
+					} else if (key != 16){
+						indent(tabCheck.getTabCount());
+					}
 				}
 				
+				tabCheck.pushCheck(event);
 				
-				codeArea.getFormatter().setForeColor(colorCheck.popCheck(event));
+				if(event.getNativeKeyCode() != 16) lastKey = event.getNativeKeyCode();
 			}
 		});
 		
-		codeArea.addKeyPressHandler(new KeyPressHandler() {
-			@Override
-			public void onKeyPress(KeyPressEvent event)
-			{
-				//codeArea.getFormatter().setForeColor(colorCheck.pushCheck(event))
-			}
-		});
+//		codeArea.addKeyUpHandler(new KeyUpHandler(){
+//			public void onKeyUp(KeyUpEvent event){
+//				
+//				if(event.getNativeKeyCode() == 13){ //Enter key
+//					for(int i = 0; i < tabCheck.getTabCount(); i++)
+//						codeArea.getFormatter().insertHTML("&nbsp; &nbsp; &nbsp;");
+//					tabCheck.enterIncrement(tabCheck.getTabCount() * 5);
+//				}
+//				
+//				//codeArea.getFormatter().setForeColor(colorCheck.popCheck(event));
+//				//colorCheck.popCheck(event);
+//			}
+//		});
+		
+	}
+	
+	private void indent(int tabCount){
+		for(int i = 0; i < tabCount; i++){
+			codeArea.getFormatter().insertHTML("&nbsp; &nbsp; &nbsp;");
+			tabCheck.enterIncrement(5);
+		}
 	}
 	
 	public void setContents(String contents){
-		this.codeArea.setText(contents);
+		this.codeArea.setHTML(contents);
 	}
 	
 	@Override
