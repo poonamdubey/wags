@@ -22,6 +22,8 @@ class Review extends Command
 	$classRegex = "/class\s+([^\d]\w+)/";
 	$successRegex = "/Success$/";
 	$code = $_POST['code'];
+	//see str_replace comment in SaveFileContents.php
+	$code = str_replace("%2B", "+", $code);
 	$exerciseId = $_POST['id'];
 	
 	//Sets files exerciseID - note:
