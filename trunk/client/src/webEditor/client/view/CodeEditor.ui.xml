@@ -3,7 +3,7 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui"
 	xmlns:my="urn:import:webEditor.client">
 	<ui:style>
-		.editor { font-family: monospace; }
+		.editor { height: 100%;}
 
 	</ui:style>
 	<g:RichTextArea ui:field="codeArea" styleName="{style.editor}"> </g:RichTextArea>

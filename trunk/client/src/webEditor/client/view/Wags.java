@@ -104,7 +104,12 @@ public class Wags extends View
 	@UiHandler("save")
 	void onSaveClick(ClickEvent event)
 	{
-		if(Proxy.saveFile("/" + fileName.getText().toString(), editor.codeArea.getText(), browser));
+		String text = editor.codeArea.getText();
+		
+		//URL encoding converts all " " to "+".  Thus, when decoded it was incorrectly
+		//converting all "+" to " ", including those actually meant to be +
+		text = text.replaceAll("[+]", "%2B");
+		if(Proxy.saveFile("/" + fileName.getText().toString(), text, browser));
 	}
 	
 	@UiHandler("fileName")
@@ -152,8 +157,17 @@ public class Wags extends View
 	@UiHandler("submit")
 	void onSubmitClick(ClickEvent event)
 	{
-		//Apparently spaces in an RTA get passed as \160, or &nbsp, which is
-		//not an acceptable character for java compilation
+		/**
+		 * From here to the next comment is a workaround dealing with
+		 * an anomaly in how RTA's pass spaces as an invalid value.
+		 * To fix this, we insert an &nbsp; which will work properly at the
+		 * start of the code, and then replace all ' ' with &nbsp; which looks
+		 * like we are doing absolutely nothing but replacing ' ' with ' '.
+		 * 
+		 * As silly as this seems, it works with it and doesn't work without it.
+		 * We also then remove the introductory space after using it to cast all
+		 * the spaces.
+		 */
 		String codeHTML, codeText;
 		
 		codeHTML = editor.codeArea.getHTML();
@@ -165,12 +179,17 @@ public class Wags extends View
 		
 		editor.codeArea.setHTML(codeHTML);
 		
+		//End of &nbsp; workaround
+		
+		//URL encode fails to encode "+", this is part of the workaround
+		//which is completed on the server side
+		codeText = codeText.replaceAll("[+]", "%2B");
+		
 		String value = exercises.getValue(exercises.getSelectedIndex());
 		
-		//I feel like there has to be a better way to get the text of the selected exercise
-		if(Proxy.submit(codeText, review, exerciseMap.get(value), "/"+fileName.getText().toString())){
-			tabPanel.selectTab(1);
-		}
+		Proxy.review(codeText, review, exerciseMap.get(value), "/"+fileName.getText().toString());
+		tabPanel.selectTab(1);
+		
 	}
 	
 

@@ -13,6 +13,6 @@
 		}
 	</ui:style>
 	<g:HTMLPanel>
-		<g:TextArea ui:field="review" enabled="false" styleName="{style.reviewer}"> Reviewer </g:TextArea>
+		<g:RichTextArea ui:field="review" enabled="false" styleName="{style.reviewer}"> Reviewer </g:RichTextArea>
 	</g:HTMLPanel>
 </ui:UiBinder> 

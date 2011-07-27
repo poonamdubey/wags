@@ -123,8 +123,7 @@ public class Proxy
 				{
 					WEStatus status = new WEStatus(response);
 					Notification.notify(WEStatus.STATUS_SUCCESS, status.getMessage());
-					loadFileListing(browser, "/"); //not working
-					clearMessage();
+					loadFileListing(browser, "/");
 				}
 				
 				@Override
@@ -144,7 +143,6 @@ public class Proxy
 	
 	/**
 	 * Get a file listing from server. Add each file to file browser tree.
-	 * TODO: Change to get file listing from base path.
 	 */
 	public static void loadFileListing(final FileBrowser fileBrowser, final String path)
 	{
@@ -213,7 +211,6 @@ public class Proxy
 			Request req = builder.sendRequest(null, new RequestCallback() {
 				@Override
 				public void onResponseReceived(Request request, Response response) {
-					// TODO: Do something....
 					WEStatus status = new WEStatus(response);
 					if(status.getStat() == WEStatus.STATUS_SUCCESS){
 						// Login successful.
@@ -280,7 +277,6 @@ public class Proxy
 					WEStatus stat = new WEStatus(response);
 					if(stat.getStat() == WEStatus.STATUS_SUCCESS){
 						// Rebuild browser
-						// TODO: Only rebuild tree part that contains changed item
 						Proxy.loadFileListing(browser, newName);
 						
 					}else{
@@ -359,8 +355,10 @@ public class Proxy
 	}
 	
 	//weird stuff with that timer, look at later
-	public static boolean submit(String code, final OutputReview review, String exerciseId, String fileName){
+	public static void review(String code, final OutputReview review, String exerciseId, String fileName){
 		holdMessage("Compiling...");
+		review.setText("");
+		
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, submitFile);
 		try {
 		      builder.setHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -368,8 +366,10 @@ public class Proxy
 			Request req = builder.sendRequest("code="+code+"&id="+exerciseId+"&name="+fileName, new RequestCallback() {
 		        public void onResponseReceived(Request request, Response response) {
 		          clearMessage();
-		          WEStatus status = new WEStatus(response);
-		          review.setText(status.getMessage());
+		          
+		          WEStatus status = new WEStatus(response);         
+		          review.setHTML(status.getMessage());
+		          
 		          if(status.getStat() == WEStatus.STATUS_SUCCESS){
 		        	  Notification.notify(WEStatus.STATUS_SUCCESS, "Compilation successful");
 		          } else {
@@ -382,11 +382,8 @@ public class Proxy
 		        }
 		      });
 		    } catch (RequestException e) {
-		      Window.alert("Failed to send the request: " + e.getMessage());
-		      return false;
+		      Window.alert("Failed to send the request: " + e.getMessage());	
 		    }
-		   
-		    return true;
 	}
 	
 	public static void isAdmin(final TabLayoutPanel tabPanel){	
