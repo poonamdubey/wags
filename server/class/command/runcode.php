@@ -53,8 +53,11 @@ else if ($pid){
 }
 //child
 else{
-    exec("/usr/bin/java -cp $dir $className 2>&1", $output);
-    print_r($output[0]);
+	exec("/usr/bin/java -cp $dir $className 2>&1", $output);
+	foreach($output as $line){
+		echo $line."<br>";
+	}
+	//print_r($output);
 }
 
 ?>
