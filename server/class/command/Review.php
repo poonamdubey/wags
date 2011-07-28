@@ -20,7 +20,7 @@ class Review extends Command
     public function execute()
     {
 	$classRegex = "/class\s+([^\d]\w+)/";
-	$successRegex = "/Success$/";
+	$successRegex = "/Success/";
 	$code = $_POST['code'];
 	//see str_replace comment in SaveFileContents.php
 	$code = str_replace("%2B", "+", $code);

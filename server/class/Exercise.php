@@ -116,11 +116,10 @@ class Exercise extends Model
 		$db = Database::getDb();
 
 		$sth = $db->prepare('SELECT user.username, file.name, submission.success
-			FROM exercise JOIN file, submission, user
-			ON exercise.id = file.exerciseId	
-			AND file.ownerId = user.id
-			AND submission.fileId = file.id
-			WHERE exercise.id LIKE :exId');
+			FROM submission JOIN file, user
+			ON submission.fileId = file.id
+			AND submission.userId = user.id
+			WHERE submission.exerciseId LIKE :exId');
 		$sth->setFetchMode(PDO::FETCH_ASSOC);
 		$sth->execute(array(':exId' => $exerciseId));
 
