@@ -20,15 +20,15 @@ class Review extends Command
     public function execute()
     {
 	$classRegex = "/class\s+([^\d]\w+)/";
-	$successRegex = "/Success/";
+	$successRegex = "/Success<br>$/";
 	$code = $_POST['code'];
+
 	//see str_replace comment in SaveFileContents.php
 	$code = str_replace("%2B", "+", $code);
 	$exerciseId = $_POST['id'];
-	
-	//Sets files exerciseID - note:
-	//with submission table, I've lost sight of
-	//why the file has an exercise Id.... oh well.
+
+	//Sets files exerciseId in case it changed
+	//Note, however, that the exerciseId really shouldn't change
 	$user = Auth::getCurrentUser();
 	$file = CodeFile::getcodeFileByName($_POST['name'], $user);
 
@@ -38,6 +38,7 @@ class Review extends Command
 
 	$file->save();
 
+	//Update or create the submission for this user/exercise pairing
 	if(Submission::submissionExistsByExerciseId($exerciseId, $user->getId())){
 	    $subList = Submission::getSubmissionByExerciseId($exerciseId, $user->getId());
 	    $sub = $subList[0];	
@@ -54,6 +55,8 @@ class Review extends Command
 	    $sub->setSuccess(0);
 	}
 
+	//Necessary for compilation, as we do not
+	//require that the file name matches the class name
         preg_match($classRegex, $code, $matches);
         if(empty($matches)){
             /* No class name was found. Tell the user to check their code. */
@@ -88,9 +91,9 @@ class Review extends Command
 		chmod($solutionDir, 0777);
 	}
 
-	//May change this to grab name from solution class rather
-	//than depending on the exercise title which currently 
-	//must be the same as the solution class
+	//Creates the solution file
+	//this part may have to be modified with the
+	//addition of helper and test classes
 	$exerciseArray = Exercise::getExerciseById($exerciseId);
 	$exercise = $exerciseArray[0];
 	preg_match($classRegex, $exercise->getSolution(), $solMatch);
@@ -118,7 +121,14 @@ class Review extends Command
         fclose($f);
 		
         /**
-         * Compile code using java compiler.
+	 * Compile code using java compiler.
+	 * Here, we will need to include all the helper
+	 * files found by using exerciseId and class administratorId.
+	 *
+	 * Perhaps do a for each to fill the classes, and then explode
+	 * the array of file names for use in the exec statement?
+	 * I imagine we'll cheat and force the file name to be the
+	 * classname.java, as there is no reason for that not to be the case
          */
         exec("/usr/bin/javac $solutionPath $fullPath 2>&1", $output, $result);
         if($result == EXEC_ERROR){
@@ -134,11 +144,18 @@ class Review extends Command
 	     *
 	     * Edits: Now, we take the compiled solution class and move it to
 	     * the student directory so it can find the linked classes. 
+	     * --> Will have to consider moving helper classes as well
+	     *
+	     * Also, this may get more complicated depending on the requirements
+	     * of a package structure... there may be none, now that I think
+	     * about it....
 	     */
 	    exec("cp $solutionDir/$exerciseName.class $dir/$exerciseName.class");
 //	    exec("/usr/bin/java -cp $dir $exerciseName 2>&1", $output);
 	    $output = $this->runCode($dir, $exerciseName);
 
+	    //Checks for success just by looking to see if the last line
+	    //printed was "Success<br>"
 	    if(preg_match($successRegex, $output[0])){
 		    $sub->setSuccess(1); 
 	    }else{
