@@ -1,5 +1,5 @@
 CREATE TABLE user (
-       id INTEGER PRIMARY KEY AUTOINCREMENT ,
+       id INTEGER PRIMARY KEY AUTOINCREMENT,
        username VARCHAR(255) NOT NULL,
        firstName VARCHAR(255) NULL,
        lastName VARCHAR(255) NULL,
@@ -8,7 +8,8 @@ CREATE TABLE user (
        added INT NOT NULL,
        updated INT NOT NULL,
        lastLogin INT NOT NULL,
-       admin INT NOT NULL
+       admin INT NOT NULL,
+	   section INT NOT NULL REFERENCES class(id)
 );
 
 CREATE TABLE file (
@@ -26,10 +27,12 @@ CREATE TABLE exercise (
        title VARCHAR(255) NOT NULL,
        description TEXT,
        skeleton TEXT,
-       solution TEXT,   
+       solution TEXT,  
+	   testClass TEXT,
        visible INT NOT NULL,
        added INT NOT NULL,
-       updated INT NOT NULL
+       updated INT NOT NULL,
+	   section INT NOT NULL REFERENCES class(id)
 );
 
 CREATE TABLE submission (
@@ -42,6 +45,13 @@ CREATE TABLE submission (
        updated INT NOT NULL
 );
 
+CREATE TABLE section (
+	   id INTEGER PRIMARY KEY AUTOINCREMENT,
+	   name VARCHAR(255) NOT NULL,
+	   administrator REFERENCES user(id)
+);
+
 -- Insert some admins
 -- password 123456
-INSERT INTO user VALUES (1, 'admin', 'Admin', 'Istrator', 'bostrt@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 0, 0, 0, 1);
+INSERT INTO user VALUES (1, 'admin', 'Admin', 'Istrator', 'bostrt@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 0, 0, 0, 1, 0);
+INSERT INTO section VALUES (0, 'Test Class', 1);

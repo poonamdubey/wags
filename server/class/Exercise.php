@@ -8,8 +8,10 @@ class Exercise extends Model
 	protected $description;
 	protected $skeleton;
 	protected $solution;
+	protected $testClass;
 	protected $title;
 	protected $visible;
+	protected $section;
 	
 	public function getTable(){
 		return 'exercise';
@@ -39,6 +41,14 @@ class Exercise extends Model
 		return $this->solution;
 	}
 
+	public function getTestClass(){
+		return $this->testClass;
+	}
+
+	public function setTestClass($testClass){
+		$this->testClass = $testClass;
+	}
+
 	public function setTitle($title){
 		$this->title = $title;
 	}
@@ -53,6 +63,14 @@ class Exercise extends Model
 
 	public function getVisible(){
 		return $this->visible;
+	}
+
+	public function setSection($section=0){
+		return $this->section = $section;
+	}
+
+	public function getClass(){
+		return $this->class;
 	}
 
 	public static function isVisible(Exercise $exercise)
