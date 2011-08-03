@@ -12,6 +12,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -41,10 +42,12 @@ public class Registration extends View
 	@UiField PasswordTextBox password;
 	@UiField PasswordTextBox passwordConfirm;
 	@UiField Label passwordStatus;
+	@UiField ListBox sections;
 
 	public Registration()
 	{
 		initWidget(uiBinder.createAndBindUi(this));
+		Proxy.getSections(sections);
 		registerButton.setText("Register");
 	}
 

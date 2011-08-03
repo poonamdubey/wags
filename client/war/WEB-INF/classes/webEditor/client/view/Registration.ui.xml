@@ -5,6 +5,10 @@
 		.important {
 			font-weight: bold;
 		}
+		.lbox{
+			width: 135px;
+			padding-left: 10px;	
+		}
 	</ui:style>
 	<g:VerticalPanel>
 		<g:Label>Email: </g:Label><g:TextBox ui:field="email" />
@@ -14,6 +18,8 @@
 		<g:Label>Password: </g:Label><g:PasswordTextBox ui:field="password" />
 		<g:Label>Re-enter password: </g:Label><g:PasswordTextBox ui:field="passwordConfirm" />
 		<g:Label ui:field="passwordStatus" />
+		<g:Label>Section: </g:Label>
+		<g:ListBox ui:field="sections" styleName="{style.lbox}"></g:ListBox>
 		<g:Button styleName="{style.important}" ui:field="registerButton" />
 	</g:VerticalPanel>
 	
