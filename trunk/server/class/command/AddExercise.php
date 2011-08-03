@@ -62,6 +62,10 @@ class AddExercise extends Command
                 $e->setDescription($description);
                 $e->setTitle($name);
                 $e->setAdded(time());
+				$e->setSection(0); //temporary measure while client side
+				//hasn't been updated for sections
+				$e->setTestClass('yadda');//same as above comment, but
+				//for test class
 	}
 
 	$visible = $_POST['visible'];

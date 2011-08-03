@@ -19,6 +19,7 @@ class User extends Model
     protected $lastLogin;
     protected $password;
     protected $admin;
+	protected $section;
 
     public function getTable(){
         return 'user';
@@ -60,6 +61,9 @@ class User extends Model
     public function getEmail(){
         return $this->email;
     }
+	public function getSection(){
+		return $this->section;
+	}
     public function setEmail($email){
         $this->email = $email;
     }
@@ -88,6 +92,9 @@ class User extends Model
     public function setAdmin($admin=1){
         $this->admin = $admin;
     }
+	public function setSection($section=0){
+		$this->section = $section;
+	}
 
     /************
      * Static helpers
