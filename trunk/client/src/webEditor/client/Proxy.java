@@ -30,10 +30,11 @@ import com.google.gwt.user.client.ui.TabLayoutPanel;
 
 public class Proxy
 {
-	private static final String baseURL = "http://localhost/~wags/wagsServer/index.php";
+	private static final String baseURL = "http://localhost/public_html/wagsServer/index.php";
 	private static final String getFileContents = getBaseURL()+"?cmd=GetFileContents";
 	private static final String saveFileContents = getBaseURL()+"?cmd=SaveFileContents";
 	private static final String deleteFile = getBaseURL()+"?cmd=DeleteFile";
+	private static final String getSections = getBaseURL() + "?cmd=GetSections";
 	private static final String getFileListing = getBaseURL()+"?cmd=GetFileListing";
 	private static final String submitFile = getBaseURL()+"?cmd=Review";
 	private static final String logout = getBaseURL()+"?cmd=Logout";
@@ -525,6 +526,38 @@ public class Proxy
 			Window.alert("Failed to send the request: " + e.getMessage());
 		}
 		
+	}
+	
+	public static void getSections(final ListBox sections) {
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, getSections);
+		try {
+		      @SuppressWarnings("unused")
+			Request req = builder.sendRequest(null, new RequestCallback() {
+		        public void onResponseReceived(Request request, Response response) {
+		        	
+		          WEStatus status = new WEStatus(response);
+		          
+		          if(status.getStat() == WEStatus.STATUS_SUCCESS){
+		        	  if(status.getMessageArray().length > 0){
+		        		  String[] message = status.getMessageArray();
+		        		 
+		        		  for(String section: message){
+		        			  sections.addItem(section.substring(1, section.length()-1)); //strip quotes
+		        		  }
+			        	  
+		        	  } else {
+		        		  sections.addItem(status.getMessage());
+		        	  }
+		          }
+		        }
+		        
+		        public void onError(Request request, Throwable exception) {
+		        	Window.alert("error");
+		        }
+		      });
+		    } catch (RequestException e) {
+		      Window.alert("Failed to send the request: " + e.getMessage());
+		    }
 	}
 	
 
