@@ -37,7 +37,7 @@
 			padding-top: 17px;
 		}
 		.lbox{
-			width: 135px;
+			width: 143px;
 			padding-left: 10px;	
 			margin-right: 10px;
 		}
@@ -60,6 +60,10 @@
 			<g:HorizontalPanel styleName="{style.filePanel}">
 				<g:Label styleName="{style.label}"> Skeleton: </g:Label>
 				<g:FileUpload ui:field="skeleton" name="Skeleton"></g:FileUpload>
+			</g:HorizontalPanel>
+			<g:HorizontalPanel styleName="{style.filePanel}">
+				<g:Label styleName="{style.label}"> Testing Class: </g:Label>
+				<g:FileUpload ui:field="testClass" name="TestClass"></g:FileUpload>
 			</g:HorizontalPanel>
 			<g:Label> Description: </g:Label>	
 			<g:TextArea height="200px" width="270px" ui:field="desc" name="desc"></g:TextArea>

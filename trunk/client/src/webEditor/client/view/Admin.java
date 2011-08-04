@@ -38,6 +38,7 @@ public class Admin extends Composite{
 	@UiField ListBox exercises;
 	@UiField Button btnAdminReview;
 	@UiField Grid grdAdminReview;
+	@UiField FileUpload testClass;
 	
 	private static AdminUiBinder uiBinder = GWT.create(AdminUiBinder.class);
 

@@ -296,13 +296,14 @@ public class Proxy
 	/**
 	 * Register a user.
 	 */
-	public static void register(String email, final String username, final String password, String firstName, String lastName)
+	public static void register(String email, final String username, final String password, String firstName, String lastName, String section)
 	{
  		String completeURL = Proxy.registerURL+"&email="+email+
 		 "&username="+username+
 		 "&password="+password+
 		 "&firstName="+firstName+
-		 "&lastName="+lastName;
+		 "&lastName="+lastName+
+		 "&section="+section;
  		
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, completeURL);
 		try{
