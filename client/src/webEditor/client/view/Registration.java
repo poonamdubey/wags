@@ -65,7 +65,8 @@ public class Registration extends View
 			return;
 		}
 		
-		Proxy.register(email.getText(), username.getText(), password.getText(), firstName.getText(), lastName.getText());
+		Proxy.register(email.getText(), username.getText(), password.getText(), firstName.getText(), 
+				lastName.getText(), sections.getValue(sections.getSelectedIndex()));
 	}
 	
 	/**
