@@ -109,10 +109,13 @@ class Exercise extends Model
 	public static function getVisibleExercises()
 	{
 		require_once('Database.php');
+		$user = Auth::getCurrentUser();
+
 		$db = Database::getDb();
 		
-		$sth = $db->prepare('SELECT * FROM exercise WHERE visible like 1');
-		$sth->execute();		
+		$sth = $db->prepare('SELECT * FROM exercise WHERE visible LIKE 1
+			AND section LIKE :section');
+		$sth->execute(array(':section' => $user->getSection()));		
 
 		return $sth->fetchAll(PDO::FETCH_CLASS, 'Exercise');
 	}
@@ -151,15 +154,19 @@ class Exercise extends Model
 		$allUsers = array();
 		$exUsers = array();
 
-		$sth = $db->prepare('SELECT id FROM user');
+		//Due to my extremely limited database knowledge, I'm doing this
+		//method in an extremely ugly way.  First, I grab all users in this
+		//section.  Then, I grab all users who have an file for this 
+		//exercise already.  If the user exists in the first list, but not
+		//the second, they get a skeleton
+		$sth = $db->prepare('SELECT id FROM user WHERE section LIKE :section');
 		$sth->setFetchMode(PDO::FETCH_ASSOC);
-		$sth->execute();
+		$sth->execute(array('section' => $this->section));
 
 		while($row = $sth->fetch()){
 			$allUsers[] = $row['id'];
 		}
 
-		//Exusers never being filled
 		$sth = $db->prepare('SELECT DISTINCT ownerId FROM file WHERE
 			exerciseId LIKE :exerciseId');
 		$sth->setFetchMode(PDO::FETCH_ASSOC);
@@ -168,8 +175,6 @@ class Exercise extends Model
 		while($row = $sth->fetch()){
 			$exUsers[] = $row['ownerId'];
 		}
-
-		JSON::error($exUsers);
 
 		foreach ($allUsers as $curUser){
 			if (!in_array($curUser, $exUsers)){
