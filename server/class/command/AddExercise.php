@@ -18,29 +18,27 @@ class AddExercise extends Command
         if(!Auth::isLoggedIn()){
             return JSON::error('Must be logged in as administrator
                 to log an exercise');   
-	}
+		}
+		
+		$user = Auth::getCurrentUser();
+		$name = $_POST['fileName'];
 
-	$name = $_POST['fileName'];
-
-	if(Exercise::exerciseExistsByTitle($name)){
-		$e = Exercise::getExerciseByTitle($name);
-		$update = true;
-	}else{
-        	//Grab solution
-        	if(!isset($_FILES['Solution'])){
-        	    return JSON::error('No solution');
-	        }	
+		if(Exercise::exerciseExistsByTitle($name)){
+			$e = Exercise::getExerciseByTitle($name);
+			$update = true;
+		}else{
+			//Check all files were uploaded
+			if(!isset($_FILES['Solution']) || !isset($_FILES['Skeleton']) ||
+				!isset($_FILES['TestClass'])){
+				return JSON::error('Each exercise must have a Solution, Skeleton,
+					and Testing Class');
+			}
 
         	$solution = $_FILES['Solution'];
-
-	        //Grab skeleton
-	        if(!isset($_FILES['Skeleton'])){
-	            return JSON::error('No skeleton');
-	        }
-        
       		$skeleton = $_FILES['Skeleton'];
+			$testClass = $_FILES['TestClass'];
 
-        	//check both files for plain text
+        	//check all files for plain text
         	$finfo = finfo_open(FILEINFO_MIME_TYPE);
        		$type = finfo_file($finfo, $solution['tmp_name']);
 	        if(strpos($type, 'text') === FALSE){
@@ -52,20 +50,27 @@ class AddExercise extends Command
         	    return JSON::error('Please only upload plain text or source files (skeleton)');
        		}	
 
+        	$type = finfo_file($finfo, $testClass['tmp_name']);
+        	if(strpos($type, 'text') === FALSE){
+        	    return JSON::error('Please only upload plain text or source files (skeleton)');
+       		}	
+
+
        		$solutionContents = file_get_contents($solution['tmp_name']);
        	 	$skeletonContents = file_get_contents($skeleton['tmp_name']);
-		$description = $_POST['desc'];
+			$testClassContents = file_get_contents($testClass['tmp_name']);
 
-		$e = new Exercise;
-                $e->setSolution($solutionContents);
-                $e->setSkeleton($skeletonContents);
-                $e->setDescription($description);
-                $e->setTitle($name);
-                $e->setAdded(time());
-				$e->setSection(0); //temporary measure while client side
-				//hasn't been updated for sections
-				$e->setTestClass('yadda');//same as above comment, but
-				//for test class
+			$description = $_POST['desc'];
+
+			$e = new Exercise;
+            $e->setSolution($solutionContents);
+            $e->setSkeleton($skeletonContents);
+            $e->setDescription($description);
+            $e->setTitle($name);
+            $e->setAdded(time());
+			$e->setSection($user->getSection());
+			$e->setTestClass($testClassContents);//Temporary server side handling
+			//of TestClass as client side hasn't been updated yet
 	}
 
 	$visible = $_POST['visible'];

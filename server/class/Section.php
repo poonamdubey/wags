@@ -33,6 +33,8 @@ class Section extends Model
 		$this->administrator = $admin;
 	}
 
+	//Used by getSections to fill listbox on
+	//registration page
 	public static function getSectionNames(){
 		require_once('Database.php');
 		$db = Database::getDb();
@@ -42,6 +44,22 @@ class Section extends Model
 		$sth->execute();
 
 		return $sth->fetchAll();
+	}
+
+	//Used by RegisterUser to get the id from
+	//the section name given by proxy.register
+	public static function getIdByName($name){
+		require_once('Database.php');
+		$db = Database::getDb();
+
+		$sth = $db->prepare('SELECT id FROM section WHERE name like :name');
+		$sth->setFetchMode(PDO::FETCH_NUM);
+		$sth->execute(array(':name' => $name));
+
+		$idArray = $sth->fetch();
+		$idValues = array_values($idArray);
+
+		return $idValues[0];
 	}
 }
 

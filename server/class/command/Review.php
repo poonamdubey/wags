@@ -78,46 +78,46 @@ class Review extends Command
         }
         $fullPath = "$dir/$className.java";
 
-	$f = fopen($fullPath, "w+");
+		$f = fopen($fullPath, "w+");
 
-	/**
-	 * Creating solutions direcotry,
-	 * adding or grabbing solution from directory
-	 * using exerciseName as key
-	 */
-	$solutionDir = "/tmp/Solutions";
-	if(!is_dir($solutionDir)){
-		mkdir($solutionDir);
-		chmod($solutionDir, 0777);
-	}
+		/**
+		 * Creating solutions direcotry,
+		 * adding or grabbing solution from directory
+		 * using exerciseName as key
+		 */
+		$solutionDir = "/tmp/Solutions";
+		if(!is_dir($solutionDir)){
+			mkdir($solutionDir);
+			chmod($solutionDir, 0777);
+		}
 
-	//Creates the solution file
-	//this part may have to be modified with the
-	//addition of helper and test classes
-	$exerciseArray = Exercise::getExerciseById($exerciseId);
-	$exercise = $exerciseArray[0];
-	preg_match($classRegex, $exercise->getSolution(), $solMatch);
-	$exerciseName = $solMatch[1];
-	$solutionPath = "$solutionDir/"."$exerciseName.java";
+		//May change this to grab name from solution class rather
+		//than depending on the exercise title which currently 
+		//must be the same as the solution class
+		$exerciseArray = Exercise::getExerciseById($exerciseId);
+		$exercise = $exerciseArray[0];
+		preg_match($classRegex, $exercise->getSolution(), $solMatch);
+		$exerciseName = $solMatch[1];
+		$solutionPath = "$solutionDir/"."$exerciseName.java";
 
-	$solutionFile = fopen($solutionPath, "w+");
-	$solutionResult = fwrite($solutionFile, $exercise->getSolution());
+		$solutionFile = fopen($solutionPath, "w+");
+		$solutionResult = fwrite($solutionFile, $exercise->getSolution());
 
         if($f === FALSE || $solutionFile === FALSE){
             return JSON::error("Error occurred while testing your code. [1]");
         }
 
         // Write code to file.
-	$result = fwrite($f, $code);
+		$result = fwrite($f, $code);
 
         if($result === FALSE || $solutionResult === FALSE){
             return JSON::error("Error occurred while testing your code. [2]");
         }
 		
         // Flush and close file
-	fflush($f);
-	fflush($solutionFile);
-	fclose($solutionFile);
+		fflush($f);
+		fflush($solutionFile);
+		fclose($solutionFile);
         fclose($f);
 		
         /**

@@ -32,12 +32,12 @@ class RegisterUser extends Command
         $user->setFirstName($_REQUEST['firstName'] == '' ? NULL : $_REQUEST['firstName']);
         $user->setLastName($_REQUEST['lastName'] == '' ? NULL : $_REQUEST['lastName']);
         $user->setPassword(md5($_REQUEST['password'])); // MD5!
+		$user->setSection(Section::getIdByName($_REQUEST['section']));
         $now = time();
         $user->setLastLogin($now);
         $user->setAdded($now);
         $user->setUpdated($now);
         $user->setAdmin(0);
-		$user->setSection(0);
 	
         try{
             $user->save();
