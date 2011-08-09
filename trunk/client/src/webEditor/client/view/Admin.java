@@ -39,6 +39,8 @@ public class Admin extends Composite{
 	@UiField Button btnAdminReview;
 	@UiField Grid grdAdminReview;
 	@UiField FileUpload testClass;
+	@UiField FileUpload helperClass;
+	@UiField FormPanel helperForm;
 	
 	private static AdminUiBinder uiBinder = GWT.create(AdminUiBinder.class);
 
@@ -62,14 +64,25 @@ public class Admin extends Composite{
 			}
 			
 		});
+		
+		helperForm.setAction(Proxy.getBaseURL() + "?cmd=AddHelperClass");
+		helperForm.setEncoding(FormPanel.ENCODING_MULTIPART);
+		helperForm.setMethod(FormPanel.METHOD_POST);
+		
+		helperForm.addSubmitCompleteHandler(new SubmitCompleteHandler(){
+			
+			public void onSubmitComplete(SubmitCompleteEvent event) {
+				Notification.notify(1, "Class uploaded");
+			}
+		});
+				
 	}
 	
 	@UiHandler("btnAdminReview")
 	void onReviewClick(ClickEvent event)
 	{
 		String value = exercises.getValue(exercises.getSelectedIndex());
-		Proxy.getSubmissionInfo(Integer.parseInt(exerciseMap.get(value)), grdAdminReview);
-		
+		Proxy.getSubmissionInfo(Integer.parseInt(exerciseMap.get(value)), grdAdminReview);		
 	}
 
 }
