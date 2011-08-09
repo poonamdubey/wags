@@ -14,6 +14,7 @@ class CodeFile extends Model
     protected $ownerId;
     protected $contents;
     protected $exerciseId;
+	protected $section;
     
     public function getTable(){
         return 'file';
@@ -28,8 +29,12 @@ class CodeFile extends Model
         return $this->ownerId;
     }
     public function getExerciseId(){
-	return $this->exerciseId;
+		return $this->exerciseId;
     }
+	public function getSection(){
+		return $this->section;
+	}
+
 
     public function  setContents($text){
         $this->contents = $text;
@@ -43,6 +48,9 @@ class CodeFile extends Model
     public function setExerciseId($id){
 	    $this->exerciseId = $id;
     }
+	public function setSection($section){
+		$this->section = $section;
+	}
    
 
     /**

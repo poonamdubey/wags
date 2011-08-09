@@ -45,6 +45,7 @@ class SaveFileContents extends Command
 	    $file->setName($_REQUEST['name']);
 	    $file->setExerciseId(0);
             $file->setOwnerId($user->getId());
+			$file->setSection($user->getSection());
             $file->setUpdated($now);
             $file->setAdded($now);
             $file->save();
