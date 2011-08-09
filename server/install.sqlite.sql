@@ -17,7 +17,8 @@ CREATE TABLE file (
        name VARCHAR(255) NOT NULL,
        ownerId INT NOT NULL REFERENCES user(id),
        exerciseId INT NOT NULL REFERENCES exercise(id),
-       contents TEXT ,
+       contents TEXT,
+	   section INT NOT NULL,
        updated INT NOT NULL,
        added INT NOT NULL
 );

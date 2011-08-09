@@ -66,7 +66,11 @@ class Exercise extends Model
 	}
 
 	public function setSection($section=0){
-		return $this->section = $section;
+		$this->section = $section;
+	}
+
+	public function getSection(){
+		return $this->section;
 	}
 
 	public function getClass(){
@@ -184,6 +188,7 @@ class Exercise extends Model
 		             $file->setName("/".$this->title."/skeleton");
 		             $file->setExerciseId($this->id);
 		             $file->setOwnerId($curUser);
+					 $file->setSection($this->getSection());
 		             $file->setUpdated($now);
 			     $file->setAdded($now);
 			     $file->save();
