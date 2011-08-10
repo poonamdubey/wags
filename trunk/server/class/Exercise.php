@@ -77,6 +77,17 @@ class Exercise extends Model
 		return $this->class;
 	}
 
+	public function getHelperClasses(){
+		require_once('Database.php');
+		$db = Database::getDb();
+
+		$sth = $db->prepare('SELECT * FROM file WHERE ownerId LIKE 0 AND
+			exerciseId LIKE :exId AND section LIKE :section');
+		$sth->execute(array(':exId' => $this->id, ':section' => $this->section));
+
+		return $sth->fetchAll(PDO::FETCH_CLASS, 'CodeFile');
+	}
+
 	public static function isVisible(Exercise $exercise)
 	{
 		require_once('Database.php');
