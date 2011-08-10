@@ -1,185 +1,190 @@
 <?php
 
 /**
- * Review
- *
- * Compile code that was submitted by the user.
- * TODO: Dr. Kurtz said that the file may be named prior to student's
- * typing anything into the web editor. This will make things easier on
- * our side. We can just pass around and "Exercise" object with a filename
- * already set. More on this later.
- *
- * @author Robert Bost <bostrt at appstate dot edu>
- */
+*Review
+*
+*Compile code submitted by the user together with
+*the solution class, test class, and whatever 
+*helper classes were provided.
+*/
 
 define("EXEC_ERROR", 1);
-define("EXEC_SUCCESS", 0);
+define("EXEX_SUCCESS", 0);
 
 class Review extends Command
 {
-    public function execute()
-    {
-	$classRegex = "/class\s+([^\d]\w+)/";
-	$successRegex = "/Success<br>$/";
-	$code = $_POST['code'];
+	public function execute(){
+		$user = Auth::getCurrentUser();
+		$section = $user->getSection();
 
-	//see str_replace comment in SaveFileContents.php
-	$code = str_replace("%2B", "+", $code);
-	$exerciseId = $_POST['id'];
+		//Define the regular expressions used
+		//for finding class and package name,
+		//success of program
+		$classRegex = "/public\sclass\s+([^\d]\w+)/";
+		$packageRegex = "/package\s+([^\d]\w+)/";
+		$successRegex = "/Success<br>$/";
 
-	//Sets files exerciseId in case it changed
-	//Note, however, that the exerciseId really shouldn't change
-	$user = Auth::getCurrentUser();
-	$file = CodeFile::getcodeFileByName($_POST['name'], $user);
+		//Grab posted information
+		$code = $_POST['code'];
+		$exerciseId = $_POST['id'];
+		$fileName = $_POST['name'];
+		$exerciseList = Exercise::getExerciseById($exerciseId);
+		$exercise = $exerciseList[0];
 
-	if(!empty($file) && $file instanceof CodeFile){
-	    $file->setExerciseId($exerciseId);
-	}
-
-	$file->save();
-
-	//Update or create the submission for this user/exercise pairing
-	if(Submission::submissionExistsByExerciseId($exerciseId, $user->getId())){
-	    $subList = Submission::getSubmissionByExerciseId($exerciseId, $user->getId());
-	    $sub = $subList[0];	
-	    $sub->setFileId($file->getId());
-	    $sub->setUpdated(time());
-	} else {
-            $sub = new Submission();
-            $sub->setExerciseId($exerciseId);
-            $sub->setFileId($file->getId());
-            $sub->setUserId($user->getId());
-            $now = time();
-            $sub->setUpdated($now);
-	    $sub->setAdded($now);
-	    $sub->setSuccess(0);
-	}
-
-	//Necessary for compilation, as we do not
-	//require that the file name matches the class name
-        preg_match($classRegex, $code, $matches);
-        if(empty($matches)){
-            /* No class name was found. Tell the user to check their code. */
-            return JSON::error("Please check you class name.");
- 	}      
-
-        /**
-         * Regex found a class name to use.
-         * Create a file called $className.java 
-         * in /tmp/<username>
-         */
-        $className = $matches[1];
-        $user = Auth::getCurrentUser();
-        $username = $user->getUsername();
-        $dir = "/tmp/$username";
-        if(!is_dir($dir)){
-            mkdir($dir);
-            chmod($dir, 0777);
-        }
-        $fullPath = "$dir/$className.java";
-
-		$f = fopen($fullPath, "w+");
-
-		/**
-		 * Creating solutions direcotry,
-		 * adding or grabbing solution from directory
-		 * using exerciseName as key
-		 */
-		$solutionDir = "/tmp/Solutions";
-		if(!is_dir($solutionDir)){
-			mkdir($solutionDir);
-			chmod($solutionDir, 0777);
+		//If, for some strange reason, this code is
+		//being used for a different exercise than before,
+		//update it's exid
+		$file = CodeFile::getCodeFileByName($fileName, $user);
+		if(!empty($file) && $file instanceof CodeFile){
+			$file->setExerciseId($exerciseId);
+			$file->save();
 		}
 
-		//May change this to grab name from solution class rather
-		//than depending on the exercise title which currently 
-		//must be the same as the solution class
-		$exerciseArray = Exercise::getExerciseById($exerciseId);
-		$exercise = $exerciseArray[0];
-		preg_match($classRegex, $exercise->getSolution(), $solMatch);
-		$exerciseName = $solMatch[1];
-		$solutionPath = "$solutionDir/"."$exerciseName.java";
+		//Update or create submission for user/exercise pairing
+		if(Submission::submissionExistsByExerciseId($exerciseId, $user->getId())){
+			$subList = Submission::getSubmissionByExerciseId($exerciseId, $user->getId());
+			$sub = $subList[0];
+			$sub->setFileId($file->getId());
+			$sub->setUpdated(time());
+		} else {
+			$sub = new Submission();
+			$sub->setExerciseId($exerciseId);
+			$sub->setFileId($file->getId());
+			$sub->setUserId($user->getId());
+			$sub->setUpdated(time());
+			$sub->setAdded($now);
+			$sub->setSuccess(0);
+		}
 
-		$solutionFile = fopen($solutionPath, "w+");
-		$solutionResult = fwrite($solutionFile, $exercise->getSolution());
-
-        if($f === FALSE || $solutionFile === FALSE){
-            return JSON::error("Error occurred while testing your code. [1]");
-        }
-
-        // Write code to file.
-		$result = fwrite($f, $code);
-
-        if($result === FALSE || $solutionResult === FALSE){
-            return JSON::error("Error occurred while testing your code. [2]");
-        }
+		//Check for the package statement -> in effect,
+		//this tells us whether or not we'll be using an inner
+		//class in this microlab, and allows us to take the
+		//appropriate actions
+		$code = str_replace("%2B", "+", $code);
+		preg_match($packageRegex, $code, $matches);
+		$fileName = substr($fileName, 1); //files start with a repetitive '/'
 		
-        // Flush and close file
-		fflush($f);
-		fflush($solutionFile);
-		fclose($solutionFile);
-        fclose($f);
-		
-        /**
-	 * Compile code using java compiler.
-	 * Here, we will need to include all the helper
-	 * files found by using exerciseId and class administratorId.
-	 *
-	 * Perhaps do a for each to fill the classes, and then explode
-	 * the array of file names for use in the exec statement?
-	 * I imagine we'll cheat and force the file name to be the
-	 * classname.java, as there is no reason for that not to be the case
-         */
-        exec("/usr/bin/javac $solutionPath $fullPath 2>&1", $output, $result);
-        if($result == EXEC_ERROR){
-            /* Print out error message returned from command line. */
- 	    foreach($output as $line){
-                  $error .= $line;
-            }
-            return JSON::error($error);
-        }else if($result == EXEC_SUCCESS){
-            /**
-             * Attempt to run. Must set classpath since we're running it from
-	     * where ever www-data users's home is.
-	     *
-	     * Edits: Now, we take the compiled solution class and move it to
-	     * the student directory so it can find the linked classes. 
-	     * --> Will have to consider moving helper classes as well
-	     *
-	     * Also, this may get more complicated depending on the requirements
-	     * of a package structure... there may be none, now that I think
-	     * about it....
-	     */
-	    exec("cp $solutionDir/$exerciseName.class $dir/$exerciseName.class");
-//	    exec("/usr/bin/java -cp $dir $exerciseName 2>&1", $output);
-	    $output = $this->runCode($dir, $exerciseName);
+		if(empty($matches)){ 			// No package, no inner class
+			$path = "/tmp/section$section/$fileName"."Dir";
+			$pkg = FALSE;
+		} else {						// Package, so inner class
+			$pkgName = $matches[1];
+			$path = "/tmp/section$section/$pkgName";
+			$compilePath = "/tmp/section$section";
+			$pkg = TRUE;
+		}
 
-	    //Checks for success just by looking to see if the last line
-	    //printed was "Success<br>"
-	    if(preg_match($successRegex, $output[0])){
-		    $sub->setSuccess(1); 
-	    }else{
-		    $sub->setSuccess(0);
-	    }
-	    $sub->save();
-		
-	    JSON::success($output);
-        }
-    }
+		//Now that we know what the package would be, we check
+		//to see if it already exists.  If so, great! If not, 
+		//we create it, and fill it with the files
+		if(!is_dir($path)){
+			if(!mkdir($path, 0777, true)){ //will need to edit permissions
+				$error = error_get_last();
+				return JSON::error($error['message']);		
+			}
 
-     /** 
-       * Attempt to run. Must set classpath since we're running it from
-       * where ever www-data users's home is.
-       */  
-      private function runCode($dir, $className){
-          exec("/usr/bin/php class/command/runcode.php $dir $className 2>&1", $output);          
-          return $output;
-      }   
+			//Create solution class
+			preg_match($classRegex, $exercise->getSolution(), $matches);
+			$className = $matches[1];
+			$solutionPath = "$path/$className.java";
+			$solutionFile = fopen($solutionPath, "w+");
+			$solutionResult = fwrite($solutionFile, $exercise->getSolution());
+			fflush($solutionFile);
+			fclose($solutionFile);
+
+			//Create tester class
+			preg_match($classRegex, $exercise->getTestClass(), $matches);
+			$testName = $matches[1];
+			$testPath = "$path/$testName.java";
+			$testFile = fopen($testPath, "w+");
+			$testResult = fwrite($testFile, $exercise->getTestClass());
+			fflush($testFile);
+			fclose($testFile);
+
+			//create any helper classes
+			$helpers = $exercise->getHelperClasses();
+			$helperResult = TRUE;
+			foreach($helpers as $helper){
+				preg_match($classRegex, $helper->getContents(), $matches);
+				$helperName = $matches[1];
+				$helperPath = "$path/$helperName.java";
+				$helperFile = fopen($helperPath, "w+");
+				$result = fwrite($helperFile, $helper->getContents());
+
+				if(!$result){
+					$helperResult = FALSE;
+					$error = error_get_last();
+					$errorMsg = $error['message'];
+				}
+
+				fflush($helperFile);
+				fclose($helperFile);
+			}
+
+			//if any files weren't properly written, exit
+			if(!($solutionResult && $testResult && $helperResult)){
+				return JSON::error("Administrative class error while writing: $errorMsg");
+			}
+
+		}
+		//Create student class - 
+		//each time this is run, the student class will be different,
+		//so it's not lumped in with the other classes
+		preg_match($classRegex, $code, $matches);
+		if(empty($matches)){
+			return JSON::error("Please check class name");
+		}
+		$className = $matches[1];
+		$classPath = "$path/$className.java";
+		$studentFile = fopen($classPath, "w+");
+		$classResult = fwrite($studentFile, $code);
+		fflush($studentFile);
+		fclose($studentFile);
+
+		//Likewise, each time it is run we need to locate the
+		//testclass
+		preg_match($classRegex, $exercise->getTestClass(), $matches);
+		$testName = $matches[1];
+
+
+		//Make sure student class was written
+		if(!$classResult) return JSON::error("Problem writing student file");
+
+		//Compilation
+		exec("/usr/bin/javac $path/*.java 2>&1", $output, $result);
+		if($result == EXEC_ERROR){
+			foreach($output as $line){
+				$error .= $line."<br>";
+			}
+			return JSON::error($error);
+		} else if ($result == EXEC_SUCCESS){
+
+			//Running of microlab
+			if($pkg){ 		//Within a package
+				$output = $this->runCode($compilePath, $pkgName.".$testName");
+			}
+			else{			//Not within a package
+				$output = $this->runCode($path, $testName);
+			}
+
+			//Check for success
+			if(preg_match($successRegex, $output[0])){
+				$sub->setSuccess(1);
+			} else {
+				$sub->setSuccess(0);
+			}
+
+			$sub->save();
+			JSON::success($output);
+		}
+	}
+
+	private function runCode($dir, $className){
+		exec("/usr/bin/php class/command/runcode.php $dir $className 2>&1", $output);
+		return $output;
+	}
 
 }
 
 ?>
-
-
-
 
