@@ -16,8 +16,8 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -40,6 +40,7 @@ public class Wags extends View
 	@UiField Anchor delete;
 	@UiField Anchor submit;
 	@UiField ListBox exercises;
+	@UiField Button btnGetDesc;
 	
 	@UiField TextBox fileName;
 	@UiField Label hello;
@@ -49,18 +50,16 @@ public class Wags extends View
 	@UiField OutputReview review;
 	@UiField TabLayoutPanel tabPanel;
 	
+	final static int REVIEWPANEL = 1;
+	
 	private HashMap<String, String> exerciseMap = new HashMap<String, String>();
 	
 	public Wags()
 	{
 		initWidget(uiBinder.createAndBindUi(this));
 		
-		save.setVisible(false);
-		delete.setVisible(false);
-		submit.setVisible(false);
-		Proxy.getVisibleExercises(exercises, exerciseMap); 
-		exercises.setVisible(false);
-		
+		Proxy.getVisibleExercises(exercises, exerciseMap);
+		commandBarVisible(false);
 
 		// Add selection handler to file browser
 		browser.getTree().addSelectionHandler(new SelectionHandler<TreeItem>() {
@@ -74,10 +73,7 @@ public class Wags extends View
 				// If clicked item is a leaf TreeItem then open it in editor
 				Proxy.getFileContents(browser.getItemPath(i), editor);
 				// Set filename, save, and delete stuff visible
-				save.setVisible(true);
-				delete.setVisible(true);
-				submit.setVisible(true);
-				exercises.setVisible(true);
+				commandBarVisible(true);
 				fileName.setText(browser.getItemPath(i).toString().substring(1));
 			}
 		});
@@ -98,6 +94,13 @@ public class Wags extends View
 		Proxy.getUsersName(hello);
 	}
 	
+	void commandBarVisible(boolean visible){
+		save.setVisible(visible);
+		delete.setVisible(visible);
+		submit.setVisible(visible);
+		exercises.setVisible(visible);
+		btnGetDesc.setVisible(visible);
+	}
 	/**
 	 * Send contents of text area to server. 
 	 */
@@ -188,8 +191,15 @@ public class Wags extends View
 		String value = exercises.getValue(exercises.getSelectedIndex());
 		
 		Proxy.review(codeText, review, exerciseMap.get(value), "/"+fileName.getText().toString());
-		tabPanel.selectTab(1);
+		tabPanel.selectTab(REVIEWPANEL);
 		
+	}
+	
+	@UiHandler("btnGetDesc")
+	void onDescClick(ClickEvent event){
+		String value = exercises.getValue(exercises.getSelectedIndex());
+		Proxy.getDesc(exerciseMap.get(value), review);
+		tabPanel.selectTab(REVIEWPANEL);
 	}
 	
 

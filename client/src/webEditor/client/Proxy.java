@@ -388,6 +388,30 @@ public class Proxy
 		    }
 	}
 	
+	public static void getDesc(String exerciseId, final OutputReview review){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=GetDesc&id="+exerciseId);
+		try{
+			Request req = builder.sendRequest(null, new RequestCallback(){
+
+				@Override
+				public void onError(Request request, Throwable exception) {
+					Window.alert("Error in getDesc request");
+				}
+
+				@Override
+				public void onResponseReceived(Request request,
+						Response response) {
+					WEStatus status = new WEStatus(response);  
+					
+					review.setHTML(status.getMessage());
+				}
+				
+			});
+		} catch (RequestException e) {
+			Window.alert("Failed to send the request: " + e.getMessage());
+		}
+	}
+	
 	public static void isAdmin(final TabLayoutPanel tabPanel){	
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=IsAdmin");
 		try {
