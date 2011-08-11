@@ -6,14 +6,17 @@
 			font-weight: bold;
 		}
 		.label {
-			padding-top: 8px;
 			text-align: left;
-			padding-right: 10px;
-			width: 90 px;
+			display:block;
+			width:150px;
+			float: left;
 		}
-		.strange{
-			padding-top: 8px;
-			padding-right: 10px;	
+		.chkbox{
+			height:35px;
+			text-align: center;	
+		}
+		.lowlabel{
+			padding-top: 6px;	
 		}
 		.filePanel {
 			height: 35px;
@@ -27,17 +30,19 @@
 			width: 100%;
 			font-family: helvetica;
 		}
+		.subheading{
+			padding-bottom: 8px;
+			font-size: large;
+			font-family: helvetica;	
+		}
 		.button{
 			padding: 12px;
 		}
 		.administration{
 			background-color: #C2C2FF;	
 		}
-		.bugText{
-			padding-top: 17px;
-		}
 		.lbox{
-			width: 143px;
+			width: 130px;
 			padding-left: 10px;	
 			margin-right: 10px;
 		}
@@ -45,50 +50,58 @@
 			height: 100%;
 			background-color: #FFFFFF;
 		}
+		.upload{
+			float: left;
+		}
+		.tbox{
+			float:left;
+			width:160px;
+			margin: 0;
+			padding: 0;	
+		}
 	</ui:style>
 	<g:VerticalPanel styleName="{style.administration}" width="100%" height="80%">
 		<g:FormPanel ui:field="adminForm">
-			<g:VerticalPanel width="100%">
+			<g:VerticalPanel>
 					
 				<g:Label styleName="{style.heading}"> Administration</g:Label>
 				
 				<g:HorizontalPanel styleName="{style.filePanel}">
-					<g:Label styleName="{style.strange}"> Exercise Name: </g:Label>
-					<g:TextBox width="93%" ui:field="fileName" name="fileName"> </g:TextBox>
+					<g:Label styleName="{style.label}"> Exercise Name: </g:Label>
+					<g:TextBox styleName="{style.tbox}" ui:field="fileName" name="fileName"> </g:TextBox>
 				</g:HorizontalPanel>
 				
 				<g:HorizontalPanel styleName="{style.filePanel}">
 					<g:Label styleName="{style.label}"> Solution: </g:Label>
-					<g:FileUpload ui:field="solution" name="Solution"></g:FileUpload>
+					<g:FileUpload styleName="{style.upload}" ui:field="solution" name="Solution"></g:FileUpload>
 				</g:HorizontalPanel>
 				
 				<g:HorizontalPanel styleName="{style.filePanel}">
 					<g:Label styleName="{style.label}"> Skeleton: </g:Label>
-					<g:FileUpload ui:field="skeleton" name="Skeleton"></g:FileUpload>
+					<g:FileUpload styleName="{style.upload}" ui:field="skeleton" name="Skeleton"></g:FileUpload>
 				</g:HorizontalPanel>
 				
 				<g:HorizontalPanel styleName="{style.filePanel}">
 					<g:Label styleName="{style.label}"> Testing Class: </g:Label>
-					<g:FileUpload ui:field="testClass" name="TestClass"></g:FileUpload>
+					<g:FileUpload styleName="{style.upload}" ui:field="testClass" name="TestClass"></g:FileUpload>
 				</g:HorizontalPanel>
 				
-				<g:Label> Description: </g:Label>	
-				<g:TextArea height="200px" width="270px" ui:field="desc" name="desc"></g:TextArea>
-				<g:CheckBox ui:field="visible" height="40px" name="visible">Make Visible</g:CheckBox>
+				<g:Label styleName="{style.label}"> Description: </g:Label>	
+				<g:TextArea height="100px" width="315px" ui:field="desc" name="desc"></g:TextArea>
+				<g:CheckBox styleName="{style.chkbox}" ui:field="visible" name="visible">Make Visible</g:CheckBox>
 				
 				<g:HorizontalPanel styleName="{style.filePanel}">
-					<g:SubmitButton styleName="{style.button}" ui:field="addButton"> Add Exercise </g:SubmitButton>
-					<g:Label styleName="{style.bugText}">Click twice to add skeletons</g:Label>
+					<g:SubmitButton ui:field="addButton"> Add Exercise </g:SubmitButton>
+					<g:Label styleName="{style.lowlabel}">Click twice to add skeletons</g:Label>
 				</g:HorizontalPanel>
 				
-
 			</g:VerticalPanel>
 		</g:FormPanel>
 		 
 		<g:FormPanel ui:field="helperForm">
-			<g:VerticalPanel width="100%">
+			<g:VerticalPanel>
 			
-				<g:Label styleName="{style.label}">Actions on Exercises</g:Label>
+				<g:Label styleName="{style.subheading}">Actions on Exercises</g:Label>
 				
 				<g:HorizontalPanel styleName="{style.filePanel}">
 					<g:ListBox ui:field="exercises" name="Exercises" styleName="{style.lbox}"></g:ListBox>
