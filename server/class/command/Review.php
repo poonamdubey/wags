@@ -28,8 +28,7 @@ class Review extends Command
 		$code = $_POST['code'];
 		$exerciseId = $_POST['id'];
 		$fileName = $_POST['name'];
-		$exerciseList = Exercise::getExerciseById($exerciseId);
-		$exercise = $exerciseList[0];
+		$exercise = Exercise::getExerciseById($exerciseId);
 
 		//If, for some strange reason, this code is
 		//being used for a different exercise than before,
@@ -156,7 +155,7 @@ class Review extends Command
 			foreach($output as $line){
 				$error .= $line."<br>";
 			}
-			return JSON::error($error);
+			JSON::error($error);
 		} else if ($result == EXEC_SUCCESS){
 
 			//Running of microlab
@@ -174,9 +173,10 @@ class Review extends Command
 				$sub->setSuccess(0);
 			}
 
-			$sub->save();
 			JSON::success($output);
 		}
+
+		$sub->save();
 	}
 
 	private function runCode($dir, $className){

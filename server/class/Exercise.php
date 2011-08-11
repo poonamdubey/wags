@@ -118,7 +118,8 @@ class Exercise extends Model
 		$sth =$db->prepare('SELECT * FROM exercise WHERE id = :thisId');
 		$sth->execute(array(':thisId' => $id));
 
-		return $sth->fetchAll(PDO::FETCH_CLASS, 'Exercise');
+		$exerciseList =  $sth->fetchAll(PDO::FETCH_CLASS, 'Exercise');
+		return $exerciseList[0];
 	}
 
 	public static function getVisibleExercises()
