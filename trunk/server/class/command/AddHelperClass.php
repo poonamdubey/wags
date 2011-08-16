@@ -26,22 +26,23 @@ class AddHelperClass extends Command
 		$exerciseTitle = $_POST['Exercises'];
 		$exercise = Exercise::getExerciseByTitle($exerciseTitle);
 		
-		if(!isset($_FILES['HelperClass'])){
-			return JSON::error('No file selected for uploading');
-		}
-
 		$helper = $_FILES['HelperClass'];
 
 		$finfo = finfo_open(FILEINFO_MIME_TYPE);
 		$type = finfo_file($finfo, $helper['tmp_name']);
 
 		if(strpos($type, 'text' === FALSE)){
-			return JSON::error('Please only upload plain text or source files');
+			return 'Please only upload plain text or source files';
 		}
 
 		$helperContents = file_get_contents($helper['tmp_name']);
 
-		$helperName = $_FILES['HelperClass']['name'];
+		if($helperContents == "" || !isset($helperContents)){
+			echo 'Cannot upload empty files';
+			return;
+		}
+
+		$helperName = "/".$exerciseTitle."/".$_FILES['HelperClass']['name'];
 
 		$file = new CodeFile();
 		$file->setContents($helperContents);
@@ -54,7 +55,8 @@ class AddHelperClass extends Command
 
 		$file->save();
 
-		echo "$helperName";
+		echo "Class Uploaded";
+
 	}
 }
 

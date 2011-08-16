@@ -68,7 +68,7 @@ class CodeFile extends Model
 
         $db = Database::getDb();
         
-        $sth = $db->prepare('SELECT * FROM file WHERE name LIKE :name AND ownerId = :id');
+        $sth = $db->prepare('SELECT * FROM file WHERE name LIKE :name AND ownerId = :id OR ownerId = 0');
         $sth->execute(array(':name' => $name, ':id' => $user->getId()));
 
         return $sth->fetchObject('CodeFile');
@@ -82,8 +82,9 @@ class CodeFile extends Model
         require_once('Database.php');
         $db = Database::getDb();
         
-        $sth = $db->prepare('SELECT * FROM file WHERE ownerId = :id');
-        $sth->execute(array(':id' => $user->getId()));
+        $sth = $db->prepare('SELECT * FROM file WHERE ownerId = :id 
+			OR ownerId = 0 and section = :section');
+        $sth->execute(array(':id' => $user->getId(), ':section' => $user->getSection()));
         
         return $sth->fetchAll(PDO::FETCH_CLASS, 'CodeFile');
     }
