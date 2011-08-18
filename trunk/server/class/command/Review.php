@@ -154,6 +154,7 @@ class Review extends Command
 		if($result == EXEC_ERROR){
 			foreach($output as $line){
 				$error .= $line."<br>";
+				$sub->setSuccess(0); //failure to compile is failure for lab
 			}
 			JSON::error($error);
 		} else if ($result == EXEC_SUCCESS){
