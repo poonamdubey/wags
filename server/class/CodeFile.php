@@ -68,7 +68,8 @@ class CodeFile extends Model
 
         $db = Database::getDb();
         
-        $sth = $db->prepare('SELECT * FROM file WHERE name LIKE :name AND ownerId = :id OR ownerId = 0');
+        $sth = $db->prepare('SELECT * FROM file WHERE name LIKE :name AND ownerId = :id OR ownerId = 0
+			AND name LIKE :name');
         $sth->execute(array(':name' => $name, ':id' => $user->getId()));
 
         return $sth->fetchObject('CodeFile');

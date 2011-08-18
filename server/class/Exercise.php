@@ -104,9 +104,12 @@ class Exercise extends Model
 	public static function getExerciseByTitle($title){
 		require_once('Database.php');
 
+		$user = Auth::getCurrentUser();
+
 		$db = Database::getDb();
-		$sth = $db->prepare('SELECT * FROM exercise WHERE title LIKE :title');
-		$sth->execute(array(':title' => $title));
+		$sth = $db->prepare('SELECT * FROM exercise WHERE title LIKE :title
+			AND section like :section');
+		$sth->execute(array(':title' => $title, ':section' => $user->getSection()));
 
 		return $sth->fetchObject('Exercise');
 	}
@@ -140,9 +143,10 @@ class Exercise extends Model
 		require_once('Database.php');
 		$db = Database::getDb();
 
+		$user = Auth::getCurrentUser();
 
-		$sth = $db->prepare('SELECT * FROM exercise WHERE title LIKE :title');
-		$sth->execute(array(':title' => $title));
+		$sth = $db->prepare('SELECT * FROM exercise WHERE title LIKE :title AND section like :section');
+		$sth->execute(array(':title' => $title, ':section' => $user->getSection()));
 
 		return sizeof($sth->fetchAll()) > 0;
 
@@ -204,9 +208,10 @@ class Exercise extends Model
 		             $file->setUpdated($now);
 			     $file->setAdded($now);
 			     $file->save();
- 			     JSON::error("Added Skeleton for ".$curUser);
 			}
 		}
+
+		JSON::error("Added Skeletons for section ".$this->getSection());
 
 	}
 
