@@ -47,7 +47,7 @@ public class Registration extends View
 	public Registration()
 	{
 		initWidget(uiBinder.createAndBindUi(this));
-		Proxy.getSections(sections);
+		Proxy.getSections(sections);	
 		registerButton.setText("Register");
 	}
 

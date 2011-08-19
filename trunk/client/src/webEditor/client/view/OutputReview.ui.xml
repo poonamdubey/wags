@@ -7,7 +7,7 @@
 		}
 		.reviewer{
 			width: 95%;
-			background-color: #FFFFFF;
+			background-color: #EEEEEE ;
 			height: 1200px;	
 			border-style: none;
 		}

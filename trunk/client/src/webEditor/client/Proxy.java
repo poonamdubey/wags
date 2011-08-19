@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
-import webEditor.client.view.CodeEditor;
 import webEditor.client.view.Exercises;
 import webEditor.client.view.FileBrowser;
 import webEditor.client.view.Login;
@@ -24,6 +23,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.RichTextArea;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 
@@ -57,7 +57,7 @@ public class Proxy
 	 * Get the contents of a file with the given name from server.
 	 * Put those contents in the passed CodeEditor.
 	 */
-	public static void getFileContents(String fileName, final CodeEditor editor){
+	public static void getFileContents(String fileName, final RichTextArea editor){
 		//fileName.trim() leaves leading /, this is causing select errors
 		String urlCompl = getFileContents+"&name="+fileName.trim().substring(1);
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, urlCompl);
@@ -67,7 +67,20 @@ public class Proxy
 				@Override
 				public void onResponseReceived(Request request, Response response)
 				{
-					editor.setContents(response.getText());
+					//Ugly. The current way I have helper classes visible
+					//but not modifiable sends a flag character before
+					//the actual text - using WEStatus requires using
+					//JSON with kills the formatting...
+					String html = response.getText();
+					
+					if(html.charAt(0) == '0'){
+						editor.setEnabled(false);
+					} else {
+						editor.setEnabled(true);
+					}
+					
+					editor.setHTML(html.substring(1));
+					
 				}
 				
 				@Override
@@ -403,7 +416,7 @@ public class Proxy
 						Response response) {
 					WEStatus status = new WEStatus(response);  
 					
-					review.setHTML(status.getMessage());
+					review.setText(status.getMessage());
 				}
 				
 			});
@@ -585,5 +598,4 @@ public class Proxy
 		    }
 	}
 	
-
 }
