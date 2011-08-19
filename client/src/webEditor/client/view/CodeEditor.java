@@ -82,8 +82,8 @@ public class CodeEditor extends View implements HasHandlers
 	
 	private void indent(int tabCount){
 		for(int i = 0; i < tabCount; i++){
-			codeArea.getFormatter().insertHTML("&nbsp; &nbsp; &nbsp;");
-			tabCheck.enterIncrement(5);
+			codeArea.getFormatter().insertHTML("&nbsp;&nbsp;&nbsp;&nbsp;");
+			tabCheck.enterIncrement(4);
 		}
 	}
 	
@@ -96,4 +96,9 @@ public class CodeEditor extends View implements HasHandlers
 	{
 		return new WEAnchor("Editor", this, "codeEditor");
 	}
+	
+	public TabCheck getTabCheck(){
+		return this.tabCheck;
+	}
+	
 }

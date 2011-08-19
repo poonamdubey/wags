@@ -3,6 +3,7 @@ package webEditor.client.view;
 import java.util.HashMap;
 
 import webEditor.client.Proxy;
+import webEditor.client.WEStatus;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -49,7 +50,7 @@ public class Admin extends Composite{
 
 	public Admin() {
 		initWidget(uiBinder.createAndBindUi(this));
-
+        
 		Proxy.getVisibleExercises(exercises, exerciseMap); 
 		
 		adminForm.setAction(Proxy.getBaseURL() + "?cmd=AddExercise");
@@ -61,6 +62,8 @@ public class Admin extends Composite{
 			@Override
 			public void onSubmitComplete(SubmitCompleteEvent event) {
 				Notification.notify(1, event.getResults());
+				exercises.clear();
+				Proxy.getVisibleExercises(exercises, exerciseMap); 
 			}
 			
 		});
@@ -71,8 +74,11 @@ public class Admin extends Composite{
 		
 		helperForm.addSubmitCompleteHandler(new SubmitCompleteHandler(){
 			
+			//didn't want to create a whole proxy call, so added this instead
 			public void onSubmitComplete(SubmitCompleteEvent event) {
-				Notification.notify(1, "Class uploaded");
+				int status = WEStatus.STATUS_SUCCESS;
+				if(event.getResults() != "Class Uploaded") status = WEStatus.STATUS_ERROR; 
+				Notification.notify(status, event.getResults());
 			}
 		});
 				

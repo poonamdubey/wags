@@ -31,7 +31,7 @@
 		<g:FormPanel ui:field="form" styleName="{style.form}">
 			<g:HorizontalPanel height="30px" width="400px">
 				<g:SubmitButton ui:field="uploadButton">Upload</g:SubmitButton> 
-				<g:FileUpload ui:field="uploadField" name="the_file" styleName="{style.upload}"/>
+				<g:FileUpload ui:field="uploadField" name="the_file"/>
 				<g:Label styleName="{style.std-txt}" width="115px">Upload Directory: </g:Label>
 				<g:TextBox styleName="{style.fileName}" ui:field="curDir" name="curDir"></g:TextBox>
 			</g:HorizontalPanel>

@@ -10,7 +10,8 @@ public class TabCheck {
 	private TabCounter curTab;
 	private RichTextArea editor;
 	private int lastKey;
-	private int tabCount = 0;
+	private int tabCount = 3; //<--- scary workaround - usually, will be writing at the method
+	//level.  Thus, it is set to default.
 	
 	private static final int OCURLS = 219;
 	private static final int CCURLS = 221;
@@ -100,6 +101,10 @@ public class TabCheck {
 	
 	public int getTabCount(){
 		return tabCount;
+	}
+	
+	public void setTabCount(int count){
+		tabCount = count;
 	}
 	
 	private class TabCounter{
