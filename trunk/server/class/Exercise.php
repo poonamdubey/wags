@@ -160,7 +160,8 @@ class Exercise extends Model
 			FROM submission JOIN file, user
 			ON submission.fileId = file.id
 			AND submission.userId = user.id
-			WHERE submission.exerciseId LIKE :exId');
+			WHERE submission.exerciseId LIKE :exId
+			ORDER BY username');
 		$sth->setFetchMode(PDO::FETCH_ASSOC);
 		$sth->execute(array(':exId' => $exerciseId));
 
