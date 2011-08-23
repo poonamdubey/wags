@@ -22,7 +22,7 @@ class Review extends Command
 		//success of program
 		$classRegex = "/public\sclass\s+([^\d]\w+)/";
 		$packageRegex = "/package\s+([^\d]\w+)/";
-		$successRegex = "/Success<br>$/";
+		$successRegex = "/Success<br><pre>$/";
 
 		//Grab posted information
 		$code = $_POST['code'];
@@ -59,8 +59,13 @@ class Review extends Command
 		//this tells us whether or not we'll be using an inner
 		//class in this microlab, and allows us to take the
 		//appropriate actions
+		//Note:: We use the exercise solution to determine
+		//whether or not to use a pkg rather than the code in case
+		//the student uploads the skeleton into the wrong exercise.
+		//We overwrite SKELETONS, not Solutions/Testclasses, so
+		//Skeletons shouldn't be calling the shots...
 		$code = str_replace("%2B", "+", $code);
-		preg_match($packageRegex, $code, $matches);
+		preg_match($packageRegex, $exercise->getSolution(), $matches);
 		$fileName = substr($fileName, 1); //files start with a repetitive '/'
 		
 		if(empty($matches)){ 			// No package, no inner class
@@ -166,6 +171,8 @@ class Review extends Command
 			else{			//Not within a package
 				$output = $this->runCode($path, $testName);
 			}
+			//retain formatting
+			$output[0] = "<pre>".$output[0]."</pre>";
 
 			//Check for success
 			if(preg_match($successRegex, $output[0])){
