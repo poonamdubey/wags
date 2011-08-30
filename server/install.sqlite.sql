@@ -30,6 +30,7 @@ CREATE TABLE exercise (
        skeleton TEXT,
        solution TEXT,  
 	   testClass TEXT,
+	   multiUser INT NOT NULL,
        visible INT NOT NULL,
        added INT NOT NULL,
        updated INT NOT NULL,
@@ -41,6 +42,7 @@ CREATE TABLE submission (
        exerciseId NOT NULL REFERENCES exercise(id),
        fileId NOT NULL REFERENCES file(id),
        userId NOT NULL REFERENCES user(id),
+	   partner TEXT,
        success INT NOT NULL,
        added INT NOT NULL,
        updated INT NOT NULL
