@@ -12,6 +12,7 @@ class Exercise extends Model
 	protected $title;
 	protected $visible;
 	protected $section;
+	protected $multiUser;
 	
 	public function getTable(){
 		return 'exercise';
@@ -73,8 +74,15 @@ class Exercise extends Model
 		return $this->section;
 	}
 
-	public function getClass(){
-		return $this->class;
+	public function setMultiUser($multiUser){
+		$this->multiUser = $multiUser;
+	}
+
+	public function isMultiUser(){
+		if($this->multiUser == 1) 
+			return TRUE;
+
+		return FALSE;
 	}
 
 	public function getHelperClasses(){
@@ -87,6 +95,37 @@ class Exercise extends Model
 
 		return $sth->fetchAll(PDO::FETCH_CLASS, 'CodeFile');
 	}
+
+	public static function hasMultiUser(){
+		require_once('Database.php');
+		$db = Database::getDb();
+		$user = Auth::getCurrentUser();
+
+		$sth =$db->prepare('SELECT title FROM exercise WHERE section LIKE
+			:section AND multiUser LIKE 1');
+		$sth->execute(array(':section' => $user->getSection()));
+		
+		return sizeof($sth->fetchAll());
+	}
+
+	//there are going to be problems if the teacher ever uploads
+	//more than one group exercise at a time...
+	public static function needsPartner(){
+		require_once('Database.php');
+		$db = Database::getDb();
+		$user = Auth::getCurrentUser();
+
+		$sth = $db->prepare('SELECT DISTINCT exercise.title FROM exercise JOIN submission WHERE
+			ifnull(submission.partner, submission.id) = submission.id AND 
+			exercise.section LIKE :section AND exercise.multiUser = 1');
+		$sth->execute(array(':section'=>$user->getSection()));
+		$sth->setFetchMode(PDO::FETCH_NUM);
+		$list = $sth->fetch();
+		
+		return $list[0];
+		//$Exarray = $sth->fetch();
+		//return $Exarray[0];
+	}	
 
 	public static function isVisible(Exercise $exercise)
 	{

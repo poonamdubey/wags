@@ -22,7 +22,7 @@ class Review extends Command
 		//success of program
 		$classRegex = "/public\sclass\s+([^\d]\w+)/";
 		$packageRegex = "/package\s+([^\d]\w+)/";
-		$successRegex = "/Success<br><pre>$/";
+		$successRegex = "/Success<br>/";
 
 		//Grab posted information
 		$code = $_POST['code'];
@@ -177,11 +177,12 @@ class Review extends Command
 			//Check for success
 			if(preg_match($successRegex, $output[0])){
 				$sub->setSuccess(1);
+				JSON::success($output);
 			} else {
 				$sub->setSuccess(0);
+				JSON::warn($output);
 			}
 
-			JSON::success($output);
 		}
 
 		$sub->save();

@@ -179,5 +179,19 @@ class User extends Model
         
         return $result['count'] == 1;
     }
+
+	public static function getUserNames(){
+		require_once('Database.php');
+		$user = Auth::getCurrentUser();
+
+		$db = Database::getDb();
+		$sth = $db->prepare("SELECT username FROM user WHERE section LIKE :section");
+		$sth->execute(array(':section' => $user->getSection()));
+
+		$results = $sth->fetchAll(PDO::FETCH_NUM);
+		$vals = array_values($results);
+
+		return $vals;
+	}
 }
 ?>

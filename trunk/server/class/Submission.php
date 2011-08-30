@@ -12,7 +12,8 @@ class Submission extends Model
 	protected $exerciseId;
 	protected $fileId;
 	protected $userId;
-	protected $success;	
+	protected $success;
+	protected $partner;
 
 	public function getTable(){
 		return 'submission';
@@ -41,6 +42,12 @@ class Submission extends Model
 	}
 	public function setSuccess($successVal){
 		$this->success = $successVal;
+	}
+	public function getPartner(){
+		return $this->partner;
+	}
+	public function setPartner($partner){
+		$this->partner = $partner;
 	}
 
 
