@@ -386,9 +386,11 @@ public class Proxy
 		          review.setHTML(status.getMessage());
 		          
 		          if(status.getStat() == WEStatus.STATUS_SUCCESS){
-		        	  Notification.notify(WEStatus.STATUS_SUCCESS, "Compilation successful");
+		        	  Notification.notify(WEStatus.STATUS_SUCCESS, "Correct!");
+		          } else if (status.getStat() == WEStatus.STATUS_WARNING){
+		        	  Notification.notify(WEStatus.STATUS_WARNING, "Incorrect, Try Again");
 		          } else {
-		        	  Notification.notify(WEStatus.STATUS_ERROR, "Compilation Errors");
+		        	  Notification.notify(WEStatus.STATUS_ERROR, "Failed to Compile");
 		          }
 		        }
 		        
@@ -516,6 +518,92 @@ public class Proxy
 		    } catch (RequestException e) {
 		      Window.alert("Failed to send the request: " + e.getMessage());
 		    }
+	}
+	
+	public static void getUsernames(final ListBox users) {
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=GetAllUsers");
+		try {
+		      @SuppressWarnings("unused")
+			Request req = builder.sendRequest(null, new RequestCallback() {
+		        public void onResponseReceived(Request request, Response response) {
+		          WEStatus status = new WEStatus(response);
+		          
+		          if(status.getStat() == WEStatus.STATUS_SUCCESS){
+		        	  if(status.getMessageArray().length > 0){
+		        		  String[] message = status.getMessageArray();
+		        		  int n = message.length/2;
+		        		  
+			        	  for(int i = n; i < message.length; i++){
+			        		  users.addItem(message[i]);
+			        	  }
+			        	  
+		        	  } else {
+		        		  users.addItem(status.getMessage());
+		        	  }
+		          }
+		        }
+		        
+		        public void onError(Request request, Throwable exception) {
+		        	Window.alert("error");
+		        }
+		      });
+		    } catch (RequestException e) {
+		      Window.alert("Failed to send the request: " + e.getMessage());
+		    }
+	}
+	
+	public static void checkMultiUser(final Wags wags){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=CheckMultiUser");
+		try{
+			Request req = builder.sendRequest(null, new RequestCallback(){
+
+				@Override
+				public void onError(Request request, Throwable exception) {
+					Window.alert("Error in checkMultiUser request");
+				}
+
+				@Override
+				public void onResponseReceived(Request request,
+						Response response) {
+					WEStatus status = new WEStatus(response);  
+					
+					if(status.getStat() == WEStatus.STATUS_ERROR){
+						String title = status.getMessage();
+						
+						wags.assignPartner(title);
+					}
+				}
+				
+			});
+		} catch (RequestException e) {
+			Window.alert("Failed to send the request: " + e.getMessage());
+		}
+	}
+	
+	public static void assignPartner(String exercise, String partner){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=SetPartner" +
+				"&ex=" + exercise + "&partner=" + partner);
+		try{
+			builder.sendRequest(null, new RequestCallback(){
+
+				@Override
+				public void onError(Request request, Throwable exception) {
+					Window.alert("Error in assignPartner request");
+				}
+
+				@Override
+				public void onResponseReceived(Request request,
+						Response response) {
+					WEStatus status = new WEStatus(response);  
+					
+					//SetPartner will handle the correct messages
+					Notification.notify(status.getStat(), status.getMessage());
+				}
+				
+			});
+		} catch (RequestException e) {
+			Window.alert("Failed to send the request: " + e.getMessage());
+		}
 	}
 
 	public static void getSubmissionInfo(int exerciseId, final Grid grid){

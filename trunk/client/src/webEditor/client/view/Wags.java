@@ -9,6 +9,7 @@ import webEditor.client.WEStatus;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
@@ -18,12 +19,15 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TreeItem;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 
@@ -57,6 +61,8 @@ public class Wags extends View
 	public Wags()
 	{
 		initWidget(uiBinder.createAndBindUi(this));
+		
+		Proxy.checkMultiUser(this);
 		
 		Proxy.getVisibleExercises(exercises, exerciseMap);
 		commandBarVisible(false);
@@ -242,6 +248,31 @@ public class Wags extends View
 		}
 		
 		return path;
+	}
+	
+	public void assignPartner(final String exercise){
+		final DialogBox pickPartner = new DialogBox(false);
+		final ListBox partners = new ListBox();
+		Button close = new Button("Close");
+		
+		HorizontalPanel DialogBoxContents = new HorizontalPanel();
+		pickPartner.setText("Choose a partner for exercise: " + exercise);
+		Proxy.getUsernames(partners);
+		
+		close.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				pickPartner.setVisible(false);
+				Proxy.assignPartner(exercise, partners.getValue(partners.getSelectedIndex()));
+			}
+		});
+		
+		DialogBoxContents.add(partners);
+		DialogBoxContents.add(close);
+		pickPartner.add(DialogBoxContents);
+		
+		pickPartner.center();
 	}
 	
 }
