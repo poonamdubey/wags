@@ -22,6 +22,11 @@ class AdminReview extends Command
 				$result[] = $row['username'];
 				$result[] = $row['name'];
 				$result[] = $row['success'];
+				if($row['partner'] != ""){
+					$result[] = $row['partner'];
+					$result[] = $row['name'];
+					$result[] = $row['success'];
+				}
 			}
 
 			if(empty($subInfo)){
