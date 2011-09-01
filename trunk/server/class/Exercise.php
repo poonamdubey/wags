@@ -116,15 +116,11 @@ class Exercise extends Model
 		$user = Auth::getCurrentUser();
 
 		$sth = $db->prepare('SELECT DISTINCT exercise.title FROM exercise JOIN submission WHERE
-			ifnull(submission.partner, submission.id) = submission.id AND 
-			exercise.section LIKE :section AND exercise.multiUser = 1');
+			submission.partner = "" AND exercise.section LIKE :section
+			AND exercise.multiUser = 1');
 		$sth->execute(array(':section'=>$user->getSection()));
 		$sth->setFetchMode(PDO::FETCH_NUM);
-		$list = $sth->fetch();
-		
-		return $list[0];
-		//$Exarray = $sth->fetch();
-		//return $Exarray[0];
+		return $sth->fetch();
 	}	
 
 	public static function isVisible(Exercise $exercise)
