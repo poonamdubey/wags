@@ -88,7 +88,11 @@
 				
 				<g:Label styleName="{style.label}"> Description: </g:Label>	
 				<g:TextArea height="100px" width="315px" ui:field="desc" name="desc"></g:TextArea>
-				<g:CheckBox styleName="{style.chkbox}" ui:field="visible" name="visible">Make Visible</g:CheckBox>
+				
+				<g:HorizontalPanel>
+					<g:CheckBox styleName="{style.chkbox}" ui:field="visible" name="visible">Make Visible</g:CheckBox>
+					<g:CheckBox styleName="{style.chkbox}" ui:field="multiUser" name="multiUser">Enable Partners</g:CheckBox>
+				</g:HorizontalPanel>
 				
 				<g:HorizontalPanel styleName="{style.filePanel}">
 					<g:SubmitButton ui:field="addButton"> Add Exercise </g:SubmitButton>

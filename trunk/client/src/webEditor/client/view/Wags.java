@@ -263,7 +263,7 @@ public class Wags extends View
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				pickPartner.setVisible(false);
+				pickPartner.hide();
 				Proxy.assignPartner(exercise, partners.getValue(partners.getSelectedIndex()));
 			}
 		});
