@@ -33,16 +33,15 @@ class Review extends Command
 		//If, for some strange reason, this code is
 		//being used for a different exercise than before,
 		//update it's exid
-		$file = CodeFile::getCodeFileByName($fileName, $user);
+		$file = CodeFile::getCodeFileByName($fileName);
 		if(!empty($file) && $file instanceof CodeFile){
 			$file->setExerciseId($exerciseId);
 			$file->save();
 		}
 
 		//Update or create submission for user/exercise pairing
-		if(Submission::submissionExistsByExerciseId($exerciseId, $user->getId())){
-			$subList = Submission::getSubmissionByExerciseId($exerciseId, $user->getId());
-			$sub = $subList[0];
+		$sub = Submission::getSubmissionByExerciseId($exerciseId);
+		if(isSet($sub)){
 			$sub->setFileId($file->getId());
 			$sub->setUpdated(time());
 		} else {
