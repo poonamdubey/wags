@@ -531,9 +531,8 @@ public class Proxy
 		          if(status.getStat() == WEStatus.STATUS_SUCCESS){
 		        	  if(status.getMessageArray().length > 0){
 		        		  String[] message = status.getMessageArray();
-		        		  int n = message.length/2;
 		        		  
-			        	  for(int i = n; i < message.length; i++){
+			        	  for(int i = 0; i < message.length; i++){
 			        		  users.addItem(message[i]);
 			        	  }
 			        	  
