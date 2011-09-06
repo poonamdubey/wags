@@ -14,11 +14,45 @@ class CheckMultiUser extends Command
 {
 	public function execute()
 	{
-		$exerciseTitle = Exercise::needsPartner();
-		if($exerciseTitle != 0){
-			$exerciseTitle = $exerciseTitle[0];
-			return JSON::error($exerciseTitle);
+		$user = Auth::getCurrentUser();
+		//admins don't need partners
+		if($user->isAdmin()){
+			return JSON::success("");
 		}
+		//Grab all exercises that require partners
+		$multiUserExercises = Exercise::getMultiUsers();
+		//If there are none, yay!
+		if(!isSet($multiUserExercises[0])){
+			return JSON::success("");
+		}
+
+		//Check to see if submissions exist for this exercises
+		foreach($multiUserExercises as $exercise){
+			$sub = Submission::getSubmissionByExerciseId(
+				$exercise->getId(), $user->getId());
+
+			//If there is no submission for this exercise yet
+			//create one
+			if(!isSet($sub[0])){
+		        $submission = new Submission();
+   	   		    $submission->setExerciseId($exercise->getId());
+   	        	$submission->setFileId(0);
+		        $submission->setUserId($user->getId());
+        	    $submission->setSuccess(0);
+          		$submission->setPartner("");
+           		$submission->setAdded(time());
+            	$submission->setUpdated(time());
+				$submission->save();
+			} else {
+				$submission = $sub[0];
+			}
+	
+			//If the submission doesn't have a partner
+			if($submission->getPartner() == ""){
+				return JSON::error($exercise->getTitle());
+			}
+		}
+
 		return JSON::success("");
 	}
 }

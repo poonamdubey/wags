@@ -96,16 +96,17 @@ class Exercise extends Model
 		return $sth->fetchAll(PDO::FETCH_CLASS, 'CodeFile');
 	}
 
-	public static function hasMultiUser(){
+	public static function getMultiUsers(){
 		require_once('Database.php');
 		$db = Database::getDb();
 		$user = Auth::getCurrentUser();
 
-		$sth =$db->prepare('SELECT title FROM exercise WHERE section LIKE
+		$sth =$db->prepare('SELECT * FROM exercise WHERE section LIKE
 			:section AND multiUser LIKE 1');
 		$sth->execute(array(':section' => $user->getSection()));
+		$sth->setFetchMode(PDO::FETCH_CLASS, 'Exercise');
 		
-		return sizeof($sth->fetchAll());
+		return $sth->fetchAll();
 	}
 
 	//there are going to be problems if the teacher ever uploads
@@ -114,7 +115,9 @@ class Exercise extends Model
 		require_once('Database.php');
 		$db = Database::getDb();
 		$user = Auth::getCurrentUser();
-
+		
+		//Two problems - submissions don't exist at this point
+		//no link between submission, exercise, and user
 		$sth = $db->prepare('SELECT DISTINCT exercise.title FROM exercise JOIN submission WHERE
 			submission.partner = "" AND exercise.section LIKE :section
 			AND exercise.multiUser = 1');
@@ -191,7 +194,7 @@ class Exercise extends Model
 		require_once('Database.php');
 		$db = Database::getDb();
 
-		$sth = $db->prepare('SELECT user.username, file.name, submission.success
+		$sth = $db->prepare('SELECT user.username, file.name, submission.success, submission.partner
 			FROM submission JOIN file, user
 			ON submission.fileId = file.id
 			AND submission.userId = user.id
