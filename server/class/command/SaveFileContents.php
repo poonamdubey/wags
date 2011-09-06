@@ -20,7 +20,7 @@ class SaveFileContents extends Command
         }
         
         $user = Auth::getCurrentUser();
-	$file = CodeFile::getCodeFileByName($_REQUEST['name'], $user);
+	$file = CodeFile::getCodeFileByName($_REQUEST['name']);
 	$contents = $_REQUEST['contents'];
 
 	/**

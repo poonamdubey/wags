@@ -11,8 +11,7 @@ class DeleteFile extends Command
             return JSON::error('File name needed.');
         }
 
-        $user = Auth::getCurrentUser();
-        $file = CodeFile::getCodeFileByName($_REQUEST['name'], $user);
+        $file = CodeFile::getCodeFileByName($_REQUEST['name']);
 
         if(!empty($file) && $file instanceof CodeFile){
             $file->delete();

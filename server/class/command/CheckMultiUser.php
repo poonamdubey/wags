@@ -28,12 +28,11 @@ class CheckMultiUser extends Command
 
 		//Check to see if submissions exist for this exercises
 		foreach($multiUserExercises as $exercise){
-			$sub = Submission::getSubmissionByExerciseId(
-				$exercise->getId(), $user->getId());
+			$sub = Submission::getSubmissionByExerciseId($exercise->getId());
 
 			//If there is no submission for this exercise yet
 			//create one
-			if(!isSet($sub[0])){
+			if(!isSet($sub)){
 		        $submission = new Submission();
    	   		    $submission->setExerciseId($exercise->getId());
    	        	$submission->setFileId(0);
@@ -44,7 +43,7 @@ class CheckMultiUser extends Command
             	$submission->setUpdated(time());
 				$submission->save();
 			} else {
-				$submission = $sub[0];
+				$submission = $sub;
 			}
 	
 			//If the submission doesn't have a partner

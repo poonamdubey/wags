@@ -62,11 +62,12 @@ class CodeFile extends Model
      *
      * @return CodeFile 
      */
-    public static function getCodeFileByName($name, User $user)
+    public static function getCodeFileByName($name)
     {
         require_once('Database.php');
 
         $db = Database::getDb();
+		$user = Auth::getCurrentUser();
         
         $sth = $db->prepare('SELECT * FROM file WHERE name LIKE :name AND ownerId = :id OR ownerId = 0
 			AND name LIKE :name');
@@ -90,18 +91,5 @@ class CodeFile extends Model
         return $sth->fetchAll(PDO::FETCH_CLASS, 'CodeFile');
     }
 
-    /**
-     * Check if one or more file exists with the passed name.
-     */
-    public static function codeFileExistsByName($name, User $user)
-    {
-      require_once('Database.php');
-      $db = Database::getDb();
-      
-      $sth = $db->prepare('SELECT * FROM file WHERE ownerId = :id AND name LIKE :name');
-      $sth->execute(array(':id' => $user->getId(), ':name' => $name));
-
-      return sizeof($sth->fetchAll()) > 0;
-    }
 }
 ?>

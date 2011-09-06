@@ -109,23 +109,6 @@ class Exercise extends Model
 		return $sth->fetchAll();
 	}
 
-	//there are going to be problems if the teacher ever uploads
-	//more than one group exercise at a time...
-	public static function needsPartner(){
-		require_once('Database.php');
-		$db = Database::getDb();
-		$user = Auth::getCurrentUser();
-		
-		//Two problems - submissions don't exist at this point
-		//no link between submission, exercise, and user
-		$sth = $db->prepare('SELECT DISTINCT exercise.title FROM exercise JOIN submission WHERE
-			submission.partner = "" AND exercise.section LIKE :section
-			AND exercise.multiUser = 1');
-		$sth->execute(array(':section'=>$user->getSection()));
-		$sth->setFetchMode(PDO::FETCH_NUM);
-		return $sth->fetch();
-	}	
-
 	public static function isVisible(Exercise $exercise)
 	{
 		require_once('Database.php');
@@ -159,8 +142,7 @@ class Exercise extends Model
 		$sth =$db->prepare('SELECT * FROM exercise WHERE id = :thisId');
 		$sth->execute(array(':thisId' => $id));
 
-		$exerciseList =  $sth->fetchAll(PDO::FETCH_CLASS, 'Exercise');
-		return $exerciseList[0];
+		return  $sth->fetchObject('Exercise');
 	}
 
 	public static function getVisibleExercises()
@@ -177,19 +159,6 @@ class Exercise extends Model
 		return $sth->fetchAll(PDO::FETCH_CLASS, 'Exercise');
 	}
 
-	public static function exerciseExistsByTitle($title){
-		require_once('Database.php');
-		$db = Database::getDb();
-
-		$user = Auth::getCurrentUser();
-
-		$sth = $db->prepare('SELECT * FROM exercise WHERE title LIKE :title AND section like :section');
-		$sth->execute(array(':title' => $title, ':section' => $user->getSection()));
-
-		return sizeof($sth->fetchAll()) > 0;
-
-	}
-	
 	public static function getSubmissions($exerciseId){
 		require_once('Database.php');
 		$db = Database::getDb();

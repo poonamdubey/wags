@@ -23,8 +23,7 @@ class RenameFile extends Command
             return JSON::error('Old filename and new filename needed.');
         }
 
-        $user = Auth::getCurrentUser();
-        $file = CodeFile::getCodeFileByName($_REQUEST['old'], $user);
+        $file = CodeFile::getCodeFileByName($_REQUEST['old']);
 
         if(!empty($file) && $file instanceof CodeFile){
             $file->setName($_REQUEST['new']);

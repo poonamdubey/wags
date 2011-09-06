@@ -23,8 +23,8 @@ class AddExercise extends Command
 		$user = Auth::getCurrentUser();
 		$name = $_POST['fileName'];
 
-		if(Exercise::exerciseExistsByTitle($name)){
-			$e = Exercise::getExerciseByTitle($name);
+		$e = Exercise::getExerciseByTitle($name);
+		if(isSet($e)){
 			$update = true;
 		}else{
 			//Check all files were uploaded

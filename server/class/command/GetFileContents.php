@@ -23,8 +23,7 @@ class GetFileContents extends Command
             // File name must begin with '/'
             if(substr($name, 0, 1) != '/')
                 $name = '/'.$name;
-            $user = Auth::getCurrentUser();
-            $file = CodeFile::getCodeFileByName($name, $user);
+            $file = CodeFile::getCodeFileByName($name);
             if(empty($file)){
                 return JSON::warn("File not found with name ".$name);
             }
