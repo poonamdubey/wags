@@ -39,9 +39,9 @@ CREATE TABLE exercise (
 
 CREATE TABLE submission (
        id INTEGER PRIMARY KEY AUTOINCREMENT,
-       exerciseId NOT NULL REFERENCES exercise(id),
-       fileId NOT NULL REFERENCES file(id),
-       userId NOT NULL REFERENCES user(id),
+       exerciseId INT NOT NULL REFERENCES exercise(id),
+       fileId INT NOT NULL REFERENCES file(id),
+       userId INT NOT NULL REFERENCES user(id),
 	   partner TEXT,
        success INT NOT NULL,
        added INT NOT NULL,
@@ -51,10 +51,15 @@ CREATE TABLE submission (
 CREATE TABLE section (
 	   id INTEGER PRIMARY KEY AUTOINCREMENT,
 	   name VARCHAR(255) NOT NULL,
-	   administrator REFERENCES user(id)
+	   administrator INT REFERENCES user(id)
 );
 
--- Insert some admins
--- password 123456
-INSERT INTO user VALUES (1, 'admin', 'Admin', 'Istrator', 'bostrt@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 0, 0, 0, 1, 0);
-INSERT INTO section VALUES (0, 'Test Class', 1);
+-- Insert some admins and sections
+-- password wags
+INSERT INTO user VALUES (1, 'admin1', 'Philip', 'Meznar', 'pmeznar@gmail.com', 'c80464fb24d5c80602bb8cd7e4e2d491', 0, 0, 0, 1, 0);
+INSERT INTO user VALUES (2, 'admin2', 'Philip', 'Meznar', 'pmeznar@gmail.com', 'c80464fb24d5c80602bb8cd7e4e2d491', 0, 0, 0, 1, 1);
+INSERT INTO user VALUES (3, 'admin3', 'Admin', 'Istrator', 'bostrt@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 0, 0, 0, 1, 2);
+INSERT INTO section VALUES (0, 'Class 1', 1);
+INSERT INTO section VALUES (1, 'Class 2', 2);
+INSERT INTO section VALUES (2, 'Class 3', 3);
+
