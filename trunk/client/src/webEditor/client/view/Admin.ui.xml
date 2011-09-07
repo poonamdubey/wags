@@ -30,6 +30,11 @@
 			width: 100%;
 			font-family: helvetica;
 		}
+		.hint{
+			font-size: x-small;
+			font-family: sans-serif;
+			color: #444444;	
+		}
 		.subheading{
 			padding-bottom: 8px;
 			font-size: large;
@@ -84,6 +89,18 @@
 				<g:HorizontalPanel styleName="{style.filePanel}">
 					<g:Label styleName="{style.label}"> Testing Class: </g:Label>
 					<g:FileUpload styleName="{style.upload}" ui:field="testClass" name="TestClass"></g:FileUpload>
+				</g:HorizontalPanel>
+				
+				<g:Label styleName="{style.hint}" >Format: DD monthName YYYY HH:MM:SS</g:Label>
+				
+				<g:HorizontalPanel styleName="{style.filePanel}">
+					<g:Label styleName="{style.label}"> Opens at: </g:Label>
+					<g:TextBox styleName="{style.tbox}" ui:field="openDate" name="openDate"> </g:TextBox>
+				</g:HorizontalPanel>
+				
+				<g:HorizontalPanel styleName="{style.filePanel}">
+					<g:Label styleName="{style.label}"> Closes at: </g:Label>
+					<g:TextBox styleName="{style.tbox}" ui:field="closeDate" name="closeDate"> </g:TextBox>
 				</g:HorizontalPanel>
 				
 				<g:Label styleName="{style.label}"> Description: </g:Label>	

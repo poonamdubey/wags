@@ -6,6 +6,8 @@ import webEditor.client.Proxy;
 import webEditor.client.WEStatus;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -24,6 +26,8 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
+import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
+import com.google.gwt.user.client.ui.FormPanel.SubmitHandler;
 
 public class Admin extends Composite{
 
@@ -42,6 +46,8 @@ public class Admin extends Composite{
 	@UiField FileUpload testClass;
 	@UiField FileUpload helperClass;
 	@UiField FormPanel helperForm;
+	@UiField TextBox openDate;
+	@UiField TextBox closeDate;
 	
 	private static AdminUiBinder uiBinder = GWT.create(AdminUiBinder.class);
 
@@ -51,12 +57,19 @@ public class Admin extends Composite{
 	public Admin() {
 		initWidget(uiBinder.createAndBindUi(this));
         
+		//Fill in exercise listbox
 		Proxy.getVisibleExercises(exercises, exerciseMap); 
 		
+		//Adds handler to date textboxes that disable the
+		//is visible box with it unchecked
+		openDate.addChangeHandler(new dateHandler(openDate));
+		closeDate.addChangeHandler(new dateHandler(closeDate));
+		
+		//Handle the Add Exercise Form
 		adminForm.setAction(Proxy.getBaseURL() + "?cmd=AddExercise");
 		adminForm.setEncoding(FormPanel.ENCODING_MULTIPART);
 		adminForm.setMethod(FormPanel.METHOD_POST);
-		
+			
 		adminForm.addSubmitCompleteHandler(new SubmitCompleteHandler(){
 			
 			@Override
@@ -68,6 +81,7 @@ public class Admin extends Composite{
 			
 		});
 		
+		//Handle the Actions on Exercises Form
 		helperForm.setAction(Proxy.getBaseURL() + "?cmd=AddHelperClass");
 		helperForm.setEncoding(FormPanel.ENCODING_MULTIPART);
 		helperForm.setMethod(FormPanel.METHOD_POST);
@@ -89,6 +103,29 @@ public class Admin extends Composite{
 	{
 		String value = exercises.getValue(exercises.getSelectedIndex());
 		Proxy.getSubmissionInfo(Integer.parseInt(exerciseMap.get(value)), grdAdminReview);		
+	}
+	
+	private class dateHandler implements ChangeHandler{
+		TextBox myBox;
+		
+		public dateHandler(TextBox aBox){
+			myBox = aBox;
+		}
+
+		/* (non-Javadoc)
+		 * @see com.google.gwt.event.dom.client.ChangeHandler#onChange(com.google.gwt.event.dom.client.ChangeEvent)
+		 */
+		@Override
+		public void onChange(ChangeEvent event) {
+			if(myBox.getText() != ""){
+				visible.setEnabled(false);
+				visible.setValue(false);}
+			else {
+				visible.setEnabled(true);
+			}
+			
+		}
+		
 	}
 
 }
