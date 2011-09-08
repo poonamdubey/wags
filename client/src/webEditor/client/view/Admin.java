@@ -74,7 +74,9 @@ public class Admin extends Composite{
 			
 			@Override
 			public void onSubmitComplete(SubmitCompleteEvent event) {
-				Notification.notify(1, event.getResults());
+				WEStatus stat = new WEStatus(event.getResults());
+				
+				Notification.notify(stat.getStat(), stat.getMessage());
 				exercises.clear();
 				Proxy.getVisibleExercises(exercises, exerciseMap); 
 			}

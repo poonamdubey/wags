@@ -62,8 +62,8 @@ public class Wags extends View
 	{
 		initWidget(uiBinder.createAndBindUi(this));
 		
+		Proxy.checkTimedExercises();
 		Proxy.checkMultiUser(this);
-		
 		Proxy.getVisibleExercises(exercises, exerciseMap);
 		commandBarVisible(false);
 
