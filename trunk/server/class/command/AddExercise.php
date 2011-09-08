@@ -22,21 +22,27 @@ class AddExercise extends Command
 		
 		$user = Auth::getCurrentUser();
 		$name = $_POST['fileName'];
+		$openDate = $_POST['openDate'];
+		$closeDate = $_POST['closeDate'];
+
+		if($openDate != ""){
+			$openDate = strtotime($openDate);
+			$closeDate = strtotime($closeDate);
+
+			if(!$openDate || !$closeDate){
+				return JSON::error("Dates are not in the correct format");
+			}
+		}
 
 		$e = Exercise::getExerciseByTitle($name);
-		if(isSet($e)){
+		if($e){
+			return JSON::success("CRAPP");
 			$update = true;
 		}else{
-			//Check all files were uploaded
-			if(!isset($_FILES['Solution']) || !isset($_FILES['Skeleton']) ||
-				!isset($_FILES['TestClass'])){
-				return JSON::error('Each exercise must have a Solution, Skeleton,
-					and Testing Class');
-			}
-
         	$solution = $_FILES['Solution'];
       		$skeleton = $_FILES['Skeleton'];
-		$testClass = $_FILES['TestClass'];
+			$testClass = $_FILES['TestClass'];
+
 
         	//check all files for plain text
         	$finfo = finfo_open(FILEINFO_MIME_TYPE);
@@ -58,34 +64,39 @@ class AddExercise extends Command
 
        		$solutionContents = file_get_contents($solution['tmp_name']);
        	 	$skeletonContents = file_get_contents($skeleton['tmp_name']);
-		$testClassContents = file_get_contents($testClass['tmp_name']);
+			$testClassContents = file_get_contents($testClass['tmp_name']);
 
-		$description = $_POST['desc'];
+			$description = $_POST['desc'];
 
-		$e = new Exercise;
-                $e->setSolution($solutionContents);
-                $e->setSkeleton($skeletonContents);
-                $e->setDescription($description);
-                $e->setTitle($name);
+			//So.... I've just been following what was already here, but I 
+			//bet we could actually make constructors for these classes...
+			//I should probably actually learn php
+			$e = new Exercise;
+            $e->setSolution($solutionContents);
+            $e->setSkeleton($skeletonContents);
+            $e->setDescription($description);
+            $e->setTitle($name);
        		$e->setAdded(time());
-		$e->setSection($user->getSection());
-		$e->setTestClass($testClassContents);//Temporary server side handling
-		//of TestClass as client side hasn't been updated yet
-	}
+			$e->setOpenDate($openDate);
+			$e->setCloseDate($closeDate);
+			$e->setSection($user->getSection());
+			$e->setTestClass($testClassContents);//Temporary server side handling
+			//of TestClass as client side hasn't been updated yet
+		}
 
 
-	$visible = $_POST['visible'];
-	if($visible == "on") $visible = 1;
-	else $visible = 0;
-	$e->setVisible($visible);
+		$visible = $_POST['visible'];
+		if($visible == "on") $visible = 1;
+		else $visible = 0;
+		$e->setVisible($visible);
 
-	$multi = $_POST['multiUser'];
-	if($multi == "on") $multiUser = 1;
-	else $multiUser = 0;
-	$e->setMultiUser($multiUser);
+		$multi = $_POST['multiUser'];
+		if($multi == "on") $multiUser = 1;
+		else $multiUser = 0;
+		$e->setMultiUser($multiUser);
 
-	$now = time();
-	$e->setUpdated($now);	
+		$now = time();
+		$e->setUpdated($now);	
 
         try{
 	    $e->save();
@@ -99,15 +110,15 @@ class AddExercise extends Command
 	    JSON::error($f);
         }
 
-	//Seems to only work on second "adding" of exercise...
-	//Problem seems to be within the loop at the end of 
-	//addSkeletons
+		//Seems to only work on second "adding" of exercise...
+		//Problem seems to be within the loop at the end of 
+		//addSkeletons
         if($visible == 1){
-		$e->addSkeletons();
+			$e->addSkeletons();
         }
 
 
-	finfo_close($finfo);
+		finfo_close($finfo);
 
     }
 

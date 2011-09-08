@@ -13,6 +13,8 @@ class Exercise extends Model
 	protected $visible;
 	protected $section;
 	protected $multiUser;
+	protected $openDate;
+	protected $closeDate;
 	
 	public function getTable(){
 		return 'exercise';
@@ -83,6 +85,22 @@ class Exercise extends Model
 			return TRUE;
 
 		return FALSE;
+	}
+
+	public function getOpenDate(){
+		return $this->openDate;
+	}
+
+	public function setOpenDate($open){
+		$this->openDate = $open;
+	}
+
+	public function getCloseDate(){
+		return $this->closeDate;
+	}
+
+	public function setCloseDate($close){
+		$this->closeDate = $close;
 	}
 
 	public function getHelperClasses(){
@@ -173,6 +191,18 @@ class Exercise extends Model
 		$sth->execute(array(':exId' => $exerciseId));
 
 		return $sth->fetchAll();
+	}
+
+	public static function getTimedExercises(){
+		require_once('Database.php');
+		$db = Database::getDb();
+		$user = Auth::getCurrentUser();
+
+		$sth = $db->prepare("SELECT * FROM exercise WHERE section LIKE :section AND
+			openDate != '' ");
+		$sth->execute(array(':section' => $user->getSection()));
+
+		return $sth->fetchAll(PDO::FETCH_CLASS, 'Exercise');
 	}
 
 	public function addSkeletons(){

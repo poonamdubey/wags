@@ -32,6 +32,8 @@ CREATE TABLE exercise (
 	   testClass TEXT,
 	   multiUser INT NOT NULL,
        visible INT NOT NULL,
+	   openDate INT,
+	   closeDate INT,
        added INT NOT NULL,
        updated INT NOT NULL,
 	   section INT NOT NULL REFERENCES class(id)
