@@ -579,6 +579,28 @@ public class Proxy
 		}
 	}
 	
+	public static void checkTimedExercises(){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=CheckOpenExercises");
+		
+		try{
+			Request req = builder.sendRequest(null, new RequestCallback() {
+				
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					Window.alert("Woo");
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+		} catch (RequestException e){
+			Window.alert("Failed");
+		}
+	}
+	
 	public static void assignPartner(String exercise, String partner){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=SetPartner" +
 				"&ex=" + exercise + "&partner=" + partner);
