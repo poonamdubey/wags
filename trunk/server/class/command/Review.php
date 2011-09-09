@@ -30,6 +30,12 @@ class Review extends Command
 		$fileName = $_POST['name'];
 		$exercise = Exercise::getExerciseById($exerciseId);
 
+		//If the exercise has expired:
+		$closed = $exercise->getCloseDate();
+		if($closed != '' && $closed < time()){
+			return JSON::error("This exercise has expired.");
+		}
+
 		//If, for some strange reason, this code is
 		//being used for a different exercise than before,
 		//update it's exid
@@ -41,7 +47,7 @@ class Review extends Command
 
 		//Update or create submission for user/exercise pairing
 		$sub = Submission::getSubmissionByExerciseId($exerciseId);
-		if(isSet($sub)){
+		if($sub){
 			$sub->setFileId($file->getId());
 			$sub->setUpdated(time());
 		} else {

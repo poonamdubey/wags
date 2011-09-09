@@ -50,7 +50,7 @@ class UploadFile extends Command
 
         // If file exists with the same full path, just update that one
         $f = CodeFile::getCodeFileByName($directory.$file['name']);
-        if(isSet($f)){
+        if($f){
             $update = true;
         }else{
             $f = new CodeFile();
