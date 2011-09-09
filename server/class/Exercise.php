@@ -120,7 +120,7 @@ class Exercise extends Model
 		$user = Auth::getCurrentUser();
 
 		$sth =$db->prepare('SELECT * FROM exercise WHERE section LIKE
-			:section AND multiUser LIKE 1');
+			:section AND multiUser LIKE 1 AND visible LIKE 1');
 		$sth->execute(array(':section' => $user->getSection()));
 		$sth->setFetchMode(PDO::FETCH_CLASS, 'Exercise');
 		

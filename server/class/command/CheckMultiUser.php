@@ -32,7 +32,7 @@ class CheckMultiUser extends Command
 
 			//If there is no submission for this exercise yet
 			//create one
-			if(!isSet($sub)){
+			if(!$sub){
 		        $submission = new Submission();
    	   		    $submission->setExerciseId($exercise->getId());
    	        	$submission->setFileId(0);
