@@ -36,7 +36,6 @@ class AddExercise extends Command
 
 		$e = Exercise::getExerciseByTitle($name);
 		if($e){
-			return JSON::success("CRAPP");
 			$update = true;
 		}else{
         	$solution = $_FILES['Solution'];
