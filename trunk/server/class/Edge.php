@@ -9,6 +9,10 @@ class Edge extends Model
 	protected $node2Key;
 
 	//Getters
+	public function getTable(){
+		return 'edge';
+	}
+
 	public function getProblemResult(){
 		return $this->problemResult;
 	}

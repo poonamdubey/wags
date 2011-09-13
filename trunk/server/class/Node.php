@@ -23,6 +23,10 @@ class Node extends Model
 	protected $left;
 
 	//Getters
+	public function getTable(){
+		return 'node';
+	}
+
 	public function getKey(){
 		return $this->key;
 	}
