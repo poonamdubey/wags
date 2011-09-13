@@ -11,6 +11,10 @@ class ProblemResult extends Model
 	protected $problemText;
 
 	//Getters
+	public function getTable(){
+		return 'problemResult';
+	}
+
 	public function getProblemId(){
 		return $this->problemId;
 	}

@@ -11,6 +11,10 @@ class Problem extends Model{
 	protected $section;
 
 	//Getters
+	public function getTable(){
+		return 'problem';
+	}
+
 	public function getName(){
 		return $this->name;
 	}

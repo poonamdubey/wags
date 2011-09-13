@@ -4,13 +4,17 @@ require_once("Model.php");
 
 class Edge extends Model
 {
-	protected $problemResult;
+	protected $problemResultId;
 	protected $node1Key;
 	protected $node2Key;
 
 	//Getters
-	public function getProblemResult(){
-		return $this->problemResult;
+	public function getTable(){
+		return 'edge';
+	}
+
+	public function getProblemResultId(){
+		return $this->problemResultId;
 	}
 
 	//Node1 and Node2 should hold the
@@ -50,8 +54,8 @@ class Edge extends Model
 	}
 
 		//Setters
-	public function setProblemResult($probResult){
-		$this->problemResult = $probResult;
+	public function setProblemResultId($probResult){
+		$this->problemResultId = $probResult;
 	}
 
 	public function setNode1($newNode){
