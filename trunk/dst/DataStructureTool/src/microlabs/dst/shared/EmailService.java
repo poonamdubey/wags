@@ -10,16 +10,21 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import com.google.appengine.api.users.UserServiceFactory;
+
 /**
  * @author Mike Dusenberry
  *
  */
 public class EmailService {
 
-	public void email()
+	public void email(String problemName)
 	{
 		Properties props = new Properties();
         Session session = Session.getDefaultInstance(props, null);
+        
+        String email = UserServiceFactory.getUserService().getCurrentUser().getEmail();
+		//email = email.replace("@", "XATSIGNX");
 
         String msgBody = "...";
 
@@ -28,7 +33,7 @@ public class EmailService {
             msg.setFrom(new InternetAddress("mdusen9@gmail.com", "DST Admin"));
             msg.addRecipient(Message.RecipientType.TO,
                              new InternetAddress("mdusen9@gmail.com", "User"));
-            msg.setSubject("The user's project was correct.");
+            msg.setSubject("User " + email + " completed activity: " + problemName);
             msg.setText(msgBody);
             Transport.send(msg);
 
