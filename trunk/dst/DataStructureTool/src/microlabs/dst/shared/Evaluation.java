@@ -17,4 +17,11 @@ public abstract class Evaluation implements IsSerializable
 	}
 	
 	public abstract String evaluate(String[] arguments, ArrayList<Node> nodes, ArrayList<EdgeParent> edges);
+	
+	public void emailResult()
+	{
+		EmailService emailService = new EmailService();
+		emailService.email();
+		
+	}
 }
