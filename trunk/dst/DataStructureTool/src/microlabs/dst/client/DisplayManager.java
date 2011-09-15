@@ -322,7 +322,7 @@ public class DisplayManager implements IsSerializable
 				//removeWidgetsFromPanel();
 
 				setEdgeParentAndChildren();
-				String evalResult = problem.getEval().evaluate(problem.getArguments(), getNodes(), getEdges());
+				String evalResult = problem.getEval().evaluate(problem.getName(), problem.getArguments(), getNodes(), getEdges());
 
 				if(showingSubMess == true)
 				{
