@@ -17,8 +17,8 @@ require_once("Model.php");
 class Node extends Model
 {
 	protected $key;
-	protected $problemResult;
-	protected $problem;
+	protected $problemResultId;
+	protected $problemId;
 	protected $top;
 	protected $left;
 
@@ -31,12 +31,12 @@ class Node extends Model
 		return $this->key;
 	}
 
-	public function getProblemResult(){
-		return $this->problemResult;
+	public function getProblemResultId(){
+		return $this->problemResultId;
 	}
 
-	public function getProblem(){
-		return $this->problem;
+	public function getProblemId(){
+		return $this->problemId;
 	}
 
 	public function getTop(){
@@ -54,8 +54,8 @@ class Node extends Model
 		$this->key = $newKey;
 	}
 
-	public function setProblemResult($probResult){
-		$this->problemResult = $probResult;
+	public function setProblemResultId($probResult){
+		$this->problemResultId = $probResult;
 	}
 
 	public function setTop($newTop){

@@ -8,7 +8,7 @@ import microlabs.dst.client.NodeClickable;
 
 public class Evaluation_BSTTraversalWithHelp extends Evaluation implements IsSerializable
 {
-	public String evaluate(String problemName, String[] arguments, ArrayList<Node> nodes, ArrayList<EdgeParent> edges)
+	public String evaluate(String[] arguments, ArrayList<Node> nodes, ArrayList<EdgeParent> edges)
 	{	
 		NodeClickable n = (NodeClickable) nodes.get(0);
 		
@@ -36,10 +36,7 @@ public class Evaluation_BSTTraversalWithHelp extends Evaluation implements IsSer
 				return "";
 		}
 		else if(theTrav.equals(arguments[0]))
-		{
-			emailResult(problemName);
 			return "Feedback: Your traversal: " + theTrav + "\nCongratulatons, your traversal is correct.";
-		}
 		else
 			return "Feedback: Your traversal: " + theTrav + "\nThe nodes in your traversal are out of order.  Click highlighted" +
 					" nodes to remove them from the traversal and try a different ordering.";

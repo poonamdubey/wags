@@ -12,7 +12,7 @@ public class Evaluation_PostOrderBST extends Evaluation  implements IsSerializab
 {	
 	private ArrayList<EvaluationNode> treeNodes;
 	
-	public String evaluate(String problemName, String[] arguments, ArrayList<Node> nodes, ArrayList<EdgeParent> edges)
+	public String evaluate(String[] arguments, ArrayList<Node> nodes, ArrayList<EdgeParent> edges)
 	{	
 		errorMessage = "";
 		treeNodes = new ArrayList<EvaluationNode>();
@@ -38,8 +38,7 @@ public class Evaluation_PostOrderBST extends Evaluation  implements IsSerializab
 		{
 			return errorMessage;
 		}
-		
-		emailResult(problemName);
+
 		return "Feedback: Congratulations! Your tree is correct.";
 	}
 

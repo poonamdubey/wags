@@ -50,6 +50,21 @@ class Problem extends Model{
 		return $sth->fetchAll();
 	}
 
+	//This method returns all problems within 
+	//the section of the user who is active during
+	//the function call
+	public static function getProblems(){
+		require_once('Database.php');
+		$db = Database::getDb();
+		$user = Auth::getCurrentUser();
+
+		$sth = $db->prepare('SELECT * FROM problems WHERE section like :section');
+		$sth->setFetchMode(PDO::FETCH_CLASS, 'Problem');
+		$sth->execute(array(':section' => $user->getSection()));
+
+		return $sth->fetchAll();
+	}
+
 	//Setters
 	//I'm gonna wait to implement these as,
 	//once more, they shouldn't be used...

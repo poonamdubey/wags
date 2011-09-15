@@ -21,9 +21,8 @@ class CheckOpenExercises extends Command
 	public function execute()
 	{
 
-		return JSON::success("whooo!");
+		$timedExercises = Exercise::getTimedExercises(); 
 
-		$timedExercises = Exercise::getTimedExercises();  //needs to be created
 		foreach($timedExercises as $exercise){
 			//opens
 			if($exercise->getOpenDate() < time()){
