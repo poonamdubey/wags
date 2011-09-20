@@ -11,7 +11,7 @@ public class Problem implements IsSerializable
 {
 	private String name;
 	private String problemText;
-	private String nodes;
+	private String nodes; //<-just a string of the node values???
 	private int[] xPositions; //must be same size as nodes
 	private int[] yPositions; //must be sames size edges
 	private String insertMethod;

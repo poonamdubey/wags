@@ -2,10 +2,13 @@ package webEditor.client;
 
 import dst.client.DataStructureTool;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+
+import org.datanucleus.sco.backed.Collection;
 
 import webEditor.client.view.Exercises;
 import webEditor.client.view.FileBrowser;
@@ -45,6 +48,9 @@ public class Proxy
 	private static final String registerURL = Proxy.getBaseURL()+"?cmd=RegisterUser";
 	private static final String getExercises = getBaseURL()+"?cmd=GetExerciseList";
 	private static final String getProblems = getBaseURL()+"?cmd=GetProblems";
+	private static final String getProblemSkel = getBaseURL() + "?cmd=GetProblemSkel";
+	private static final String getProblemNodes = getBaseURL() + "?cmd=GetProblemNodes.php";
+	private static final String getProblemEdges = getBaseURL() + "?cmd=GetProblemEdges.php";
 	private static final String getProblemResults = getBaseURL()+"?cmd=GetProblemResults";
 	private static final String SaveProblemResult = getBaseURL()+"?cmd=SaveProblemResult";
 		
@@ -288,6 +294,33 @@ public class Proxy
 	 * directly relate to the datastructure tool functionality of Wags
 	 */
 	
+	public static void getUsersNameDST(final Label label)
+	{
+		WagsCallback c = new WagsCallback() {
+			@Override
+			void warning(WEStatus status) {}
+			
+			@Override
+			void success(WEStatus status) {
+				String first = status.getMessageMapVal("firstName");
+				if(first == null){
+					// Use email address in greeting.
+					first = status.getMessageMapVal("email");
+				}
+				label.setText("Hello, "+first+"!");
+				
+				DST.getProblems();
+			}
+			
+			@Override
+			void error(WEStatus status) {
+				Notification.notify(WEStatus.STATUS_ERROR, "Error fetching user details.");
+			}
+		};
+		
+		Proxy.call("GetUserDetails", null, c);
+	}
+	
 	public static void getProblems(final String[] problems){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getProblems);
 		try {
@@ -307,6 +340,95 @@ public class Proxy
 		        	  } else {
 		        		  problems[0] = (String) status.getMessageMapVal("name");
 		        	  }
+		          }
+		        }
+		        
+		        public void onError(Request request, Throwable exception) {
+		        	Window.alert("error");
+		        }
+		      });
+		    } catch (RequestException e) {
+		      Window.alert("Failed to send the request: " + e.getMessage());
+		    }
+	}
+	
+	public static void getProblemNodes(final ArrayList<Map> nodes){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getProblemNodes);
+		try {
+		      @SuppressWarnings("unused")
+			Request req = builder.sendRequest(null, new RequestCallback() {
+		        public void onResponseReceived(Request request, Response response) {
+		          WEStatus status = new WEStatus(response);
+		          if(status.getStat() == WEStatus.STATUS_SUCCESS){
+		        	  
+		        	  if(status.getObjectArray().length > 0){
+		        		  Map[] problemsMap = status.getObjectArray();
+		        		  
+		        		  for(int i = 0; i < problemsMap.length; i++){
+		        			  nodes.add(problemsMap[i]);
+		        		  }
+
+			        	  
+		        	  } else {
+
+		        	  }
+		          }
+		        }
+		        
+		        public void onError(Request request, Throwable exception) {
+		        	Window.alert("error");
+		        }
+		      });
+		    } catch (RequestException e) {
+		      Window.alert("Failed to send the request: " + e.getMessage());
+		    }
+	}
+	
+	public static void getProblemEdges(final ArrayList<Map> edges){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getProblemNodes);
+		try {
+		    builder.sendRequest(null, new RequestCallback() {
+		        public void onResponseReceived(Request request, Response response) {
+		          WEStatus status = new WEStatus(response);
+		          if(status.getStat() == WEStatus.STATUS_SUCCESS){
+		        	  
+		        	  if(status.getObjectArray().length > 0){
+		        		  Map[] problemsMap = status.getObjectArray();
+		        		  
+		        		  for(int i = 0; i < problemsMap.length; i++){
+		        			  edges.add(problemsMap[i]);
+		        		  }
+
+			        	  
+		        	  } else {
+
+		        	  }
+		          }
+		        }
+		        
+		        public void onError(Request request, Throwable exception) {
+		        	Window.alert("error");
+		        }
+		      });
+		    } catch (RequestException e) {
+		      Window.alert("Failed to send the request: " + e.getMessage());
+		    }
+	}
+	/**
+	 * Hopefully, this method just returns the messagemap of the objec
+	 * @param problem An empty map that will be filled in this method
+	 */
+	public static void getProblemSkel(final Map<String, String> problem){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getProblemSkel);
+		try {
+		      @SuppressWarnings("unused")
+			Request req = builder.sendRequest(null, new RequestCallback() {
+		        public void onResponseReceived(Request request, Response response) {
+		          WEStatus status = new WEStatus(response);
+		          if(status.getStat() == WEStatus.STATUS_SUCCESS){
+		        	   
+		        	  Map<String, String> map = status.getMessageMap();
+		        	  problem.putAll(map);
 		          }
 		        }
 		        

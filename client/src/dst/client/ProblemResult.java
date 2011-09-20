@@ -3,21 +3,18 @@ package dst.client;
 import java.util.List;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
-import microlabs.dst.shared.SerialEdge;
-import microlabs.dst.shared.SerialNode;
-
 public class ProblemResult implements IsSerializable
 {
 	private String problemName;
 	private String problemText;
-	private List<SerialNode> nodes;
-	private List<SerialEdge> edges;
+	private List<Node> nodes; //used to be serialnode and serial edge
+	private List<EdgeUndirected> edges;
 	private String currFeedback;
 	private int attemptNum;
 	
 	private ProblemResult(){}
 
-	public ProblemResult(String problemName, String problemText, List<SerialNode> nodes, List<SerialEdge> edges, String currFeedback, int attemptNum)
+	public ProblemResult(String problemName, String problemText, List<Node> nodes, List<EdgeUndirected> edges, String currFeedback, int attemptNum)
 	{
 		this.problemName = problemName;
 		this.problemText = problemText;
@@ -55,20 +52,20 @@ public class ProblemResult implements IsSerializable
 		return problemText;
 	}
 
-	public List<SerialNode> getNodes() {
+	public List<Node> getNodes() {
 		return nodes;
 	}
 
-	public void setNodes(List<SerialNode> nodes) {
+	public void setNodes(List<Node> nodes) {
 		this.nodes = nodes;
 	}
 	
-	public List<SerialEdge> getEdges() {
+	public List<EdgeUndirected> getEdges() {
 		return edges;
 	}
 
 
-	public void setEdges(List<SerialEdge> edges) {
+	public void setEdges(List<EdgeUndirected> edges) {
 		this.edges = edges;
 	}
 

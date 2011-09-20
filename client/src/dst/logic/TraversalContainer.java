@@ -2,8 +2,8 @@ package dst.logic;
 
 import java.util.ArrayList;
 import com.google.gwt.user.client.ui.Label;
-import microlabs.dst.client.DSTConstants;
-import microlabs.dst.client.DisplayManager;
+import dst.client.DSTConstants;
+import dst.client.DisplayManager;
 
 public class TraversalContainer {
 	
