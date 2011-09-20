@@ -1,7 +1,7 @@
 package dst.client;
 
 import java.util.ArrayList;
-import microlabs.dst.shared.AddEdgeRules;
+import dst.logic.AddEdgeRules;
 
 import org.vaadin.gwtgraphics.client.Line;
 

@@ -54,7 +54,9 @@ public class WEStatus
 			}
 			// JSON Array
 			if (array != null) {
-				
+				/**
+				 * If it's an array of strings
+				 */
 				if(array.get(0).isString() != null){
 					messageArray = new String[array.size()];
 					for (int i = 0; i < array.size(); i++) {
@@ -70,6 +72,10 @@ public class WEStatus
 					
 					this.message = this.message.substring(0, message.length()-3); //remove last " | "
 				} 
+				
+				/**
+				 * If it's an array of objects
+				 */
 				else if(array.get(0).isObject() != null){
 					objectArray = new Map[array.size()];
 					JSONObject curObject = new JSONObject();

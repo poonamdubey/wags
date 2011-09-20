@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
-import microlabs.dst.client.EdgeParent;
-import microlabs.dst.client.Node;
-import microlabs.dst.client.NodeClickable;
+import dst.client.EdgeParent;
+import dst.client.Node;
+import dst.client.NodeClickable;
 
 public class Evaluation_BSTTraversal extends Evaluation implements IsSerializable
 {

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 import java.util.Stack;
 import com.google.gwt.user.client.rpc.IsSerializable;
-import microlabs.dst.client.EdgeParent;
-import microlabs.dst.client.EdgeUndirected;
-import microlabs.dst.client.Node;
+import dst.client.EdgeParent;
+import dst.client.EdgeUndirected;
+import dst.client.Node;
 
 public class Evaluation_PostOrderBST extends Evaluation  implements IsSerializable
 {	

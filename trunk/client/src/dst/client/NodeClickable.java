@@ -1,7 +1,7 @@
 package dst.client;
 
 import java.util.ArrayList;
-import microlabs.dst.shared.TraversalContainer;
+import dst.logic.TraversalContainer;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Label;
