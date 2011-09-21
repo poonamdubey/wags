@@ -21,19 +21,22 @@ import javax.mail.internet.MimeMessage;
 @SuppressWarnings("serial")
 public class EmailServiceImpl extends RemoteServiceServlet implements EmailService {
 
-	public void email(String problemName)
+	public String email(String problemName)
 	{
 		Properties props = new Properties();
         Session session = Session.getDefaultInstance(props, null);
         
         String email = UserServiceFactory.getUserService().getCurrentUser().getEmail();
 		//email = email.replace("@", "XATSIGNX");
+        
+        // Testing
+        System.out.println("The email address is:" + email);
 
         String msgBody = "...";
 
         try {
             Message msg = new MimeMessage(session);
-            msg.setFrom(new InternetAddress("mdusen9@gmail.com", "DST Admin"));
+            msg.setFrom(new InternetAddress(email, "DST Admin"));
             msg.addRecipient(Message.RecipientType.TO,
                              new InternetAddress("mdusen9@gmail.com", "User"));
             msg.setSubject("User " + email + " completed activity: " + problemName);
@@ -41,7 +44,11 @@ public class EmailServiceImpl extends RemoteServiceServlet implements EmailServi
             Transport.send(msg);
 
         } catch (Exception e) {
-            // ...
+            System.out.println("There was an email error: ");
+            System.out.println(e.getMessage());
+            return "Failure";
         }
+        
+        return "Success";
 	}
 }
