@@ -29,8 +29,8 @@ public class DataStructureTool implements EntryPoint
 {	
 	private BasicServicesAsync services;	
 	private ProblemsFetchServiceAsync problemsFetchService;
-	private final ProblemServiceAsync problemService = GWT //service used to get problem
-	.create(ProblemService.class);
+	//service used to get problem
+	private final ProblemServiceAsync problemService = GWT.create(ProblemService.class); 
 	private ProblemResultFetchServiceAsync probFetchService; //service used to get past attempted problems
 
 	private ArrayList<Widget> widgets; //arraylist to hold widgets added to root panel
