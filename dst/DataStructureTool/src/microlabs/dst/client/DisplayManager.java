@@ -9,6 +9,7 @@ import microlabs.dst.shared.SerialNode;
 import microlabs.dst.shared.TraversalContainer;
 import org.vaadin.gwtgraphics.client.DrawingArea;
 import org.vaadin.gwtgraphics.client.Line;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
