@@ -57,6 +57,16 @@
     <url-pattern>/datastructuretool/problemsFetchServiceServlet</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+    <servlet-name>emailService</servlet-name>
+    <servlet-class>microlabs.dst.server.EmailServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>emailService</servlet-name>
+    <url-pattern>/datastructuretool/emailServiceServlet</url-pattern>
+  </servlet-mapping>  
+  
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>DataStructureTool.html</welcome-file>
