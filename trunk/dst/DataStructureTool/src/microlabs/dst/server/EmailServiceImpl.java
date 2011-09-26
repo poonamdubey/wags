@@ -32,15 +32,16 @@ public class EmailServiceImpl extends RemoteServiceServlet implements EmailServi
         // Testing
         System.out.println("The email address is:" + email);
 
-        String msgBody = "...";
+        //String msgBody = "...";
 
         try {
             Message msg = new MimeMessage(session);
-            msg.setFrom(new InternetAddress(email, "DST Admin"));
+            msg.setFrom(new InternetAddress("mdusen9@gmail.com", "DST Admin"));
             msg.addRecipient(Message.RecipientType.TO,
-                             new InternetAddress("dusenberrymw@appstate.edu", "User"));
+                             new InternetAddress("mdusen9@gmail.com", "User"));
             msg.setSubject("User " + email + " completed activity: " + problemName);
-            msg.setText(msgBody);
+            msg.setText("User " + email + " completed activity: " + problemName + 
+            			" of the Data Structure Tool logical labs.");
             Transport.send(msg);
 
         } catch (Exception e) {
