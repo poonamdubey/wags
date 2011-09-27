@@ -10,6 +10,7 @@ import microlabs.dst.shared.AddEdgeRules_TreeMode;
 import microlabs.dst.shared.Evaluation_BSTTraversalWithHelp;
 import microlabs.dst.shared.Evaluation_PostOrderBST;
 import microlabs.dst.shared.Evaluation_BSTTraversal;
+import microlabs.dst.shared.Evaluation_Preorder;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -19,6 +20,7 @@ public class ProblemServiceImpl extends RemoteServiceServlet implements ProblemS
 	public Problem getProblem(int id) {
 		AddEdgeRules_TreeMode rules = new AddEdgeRules_TreeMode();
 		Evaluation_PostOrderBST eval = new Evaluation_PostOrderBST();
+		Evaluation_Preorder preEval = new Evaluation_Preorder();
 		
 		AddEdgeRules noEdgeAddition = new AddEdgeRules();
 		Evaluation_BSTTraversal trav = new Evaluation_BSTTraversal();
@@ -174,6 +176,70 @@ public class ProblemServiceImpl extends RemoteServiceServlet implements ProblemS
 				false,
 				false,
 				DSTConstants.NODE_CLICKABLE);
+		case 10: return new Problem("Binary Tree from Pre/Inorder Traversals 1",
+				"Given the preorder traversal XDMLTKJ, and " +
+				"the inorder traversal MDLXKTJ " +
+				"construct the original binary tree.  " +
+				"Hint: The binary tree is unique.",
+				"DJKLMTX",
+				DSTConstants.INSERT_METHOD_VALUE,
+				noLocs,
+				noLocs,
+				noEdges,
+				new String[]{"XDMLTKJ", "MDLXKTJ"}, //post MLDKJTX
+				preEval,
+				rules,
+				true,
+				true,
+				DSTConstants.NODE_DRAGGABLE);
+		case 11: return new Problem("Binary Tree from Pre/Inorder Traversals 2",
+				"Given the preorder traversal EXPORALS, and " +
+				"the inorder traversal OPXELARS " +
+				"construct the original binary tree.  " +
+				"Hint: The binary tree is unique.",
+				"AELOPRSX",
+				DSTConstants.INSERT_METHOD_VALUE,
+				noLocs,
+				noLocs,
+				noEdges,
+				new String[]{"EXPORALS", "OPXELARS"},  //post OPXLASRE
+				preEval,
+				rules,
+				true,
+				true,
+				DSTConstants.NODE_DRAGGABLE);
+		case 12: return new Problem("Binary Tree from Pre/Inorder Traversals 3",
+				"Given the preorder traversal PDLSOQNTB, and " +
+				"the inorder traversal SLODQPNTB " +
+				"construct the original binary tree.  " +
+				"Hint: The binary tree is unique.",
+				"BDLNOPQST",
+				DSTConstants.INSERT_METHOD_VALUE,
+				noLocs,
+				noLocs,
+				noEdges,
+				new String[]{"PDLSOQNTB", "SLODQPNTB"}, //post SOLQDBTNP
+				preEval,
+				rules,
+				true,
+				true,
+				DSTConstants.NODE_DRAGGABLE);
+		case 13: return new Problem("Binary Tree from Pre/Inorder Traversals 4",
+				"Given the preorder traversal DLGNRAOPETM, and " +
+				"the inorder traversal GNRLADPEOTM " +
+				"construct the original binary tree.  " +
+				"Hint: The binary tree is unique.",
+				"ADEGLMNOPRT",
+				DSTConstants.INSERT_METHOD_VALUE,
+				noLocs,
+				noLocs,
+				noEdges,
+				new String[]{"DLGNRAOPETM", "GNRLADPEOTM"}, //post RNGALEPMTOD
+				preEval,
+				rules,
+				true,
+				true,
+				DSTConstants.NODE_DRAGGABLE);
 		default:
 			return new Problem("Binary Search Tree from Postorder Traversal 1",
 					"Given the postorder traversal DBHJFPTUSM, " +

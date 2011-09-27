@@ -19,6 +19,10 @@ public class ProblemsFetchServiceImpl extends RemoteServiceServlet implements Pr
 							 "BST Postorder Traversal (Help on) 1",
 							 "BST Preorder Traversal (Help off) 1",
 							 "BST Inorder Traversal (Help off) 1",
-							 "BST Postorder Traversal (Help off) 1"};
+							 "BST Postorder Traversal (Help off) 1",
+							 "Binary Tree from Pre/Inorder Traversals 1",
+							 "Binary Tree from Pre/Inorder Traversals 2",
+							 "Binary Tree from Pre/Inorder Traversals 3",
+							 "Binary Tree from Pre/Inorder Traversals 4"};
 	}
 }
