@@ -244,11 +244,11 @@ public class ProblemServiceImpl extends RemoteServiceServlet implements ProblemS
 				"Given the following BST, insert the following " +
 				"nodes in order to retain a BST structure." +
 				"\nHint: Add the top node first, and work your way down",
-				"BPWQHVMT",
-				DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
-				new int[]{0,0,0,250,150,350,200,300},
-				new int[]{10,60,110,75,175,175,275,275,},
-				new String[]{"QH","QV","HM","VT"},
+				"QHVMTBPW",
+				DSTConstants.INSERT_METHOD_VALUE,
+				noLocs,
+				noLocs,
+				noEdges,
 				new String[]{"QHBMPVTW", "BHMPQTVW"}, //pre, in
 				preEval,
 				rules,
@@ -259,11 +259,11 @@ public class ProblemServiceImpl extends RemoteServiceServlet implements ProblemS
 				"Given the following BST, insert the following " +
 				"nodes in order to retain a BST structure." +
 				"\nHint: Add the top node first, and work your way down",
-				"FDPOIVNRZ",
-				DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
-				new int[]{0,0,0,250,150,350,200,300,400},
-				new int[]{10,60,110,75,175,175,275,275,275},
-				new String[]{"OI","OV","IN","VR", "VZ"},
+				"OIVNRZFDP",
+				DSTConstants.INSERT_METHOD_VALUE,
+				noLocs,
+				noLocs,
+				noEdges,
 				new String[]{"OIFDNVRPZ", "DFINOPRVZ"}, //pre, in
 				preEval,
 				rules,
@@ -274,11 +274,11 @@ public class ProblemServiceImpl extends RemoteServiceServlet implements ProblemS
 				"Given the following BST, insert the following " +
 				"nodes in order to retain a BST structure." +
 				"\nHint: Add the top node first, and work your way down",
-				"NKORSPHQG",
-				DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
-				new int[]{0, 0,  0,  0,  0,250,150,350,100},
-				new int[]{10,60,110,160,210, 75,175,175,275},
-				new String[]{"PH","PQ","HG"},
+				"PHQGNKORS",
+				DSTConstants.INSERT_METHOD_VALUE,
+				noLocs,
+				noLocs,
+				noEdges,
 				new String[]{"PHGNKOQRS", "GHKNOPQRS"}, //pre, in
 				preEval,
 				rules,
@@ -289,11 +289,11 @@ public class ProblemServiceImpl extends RemoteServiceServlet implements ProblemS
 				"Given the following BST, insert the following " +
 				"nodes in order to retain a BST structure." +
 				"\nHint: Add the top node first, and work your way down",
-				"SRKONPHQG",
-				DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
-				new int[]{0, 0,  0,  0,  0,250,150,350,100},
-				new int[]{10,60,110,160,210, 75,175,175,275},
-				new String[]{"PH","PQ","HG"},
+				"PHQGSRKON",
+				DSTConstants.INSERT_METHOD_VALUE,
+				noLocs,
+				noLocs,
+				noEdges,
 				new String[]{"PHGKONQSR", "GHKNOPQRS"}, //pre, in
 				preEval,
 				rules,
