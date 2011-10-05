@@ -107,7 +107,7 @@ public class ProblemServiceImpl extends RemoteServiceServlet implements ProblemS
 				false,
 				DSTConstants.NODE_CLICKABLE_FORCE_EVAL);
 		case 5: return new Problem("BST Inorder Traversal (Help on) 1",
-				"Perform an inorer traversal of the binary tree below by clicking" +
+				"Perform an inorder traversal of the binary tree below by clicking" +
 				" nodes in the order the traversal would visit them.",
 				"ABCDEFG",
 				DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
