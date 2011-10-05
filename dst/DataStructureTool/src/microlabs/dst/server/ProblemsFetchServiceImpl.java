@@ -23,6 +23,10 @@ public class ProblemsFetchServiceImpl extends RemoteServiceServlet implements Pr
 							 "Binary Tree from Pre/Inorder Traversals 1",
 							 "Binary Tree from Pre/Inorder Traversals 2",
 							 "Binary Tree from Pre/Inorder Traversals 3",
-							 "Binary Tree from Pre/Inorder Traversals 4"};
+							 "Binary Tree from Pre/Inorder Traversals 4",
+							 "Insert Nodes into a BST 1",
+							 "Insert Nodes into a BST 2",
+							 "Insert Nodes into a BST 3",
+							 "Insert Nodes into a BST 4"};
 	}
 }
