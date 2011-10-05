@@ -240,6 +240,66 @@ public class ProblemServiceImpl extends RemoteServiceServlet implements ProblemS
 				true,
 				true,
 				DSTConstants.NODE_DRAGGABLE);
+		case 14: return new Problem("Insert Nodes into a BST 1",
+				"Given the following BST, insert the following " +
+				"nodes in order to retain a BST structure." +
+				"\nHint: Add the top node first, and work your way down",
+				"BPWQHVMT",
+				DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+				new int[]{0,0,0,250,150,350,200,300},
+				new int[]{10,60,110,75,175,175,275,275,},
+				new String[]{"QH","QV","HM","VT"},
+				new String[]{"QHBMPVTW", "BHMPQTVW"}, //pre, in
+				preEval,
+				rules,
+				true,
+				true,
+				DSTConstants.NODE_DRAGGABLE);
+		case 15: return new Problem("Insert Nodes into a BST 2",
+				"Given the following BST, insert the following " +
+				"nodes in order to retain a BST structure." +
+				"\nHint: Add the top node first, and work your way down",
+				"FDPOIVNRZ",
+				DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+				new int[]{0,0,0,250,150,350,200,300,400},
+				new int[]{10,60,110,75,175,175,275,275,275},
+				new String[]{"OI","OV","IN","VR", "VZ"},
+				new String[]{"OIFDNVRPZ", "DFINOPRVZ"}, //pre, in
+				preEval,
+				rules,
+				true,
+				true,
+				DSTConstants.NODE_DRAGGABLE);
+		case 16: return new Problem("Insert Nodes into a BST 3",
+				"Given the following BST, insert the following " +
+				"nodes in order to retain a BST structure." +
+				"\nHint: Add the top node first, and work your way down",
+				"NKORSPHQG",
+				DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+				new int[]{0, 0,  0,  0,  0,250,150,350,100},
+				new int[]{10,60,110,160,210, 75,175,175,275},
+				new String[]{"PH","PQ","HG"},
+				new String[]{"PHGNKOQRS", "GHKNOPQRS"}, //pre, in
+				preEval,
+				rules,
+				true,
+				true,
+				DSTConstants.NODE_DRAGGABLE);
+		case 17: return new Problem("Insert Nodes into a BST 4",
+				"Given the following BST, insert the following " +
+				"nodes in order to retain a BST structure." +
+				"\nHint: Add the top node first, and work your way down",
+				"SRKONPHQG",
+				DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+				new int[]{0, 0,  0,  0,  0,250,150,350,100},
+				new int[]{10,60,110,160,210, 75,175,175,275},
+				new String[]{"PH","PQ","HG"},
+				new String[]{"PHGKONQSR", "GHKNOPQRS"}, //pre, in
+				preEval,
+				rules,
+				true,
+				true,
+				DSTConstants.NODE_DRAGGABLE);
 		default:
 			return new Problem("Binary Search Tree from Postorder Traversal 1",
 					"Given the postorder traversal DBHJFPTUSM, " +
