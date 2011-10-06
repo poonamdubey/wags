@@ -116,7 +116,49 @@ public class ProblemServiceImpl extends RemoteServiceServlet implements ProblemS
 				false,
 				false,
 				DSTConstants.NODE_CLICKABLE);
-		case 6: return new Problem("Insert Nodes into a BST 1",
+		case 6: return new Problem("BST Preorder Traversal 2 (Help off)",
+				"Perform a preorder traversal of the binary tree below by clicking" +
+				" nodes in the order the traversal would visit them.",
+				"ABCDEFGHI",
+				DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+				new int[]{250,150,350,100,230,300,400,170,200},
+				new int[]{75,175,175,275,275,275,275,375,475},
+				new String[]{"AB","AC","BD","BE","EH", "HI", "CF", "CG"},
+				new String[]{"ABDEHICFG"},
+				trav,
+				noEdgeAddition,
+				false,
+				false,
+				DSTConstants.NODE_CLICKABLE);
+		case 7: return new Problem("BST Inorder Traversal 2 (Help off)",
+				"Perform an inorder traversal of the binary tree below by clicking" +
+				" nodes in the order the traversal would visit them.",
+				"CDFAJKLMQ",
+				DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+				new int[]{250,150,350,90,320,410,120,280,380},
+				new int[]{75,175,175,275,275,275,375,375,375},
+				new String[]{"CD","CF","DA","AL","FJ", "JM", "FK", "KQ"},
+				new String[]{"ALDCMJFQK"},
+				trav,
+				noEdgeAddition,
+				false,
+				false,
+				DSTConstants.NODE_CLICKABLE);
+		case 8: return new Problem("BST Postorder Traversal 2 (Help off)",
+				"Perform a postorder traversal of the binary tree below by clicking" +
+				" nodes in the order the traversal would visit them.",
+				"PRGMNCLBS",
+				DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+				new int[]{400,200,450,100,300,50,150,250,350},
+				new int[]{75,175,175,275,275,375,375,375,375},
+				new String[]{"PR", "PG","RM","RN","MC", "ML", "NB", "NS"},
+				new String[]{"CLMBSNRGP"},
+				trav,
+				noEdgeAddition,
+				false,
+				false,
+				DSTConstants.NODE_CLICKABLE);
+		case 9: return new Problem("Insert Nodes into a BST 1",
 				"Given the following BST, insert the following " +
 				"nodes in order to retain a BST structure." +
 				"\nHint: Add the top node first, and work your way down",
@@ -131,7 +173,7 @@ public class ProblemServiceImpl extends RemoteServiceServlet implements ProblemS
 				true,
 				true,
 				DSTConstants.NODE_DRAGGABLE);
-		case 7: return new Problem("Insert Nodes into a BST 2",
+		case 10: return new Problem("Insert Nodes into a BST 2",
 				"Given the following BST, insert the following " +
 				"nodes in order to retain a BST structure." +
 				"\nHint: Add the top node first, and work your way down",
@@ -146,7 +188,7 @@ public class ProblemServiceImpl extends RemoteServiceServlet implements ProblemS
 				true,
 				true,
 				DSTConstants.NODE_DRAGGABLE);
-		case 8: return new Problem("Insert Nodes into a BST 3",
+		case 11: return new Problem("Insert Nodes into a BST 3",
 				"Given the following BST, insert the following " +
 				"nodes in order to retain a BST structure." +
 				"\nHint: Add the top node first, and work your way down",
@@ -161,7 +203,7 @@ public class ProblemServiceImpl extends RemoteServiceServlet implements ProblemS
 				true,
 				true,
 				DSTConstants.NODE_DRAGGABLE);
-		case 9: return new Problem("Insert Nodes into a BST 4",
+		case 12: return new Problem("Insert Nodes into a BST 4",
 				"Given the following BST, insert the following " +
 				"nodes in order to retain a BST structure." +
 				"\nHint: Add the top node first, and work your way down",
@@ -176,7 +218,7 @@ public class ProblemServiceImpl extends RemoteServiceServlet implements ProblemS
 				true,
 				true,
 				DSTConstants.NODE_DRAGGABLE);
-		case 10: return new Problem("Binary Search Tree from Postorder Traversal 1",
+		case 13: return new Problem("Binary Search Tree from Postorder Traversal 1",
 				"Given the postorder traversal DBHJFPTUSM, " +
 				"construct the original binary search tree.  " +
 				"Hint: The binary search tree is unique.",
@@ -191,7 +233,7 @@ public class ProblemServiceImpl extends RemoteServiceServlet implements ProblemS
 				true,
 				true,
 				DSTConstants.NODE_DRAGGABLE);
-		case 11: return new Problem("Binary Search Tree from Postorder Traversal 2",
+		case 14: return new Problem("Binary Search Tree from Postorder Traversal 2",
 				"Given the postorder traversal, DAJELMONK, " +
 				"construct the original binary search tree.  " +
 				"Hint: The binary search tree is unique.",
@@ -206,7 +248,7 @@ public class ProblemServiceImpl extends RemoteServiceServlet implements ProblemS
 				true,
 				true,
 				DSTConstants.NODE_DRAGGABLE);
-		case 12: return new Problem("Binary Search Tree from Postorder Traversal 3",
+		case 15: return new Problem("Binary Search Tree from Postorder Traversal 3",
 				"Given the postorder traversal BAOMFRXZUP, " +
 				"construct the original binary search tree.  " +
 				"Hint: The binary search tree is unique.",
@@ -221,7 +263,7 @@ public class ProblemServiceImpl extends RemoteServiceServlet implements ProblemS
 				true,
 				true,
 				DSTConstants.NODE_DRAGGABLE);
-		case 13: return new Problem("Binary Search Tree from Postorder Traversal 4",
+		case 16: return new Problem("Binary Search Tree from Postorder Traversal 4",
 				"Given the postorder traversal BEAKJHTRQ, " +
 				"construct the original binary search tree.  " +
 				"Hint: The binary search tree is unique.",
@@ -236,8 +278,7 @@ public class ProblemServiceImpl extends RemoteServiceServlet implements ProblemS
 				true,
 				true,
 				DSTConstants.NODE_DRAGGABLE);
-		
-		case 14: return new Problem("Binary Tree from Pre/Inorder Traversals 1",
+		case 17: return new Problem("Binary Tree from Pre/Inorder Traversals 1",
 				"Given the preorder traversal XDMLTKJ, and " +
 				"the inorder traversal MDLXKTJ " +
 				"construct the original binary tree.  " +
@@ -253,7 +294,7 @@ public class ProblemServiceImpl extends RemoteServiceServlet implements ProblemS
 				true,
 				true,
 				DSTConstants.NODE_DRAGGABLE);
-		case 15: return new Problem("Binary Tree from Pre/Inorder Traversals 2",
+		case 18: return new Problem("Binary Tree from Pre/Inorder Traversals 2",
 				"Given the preorder traversal EXPORALS, and " +
 				"the inorder traversal OPXELARS " +
 				"construct the original binary tree.  " +
@@ -269,7 +310,7 @@ public class ProblemServiceImpl extends RemoteServiceServlet implements ProblemS
 				true,
 				true,
 				DSTConstants.NODE_DRAGGABLE);
-		case 16: return new Problem("Binary Tree from Pre/Inorder Traversals 3",
+		case 19: return new Problem("Binary Tree from Pre/Inorder Traversals 3",
 				"Given the preorder traversal PDLSOQNTB, and " +
 				"the inorder traversal SLODQPNTB " +
 				"construct the original binary tree.  " +
@@ -285,7 +326,7 @@ public class ProblemServiceImpl extends RemoteServiceServlet implements ProblemS
 				true,
 				true,
 				DSTConstants.NODE_DRAGGABLE);
-		case 17: return new Problem("Binary Tree from Pre/Inorder Traversals 4",
+		case 20: return new Problem("Binary Tree from Pre/Inorder Traversals 4",
 				"Given the preorder traversal DLGNRAOPETM, and " +
 				"the inorder traversal GNRLADPEOTM " +
 				"construct the original binary tree.  " +
@@ -301,7 +342,6 @@ public class ProblemServiceImpl extends RemoteServiceServlet implements ProblemS
 				true,
 				true,
 				DSTConstants.NODE_DRAGGABLE);
-		
 		default:
 			return new Problem("Binary Search Tree from Postorder Traversal 1",
 					"Given the postorder traversal DBHJFPTUSM, " +
