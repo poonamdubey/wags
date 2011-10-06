@@ -37,7 +37,6 @@ public class Evaluation_BSTTraversalWithHelp extends Evaluation implements IsSer
 		}
 		else if(theTrav.equals(arguments[0]))
 		{
-			emailResult(problemName);
 			return "Feedback: Your traversal: " + theTrav + "\nCongratulatons, your traversal is correct.";
 		}
 		else
