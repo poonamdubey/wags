@@ -36,9 +36,9 @@ public class EmailServiceImpl extends RemoteServiceServlet implements EmailServi
 
         try {
             Message msg = new MimeMessage(session);
-            msg.setFrom(new InternetAddress("mdusen9@gmail.com", "DST Admin"));
+            msg.setFrom(new InternetAddress("AppDataStructures@gmail.com", "DST Admin"));
             msg.addRecipient(Message.RecipientType.TO,
-                             new InternetAddress("mdusen9@gmail.com", "User"));
+                             new InternetAddress("pmeznar@gmail.com", "User"));
             msg.setSubject("User " + email + " completed activity: " + problemName);
             msg.setText("User " + email + " completed activity: " + problemName + 
             			" of the Data Structure Tool logical labs.");

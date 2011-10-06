@@ -10,23 +10,23 @@ public class ProblemsFetchServiceImpl extends RemoteServiceServlet implements Pr
 	//THE ID IS USED TO FETCH THE PROBLEM CONTENTS FROM THE PROBLEM SERVICE
 	//THIS NEEDS TO BE CLEANED UP
 	public String[] getProblems() {
-		return new String[] {"Binary Search Tree from Postorder Traversal 1",
-							 "Binary Search Tree from Postorder Traversal 2",
-							 "Binary Search Tree from Postorder Traversal 3",
-							 "Binary Search Tree from Postorder Traversal 4",
-							 "BST Preorder  Traversal (Help on) 1",
-							 "BST Inorder   Traversal (Help on) 1",
-							 "BST Postorder Traversal (Help on) 1",
-							 "BST Preorder  Traversal (Help off) 1",
-							 "BST Inorder   Traversal (Help off) 1",
-							 "BST Postorder Traversal (Help off) 1",
-							 "Binary Tree from Pre/Inorder Traversals 1",
-							 "Binary Tree from Pre/Inorder Traversals 2",
-							 "Binary Tree from Pre/Inorder Traversals 3",
-							 "Binary Tree from Pre/Inorder Traversals 4",
+		return new String[] {"BST Preorder  Traversal (Help on)",
+				 			 "BST Inorder   Traversal (Help on)",
+				 			 "BST Postorder Traversal (Help on)",
+				 			 "BST Preorder  Traversal (Help off)",
+				 			 "BST Inorder   Traversal (Help off)",
+				 			 "BST Postorder Traversal (Help off)",
 							 "Insert Nodes into a BST 1",
 							 "Insert Nodes into a BST 2",
 							 "Insert Nodes into a BST 3",
-							 "Insert Nodes into a BST 4"};
+							 "Insert Nodes into a BST 4",
+				 			 "Binary Search Tree from Postorder Traversal 1",
+							 "Binary Search Tree from Postorder Traversal 2",
+							 "Binary Search Tree from Postorder Traversal 3",
+							 "Binary Search Tree from Postorder Traversal 4",
+							 "Binary Tree from Pre/Inorder Traversals 1",
+							 "Binary Tree from Pre/Inorder Traversals 2",
+							 "Binary Tree from Pre/Inorder Traversals 3",
+							 "Binary Tree from Pre/Inorder Traversals 4"};
 	}
 }
