@@ -30,7 +30,7 @@ public class EmailServiceImpl extends RemoteServiceServlet implements EmailServi
 		//email = email.replace("@", "XATSIGNX");
         
         // Testing
-        System.out.println("The email address is:" + email);
+        System.out.println("The user's email address is:" + email);
 
         //String msgBody = "...";
 
@@ -38,9 +38,10 @@ public class EmailServiceImpl extends RemoteServiceServlet implements EmailServi
             Message msg = new MimeMessage(session);
             msg.setFrom(new InternetAddress("AppDataStructures@gmail.com", "DST Admin"));
             msg.addRecipient(Message.RecipientType.TO,
-                             new InternetAddress("pmeznar@gmail.com", "User"));
+                             new InternetAddress("AppDataStructures@gmail.com"));
             msg.setSubject("User " + email + " completed activity: " + problemName);
-            msg.setText("User " + email + " completed activity: " + problemName + 
+            msg.setText("User: " + email + "\n" +
+            			"Completed activity: " + problemName +
             			" of the Data Structure Tool logical labs.");
             Transport.send(msg);
 
