@@ -47,7 +47,7 @@ class AddExercise extends Command
         	$finfo = finfo_open(FILEINFO_MIME_TYPE);
        		$type = finfo_file($finfo, $solution['tmp_name']);
 	        if(strpos($type, 'text') === FALSE){
-           	    return JSON::error('Please only upload plain text or source files (solution)');
+           	    return JSON::error('Please only upload plain text or source files (sol)');
        		}
         
         	$type = finfo_file($finfo, $skeleton['tmp_name']);

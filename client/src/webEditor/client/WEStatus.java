@@ -24,7 +24,6 @@ public class WEStatus
 	private String message = "";
 	private String[] messageArray;
 	private Map<String, String> messageMap;
-	private Map[] objectArray;
 	private boolean bool;
 
 	/**
@@ -54,53 +53,19 @@ public class WEStatus
 			}
 			// JSON Array
 			if (array != null) {
-				/**
-				 * If it's an array of strings
-				 */
-				if(array.get(0).isString() != null){
-					messageArray = new String[array.size()];
-					for (int i = 0; i < array.size(); i++) {
-						String msg = ((JSONValue) array.get(i)).toString();
-						messageArray[i] = msg.substring(1, msg.length() - 1);// Remove quotes
-					}
-					
-					//Set message to concatenated contents of array
-					for (String msg:messageArray){
-						if(msg.length() > 0)
-							this.message += msg + " | ";
-					}
-					
-					this.message = this.message.substring(0, message.length()-3); //remove last " | "
-				} 
-				
-				/**
-				 * If it's an array of objects
-				 */
-				else if(array.get(0).isObject() != null){
-					objectArray = new Map[array.size()];
-					JSONObject curObject = new JSONObject();
-					for(int i = 0; i < array.size(); i++){
-						curObject = (JSONObject) array.get(i);
-						Set<String> keys = curObject.keySet();
-						messageMap = new HashMap<String, String>();
-						Iterator<String> itr = keys.iterator();
-						String key;
-						String val;
-						while(itr.hasNext()){
-							key = itr.next();
-							val = curObject.get(key).toString();
-							if(val.equals("null")){
-								val = null;
-							}else{
-								val = val.substring(1, val.length()-1);// Remove quotes
-							}
-							messageMap.put(key, val);
-						}
-						
-						objectArray[i] = messageMap;
-					}
-					
+				messageArray = new String[array.size()];
+				for (int i = 0; i < array.size(); i++) {
+					String msg = ((JSONValue) array.get(i)).toString();
+					messageArray[i] = msg.substring(1, msg.length() - 1);// Remove quotes
 				}
+				
+				//Set message to concatenated contents of array
+				for (String msg:messageArray){
+					if(msg.length() > 0)
+						this.message += msg + " | ";
+				}
+				
+				this.message = this.message.substring(0, message.length()-3); //remove last " | "
 			}
 			// JSON Object
 			if(object != null){
@@ -214,10 +179,6 @@ public class WEStatus
 			return null;
 
 		return messageMap.get(key);
-	}
-	
-	public Map[] getObjectArray(){
-		return objectArray;
 	}
 	
 	public boolean getBool(){
