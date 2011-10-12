@@ -1,11 +1,11 @@
 <?php
 
 /**
-*Review
-*
-*Compile code submitted by the user together with
-*the solution class, test class, and whatever 
-*helper classes were provided.
+ * Review
+ *
+ * Compile code submitted by the user together with
+ * the solution class, test class, and whatever 
+ * helper classes were provided.
 */
 
 define("EXEC_ERROR", 1);
@@ -22,7 +22,7 @@ class Review extends Command
 		//success of program
 		$classRegex = "/public\sclass\s+([^\d]\w+)/";
 		$packageRegex = "/package\s+([^\d]\w+)/";
-		$successRegex = "/Success<br>/";
+		$successRegex = "/Success<br />/";
 
 		//Grab posted information
 		$code = $_POST['code'];
@@ -194,8 +194,20 @@ class Review extends Command
 	}
 
 	private function runCode($dir, $className){
-		exec("/usr/bin/php class/command/runcode.php $dir $className 2>&1", $output);
+		exec("/usr/bin/php class/command/RunCodeNew.php $dir $className 2>&1", $output);
 		return $output;
+		
+		#exec("/usr/bin/php class/command/runcode.php $dir $className 2>&1", $output);
+		#return $output;
+
+//		  // can't use pcntl_fork() on Apache, just let the process run free
+//        exec("/usr/bin/java -cp $dir $className 2>&1", $output);
+//        $text = "";
+//        foreach($output as $line){
+//            $text = $text.$line."<br>";
+//        }
+//        return $text;
+
 	}
 
 }
