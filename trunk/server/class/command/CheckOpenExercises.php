@@ -20,7 +20,6 @@ class CheckOpenExercises extends Command
 {
 	public function execute()
 	{
-		$timedExercises = Exercise::getTimedExercises();  //needs to be created
 		foreach($timedExercises as $exercise){
 			//opens
 			if($exercise->getOpenDate() < time()){

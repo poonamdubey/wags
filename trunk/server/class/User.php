@@ -96,6 +96,18 @@ class User extends Model
 		$this->section = $section;
 	}
 
+	//Returns all DST problem results from that user
+	public function getProbResults(){
+		require_once('Database.php');
+		$db = Database::getDb();
+
+		$sth = $db->prepare('SELECT * FROM problemResult WHERE userId = :id');
+		$sth->execute(array(':id' => $this->getId()));
+		$sth->setFetchMode(PDO::FETCH_CLASS, 'ProblemResult');
+
+		return $sth->fetchAll();
+	}
+
     /************
      * Static helpers
      ************/
