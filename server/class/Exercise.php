@@ -167,14 +167,22 @@ class Exercise extends Model
 	{
 		require_once('Database.php');
 		$user = Auth::getCurrentUser();
-
 		$db = Database::getDb();
-		
-		$sth = $db->prepare('SELECT * FROM exercise WHERE visible LIKE 1
-			AND section LIKE :section');
+
+		if(!$user->isAdmin()){
+			$sth = $db->prepare('SELECT * FROM exercise WHERE visible LIKE 1
+				AND section LIKE :section');
+			$sth->execute(array(':section' => $user->getSection()));		
+
+			return $sth->fetchAll(PDO::FETCH_CLASS, 'Exercise');
+		}
+
+		$sth = $db->prepare('SELECT * FROM exercise WHERE section LIKE :section');
 		$sth->execute(array(':section' => $user->getSection()));		
 
 		return $sth->fetchAll(PDO::FETCH_CLASS, 'Exercise');
+
+
 	}
 
 	public static function getSubmissions($exerciseId){
