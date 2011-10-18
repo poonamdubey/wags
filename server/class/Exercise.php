@@ -258,8 +258,6 @@ class Exercise extends Model
 			}
 		}
 
-		JSON::error("Added Skeletons for section ".$this->getSection());
-
 	}
 
 }
