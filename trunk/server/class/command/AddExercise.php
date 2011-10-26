@@ -126,7 +126,7 @@ class AddExercise extends Command
 		#The following is ALWAYS updated, so they
 		#aren't within the if($e) block
 		$visible = $_POST['visible'];
-		if($visible == "on") $visible = 1;
+		if($visible == "on" || $openDate <= time()) $visible = 1;
 		else $visible = 0;
 		$e->setVisible($visible);
 
