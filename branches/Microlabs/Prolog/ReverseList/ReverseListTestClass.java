@@ -20,12 +20,15 @@ public class ReverseListTestClass {
      */
     public static void main(String args[]) {
 
-    	// These strings contain all necessary information for executing these files
-    	//	-Will just have to append any arguments needed
-        String solutionExecString = args[0];
-        String studentExecString = args[1];
+    	// A nonce value will be passed in and used to validate a success
+        String nonce = args[0];
+        
+        // These strings contain all necessary information for executing these files
+    	// 	-Will just have to append any arguments needed
+        String solutionExecString = args[1];
+        String studentExecString = args[2];
 
-        new ReverseListTestClass(solutionExecString, studentExecString);
+        new ReverseListTestClass(nonce, solutionExecString, studentExecString);
     }
 
     /**
@@ -37,7 +40,7 @@ public class ReverseListTestClass {
      *  lists
      *
      */
-    public ReverseListTestClass(String solutionExecString, String studentExecString)
+    public ReverseListTestClass(String nonce, String solutionExecString, String studentExecString)
     {
     	boolean success = true; // whether or not the student's solution worked overall
     	
@@ -86,9 +89,9 @@ public class ReverseListTestClass {
             	success = false;
         }
 
-        // Print final success/failure outcome
+        // Print nonce value if successful for validation
         if (success)
-            System.out.println("\nSuccess");
+            System.out.println("\n" + nonce);
         else
             System.out.println("\nFailure");
     }

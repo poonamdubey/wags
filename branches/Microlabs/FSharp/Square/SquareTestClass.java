@@ -56,7 +56,7 @@ public class SquareTestClass {
             	success = false;
         }
 
-        // Print nonce value if successful for validation
+        // Print nonce value if successful
         if (success)
             System.out.println("\n" + nonce);
         else
