@@ -15,7 +15,7 @@ public class IsOddTestClass {
     /**
      * Entry point of program
      *
-     * Gets solution and student execution strings passed in as arguments
+     * Gets nonce value, and solution and student execution strings passed in as arguments
      *
      */
     public static void main(String args[]) {

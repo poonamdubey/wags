@@ -1,5 +1,5 @@
 // Mike Dusenberry
-// F# Exercises
+// F# Square Exercise
 // 07/11/12
 //
 

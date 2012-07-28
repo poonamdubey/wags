@@ -6,7 +6,7 @@
 // Write a rule to append two lists
 //
 // ex:
-//  append [1;2;3] [4;5;6]; returns [1; 2; 3; 4; 5; 6]
+//  append [1;2;3] [4;5;6]; returns [1;2;3;4;5;6]
 //
 let rec append lst1 lst2 = 
     if lst1 = [] then lst2

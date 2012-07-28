@@ -6,7 +6,7 @@
 // Write a rule to append two lists
 //
 // ex:
-//  append [1;2;3] [4;5;6]; returns [1; 2; 3; 4; 5; 6]
+//  append [1;2;3] [4;5;6]; returns [1;2;3;4;5;6]
 //
 
 
