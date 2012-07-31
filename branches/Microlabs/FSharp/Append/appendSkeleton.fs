@@ -13,8 +13,8 @@
 
 //<end!MidSection>
 // Test code
-//  - Get passed in lists (1st arg is the executable name), split 
-//    on commas to create list of string values
+//  - Get passed in lists (1st arg is the executable name), 
+//    split on commas to create list of string values
 //  - Call rule
 //  - Print value
 let args = System.Environment.GetCommandLineArgs();

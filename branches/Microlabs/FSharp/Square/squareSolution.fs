@@ -12,10 +12,12 @@ let square x = x * x;
 
 
 // Test code
-//  - Access the passed-in value, and cast as an int
+//  - Access the passed-in value (1st arg is the executable name), 
+//    and cast as an int
 //  - Call rule
 //  - Print value
-let value = int (System.Environment.GetCommandLineArgs().[1]);
-let ans = square value;
-printfn "%d" ans;
+if args.Length >= 2 then // need a value passed in
+    let value = int (System.Environment.GetCommandLineArgs().[1]);
+    let ans = square value;
+    printfn "%d" ans;
 

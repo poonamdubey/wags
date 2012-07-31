@@ -36,7 +36,7 @@ public class MapTestClass {
     /**
      * Constructor
      *
-     * Gets random list and tests it against different functions
+     * Gets random lists and tests it against different functions
      *
      *
      */
@@ -81,7 +81,7 @@ public class MapTestClass {
         Random random = new Random();
         
         // create random lists of length 1 to 10 
-        // consisting of numbers 0 to 99
+        // consisting of numbers 0 to 9
         int length = random.nextInt(10) + 1;
         for (int i = 0; i < length; i++)
         {
@@ -137,7 +137,9 @@ public class MapTestClass {
     private boolean testCase(String solutionExecString, String studentExecString, 
     						 String function, String list)
     {
+    	// Combine the arguments
     	String args = function + " " + list;
+    	
         // Test the list on the solution and student files
         String solutionOutput = runFile(solutionExecString, args);
         String studentOutput  = runFile(studentExecString, args);

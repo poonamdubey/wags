@@ -23,15 +23,14 @@ let decr n = n - 1;
 
 //<end!MidSection>
 // Test code
-//  - Get passed in list (will be the 2nd arg, since 1st arg is 
-//    the executable name), split on commas to create list of string
-//    values, then convert each string to an int, to create a list
-//    of integers
+//  - Get passed in function and list (1st arg is the executable name),
+//    split on commas to create list of string values, then convert each
+//    string to an int, to create a list of integers
 //      - Will fail if given non-integers
 //  - Call rule
 //  - Print value
 let args = System.Environment.GetCommandLineArgs();
-if args.Length >= 2 then // need a list passed in
+if args.Length >= 3 then // need a function and list passed in
     let funcString = args.[1];
     let stringList = List.ofArray(args.[2].Split([|','|]));
     let intList = List.map(fun x -> int x) stringList;

@@ -12,10 +12,9 @@ let summation lst = List.fold (+) 0 lst;
 
 
 // Test code
-//  - Get passed in list (will be the 2nd arg, since 1st arg is 
-//    the executable name), split on commas to create list of string
-//    values, then convert each string to an int, to create a list
-//    of integers
+//  - Get passed in list (1st arg is the executable name), 
+//    split on commas to create list of string values, then convert 
+//    each string to an int, to create a list of integers
 //      - Will fail if given non-integers
 //  - Call rule
 //  - Print value

@@ -18,12 +18,12 @@ let rec del target lst =
 
 
 // Test code
-//  - Get passed in value and list (1st arg is the executable name), split 
-//    on commas to create list of string values
+//  - Get passed in value and list (1st arg is the executable name), 
+//    split on commas to create list of string values
 //  - Call rule
 //  - Print value
 let args = System.Environment.GetCommandLineArgs();
-if args.Length >= 3 then // need two lists passed in
+if args.Length >= 3 then // need a value and a list passed in
     let value = int (args.[1]);
     let stringList = List.ofArray(args.[2].Split([|','|]));
     let intList = List.map(fun x -> int x) stringList;
