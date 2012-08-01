@@ -18,7 +18,8 @@
 //    and cast as an int
 //  - Call rule
 //  - Print value
+let args = System.Environment.GetCommandLineArgs();
 if args.Length >= 2 then // need a value passed in
-    let value = int (System.Environment.GetCommandLineArgs().[1]);
+    let value = int (args.[1]);
     let ans = square value;
     printfn "%d" ans;
