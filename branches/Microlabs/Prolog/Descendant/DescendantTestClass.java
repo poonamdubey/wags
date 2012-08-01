@@ -46,10 +46,10 @@ public class DescendantTestClass {
         
         Random random = new Random();
         
-        String[] parentsOfRosa = {"douglas", "rita"}; // used in case 1
-        String[] notAncestorsOfDouglas = {"rita", "gregory", "jim", "brittany"};
-        String[] ancestorsOfMaria = {"douglas", "rita"};
-        String[] descendantsOfGregory = {"cameron", "linda"};
+        String[] parentsOfRosa = {"Douglas", "Rita"}; // used in case 1
+        String[] notAncestorsOfDouglas = {"Rita", "Gregory", "Jim", "Brittany"};
+        String[] ancestorsOfMaria = {"Douglas", "Rita"};
+        String[] descendantsOfGregory = {"Cameron", "Linda"};
         
     	String person1 = "";
         String person2 = "";
@@ -61,26 +61,26 @@ public class DescendantTestClass {
             {
                 // direct parent
                 case(0): 
-                    person1 = "rosa";
+                    person1 = "Rosa";
                     person2 = parentsOfRosa[random.nextInt(2)];
                     break;
                 
                 // not
                 case(1): 
-                    person1 = "douglas";
+                    person1 = "Douglas";
                     person2 = notAncestorsOfDouglas[random.nextInt(4)];
                     break;
                 
                 // ancestor
                 case(2): 
-                    person1 = "maria";
+                    person1 = "Maria";
                     person2 = ancestorsOfMaria[random.nextInt(2)];
                     break;
                     
                 // ancestor
                 case(3): 
                     person1 = descendantsOfGregory[random.nextInt(2)];
-                    person2 = "gregory";
+                    person2 = "Gregory";
                     break;
             }
 
@@ -165,7 +165,7 @@ public class DescendantTestClass {
     private boolean testCase(String solutionExecString, String studentExecString, String person1, 
                              String person2)
     { 
-        String args = "" + person1 + " " + person2;
+        String args = "" + person1.toLowerCase() + " " + person2.toLowerCase();
         
         // Test the list on the solution and student prolog files
         String solutionOutput = runFile(solutionExecString, args);
@@ -178,7 +178,7 @@ public class DescendantTestClass {
 
         // Print out results
         //	-Looks cleaner to print original list with commas instead of spaces
-        System.out.println("Is " + person1 + " is a descendant of " + person2 + "?");
+        System.out.println("Is " + person1 + " a descendant of " + person2 + "?");
         System.out.println("Correct Answer: " + solutionOutput);
         System.out.println("Your Answer:    " + studentOutput + "\n");
         
