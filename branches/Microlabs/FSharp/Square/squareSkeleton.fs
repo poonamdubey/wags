@@ -12,6 +12,7 @@
 
 
 //<end!MidSection>
+//<start!HiddenSection>
 // Test code
 //  - Access the passed-in value (1st arg is the executable name), 
 //    and cast as an int

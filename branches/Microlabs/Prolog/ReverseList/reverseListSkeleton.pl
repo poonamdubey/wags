@@ -12,6 +12,7 @@
 
 
 %%<end!MidSection>
+%%<start!HiddenSection>
 % Test function for list
 %
 %   - Calls the rev rule, and if it does not fail, writes the reversed

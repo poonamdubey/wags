@@ -22,6 +22,7 @@ let decr n = n - 1;
 
 
 //<end!MidSection>
+//<start!HiddenSection>
 // Test code
 //  - Get passed in function and list (1st arg is the executable name),
 //    split on commas to create list of string values, then convert each

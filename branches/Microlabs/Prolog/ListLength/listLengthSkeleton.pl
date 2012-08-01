@@ -13,6 +13,7 @@
 
 
 %%<end!MidSection>
+%%<start!HiddenSection>
 % Test function for list
 %
 %   - Calls the listLength rule, and if it does not fail, writes the length

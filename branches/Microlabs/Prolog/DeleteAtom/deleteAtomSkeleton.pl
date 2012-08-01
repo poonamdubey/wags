@@ -14,6 +14,7 @@
 
 
 %%<end!MidSection>
+%%<start!HiddenSection>
 % Test function
 %
 %   - Calls the del rule, and if it does not fail, writes the resulting

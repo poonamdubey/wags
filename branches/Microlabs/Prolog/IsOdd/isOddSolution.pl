@@ -9,6 +9,7 @@
 odd(N):- 1 is (N mod 2).
 
 
+% Test Function
 % Since we need the results printed to the console,
 %  we need to explicitly print 'true' and 'false'
 %  - This simply calls the odd rule, and explicitly

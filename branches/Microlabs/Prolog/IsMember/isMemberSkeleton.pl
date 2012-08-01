@@ -13,6 +13,7 @@
 
 
 %%<end!MidSection>
+%%<start!HiddenSection>
 % Test Function
 % Since we need the results printed to the console,
 %  we need to explicitly print 'true' and 'false'

@@ -47,6 +47,7 @@ parent(brittany,linda).
 
 
 %%<end!MidSection>
+%%<start!HiddenSection>
 % Test function
 %
 %   - Calls the descendant rule, and prints out the boolean results
