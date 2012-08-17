@@ -7,18 +7,18 @@
  * used with WAGS for the traversal 
  * microlabs
  */
-package traversals;
+//package traversals;
 
 import java.util.Random;
-import traversals.TraversalSkeleton.Node;
+//import traversals.TraversalSkeleton.Node;
 
 public class TraversalTest {
 	TraversalSolution solution;
-	TraversalSkeleton student;
+	TraversalStudent student;
 	
 	public TraversalTest(){
 		solution = new TraversalSolution();
-		student = new TraversalSkeleton();
+		student = new TraversalStudent();
 	}
 	
 	/**
@@ -115,7 +115,7 @@ public class TraversalTest {
         if(preorder.length()==0) return null;
         // create root, the first node in the preorder
         char rootValue = preorder.charAt(0);
-        Node root = student.new Node(rootValue);
+        Node root = new Node(rootValue);
         if(preorder.length()==1) return root;
      
         String leftInorder = inorder.substring(0,inorder.indexOf(rootValue));
@@ -148,7 +148,7 @@ public class TraversalTest {
     	}
     	
     	Node empty = null;
-    	Node single = student.new Node('A');
+    	Node single = new Node('A');
     	
     	
     	if(!checkTree(single)) correct = false;
@@ -188,7 +188,11 @@ public class TraversalTest {
 		TraversalTest tester = new TraversalTest();
 		boolean correct = tester.test();
 		
-		if(correct) System.out.println("Success");
+		if(correct)
+		{
+			System.out.println("Success!");
+			System.out.println(args[0]);	// nonce
+		}
 		else System.out.println("Failure");
 		
 	}

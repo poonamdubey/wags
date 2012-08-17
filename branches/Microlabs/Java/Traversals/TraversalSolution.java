@@ -1,50 +1,46 @@
 /**
- * @author: Philip Meznar
- * @date: Aug 22, 2011
+ * @author: Michael Kepple
+ * @date: Mar 14, 2012
  * @file: TraversalSolution.java
- * 
- * Description: The solution class to be used
- * with WAGS for the traversal exercises
+ *
+ * Description: The solution class for traversals exercise.
  */
-package traversals;
 
-import traversals.TraversalSkeleton.Node;
-public class TraversalSolution {
-	
-    String preorderTraversal(Node tree){
+public class TraversalSolution
+{
+    String preorderTraversal(Node tree)
+    {
     	String traversal = "";
-    	
-        if(tree != null){
-            traversal += tree.key;
-            traversal += preorderTraversal(tree.left);
-            traversal += preorderTraversal(tree.right);
+        if(tree != null)
+        {
+            traversal += tree.getKey();
+            traversal += preorderTraversal(tree.getLeft());
+            traversal += preorderTraversal(tree.getRight());
         }
-        
         return traversal;
     }
 
-    String inorderTraversal(Node tree){
+    String inorderTraversal(Node tree)
+    {
     	String traversal = "";
-    	
-        if(tree != null){
-            traversal += inorderTraversal(tree.left);
-            traversal += tree.key;
-            traversal += inorderTraversal(tree.right);
+        if(tree != null)
+        {
+            traversal += inorderTraversal(tree.getLeft());
+            traversal += tree.getKey();
+            traversal += inorderTraversal(tree.getRight());
         }
-        
         return traversal;
     }
 
-    String postorderTraversal(Node tree){
+    String postorderTraversal(Node tree)
+    {
     	String traversal = "";
-    	
-        if(tree != null){
-            traversal += postorderTraversal(tree.left);
-            traversal += postorderTraversal(tree.right);
-            traversal += tree.key;
+        if(tree != null)
+        {
+            traversal += postorderTraversal(tree.getLeft());
+            traversal += postorderTraversal(tree.getRight());
+            traversal += tree.getKey();
         }
-        
         return traversal;
     }
-
 }
