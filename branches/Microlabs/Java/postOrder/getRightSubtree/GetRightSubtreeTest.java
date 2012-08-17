@@ -13,10 +13,10 @@ public class GetRightSubtreeTest
 
     public static void main(String[] args)
     {
-        new GetRightSubtreeTest();
+        new GetRightSubtreeTest(args[0]);
     }
 
-    public GetRightSubtreeTest()
+    public GetRightSubtreeTest(String nonce)
     {
         GetRightSubtreeSolution sol = new GetRightSubtreeSolution();
         GetRightSubtreeStudent theirs = new GetRightSubtreeStudent();
@@ -35,7 +35,7 @@ public class GetRightSubtreeTest
             if (!correct.equals(student))
                 allRight = false;
         }
-        System.out.println("Test Status: " + (allRight? "Success!" : "Test failed, please try again"));
+        System.out.println("Test Status: " + (allRight? "Success!\n" + nonce : "Test failed, please try again"));
     }
 
     static int countLeftSubtree(String postOrder)

@@ -16,10 +16,10 @@ public class PostOrderTest
 
     public static void main(String[] args)
     {
-        new PostOrderTest();
+        new PostOrderTest(args[0]);
     }
 
-    public PostOrderTest()
+    public PostOrderTest(String nonce)
     {
         PostOrderSolution sol = new PostOrderSolution();
         PostOrderStudent theirs = new PostOrderStudent();
@@ -41,7 +41,7 @@ public class PostOrderTest
                 displayVTree(solution);
             }
         }
-        System.out.println("Test Status: " + (allRight? "Success!" : "Test failed, please try again"));
+        System.out.println("Test Status: " + (allRight? "Success!\n" + nonce : "Test failed, please try again"));
     }
 
     private boolean equalTrees(Node solution, Node theirs)

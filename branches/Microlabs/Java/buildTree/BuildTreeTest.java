@@ -15,10 +15,10 @@ public class BuildTreeTest
 
     public static void main(String[] args)
     {
-        new BuildTreeTest();
+        new BuildTreeTest(args[0]);
     }
 
-    private BuildTreeTest()
+    private BuildTreeTest(String nonce)
     {
         boolean success = true;
         BuildTreeSolution solution = new BuildTreeSolution();
@@ -47,7 +47,7 @@ public class BuildTreeTest
                 success = false;
             }
         }
-        System.out.println("All Tests Passed?: " + (success? "Success!" : "False, try again."));
+        System.out.println("All Tests Passed?: " + (success? "Success!\n" + nonce : "False, try again."));
     }
 
     String preOrderTraversal(Node tree)

@@ -14,10 +14,10 @@ public class CountLeftSubtreeTest
 
     public static void main(String[] args)
     {
-        new CountLeftSubtreeTest();
+        new CountLeftSubtreeTest(args[0]);
     }
 
-    public CountLeftSubtreeTest()
+    public CountLeftSubtreeTest(String nonce)
     {
         CountLeftSubtreeSolution sol = new CountLeftSubtreeSolution();
         CountLeftSubtreeStudent theirs = new CountLeftSubtreeStudent();
@@ -36,7 +36,7 @@ public class CountLeftSubtreeTest
             if (correct != student)
                 allRight = false;
         }
-        System.out.println("Test Status: " + (allRight? "Success!" : "Test failed, please try again"));
+        System.out.println("Test Status: " + (allRight? "Success!\n" + nonce : "Test failed, please try again"));
     }
     
     static Node findRoot(String postOrder)

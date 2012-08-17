@@ -13,10 +13,10 @@ public class FindRootTest
 
     public static void main(String[] args)
     {
-        new FindRootTest();
+        new FindRootTest(args[0]);
     }
 
-    public FindRootTest()
+    public FindRootTest(String nonce)
     {
         FindRootSolution sol = new FindRootSolution();
         FindRootStudent theirs = new FindRootStudent();
@@ -37,7 +37,7 @@ public class FindRootTest
             if (correct != student)
                 allRight = false;
         }
-        System.out.println("Test Status: " + (allRight? "Success!" : "Test failed, please try again"));
+        System.out.println("Test Status: " + (allRight? "Success!\n" + nonce : "Test failed, please try again"));
     }
 
     Node buildRandomTree()

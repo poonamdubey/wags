@@ -14,10 +14,10 @@ public class GetRightSubtreeSolutionTest
     
     public static void main(String[] args)
     {
-        new GetRightSubtreeSolutionTest();
+        new GetRightSubtreeSolutionTest(args[0]);
     }
 
-    public GetRightSubtreeSolutionTest()
+    public GetRightSubtreeSolutionTest(String nonce)
     {
         GetRightGenSubtreeSolution sol = new GetRightGenSubtreeSolution();
         GetRightGenSubtreeStudent theirs = new GetRightGenSubtreeStudent();
@@ -41,7 +41,7 @@ public class GetRightSubtreeSolutionTest
                      !sol.rightInorder.equals(theirs.rightInorder))
                 allRight = false;
         }
-        System.out.println("Test Status: " + (allRight? "Success!" : "Test failed, please try again"));
+        System.out.println("Test Status: " + (allRight? "Success!\n" + nonce : "Test failed, please try again"));
     }
 
     private static String postOrderTraversal(Node tree)

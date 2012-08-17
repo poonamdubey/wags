@@ -14,10 +14,10 @@ public class InsertNodeTest
     
     public static void main(String[] args)
     {
-        new InsertNodeTest();
+        new InsertNodeTest(args[0]);
     }
 
-    public InsertNodeTest()
+    public InsertNodeTest(String nonce)
     {
         InsertNodeSolution sol = new InsertNodeSolution();
         InsertNodeStudent theirs = new InsertNodeStudent();
@@ -56,7 +56,7 @@ public class InsertNodeTest
                 System.out.println("Test [" + i + "]: Post-insertion postOrder Traversal -> " + postOrder + "\n");
             }
         }
-        System.out.println("Test Status: " + (allRight? "Success!" : "Test failed, please try again"));
+        System.out.println("Test Status: " + (allRight? "Success!\n" + nonce : "Test failed, please try again"));
     }
 
     private boolean equalTrees(Node solution, Node theirs)
