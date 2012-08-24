@@ -11,10 +11,10 @@ public class ReturnDigitTest
 
     public static void main(String[] args) 
     {
-        new ReturnDigitTest();
+        new ReturnDigitTest(args[0]);
     }
 
-    public ReturnDigitTest() 
+    public ReturnDigitTest(String nonce) 
     {
         System.out.println(" *** Testing returnDigit Method ***");
         Integer[] testArray = new Integer[10];
@@ -38,6 +38,6 @@ public class ReturnDigitTest
             System.out.println("Your Output: " + testArray[i] + " @ " + pos + " = " + maybe);
         }
         System.out.println((error)? " *** Error: Incorrect return values. ***" :
-                " *** Activity Three Tests Passed! ***");
+                " *** Activity Three Tests Passed! ***\n" + nonce);
     }
 }

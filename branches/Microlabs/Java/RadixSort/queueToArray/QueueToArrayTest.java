@@ -10,10 +10,10 @@ public class QueueToArrayTest
 {
     public static void main(String[] args) 
     {
-        new QueueToArrayTest();
+        new QueueToArrayTest(args[0]);
     }
 
-    public QueueToArrayTest() 
+    public QueueToArrayTest(String nonce) 
     {
         System.out.println(" *** Testing bucketsToQueue Method ***");
         Integer[] testArray = new Integer[10];
@@ -63,6 +63,6 @@ public class QueueToArrayTest
             }
         }
         System.out.println((error)? " *** Error: Incorrect return values. ***" :
-                " *** Activity Six Tests Passed! ***");
+                " *** Activity Six Tests Passed! ***\n" + nonce);
     }
 }

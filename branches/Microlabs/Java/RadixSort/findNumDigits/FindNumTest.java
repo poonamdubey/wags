@@ -10,10 +10,10 @@ public class FindNumTest
 {
     public static void main(String[] args) 
     {
-        new FindNumTest();
+        new FindNumTest(args[0]);
     }
 
-    public FindNumTest() 
+    public FindNumTest(String nonce) 
     {
         System.out.println(" *** Testing findNumDigits Method ***");
         Integer[] testArray = new Integer[10];
@@ -28,8 +28,7 @@ public class FindNumTest
         int test = theirs.findNumDigits(testArray);
         if (correct == test) 
         {
-            System.out.println(" *** Activity One Tests Passed! ***");
-            System.out.println("Success");
+            System.out.println(" *** Activity One Tests Passed! ***\n" + nonce);
         } 
         else 
         {

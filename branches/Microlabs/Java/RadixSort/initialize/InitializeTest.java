@@ -10,10 +10,10 @@ public class InitializeTest
 {
     public static void main(String[] args) 
     {
-        new InitializeTest();
+        new InitializeTest(args[0]);
     }
 
-    public InitializeTest() 
+    public InitializeTest(String nonce) 
     {
         System.out.println(" *** Testing initialize Method ***");
         Integer[] testArray = new Integer[10];
@@ -50,7 +50,7 @@ public class InitializeTest
                 passed = false;
             }
         }
-        System.out.println((passed)? " *** Activity Two Tests Passed! ***" : 
+        System.out.println((passed)? " *** Activity Two Tests Passed! ***\n" + nonce : 
                 " *** Activity Two : Failed. ***");
     }
 }

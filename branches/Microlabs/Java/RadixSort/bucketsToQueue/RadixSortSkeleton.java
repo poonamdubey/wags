@@ -1,5 +1,6 @@
 // Michael Kepple
 // November 26th, 2011
+// Deprecated
 package bucketsToQueue;
 
 public class RadixSortSkeleton

@@ -10,7 +10,7 @@ public class RadixSortTest
 {
     public static void main(String[] args)
     {
-        new RadixSortTest();
+        new RadixSortTest(args[0]);
     }
 
     public static int findNumDigits(Integer[] data)
@@ -66,7 +66,7 @@ public class RadixSortTest
         return temp;
     }
     
-    public RadixSortTest()
+    public RadixSortTest(String nonce)
     {
         System.out.println(" *** Testing radixSort Method ***");
         Integer[] testArray = new Integer[10];
@@ -99,6 +99,6 @@ public class RadixSortTest
             }
         }
         System.out.println((error)? " *** Error: Incorrect return values. *** " :
-                " *** Activity Seven Tests Passed! ***");
+                " *** Activity Seven Tests Passed! ***\n" + nonce);
     }
 }
