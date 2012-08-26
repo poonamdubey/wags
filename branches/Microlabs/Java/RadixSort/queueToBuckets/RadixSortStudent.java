@@ -13,6 +13,7 @@ public class RadixSortStudent
     int maxDigitPosition;
     @SuppressWarnings("unchecked")
     LinkedQueue<Integer> values;
+    QueueToBucketsTest queueToBucketsTest = new QueueToBucketsTest();
 
     // Activity One
     int findNumDigits(Integer[] data) 

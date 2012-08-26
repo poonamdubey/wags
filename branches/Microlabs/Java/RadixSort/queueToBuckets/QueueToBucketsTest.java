@@ -11,7 +11,8 @@ public class QueueToBucketsTest {
     public int RADIX = 10;
 
     public static void main(String[] args) {
-        new QueueToBucketsTest(args[0]);
+       QueueToBucketsTest t = new QueueToBucketsTest();
+       t.test(args[0]);
     }
 
     // Method for student to use in their implementations
@@ -22,7 +23,7 @@ public class QueueToBucketsTest {
         return value % 10;
     }
 
-    public QueueToBucketsTest(String nonce) 
+    public void test(String nonce) 
     {
         System.out.println(" *** Testing queueToBuckets Method ***");
         Integer[] testArray = new Integer[10];
