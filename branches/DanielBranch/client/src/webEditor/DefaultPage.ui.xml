@@ -62,6 +62,7 @@
 					<g:Button styleName="{style.button}" ui:field='editorButton'>Web Editor</g:Button>
 					<g:Button styleName="{style.button}" ui:field='logicalButton'>Logical Microlabs</g:Button>
 					<g:Button styleName="{style.button}" ui:field='magnetButton'>Magnet Microlabs</g:Button>
+					<g:Button styleName="{style.button}" ui:field='flowButton'>Flow Experiment</g:Button>
 				</g:VerticalPanel>
 				<g:VerticalPanel>
 					<g:Button styleName="{style.button}" ui:field='adminButton' visible='false'>Admin Panel</g:Button>

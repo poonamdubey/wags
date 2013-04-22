@@ -2,6 +2,7 @@
 package webEditor;
 
 import webEditor.admin.AdminPage;
+import webEditor.flow.view.FlowUi;
 import webEditor.magnet.view.Magnets;
 import webEditor.magnet.view.RefrigeratorMagnet;
 import webEditor.programming.view.Editor;
@@ -45,6 +46,7 @@ public class Wags extends View
 	public Magnets splashPage;
 	private Editor editor;
 	private AdminPage adminPage;
+	private FlowUi flow;
 	
 	private String startingPlace;
 	
@@ -67,6 +69,7 @@ public class Wags extends View
 		}
 		editor = new Editor();
 		adminPage = new AdminPage();
+		flow = new FlowUi();
 		
 		//Make back/forward buttons work.
 		createHistoryHandler();
@@ -80,6 +83,8 @@ public class Wags extends View
 			loadEditor();
 		} else if (startingPlace.equals("admin")){
 			loadAdmin();
+		} else if (startingPlace.equals("flow")){
+			loadFlow();
 		} else {
 			Proxy.loadDefault();
 		}
@@ -105,6 +110,8 @@ public class Wags extends View
 					Proxy.logout();
 				} else if (url.endsWith("admin")){
 					loadAdmin();
+				} else if (url.endsWith("flow")){
+					loadFlow();
 				}
 			}
 			
@@ -124,6 +131,12 @@ public class Wags extends View
 	@UiHandler("Magnets")
 	void onMagnetsClick(ClickEvent event) {
 		loadMagnets();
+	}
+	
+	@UiHandler("Flow")
+	void onFlowClick(ClickEvent event)
+	{
+		loadFlow();
 	}
 	
 	@UiHandler("AdminPage")
@@ -154,6 +167,11 @@ public class Wags extends View
 	public void loadMagnets() {
 		Proxy.buildMagnets(this);
 		History.newItem("?loc=magnets");
+	}
+	
+	public void loadFlow() {
+		replaceCenterContent(flow);
+		History.newItem("?loc=flow");
 	}
 
 	public void assignPassword(){

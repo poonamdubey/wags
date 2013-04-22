@@ -41,10 +41,6 @@
 					<g:header> Magnet Problem Creation </g:header>
 					<my:ProblemCreationPanel ui:field="magnetPC"/>
 				</g:tab>
-				<g:tab>
-					<g:header> Logical Problem Creation </g:header>
-					<my:LMEditTab/>
-				</g:tab>
 			</g:TabLayoutPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 
