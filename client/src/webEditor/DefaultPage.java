@@ -52,6 +52,13 @@ public class DefaultPage extends Composite {
 		e.go();
 	}
 	
+	@UiHandler("flowButton")
+	void onFlowClick(ClickEvent event)
+	{
+		Wags e = new Wags("flow");
+		e.go();
+	}
+	
 	@UiHandler("adminButton")
 	void onAdminClick(ClickEvent event)
 	{
