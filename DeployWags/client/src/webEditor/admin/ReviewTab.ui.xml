@@ -1,0 +1,27 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:my="urn:import:webEditor.admin">
+	<ui:style>
+		.title {
+			padding-bottom: 8px;
+			padding-top: 8px;
+			font-size: x-large;
+			font-family: helvetica;	
+			text-align: center;
+			margin-top: 20px;
+		}
+	</ui:style>
+	<g:HTMLPanel>
+		<g:VerticalPanel>
+			<my:ReviewPanel ui:field="rvLogPanel"/>
+			<my:ReviewPanel ui:field="rvMagPanel"/>
+			<g:FormPanel ui:field="formCompReview">
+				<g:VerticalPanel>
+					<g:Label styleName="{style.title}"> Review All </g:Label>
+					<g:SubmitButton ui:field="btnCompReview">Download CSV</g:SubmitButton>
+				</g:VerticalPanel>
+			</g:FormPanel>
+		</g:VerticalPanel>
+	</g:HTMLPanel>
+</ui:UiBinder> 

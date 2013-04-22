@@ -1,0 +1,67 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:my="urn:import:webEditor.programming.view">
+	
+	<ui:style>
+	
+		.applicationBar {
+			border-bottom: 5px solid #E3E3E3; 
+			width: 100%;
+			text-align: right;
+		}
+
+		.anchor { 
+			cursor: pointer; 
+			position: relative;
+		}
+		
+		.anchor:hover { 
+			text-decoration: underline; 
+			z-index: 102;
+		}
+
+		.hello-logout {  
+			vertical-align: middle; 
+       		padding-right: 5px; 
+            display: inline;
+            z-index: 102;
+			position: relative;
+		}
+		
+		.std-txt { 
+			padding-top: 6px 
+		}
+		
+		.title { 
+			font-size: 22px;
+			font-weight: light;
+			font-style: italic;
+			color: #A0A0FF;
+			z-index: 101;
+			position: relative;
+			vertical-align: top;
+			display: inline;
+            float:left;
+            top: -2px;
+		}
+			
+	</ui:style>
+	
+	<g:DockLayoutPanel unit="EM" ui:field="dock">
+		<g:north size="2">
+			<g:HTMLPanel styleName="{style.applicationBar}">
+				<g:Label styleName="{style.title}">WAGS</g:Label>
+				<g:Label styleName="{style.hello-logout}" ui:field="hello"></g:Label>
+				<g:Anchor addStyleNames="{style.anchor} {style.hello-logout}" ui:field="Editor">Editor</g:Anchor> 
+				<g:Anchor addStyleNames="{style.anchor} {style.hello-logout}" ui:field="Magnets">Magnets</g:Anchor> 
+				<g:Anchor addStyleNames="{style.anchor} {style.hello-logout}" ui:field="DST">Logical</g:Anchor> 
+				<g:Anchor addStyleNames="{style.anchor} {style.hello-logout}" ui:field="AdminPage">Admin</g:Anchor>
+				<g:Anchor addStyleNames="{style.anchor} {style.hello-logout}" ui:field="logout">Logout</g:Anchor>
+			</g:HTMLPanel>
+		</g:north>
+		<g:center>
+		<g:AbsolutePanel></g:AbsolutePanel>
+     	</g:center>
+     </g:DockLayoutPanel>
+ </ui:UiBinder> 
