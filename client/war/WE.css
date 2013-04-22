@@ -492,13 +492,18 @@ BODY,HTML{height:100%;}
 	text-align: center;
 	cursor: default;
 }
-.structureLimitAvailable{
-	padding:5px;
-	margin-left:20px;
-	background-color:#90ee90;
-}
-.structureLimitUnvailable{
-	padding:5px;
-	margin-left:20px;
-	background-color:#cd5c5c;
+.drop_point{
+        margin-top: 10px;
+        margin-bottom: 5px;
+        padding: 7px;
+        border-radius: 5px;
+        -moz-border-radius: 5px;
+        display: absolute;
+        font-size: 13px;
+        border: 1px solid AliceBlue;
+        background-color: #ACDEE6;
+        font-family: "courier new";   
+        color: black;  
+        min-width:100px;
+        min-height:30px;
 }
