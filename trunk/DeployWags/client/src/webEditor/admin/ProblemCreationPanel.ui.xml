@@ -1,0 +1,302 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">   
+	<ui:style>
+		.creatorButton{
+			height: 50px;
+			width: 250px;
+		}
+		.roundedButton{
+			width: 98%;
+		}
+		.fillingTextBox{
+			width: 100%;
+		}
+		.fillingTextArea{
+			width: 100%;
+		}
+		.floatRight{
+			float: Right;
+			padding-right: 5px;
+		}
+		.floatLeft{
+			float: Left;
+			padding-left: 5px;
+		}
+		.centeredLabel {
+			text-align: center;
+		}
+		.leftAlignLabel {
+			text-align: left;
+		}
+		.titleDescPanel {
+			border: 1px solid;
+			background: WhiteSmoke;
+			margin: 5px 0px 5px 0px;
+			padding: 10px;
+			border-radius: 5px;
+			width: 100%;
+		}
+		.magnetCreationPanel {
+			border: 1px solid;
+			background: #dbdbdb;
+			margin: 5px 0px 10px 0px;
+			padding: 10px;
+			border-radius: 5px;
+		}
+		.problemTypePanel {
+			width: 100%;
+			border: 1px solid;
+			margin: 5px 0px 10px 0px;
+			padding: 5px;
+		}	
+		.halfCell {
+			width: 50%;
+			padding-right: 5px;
+			padding-left: 5px;
+		}
+		.quarterCell {
+			width: 25%;
+			float: left;
+		}
+		.threeQuarterCell {
+			width: 75%;
+			padding-right: 5px;
+			padding-left: 5px;
+		}
+		.oneFifthCell {
+			width: 20%;
+		}
+		.rightPadding {
+			padding-left: 10px;
+		}
+		.borderRight {
+			border-right: 1px solid black;
+		}
+
+	</ui:style>
+	<g:LayoutPanel>
+	<g:layer left="0" right="45%">
+	    <g:ScrollPanel>
+		    <g:AbsolutePanel>
+				<g:VerticalPanel width="98%">
+					<g:Grid width="100%" styleName='{style.problemTypePanel}'>
+			    	    <g:row>
+							<g:customCell styleName='{style.halfCell}'>
+				            	<g:RadioButton ui:field="btnBasicProblem" name="problemTypes" text="BASIC"></g:RadioButton>
+							</g:customCell>
+							<g:customCell styleName='{style.halfCell}'>
+				            	<g:RadioButton ui:field="btnAdvancedProblem" name="problemTypes" text="ADVANCED (MAGNET MAKER)"></g:RadioButton>
+							</g:customCell>
+						</g:row>
+					</g:Grid>
+					<g:HorizontalPanel styleName='{style.magnetCreationPanel}' width="100%">
+						<g:Label text="Load Exercise:" width="100px"/>
+						<g:VerticalPanel>
+							<g:Label text="Group: " />
+							<g:ListBox name="lstLoadGroup" ui:field="lstLoadGroup" width="160px" styleName='{style.floatLeft}'/>
+						</g:VerticalPanel>
+						<g:VerticalPanel>
+							<g:Label text="Exercise: " />
+							<g:ListBox name="lstLoadExercise" ui:field="lstLoadExercise" width="160px" styleName='{style.floatLeft}'/>
+						</g:VerticalPanel>
+						<g:VerticalPanel>
+							<g:Button ui:field="btnLoadExercise" width="100px">Load</g:Button>
+							<g:Button ui:field="btnDeleteExercise" width="100px">Delete</g:Button>
+						</g:VerticalPanel>
+					</g:HorizontalPanel>
+				    <g:VerticalPanel styleName="{style.titleDescPanel}">
+						<g:Grid width="100%">
+							<g:row>
+								<g:customCell styleName="{style.quarterCell}">
+									<g:Label styleName="{style.centeredLabel}" text="Title:" width="50px"/>
+								</g:customCell>
+								<g:customCell styleName="{style.threeQuarterCell}">
+									<g:TextBox styleName="{style.fillingTextBox}" ui:field="titleTxtBox"/>
+								</g:customCell>
+							</g:row>
+							<g:row>
+								<g:customCell styleName="{style.quarterCell}">
+									<g:Label styleName="{style.centeredLabel}" text="Desc:" width="50px"/>
+								</g:customCell>
+								<g:customCell styleName="{style.threeQuarterCell}">
+									<g:TextArea visibleLines="5" styleName="{style.fillingTextArea}" ui:field="descriptionTxtArea"/>
+								</g:customCell>
+							</g:row>
+						</g:Grid>
+					</g:VerticalPanel>
+				    <g:VerticalPanel ui:field="magnetMakerOptions">
+				        <!-- This is intentionally left blank because choosing advanced problem type will 
+				        	 populate this with the proper widgets -->
+				    </g:VerticalPanel>
+					<g:VerticalPanel styleName="{style.magnetCreationPanel}" width ="100%">
+					    	<g:Grid width="100%">
+					    	    <g:row>
+									<g:customCell styleName='{style.halfCell}'>
+										<g:Label text="TOP" styleName='{style.centeredLabel}'/>
+									</g:customCell>
+									<g:customCell styleName='{style.halfCell}'>
+										<g:Label text="BOTTOM" styleName='{style.centeredLabel}'/>
+									</g:customCell>
+								</g:row>
+								<g:row>
+								    <g:customCell styleName='{style.halfCell}'>
+										<g:HorizontalPanel height="100%" width="100%">
+											<g:Label text="Label:" width="50px"/>
+											<g:TextBox styleName="{style.fillingTextBox}" ui:field="topLabelTxtBox"/>
+										</g:HorizontalPanel>
+									</g:customCell>
+									<g:customCell styleName='{style.halfCell}'>
+									    <g:HorizontalPanel height="100%" width="100%">
+											<g:Label text="Label:" width="50px"/>
+											<g:TextBox styleName="{style.fillingTextBox}" ui:field="bottomLabelTxtBox"/>
+										</g:HorizontalPanel>
+									</g:customCell>
+								</g:row>
+								<g:row>
+								    <g:customCell styleName='{style.halfCell}'>
+								        <g:HorizontalPanel width="100%">
+											<g:Label text="Real:" width="50px"/>
+											<g:TextBox styleName="{style.fillingTextBox}" ui:field="topRealCodeTxtBox"/>
+										</g:HorizontalPanel>
+								    </g:customCell>
+								    <g:customCell styleName='{style.halfCell}'>
+								        <g:HorizontalPanel width="100%">
+											<g:Label text="Real:" width="50px"/>
+											<g:TextBox styleName="{style.fillingTextBox}" ui:field="bottomRealCodeTxtBox"/>
+										</g:HorizontalPanel>
+								    </g:customCell>
+								</g:row>
+							</g:Grid>
+						<g:VerticalPanel width="100%">
+						    <g:Grid width="100%">
+						    	<g:row>
+						    		<g:customCell styleName="{style.quarterCell}">
+						    			<g:Label text="Comment:" width="50px"/>
+						    		</g:customCell>
+						    		<g:customCell styleName="{style.threeQuarterCell}">
+						    			<g:TextBox styleName='{style.fillingTextBox}' ui:field="commentsTxtBox"/>
+						    		</g:customCell>
+						    	</g:row>
+							</g:Grid>
+							<g:VerticalPanel width="100%">
+									<g:Button styleName="{style.floatRight}" ui:field="createCommentsButton">Add Comment</g:Button>
+							</g:VerticalPanel>
+						</g:VerticalPanel>
+						<g:Label text="Current Comments:"/>
+						<g:TextArea width="98%" enabled="false" ui:field="commentsStagingArea"/>
+					</g:VerticalPanel>
+					<g:HorizontalPanel width="100%">
+						<g:Button styleName='{style.roundedButton}' ui:field="classDeclarationButton">Class</g:Button>
+						<g:Button styleName='{style.roundedButton}' ui:field="innerFunctionsButton">Function</g:Button>
+						<g:Button styleName='{style.roundedButton}' ui:field="statementsButton">Statement</g:Button>
+						<g:Button styleName='{style.roundedButton}' ui:field="clearDataButton">Clear</g:Button>
+					</g:HorizontalPanel>
+				</g:VerticalPanel>
+				<g:VerticalPanel width="100%">
+					<g:Label text="Hidden Code:"/>
+					<g:TextArea width="98%" ui:field="hiddenFunctionsArea" visibleLines="5"/>
+					<g:Button styleName="{style.floatRight}" ui:field="createHidFunctionButton">Add Hidden Code</g:Button>
+				</g:VerticalPanel>
+			</g:AbsolutePanel>
+		</g:ScrollPanel>
+	</g:layer>
+	<g:layer left="55%" right="0">
+	    <g:ScrollPanel>
+			<g:VerticalPanel ui:field="magnetReviewPanel" width="98%">
+				<g:FormPanel ui:field="problemCreateFormPanel">
+					<g:VerticalPanel width="100%" height="100%">
+						<g:Label text="Title:"/>
+						<g:TextArea name="title" ui:field="finalTitleTxtBox" width="100%" />
+						<g:Label text="Description:"/>
+						<g:TextArea name="desc" ui:field="finalDescriptionTxtArea" width="100%" visibleLines="5" />
+						<g:Label text="Problem Type: "/>
+						<g:TextArea name="type" ui:field="finalTypeTxtArea" width="100%" visibleLines="1" />
+						<g:Label text="Class:"/>
+						<g:TextArea name="class" ui:field="classDeclarationTxtArea" width="100%" visibleLines="5" />
+						<g:Label text="Functions:"/>
+						<g:TextArea name="functions" ui:field="innerFunctionsTxtArea" width="100%" visibleLines="5" />
+						<g:Label text="Statements:"/>
+						<g:TextArea name="statements" ui:field="statementsTxtArea" width="100%" visibleLines="5" />
+						<!-- All magnet maker options default to hidden -->
+						<g:Label text="for Loop Initializers" ui:field="forLoop1Label" visible="false"/>
+						<g:TextArea name="forloop1" ui:field="forLoop1TextArea" width="100%" visibleLines="5" visible="false" />
+						<g:Label text="for Loop Arguments" ui:field="forLoop2Label" visible="false"/>
+						<g:TextArea name="forloop2" ui:field="forLoop2TextArea" width="100%" visibleLines="5" visible="false" />
+						<g:Label text="for Loop After" ui:field="forLoop3Label" visible="false"/>
+						<g:TextArea name="forloop3" ui:field="forLoop3TextArea" width="100%" visibleLines="5" visible="false" />
+						<g:Label text="boolean Conditions" ui:field="booleansLabel" visible="false"/>
+						<g:TextArea name="bools" ui:field="booleansTextArea" width="100%" visibleLines="5" visible="false" />
+						<!--  ListBox for privileged admin only, defaults to hidden -->
+						<g:HorizontalPanel>
+						    <g:Label ui:field="lblGroup" text="Group:" width="150px" visible="false"/>
+								<g:ListBox ui:field="lstGroup" name="lstGroup" enabled="false" visible="false"></g:ListBox>
+						</g:HorizontalPanel>
+						<!--  -->
+						<g:VerticalPanel width="100%" ui:field="numberAllowedReviewPanel" visible="false">
+						    <g:Label styleName='{style.leftAlignLabel}' text="Number of Decision Structures Allowed"></g:Label>
+							<g:Grid width="100%">
+							    <g:row>
+							        <g:customCell styleName="{style.oneFifthCell}">
+							            <g:HorizontalPanel>
+							                <g:Label text="if: "/>
+						    				<g:TextBox name="ifallowed" width="30px" ui:field="ifAllowed"/>
+							            </g:HorizontalPanel>
+							        </g:customCell>
+							        <g:customCell styleName="{style.oneFifthCell}">
+							            <g:HorizontalPanel>
+									    	<g:Label text=" while: "/>
+									    	<g:TextBox name="whileallowed" width="30px" ui:field="whileAllowed"/>
+							            </g:HorizontalPanel>
+							        </g:customCell>
+							        <g:customCell styleName="{style.oneFifthCell}">
+							            <g:HorizontalPanel>
+							                <g:Label text=" for: "/>
+						    				<g:TextBox name="forallowed" width="30px" ui:field="forAllowed"/>
+							            </g:HorizontalPanel>
+							        </g:customCell>
+							        <g:customCell styleName="{style.oneFifthCell}">
+							            <g:HorizontalPanel>
+						    				<g:Label text=" else: "/>
+						    				<g:TextBox name="elseallowed" width="30px" ui:field="elseAllowed"/>
+							            </g:HorizontalPanel>
+							        </g:customCell>
+							        <g:customCell styleName="{style.oneFifthCell}">
+							            <g:HorizontalPanel>
+							                <g:Label text="else if:"/>
+						    				<g:TextBox name="elseifallowed" width="30px" ui:field="elseIfAllowed"/>
+							            </g:HorizontalPanel>
+							        </g:customCell>
+						    	</g:row>
+							</g:Grid>
+						</g:VerticalPanel>
+						<g:HorizontalPanel>
+							<g:Label text="Testing Class:" width="150px"/>
+							<g:FileUpload name="testClass" ui:field="solutionUpload"/>
+						</g:HorizontalPanel>
+						<!-- Vertical Panel exists so we add multiple helper classes -->
+						<g:VerticalPanel ui:field="vtPanelHelper">
+							<g:HorizontalPanel>
+								<g:Label text="Helper Class:" width="150px"/>
+								<g:FileUpload name="helperClass1" ui:field="helperUpload"/>
+							</g:HorizontalPanel>
+						</g:VerticalPanel>
+						<g:CheckBox ui:field="overwrite" name="overwrite" formValue="1" visible="false"></g:CheckBox>
+						<g:HorizontalPanel>
+							<g:SubmitButton ui:field="createProblemSubmitButton">Create</g:SubmitButton>
+							<g:Button ui:field="btnMoreHelpers">Add Helper Slot</g:Button>
+						</g:HorizontalPanel>
+					</g:VerticalPanel>
+				</g:FormPanel>
+				<g:FormPanel ui:field="fileParseFormPanel">
+					<g:HorizontalPanel styleName='{style.problemTypePanel}'>
+						<g:Label text="Parse File:" width="100px"/>
+						<g:FileUpload name="toParse" ui:field="toParse"></g:FileUpload>
+						<g:SubmitButton ui:field="fileParseSbt">Parse</g:SubmitButton>
+					</g:HorizontalPanel>
+				</g:FormPanel>
+			</g:VerticalPanel>
+		</g:ScrollPanel>
+	</g:layer>
+	</g:LayoutPanel>
+</ui:UiBinder> 

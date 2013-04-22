@@ -1,0 +1,25 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		.title {
+			padding-bottom: 8px;
+			padding-top: 8px;
+			font-size: x-large;
+			font-family: helvetica;	
+			text-align: center;
+		}
+		.assignedTxt{
+			height: 250px;
+			width: 99%;
+			white-space: nowrap;
+		}
+	</ui:style>
+	<g:HTMLPanel>
+		<g:VerticalPanel width="100%">
+			<g:Label styleName="{style.title}" ui:field="title"/>
+			<g:TextArea styleName="{style.assignedTxt}" ui:field="txtAreaAssigned" readOnly="true" width="100%"/>
+			<g:Button ui:field="btnAssign" width="100%">Assign</g:Button>
+		</g:VerticalPanel>
+	</g:HTMLPanel>
+</ui:UiBinder> 
