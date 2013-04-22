@@ -1,0 +1,47 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:my="urn:import:webEditor.admin">
+	<ui:style>
+		
+		.btns_panel {
+			margin-top: auto;
+			margin-bottom: auto;
+		}
+		
+		.assigned_panel {
+			padding-right: 15px;
+			width: 300px;
+		}
+		
+		.spaced_panel {
+			margin: 10px;
+		}
+		
+		.alignTop{
+			vertical-align: top;
+		}
+		
+	</ui:style>
+	
+	<g:AbsolutePanel height="100%" width="100%">
+		<g:Grid height="100%">
+			<g:row styleName="{style.alignTop}">
+				<g:customCell styleName="{style.btns_panel}">
+					<my:ManyButtonPanel styleName="{style.spaced_panel}" ui:field="btnPanelGroups" />
+				</g:customCell>
+				<g:customCell>
+					<my:CheckBoxPanel styleName="{style.spaced_panel}" ui:field="chkPanelExercises"/>
+				</g:customCell>
+				<g:customCell styleName="{style.assigned_panel}">
+					<my:AssignedPanel styleName="{style.spaced_panel}" ui:field="asPanel"/>
+				</g:customCell>
+				<g:customCell styleName="{style.assigned_panel}">
+					<my:AssignedPanel styleName="{style.spaced_panel}" ui:field="asAlreadyPanel"/>
+				</g:customCell>
+			</g:row>
+		</g:Grid>
+		<my:ReviewPanel styleName="{style.spaced_panel}" ui:field="rvPanel"/>
+		
+	</g:AbsolutePanel>
+</ui:UiBinder> 
