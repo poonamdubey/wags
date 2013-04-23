@@ -20,13 +20,14 @@ import com.google.gwt.user.client.ui.Widget;
 public class FlowUi extends Composite {
 	DrawingArea canvas;
 	PickupDragController dc;
-	public String arrowString;
 	
 	@UiField LayoutPanel layout;
 	@UiField AbsolutePanel canvasPanel;
 	@UiField AbsolutePanel segmentsPanel;
 	
+	ArrayList<String> arrowOrder = new ArrayList<String>();
 	ArrayList<DropPoint> dropPoints = new ArrayList<DropPoint>();
+	ArrayList<Path> arrowList = new ArrayList<Path>();
 	
 	private static FlowUiUiBinder uiBinder = GWT
 			.create(FlowUiUiBinder.class);
@@ -40,8 +41,16 @@ public class FlowUi extends Composite {
         canvasPanel.add(canvas);
 		Window.alert(Window.getClientHeight()+" : "+canvasPanel.getOffsetWidth());
         
-        this.arrowString = "0:1,1:2,2:3,3:2,3:0,3:4,5:0,5:4,4:6";
-   
+        this.arrowOrder.add("0:1");
+        this.arrowOrder.add("1:2");
+        this.arrowOrder.add("2:3");
+        this.arrowOrder.add("3:2");
+        this.arrowOrder.add("3:0");
+        this.arrowOrder.add("3:4");
+        this.arrowOrder.add("5:0");
+        this.arrowOrder.add("5:4");
+        this.arrowOrder.add("4:6");
+
         segmentsPanel.add(new DropPoint(SegmentType.SET, this));
         segmentsPanel.add(new DropPoint(SegmentType.MOD, this));
         segmentsPanel.add(new DropPoint(SegmentType.ADD, this));
@@ -53,7 +62,7 @@ public class FlowUi extends Composite {
         segmentsPanel.add(new DropPoint("count",SegmentType.VARIABLE, this));
         
 		addDropPoints("50:50,20:200,350:200,500:300,400:50,50:300,50:500"); // Last one is box for Answer
-		addArrows(arrowString);
+		addArrows(arrowOrder);
 	}
 	
 	public void addDropPoints(final String locations){
@@ -69,14 +78,15 @@ public class FlowUi extends Composite {
    		}
 	}
 	
-	public void addArrows(final String order){
+	public void addArrows(final ArrayList<String> order){
         Timer timer = new Timer() {
             @Override
             public void run() {
-        		String[] arrows = order.split(",");
-        		for(String arrow: arrows){
-        			String[] items = arrow.split(":");
-        			drawArrow(Integer.parseInt(items[0]), Integer.parseInt(items[1]));
+        		for(int i = 0; i < order.size(); i++){
+        			String[] items = order.get(i).split(":");
+        			int src = Integer.parseInt(items[0]);
+        			drawArrow(src, Integer.parseInt(items[1]));
+        			dropPoints.get(src).addArrowToList(order.get(i));
         		} 	
             }
         };
@@ -84,19 +94,27 @@ public class FlowUi extends Composite {
         timer.schedule(100);
 	}
 	
-	public void drawArrow(int item1, int item2){
-		DropPoint sc1 = dropPoints.get(item1);
-		DropPoint sc2 = dropPoints.get(item2);
+	/**
+	 * This will draw the entire arrow so that we can keep a list of them and only remove and redraw
+	 * a single arrow when things are stacked in the DropPoints
+	 * @param source Start DropPoint of the arrow
+	 * @param dest End DropPoint of the arrow
+	 */
+	public void drawArrow(int source, int dest) {
+		DropPoint sc1 = dropPoints.get(source);
+		DropPoint sc2 = dropPoints.get(dest);
 		Path arrow;
-		if(sc1.getAbsoluteTop() < sc2.getAbsoluteTop()){ // item 1 above item 2
-			arrow = new Path((int)(sc1.getAbsoluteLeft()+(.5*sc1.getOffsetWidth())),sc1.getAbsoluteTop());
-			arrow.lineTo((int)(sc2.getAbsoluteLeft()+(.5*sc2.getOffsetWidth())), sc2.getAbsoluteTop()- 25);
-			drawArrowTip((int)(sc2.getAbsoluteLeft()+(.5*sc2.getOffsetWidth())), sc2.getAbsoluteTop()- 25,0);
+		if(sc1.getAbsoluteTop() < sc2.getAbsoluteTop()) { // item 1 above item 2
+			arrow = new Path((int)(sc1.getAbsoluteLeft() + (.5*sc1.getOffsetWidth())), sc1.getAbsoluteTop());
+			arrow.lineTo((int)(sc2.getAbsoluteLeft() + (.5*sc2.getOffsetWidth())), sc2.getAbsoluteTop()- 25);
+			arrow.moveTo((int)(sc2.getAbsoluteLeft() + (.5*sc2.getOffsetWidth())), sc2.getAbsoluteTop()- 25);
+			arrow = addArrowTip(Direction.SOUTH, arrow);
 		} else if (sc1.getAbsoluteTop() == sc2.getAbsoluteTop()) { // same y position
 			arrow = new Path((int)(sc1.getAbsoluteLeft()+(.5*sc1.getOffsetWidth())),sc1.getAbsoluteTop()+(int)(.5*sc1.getOffsetHeight())-15);
 			arrow.lineTo((int)(sc2.getAbsoluteLeft()), sc2.getAbsoluteTop()+ (int)(.5*sc2.getOffsetHeight())-15);
-			drawArrowTip((int)(sc2.getAbsoluteLeft()), sc2.getAbsoluteTop()+ (int)(.5*sc2.getOffsetHeight())-15,1);
-		} else if (item1 == item2){  // same item, do a loop
+			arrow.moveTo((int)(sc2.getAbsoluteLeft()), sc2.getAbsoluteTop()+ (int)(.5*sc2.getOffsetHeight())-15);
+			arrow = addArrowTip(Direction.EAST, arrow);
+		} else if (source == dest){  // same item, do a loop
 			arrow = new Path(0,0);
 		} else{ // item 1 below item 2
 			arrow = drawBezierCurve(sc1,sc2);
@@ -104,32 +122,58 @@ public class FlowUi extends Composite {
 
 	//	Window.alert("added arrow from ("+sc1.getAbsoluteLeft()+","+sc1.getAbsoluteTop()+") to ("+sc2.getAbsoluteLeft()+","+sc2.getAbsoluteTop()+")");
 		arrow.setFillOpacity(0.0);
+		arrow.setStrokeWidth(2);	// Thicker arrows
+		arrow.setStrokeColor("darkblue");
+		arrowList.add(arrow);
 		canvas.add(arrow);
+
 	}
 	
-	public void drawArrowTip(int x, int y, int dir){ // S = 0, E = 1, NE = 2, NW = 3 
-		Path arrowTip;
-		switch(dir){
-			case 1: arrowTip = new Path(x-20,y-20);
-					arrowTip.lineTo(x, y);
-					arrowTip.lineTo(x-20,y+20);
+	private Path addArrowTip(Direction dir, Path arrow) {
+		switch(dir) {
+		case EAST:
+			arrow.lineRelativelyTo(-17, -15);
+			arrow.lineRelativelyTo(0, 30);
+			arrow.close();
 			break;
-			case 2: arrowTip = new Path(x-20,y);
-					arrowTip.lineTo(x,y);
-					arrowTip.lineTo(x, y+20);
+		case NORTH:
+			arrow.lineRelativelyTo(15, 17);
+			arrow.lineRelativelyTo(-30, 0);
+			arrow.close();
 			break;
-			case 3: arrowTip = new Path(x+20,y);
-					arrowTip.lineTo(x,y);
-					arrowTip.lineTo(x, y+20);
+		case WEST:
+			arrow.lineRelativelyTo(17, 15);
+			arrow.lineRelativelyTo(0, -25);
+			arrow.close();
 			break;
-			case 0: 
-		    default: arrowTip = new Path(x-20,y-20);
-					 arrowTip.lineTo(x, y);
-					 arrowTip.lineTo(x+20, y-20);
+		case NORTHEAST:
+			arrow.lineRelativelyTo(0, 25);
+			arrow.lineRelativelyTo(-25, -25);
+			arrow.close();
+			break;
+		case NORTHWEST:
+			arrow.lineRelativelyTo(0, 25);
+			arrow.lineRelativelyTo(25, -25);
+			arrow.close();
+			break;
+		case SOUTHEAST:
+			arrow.lineRelativelyTo(0, -25);
+			arrow.lineRelativelyTo(-25, 25);
+			arrow.close();
+			break;
+		case SOUTHWEST:
+			arrow.lineRelativelyTo(0, -25);
+			arrow.lineRelativelyTo(25, 25);
+			arrow.close();
+			break;
+		case SOUTH: default:
+			arrow.lineRelativelyTo(15, -17);
+			arrow.lineRelativelyTo(-30, 0);
+			arrow.close();
 			break;
 		}
-		arrowTip.setFillOpacity(0.0);
-		canvas.add(arrowTip);
+		
+		return arrow;
 	}
 	
 	public Path drawBezierCurve(DropPoint start, DropPoint dest){
@@ -152,7 +196,7 @@ public class FlowUi extends Composite {
 			
 			dCPX = dX - (30 + ((sX-dX)/4));
 			dCPY = dY; 
-			drawArrowTip(dX,dY,2);
+			addArrowTip(Direction.SOUTHEAST, arrow);
 		} else { // / type relation, go right side
 			sX = start.getAbsoluteLeft() + start.getOffsetWidth(); // set start X-position to right side of start element
 			dX = dest.getAbsoluteLeft() + dest.getOffsetWidth();   // set dest X-position to right side of dest element
@@ -165,16 +209,31 @@ public class FlowUi extends Composite {
 			dCPX = dX + (30+ ((dX-sX)/4));
 			dCPY = dY; 
 			
-			drawArrowTip(dX,dY,3);	
+			addArrowTip(Direction.SOUTHWEST, arrow);	
 		}
 		
 		arrow.curveTo(sCPX, sCPY, dCPX, dCPY, dX, dY);
 	return arrow;
 	}
 	
+	/**
+	 * Removes the arrow going from one DropPoint to another from both the list of drawn arrows
+	 * and the list containing the strings specifying which DropPoints are currently being
+	 * pointed to.
+	 *
+	public void updateArrows(ArrayList<String> srcDst) {
+		for (String arrow : srcDst) {
+			String[] tmp = arrow.split(":");
+			int source = Integer.parseInt(tmp[0]);
+			int dest = Integer.parseInt(tmp[1]);
+			canvas.remove(arrowList.remove(arrowOrder.indexOf(srcDst)));
+			drawArrow(source, dest);
+		}
+	}
+	*/
 	public void redrawArrows(){
 		canvas.clear();
-		addArrows(arrowString);
+		addArrows(arrowOrder);
 	}
 
 }
