@@ -1,83 +1,169 @@
 package webEditor.flow.view;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FocusPanel;
-import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 
 import com.allen_sauer.gwt.dnd.client.DragContext;
-import com.allen_sauer.gwt.dnd.client.PickupDragController;
 import com.allen_sauer.gwt.dnd.client.drop.DropController;
+
+import webEditor.magnet.view.DragController;
 
 import java.util.ArrayList;
 
-/**
- * Stackable containers are the lifeblood of magnets.  This used to be a comment from r28,
- * but I honestly don't know enough about it in its current form to comment it to my liking currently.
- * 
- * I will be back to comment this, but I highly encourage anyone that has the time when they come accross 
- * this to redocument it.
- */
 public class DropPoint extends FocusPanel {
+	
 	private AbsolutePanel primaryPanel = new AbsolutePanel();
 	private AbsolutePanel insidePanel = new AbsolutePanel();
 	
-	private final PickupDragController dragController;
 	private DropController dropController;
 
-	private boolean stackable = true;
+	private boolean stackable = false;
 	private boolean isMain = false;
 	private String containerID;
+	private SegmentType type;
 	
 	String content = "";
 
-	/**
-	 * A stackable container for the overall code with main and such. This
-	 * container is not draggable.
-	 * 
-	 * @param content
-	 *            the HTML formatted string
-	 * @param dc
-	 *            the drag controller
-	 * @param specialCondition
-	 *            usually main
-	 */
-	public DropPoint(PickupDragController dc,
-			int specialCondition, FlowUi flow) { // For mains, non draggable
-		this.dragController = dc;
-		this.dropController = new DropPointDropController(this, flow);
+	public DropPoint(SegmentType segmentType, FlowUi flow) { // For mains, non draggable
+		this.type = segmentType;
 		add(primaryPanel);  // primaryPanel holds everything else, because the focusPanel can only hold one widget
-		setStyleName("drop_point");
-		switch(specialCondition){
-		// isMain, stackable, dragController.makeDraggable(this)
-			case 0: stackable = true; // 0 = dropPoint
-			break;
-			case 1: dragController.makeDraggable(this);
-					stackable = true;
-			break;
-			default: System.err.println("Bad - you shouldn't be here!  DropPoint container constructor error.");
-			break;
-		}	
+		HorizontalPanel horPanel = new HorizontalPanel();
+		switch(segmentType){
+			case INSIDE_DROPPOINT:  setStyleName( "inside_droppoint");
+									this.dropController = new InsideDropPointDropController(this,flow);
+									stackable = true;
+									break;
+			case DROPPOINT:         setStyleName( "droppoint");
+									this.dropController = new DropPointDropController(this,flow);
+									stackable = true;
+									break;
+			case CONDITIONAL:		setStyleName( "conditional");
+									this.dropController = new InsideDropPointDropController(this,flow);
+									stackable = true;
+									break;
+			case ADD:				setStyleName( "droppoint");
+									this.dropController = new DropPointDropController(this,flow);
+									DragController.INSTANCE.makeDraggable(this);
+									stackable = false;
+									horPanel.add(new Label("add"));
+									horPanel.add(new DropPoint(SegmentType.VALUE,flow));
+									horPanel.add(new Label("to"));
+									horPanel.add(new DropPoint(SegmentType.INSIDE_DROPPOINT,flow));
+									break;
+			case SUBTRACT:			this.dropController = new DropPointDropController(this,flow);
+									setStyleName( "droppoint");
+									DragController.INSTANCE.makeDraggable(this);
+									stackable = false;
+									horPanel.add(new Label("subtract"));
+									horPanel.add(new DropPoint(SegmentType.VALUE,flow));
+									horPanel.add(new Label("to"));
+									horPanel.add(new DropPoint(SegmentType.INSIDE_DROPPOINT,flow));
+									break;
+			case SET:       		this.dropController = new DropPointDropController(this,flow);
+									setStyleName( "droppoint");
+									DragController.INSTANCE.makeDraggable(this);
+									stackable = false;
+									horPanel.add(new Label("set"));
+									horPanel.add(new DropPoint(SegmentType.INSIDE_DROPPOINT,flow));
+									horPanel.add(new Label("to"));
+									horPanel.add(new DropPoint(SegmentType.VALUE,flow));
+									break;
+			case DIVIDE:       		this.dropController = new DropPointDropController(this,flow);
+									setStyleName( "droppoint");
+									DragController.INSTANCE.makeDraggable(this);
+									stackable = false;
+									horPanel.add(new Label("divide"));
+									horPanel.add(new DropPoint(SegmentType.INSIDE_DROPPOINT,flow));
+									horPanel.add(new Label("by"));
+									horPanel.add(new DropPoint(SegmentType.VALUE,flow));
+									break;
+			case MULTIPLY:      	this.dropController = new DropPointDropController(this,flow);
+									setStyleName( "droppoint");
+									DragController.INSTANCE.makeDraggable(this);
+									stackable = false;
+									horPanel.add(new Label("multiply"));
+									horPanel.add(new DropPoint(SegmentType.INSIDE_DROPPOINT,flow));
+									horPanel.add(new Label("by"));
+									horPanel.add(new DropPoint(SegmentType.VALUE,flow));
+									break;	
+			case MOD:      			this.dropController = new DropPointDropController(this,flow);
+									setStyleName( "droppoint");
+									DragController.INSTANCE.makeDraggable(this);
+									stackable = false;
+									horPanel.add(new Label("mod"));
+									horPanel.add(new DropPoint(SegmentType.INSIDE_DROPPOINT,flow));
+									horPanel.add(new Label("by"));
+									horPanel.add(new DropPoint(SegmentType.VALUE,flow));
+									break;
+			case VALUE:			    Button b = new Button(" ? ");
+									b.addClickHandler(new ClickHandler(){
+										@Override
+										public void onClick(ClickEvent event) {
+											Window.alert("HAVE CALCULATOR HERE");
+										}
+									});
+									insidePanel.add(b);
+									stackable = false;
+									this.dropController = new DropPointDropController(this,flow);
+									break;
+			default:				setStyleName( "droppoint");
+									this.dropController = new DropPointDropController(this,flow);
+									stackable = true;
+									break;
+		}
+		if(horPanel.getWidgetCount() !=0){
+			insidePanel.add(horPanel);
+		}
 		primaryPanel.add(insidePanel);
 	}
 	
-	public DropPoint(String content, PickupDragController dc,
-			int specialCondition,  FlowUi flow) { // For mains, non draggable
-		this.dragController = dc;
-		this.dropController = new DropPointDropController(this, flow);
+	public DropPoint(String content, SegmentType segmentType,  FlowUi flow) { 
+		this.content = content;
+		this.type = segmentType;
 		add(primaryPanel);  // primaryPanel holds everything else, because the focusPanel can only hold one widget
-		setStyleName("drop_point");
-		switch(specialCondition){
-		// isMain, stackable, dragController.makeDraggable(this)
-			case 0: stackable= true; // 0 = dropPoint
-			break;
-			case 1: dragController.makeDraggable(this);
-			break;
-			default: System.err.println("Bad - you shouldn't be here!  DropPoint container constructor error.");
-			break;
-		}	
-		primaryPanel.add(new Label(content));
+		primaryPanel.add(insidePanel);
+		HorizontalPanel horPanel = new HorizontalPanel();;
+		switch(segmentType){
+		case VARIABLE:     	    setStyleName( "inside_droppoint");
+								this.dropController = new DropPointDropController(this,flow);
+								DragController.INSTANCE.makeDraggable(this);
+						 		stackable = false;
+						 		horPanel.add(new Label(this.content));
+						 		break;
+		case CONDITION:			setStyleName( "inside_droppoint");
+		 						DragController.INSTANCE.makeDraggable(this);
+		 						this.dropController = new DropPointDropController(this,flow);
+		 						stackable = false;
+		 						horPanel.add(new Label(this.content));
+		 						break;
+		case ANSWER:   			setStyleName( "answer");
+								this.dropController = new DropPointDropController(this,flow);
+								stackable = false;
+								horPanel.add(new Label(content));
+								horPanel.add(new DropPoint(SegmentType.INSIDE_DROPPOINT,flow));
+							    break;
+		case ANSWER_CHOICE:     setStyleName( "inside_droppoint");
+							  	stackable = false;
+							  	DragController.INSTANCE.makeDraggable(this);
+							  	this.dropController = new DropPointDropController(this,flow);
+							  	horPanel.add(new Label(this.content));
+							  	break;
+		default: 				setStyleName( "inside_droppoint");
+								DragController.INSTANCE.makeDraggable(this);
+								this.dropController = new DropPointDropController(this,flow);
+								stackable = false;
+								horPanel.add(new Label(this.content));
+								break;
+		}
+		if(horPanel.getWidgetCount() != 0){
+			insidePanel.add(horPanel);
+		}
 		primaryPanel.add(insidePanel);
 	}
 
@@ -86,6 +172,7 @@ public class DropPoint extends FocusPanel {
 	}
 
 	public void addInsideContainer(DropPoint child, DragContext context) {
+		Window.alert("Adding child?");
 		if (insidePanel.getWidgetCount() > 0) {
 			ArrayList<DropPoint> children = new ArrayList<DropPoint>();
 			ArrayList<DropPoint> sortedChildren = new ArrayList<DropPoint>();
@@ -141,19 +228,19 @@ public class DropPoint extends FocusPanel {
 	public void setEngaged(boolean engaged) {
 		if (engaged) {
 			if (isMain) {
-				setStyleName("drop_point");
+				setStyleName("droppoint");
 			} else {
 				if(!stackable){
-					setStyleName("drop_point");
+					setStyleName("droppoint");
 				} else{
-					setStyleName("drop_point");
+					setStyleName("droppoint");
 				}
 			}
 		} else {
 			if (isMain) {
-				setStyleName("drop_point");
+				setStyleName("droppoint");
 			} else {
-				setStyleName("drop_point");
+				setStyleName("droppoint");
 			}
 		}
 	}
@@ -196,17 +283,20 @@ public class DropPoint extends FocusPanel {
 	public void setStackable(boolean stack){
 		stackable = stack;
 	}
+	public SegmentType getType(){
+		return type;
+	}
 	
 	@Override
 	protected void onLoad() {
 		super.onLoad();
-		dragController.registerDropController(dropController);
+		DragController.INSTANCE.registerDropController(dropController);
 	}
 
 	@Override
 	protected void onUnload() {
 		super.onUnload();
-		dragController.unregisterDropController(dropController);
+		DragController.INSTANCE.unregisterDropController(dropController);
 	}
 
 }

@@ -10,10 +10,10 @@
 	</ui:style>
 
 	<g:LayoutPanel ui:field="layout" styleName='{style.base_panel}'>
-		<g:layer left='0%' right='55%'>
+		<g:layer left='0%' right='40%'>
 			<g:AbsolutePanel ui:field="canvasPanel"></g:AbsolutePanel>
 		</g:layer>
-		<g:layer right='0%' left='45%'>
+		<g:layer right='0%' left='60%'>
 			<g:AbsolutePanel ui:field="segmentsPanel"></g:AbsolutePanel>
 		</g:layer>
 	</g:LayoutPanel>
