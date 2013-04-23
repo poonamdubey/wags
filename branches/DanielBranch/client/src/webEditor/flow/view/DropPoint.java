@@ -27,6 +27,7 @@ public class DropPoint extends FocusPanel {
 	private boolean isMain = false;
 	private String containerID;
 	private SegmentType type;
+	private ArrayList<String> arrows = new ArrayList<String>();
 	
 	String content = "";
 
@@ -286,6 +287,13 @@ public class DropPoint extends FocusPanel {
 	public SegmentType getType(){
 		return type;
 	}
+	public void addArrowToList(String arrow) {
+		arrows.add(arrow);
+	}
+	public ArrayList<String> getArrowList() {
+		return arrows;
+	}
+
 	
 	@Override
 	protected void onLoad() {
