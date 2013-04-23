@@ -3,6 +3,7 @@ package webEditor.flow.view;
 import com.allen_sauer.gwt.dnd.client.DragContext;
 import com.allen_sauer.gwt.dnd.client.VetoDragException;
 import com.allen_sauer.gwt.dnd.client.drop.SimpleDropController;
+import com.google.gwt.user.client.Window;
 
 
 /**
@@ -24,12 +25,13 @@ public class DropPointDropController extends SimpleDropController {
 
 	@Override
 	public void onDrop(DragContext context) {
-		if (dropTarget.isStackable()) {
+		if(dropTarget.isStackable()){
 			dropTarget.addInsideContainer(
-					(DropPoint) context.selectedWidgets.get(0),
-					context);
+			(DropPoint) context.selectedWidgets.get(0),
+			context);
 			flow.redrawArrows();
 		}
+
 	}
 
 	@Override

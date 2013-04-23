@@ -36,19 +36,23 @@ public class FlowUi extends Composite {
 	
 	public FlowUi(){
 		initWidget(uiBinder.createAndBindUi(this));
-		dc = new PickupDragController(RootPanel.get(), false);
-		dc.setBehaviorDragProxy(true);
-		Window.alert(Window.getClientHeight()+" : "+canvasPanel.getOffsetWidth());
-		canvas = new DrawingArea(Window.getClientHeight(), (int)(Window.getClientWidth()*.55));
+		canvas = new DrawingArea(Window.getClientHeight(), (int)(Window.getClientWidth()*.6));
         canvasPanel.add(canvas);
+		Window.alert(Window.getClientHeight()+" : "+canvasPanel.getOffsetWidth());
         
-        this.arrowString = "0:1,1:2,2:3,3:2,3:0,3:4,5:0,5:4";
+        this.arrowString = "0:1,1:2,2:3,3:2,3:0,3:4,5:0,5:4,4:6";
+   
+        segmentsPanel.add(new DropPoint(SegmentType.SET, this));
+        segmentsPanel.add(new DropPoint(SegmentType.MOD, this));
+        segmentsPanel.add(new DropPoint(SegmentType.ADD, this));
+        segmentsPanel.add(new DropPoint(SegmentType.DIVIDE, this));
+        segmentsPanel.add(new DropPoint("Answer a",SegmentType.ANSWER_CHOICE, this));
+        segmentsPanel.add(new DropPoint("var",SegmentType.VARIABLE, this));
+        segmentsPanel.add(new DropPoint("A < B",SegmentType.CONDITION, this));
+        segmentsPanel.add(new DropPoint(SegmentType.CONDITIONAL, this));
+        segmentsPanel.add(new DropPoint("count",SegmentType.VARIABLE, this));
         
-        segmentsPanel.add(new DropPoint("While loop",dc,1, this));
-        segmentsPanel.add(new DropPoint("increment counter",dc,1, this));
-        segmentsPanel.add(new DropPoint("Doin Thangs",dc,1, this));
-        
-		addDropPoints("50:50,20:200,350:200,500:300,400:50,50:300");
+		addDropPoints("50:50,20:200,350:200,500:300,400:50,50:300,50:500"); // Last one is box for Answer
 		addArrows(arrowString);
 	}
 	
@@ -56,7 +60,11 @@ public class FlowUi extends Composite {
    		String[] locs = locations.split(",");
    		for(int i=0; i < locs.length; i++){
    			String[] coords = locs[i].split(":");
-   			dropPoints.add(new DropPoint(dc,0,this));
+            if(i != locs.length-1){
+            	dropPoints.add(new DropPoint(SegmentType.DROPPOINT,this));
+            } else{
+            	dropPoints.add(new DropPoint("Answer",SegmentType.ANSWER,this));
+            }
    			canvasPanel.add(dropPoints.get(i),Integer.parseInt(coords[0]), Integer.parseInt(coords[1]));
    		}
 	}
