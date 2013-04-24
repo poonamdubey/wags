@@ -30,7 +30,6 @@ public class DropPointDropController extends SimpleDropController {
 			(DropPoint) context.selectedWidgets.get(0),
 			context);
 			flow.updateArrows(dropTarget.getArrowList());
-//			flow.redrawArrows();
 		}
 
 	}

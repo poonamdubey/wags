@@ -1,6 +1,7 @@
 package webEditor.flow.view;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 import org.vaadin.gwtgraphics.client.DrawingArea;
 import org.vaadin.gwtgraphics.client.shape.Path;
@@ -30,8 +31,12 @@ public class FlowUi extends Composite {
 	// Order is necessary so that arrows can be updated without redrawing the entire canvas.
 	ArrayList<String> arrowOrder = new ArrayList<String>();
 	ArrayList<Path> arrowList = new ArrayList<Path>();
-	
 	ArrayList<DropPoint> dropPoints = new ArrayList<DropPoint>();
+	
+	// Limiting access to the stack so that it can reside in one place instead of having to
+	// pass it around. Allowed actions are push, pop, clear, and size and must be called
+	// using this class's methods.
+	private Stack<ActionState> undoStack = new Stack<ActionState>();
 
 	private static FlowUiUiBinder uiBinder = GWT
 			.create(FlowUiUiBinder.class);
@@ -43,7 +48,6 @@ public class FlowUi extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 		canvas = new DrawingArea(Window.getClientHeight(), (int)(Window.getClientWidth()*.6));
         canvasPanel.add(canvas);
-//		Window.alert(Window.getClientHeight()+" : "+canvasPanel.getOffsetWidth());
         
         this.arrowOrder.add("0:1");
         this.arrowOrder.add("1:2");
@@ -248,7 +252,7 @@ public class FlowUi extends Composite {
 		arrow.curveTo(sCPX, sCPY, dCPX, dCPY, dX, dY);
 	return arrow;
 	}
-	
+
 	/**
 	 * Removes the specified arrows from the canvas and redraws them.
 	 * arrowOrder and arrowList need to stay in sync so that the proper Path can
@@ -275,4 +279,18 @@ public class FlowUi extends Composite {
 	}
 
 	public void addNewArrow(){}
+	
+	public void pushUndoStack(ActionState state) {
+		undoStack.push(state);
+	}
+	public ActionState popUndoStack() {
+		return undoStack.pop();
+	}
+	public void clearUndoStack() {
+		undoStack.clear();
+	}
+	public int sizeUndoStack() {
+		return undoStack.size();
+	}
+	
 }

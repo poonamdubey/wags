@@ -15,6 +15,7 @@ import com.allen_sauer.gwt.dnd.client.drop.DropController;
 import webEditor.magnet.view.DragController;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class DropPoint extends FocusPanel {
 	
@@ -173,7 +174,7 @@ public class DropPoint extends FocusPanel {
 	}
 
 	public void addInsideContainer(DropPoint child, DragContext context) {
-		Window.alert("Adding child?");
+//		Window.alert("Adding child?");
 		if (insidePanel.getWidgetCount() > 0) {
 			ArrayList<DropPoint> children = new ArrayList<DropPoint>();
 			ArrayList<DropPoint> sortedChildren = new ArrayList<DropPoint>();
