@@ -6,25 +6,42 @@ import java.util.Stack;
 import org.vaadin.gwtgraphics.client.DrawingArea;
 import org.vaadin.gwtgraphics.client.shape.Path;
 
+import webEditor.magnet.view.StackableContainer;
+
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
-import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class FlowUi extends Composite {
 	DrawingArea canvas;
 	PickupDragController dc;
-	
+	private PopupPanel resetPopupPanel;
+	static int dropPointID=0;
+	int executeIndex = 0;
+
 	@UiField LayoutPanel layout;
 	@UiField AbsolutePanel canvasPanel;
 	@UiField AbsolutePanel segmentsPanel;
+	@UiField AbsolutePanel bottomPanel;
+	@UiField Button restartButton;
+	@UiField Button previousButton;
+	@UiField Button nextButton;
+	@UiField Button resetButton;
 	
 	// The arrowOrder list holds the strings specifying the source and destination DropPoints
 	// for arrows. The arrowList holds the actual Path Vector Object in the same order.
@@ -32,6 +49,7 @@ public class FlowUi extends Composite {
 	ArrayList<String> arrowOrder = new ArrayList<String>();
 	ArrayList<Path> arrowList = new ArrayList<Path>();
 	ArrayList<DropPoint> dropPoints = new ArrayList<DropPoint>();
+	String dropPointCoords;
 	
 	// Limiting access to the stack so that it can reside in one place instead of having to
 	// pass it around. Allowed actions are push, pop, clear, and size and must be called
@@ -48,16 +66,6 @@ public class FlowUi extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 		canvas = new DrawingArea(Window.getClientHeight(), (int)(Window.getClientWidth()*.6));
         canvasPanel.add(canvas);
-        
-        this.arrowOrder.add("0:1");
-        this.arrowOrder.add("1:2");
-        this.arrowOrder.add("2:3");
-        this.arrowOrder.add("3:2");
-        this.arrowOrder.add("3:0");
-        this.arrowOrder.add("3:4");
-        this.arrowOrder.add("5:0");
-        this.arrowOrder.add("5:4");
-        this.arrowOrder.add("4:6");
 
         segmentsPanel.add(new DropPoint(SegmentType.SET, this));
         segmentsPanel.add(new DropPoint(SegmentType.MOD, this));
@@ -66,12 +74,71 @@ public class FlowUi extends Composite {
         segmentsPanel.add(new DropPoint("Answer a",SegmentType.ANSWER_CHOICE, this));
         segmentsPanel.add(new DropPoint("var",SegmentType.VARIABLE, this));
         segmentsPanel.add(new DropPoint("A < B",SegmentType.CONDITION, this));
-        segmentsPanel.add(new DropPoint(SegmentType.CONDITIONAL, this));
         segmentsPanel.add(new DropPoint("count",SegmentType.VARIABLE, this));
         
-		initDropPoints("50:50,20:200,350:200,500:300,400:50,50:300,50:500"); // Last one is box for Answer
+        // TODO figure out how to encode/where to keep which direction TRUE/FALSE leads to from a conditional box
+        // A in from means Answer, C in front means Conditional.  Temporary for now...
+		this.dropPointCoords = "200:10,200:120,200:300,200:500";
+        initDropPoints(dropPointCoords);
+		
+        this.arrowOrder.add("0:1");
+        this.arrowOrder.add("1:2");
+        this.arrowOrder.add("1:3");
+        this.arrowOrder.add("3:1");
+        
 		initArrows(arrowOrder);
+		setupResetPopupPanel();
 	}
+	
+	/*
+	 * Handlers for the buttons 
+	 * 
+	 */
+	@UiHandler("restartButton")
+	void handleRestartClick(ClickEvent e) {
+//		popupPanel.setPopupPosition(button.getAbsoluteLeft(),
+//				button.getAbsoluteTop() - 80);
+//		popupPanel.setVisible(true);
+//		popupPanel.show();
+	}
+	
+	@UiHandler("previousButton")
+	void handlePreviousClick(ClickEvent e) {
+		Window.alert("undoing?");
+		popUndoStack().undo();
+		executeIndex--;
+	}
+	
+	@UiHandler("nextButton")
+	void handleNextClick(ClickEvent e) {
+		Window.alert("Next Hit");
+		((DropPoint) dropPoints.get(this.executeIndex).getInsidePanel().getWidget(0)).doAction();
+		pushUndoStack(((DropPoint) dropPoints.get(this.executeIndex++).getInsidePanel().getWidget(0)).getAction());
+	}
+	
+	@UiHandler("resetButton")
+	void handleResetClick(ClickEvent e) {
+		resetPopupPanel.setPopupPosition(resetButton.getAbsoluteLeft() - 160,
+				resetButton.getAbsoluteTop() - 80);
+		resetPopupPanel.setVisible(true);
+		resetPopupPanel.show();
+	}
+	
+	private class yesResetHandler implements ClickHandler {
+		public void onClick(ClickEvent event) {
+			Window.alert("before resting");
+			resetProblem();
+			Window.alert("after resting");
+			resetPopupPanel.setVisible(false);
+		}
+	}
+
+	private class noResetHandler implements ClickHandler {
+		public void onClick(ClickEvent event) {
+			resetPopupPanel.setVisible(false);
+		}
+	}
+
 	
 	/**
 	 * Adds DropPoints the list and draws them on the canvas
@@ -82,12 +149,18 @@ public class FlowUi extends Composite {
    		String[] locs = locations.split(",");
    		for(int i=0; i < locs.length; i++){
    			String[] coords = locs[i].split(":");
-            if(i != locs.length-1){
-            	dropPoints.add(new DropPoint(SegmentType.DROPPOINT,this));
-            } else{
-            	dropPoints.add(new DropPoint("Answer",SegmentType.ANSWER,this));
+   			if(coords.length == 2){
+   				dropPoints.add(new DropPoint(SegmentType.DROPPOINT,this));
+   	   			canvasPanel.add(dropPoints.get(i),Integer.parseInt(coords[0]), Integer.parseInt(coords[1]));
+   			}else if(coords[0].equals("C")){
+            	dropPoints.add(new DropPoint(SegmentType.CONDITIONAL,this));
+       			canvasPanel.add(dropPoints.get(i),Integer.parseInt(coords[1]), Integer.parseInt(coords[2]));
+            }else if(coords[0].equals("A")){
+            	dropPoints.add(new DropPoint("Answer: ",SegmentType.ANSWER,this));
+       			canvasPanel.add(dropPoints.get(i),Integer.parseInt(coords[1]), Integer.parseInt(coords[2]));
             }
-   			canvasPanel.add(dropPoints.get(i),Integer.parseInt(coords[0]), Integer.parseInt(coords[1]));
+   			dropPoints.get(i).setID(getNextDropPointID());
+
    		}
 	}
 	
@@ -269,7 +342,36 @@ public class FlowUi extends Composite {
 			drawArrow(source, dest);
 		}
 	}
+	/*
+	 * Building UI elements
+	 * 
+	 */
+	public void setupResetPopupPanel() {
+		resetPopupPanel = new PopupPanel(true);
+		VerticalPanel vPanel = new VerticalPanel();
+		HorizontalPanel hPanel = new HorizontalPanel();
+		Label pLabel = new Label("Are you sure you wish to reset the problem?");
+		Button yesButton = new Button("Yes", new yesResetHandler());
+		yesButton.addStyleName("big_popup_button");
+		Button noButton = new Button("No", new noResetHandler());
+		noButton.addStyleName("big_popup_button");
+		hPanel.add(yesButton);
+		hPanel.add(noButton);
+		hPanel.setCellWidth(yesButton, "128px");
+		hPanel.setCellHeight(yesButton, "50px");
+		hPanel.setCellWidth(noButton, "128px");
+		hPanel.setCellHeight(noButton, "50px");
+		vPanel.add(pLabel);
+		vPanel.add(hPanel);
+		resetPopupPanel.add(vPanel);
+	}
 	
+	public void resetProblem(){
+		for(DropPoint dp: dropPoints){
+			dp.resetDropPoint();
+		}
+		redrawArrows();
+	}
 	/**
 	 * Clears the canvas and redraws all arrows on the screen.
 	 */
@@ -291,6 +393,9 @@ public class FlowUi extends Composite {
 	}
 	public int sizeUndoStack() {
 		return undoStack.size();
+	}
+	public int getNextDropPointID(){
+		return dropPointID++;
 	}
 	
 }

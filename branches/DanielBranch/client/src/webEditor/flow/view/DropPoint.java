@@ -8,6 +8,8 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.Widget;
 
 import com.allen_sauer.gwt.dnd.client.DragContext;
 import com.allen_sauer.gwt.dnd.client.drop.DropController;
@@ -19,6 +21,8 @@ import java.util.Stack;
 
 public class DropPoint extends FocusPanel {
 	
+	private FlowUi flow;
+	
 	private AbsolutePanel primaryPanel = new AbsolutePanel();
 	private AbsolutePanel insidePanel = new AbsolutePanel();
 	
@@ -26,14 +30,20 @@ public class DropPoint extends FocusPanel {
 
 	private boolean stackable = false;
 	private boolean isMain = false;
-	private String containerID;
+	private int containerID;
 	private SegmentType type;
+	private TextBox valueBox;
+	private DropPoint insideDropPoint;
 	private ArrayList<String> arrows = new ArrayList<String>();
 	
 	String content = "";
+	
+	ActionState action;
+	
 
 	public DropPoint(SegmentType segmentType, FlowUi flow) { // For mains, non draggable
 		this.type = segmentType;
+		this.flow = flow;
 		add(primaryPanel);  // primaryPanel holds everything else, because the focusPanel can only hold one widget
 		HorizontalPanel horPanel = new HorizontalPanel();
 		switch(segmentType){
@@ -48,71 +58,79 @@ public class DropPoint extends FocusPanel {
 			case CONDITIONAL:		setStyleName( "conditional");
 									this.dropController = new InsideDropPointDropController(this,flow);
 									stackable = true;
+									action = new ConditionalAction(this);
 									break;
 			case ADD:				setStyleName( "droppoint");
 									this.dropController = new DropPointDropController(this,flow);
 									DragController.INSTANCE.makeDraggable(this);
 									stackable = false;
 									horPanel.add(new Label("add"));
-									horPanel.add(new DropPoint(SegmentType.VALUE,flow));
+									valueBox = new TextBox();
+									horPanel.add(valueBox);
 									horPanel.add(new Label("to"));
-									horPanel.add(new DropPoint(SegmentType.INSIDE_DROPPOINT,flow));
+									insideDropPoint = new DropPoint(SegmentType.INSIDE_DROPPOINT,flow);
+									horPanel.add(insideDropPoint);
+									action = new AddAction(this);
 									break;
 			case SUBTRACT:			this.dropController = new DropPointDropController(this,flow);
 									setStyleName( "droppoint");
 									DragController.INSTANCE.makeDraggable(this);
 									stackable = false;
 									horPanel.add(new Label("subtract"));
-									horPanel.add(new DropPoint(SegmentType.VALUE,flow));
+									valueBox = new TextBox();
+									horPanel.add(valueBox);
 									horPanel.add(new Label("to"));
-									horPanel.add(new DropPoint(SegmentType.INSIDE_DROPPOINT,flow));
+									insideDropPoint = new DropPoint(SegmentType.INSIDE_DROPPOINT,flow);
+									horPanel.add(insideDropPoint);
+									action = new SubstractAction(this);
 									break;
 			case SET:       		this.dropController = new DropPointDropController(this,flow);
 									setStyleName( "droppoint");
 									DragController.INSTANCE.makeDraggable(this);
 									stackable = false;
 									horPanel.add(new Label("set"));
-									horPanel.add(new DropPoint(SegmentType.INSIDE_DROPPOINT,flow));
+									insideDropPoint = new DropPoint(SegmentType.INSIDE_DROPPOINT,flow);
+									horPanel.add(insideDropPoint);
 									horPanel.add(new Label("to"));
-									horPanel.add(new DropPoint(SegmentType.VALUE,flow));
+									valueBox = new TextBox();
+									horPanel.add(valueBox);
+									action = new SetAction(this);
 									break;
 			case DIVIDE:       		this.dropController = new DropPointDropController(this,flow);
 									setStyleName( "droppoint");
 									DragController.INSTANCE.makeDraggable(this);
 									stackable = false;
 									horPanel.add(new Label("divide"));
-									horPanel.add(new DropPoint(SegmentType.INSIDE_DROPPOINT,flow));
+									insideDropPoint = new DropPoint(SegmentType.INSIDE_DROPPOINT,flow);
+									horPanel.add(insideDropPoint);
 									horPanel.add(new Label("by"));
-									horPanel.add(new DropPoint(SegmentType.VALUE,flow));
+									valueBox = new TextBox();
+									horPanel.add(valueBox);
+									action = new DivideAction(this);
 									break;
 			case MULTIPLY:      	this.dropController = new DropPointDropController(this,flow);
 									setStyleName( "droppoint");
 									DragController.INSTANCE.makeDraggable(this);
 									stackable = false;
 									horPanel.add(new Label("multiply"));
-									horPanel.add(new DropPoint(SegmentType.INSIDE_DROPPOINT,flow));
+									insideDropPoint = new DropPoint(SegmentType.INSIDE_DROPPOINT,flow);
+									horPanel.add(insideDropPoint);
 									horPanel.add(new Label("by"));
-									horPanel.add(new DropPoint(SegmentType.VALUE,flow));
+									valueBox = new TextBox();
+									horPanel.add(valueBox);
+									action = new MultiplyAction(this);
 									break;	
 			case MOD:      			this.dropController = new DropPointDropController(this,flow);
 									setStyleName( "droppoint");
 									DragController.INSTANCE.makeDraggable(this);
 									stackable = false;
 									horPanel.add(new Label("mod"));
-									horPanel.add(new DropPoint(SegmentType.INSIDE_DROPPOINT,flow));
+									insideDropPoint = new DropPoint(SegmentType.INSIDE_DROPPOINT,flow);
+									horPanel.add(insideDropPoint);
 									horPanel.add(new Label("by"));
-									horPanel.add(new DropPoint(SegmentType.VALUE,flow));
-									break;
-			case VALUE:			    Button b = new Button(" ? ");
-									b.addClickHandler(new ClickHandler(){
-										@Override
-										public void onClick(ClickEvent event) {
-											Window.alert("HAVE CALCULATOR HERE");
-										}
-									});
-									insidePanel.add(b);
-									stackable = false;
-									this.dropController = new DropPointDropController(this,flow);
+									valueBox = new TextBox();
+									horPanel.add(valueBox);
+									action = new ModAction(this);
 									break;
 			default:				setStyleName( "droppoint");
 									this.dropController = new DropPointDropController(this,flow);
@@ -148,7 +166,8 @@ public class DropPoint extends FocusPanel {
 								this.dropController = new DropPointDropController(this,flow);
 								stackable = false;
 								horPanel.add(new Label(content));
-								horPanel.add(new DropPoint(SegmentType.INSIDE_DROPPOINT,flow));
+								insideDropPoint = new DropPoint(SegmentType.INSIDE_DROPPOINT,flow);
+								horPanel.add(insideDropPoint);
 							    break;
 		case ANSWER_CHOICE:     setStyleName( "inside_droppoint");
 							  	stackable = false;
@@ -174,7 +193,6 @@ public class DropPoint extends FocusPanel {
 	}
 
 	public void addInsideContainer(DropPoint child, DragContext context) {
-//		Window.alert("Adding child?");
 		if (insidePanel.getWidgetCount() > 0) {
 			ArrayList<DropPoint> children = new ArrayList<DropPoint>();
 			ArrayList<DropPoint> sortedChildren = new ArrayList<DropPoint>();
@@ -218,9 +236,9 @@ public class DropPoint extends FocusPanel {
 
 	}
 	
-	public boolean hasChild(String childID){
+	public boolean hasChild(int childID){
 		for (int i = 0; i < insidePanel.getWidgetCount(); i++) {
-			if(insidePanel.getWidget(i) instanceof DropPoint && ((DropPoint)insidePanel.getWidget(i)).getID().equals(childID)){
+			if(insidePanel.getWidget(i) instanceof DropPoint && ((DropPoint)insidePanel.getWidget(i)).getID() == (childID)){
 				return true;
 			}
 		}
@@ -273,10 +291,10 @@ public class DropPoint extends FocusPanel {
 	public int getHeight() {
 		return this.getOffsetHeight();
 	}
-	public String getID(){
+	public int getID(){
 		return containerID;
 	}
-	public void setID(String id){
+	public void setID(int id){
 		containerID = id;
 	}
 	public void setMain(boolean main){
@@ -294,8 +312,22 @@ public class DropPoint extends FocusPanel {
 	public ArrayList<String> getArrowList() {
 		return arrows;
 	}
-
 	
+	public void resetDropPoint(){
+		if(this.type == SegmentType.CONDITIONAL){
+			if(insidePanel.getWidgetCount() > 0){
+				flow.segmentsPanel.add(insidePanel.getWidget(0));
+			}
+		} else if(this.type == SegmentType.DROPPOINT){
+			if(insidePanel.getWidgetCount() > 0){
+				flow.segmentsPanel.add(insidePanel.getWidget(0));
+			}	
+		} else if(this.type == SegmentType.ANSWER){ // insidePanel->horPanel(content,inside_droppoint)
+			if(((DropPoint)((HorizontalPanel)insidePanel.getWidget(0)).getWidget(1)).getInsidePanel().getWidgetCount() >0){
+				flow.segmentsPanel.add(((DropPoint)((HorizontalPanel)insidePanel.getWidget(0)).getWidget(1)).getInsidePanel().getWidget(0));
+			}
+		}
+	}
 	@Override
 	protected void onLoad() {
 		super.onLoad();
@@ -307,5 +339,30 @@ public class DropPoint extends FocusPanel {
 		super.onUnload();
 		DragController.INSTANCE.unregisterDropController(dropController);
 	}
+	public DropPoint getCopy(){
+		return new DropPoint(this.content,this.type,this.flow);
+	}
+	
+	public void doAction(){
+		Window.alert("Executing Action");
+		action.execute();
+	}
 
+	public ActionState getAction(){
+		return action;
+	}
+	public int getBoxValue() {
+		int value = 0;
+		try{
+			value = Integer.parseInt(valueBox.getText());
+		}
+		catch(NumberFormatException ex){
+			Window.alert("Contents of TextBox wasn't a number!");
+		}
+		return value;
+	}
+
+	public String getInsideContent() {
+		return ((DropPoint)insideDropPoint.getInsidePanel().getWidget(0)).getContent();
+	}
 }
