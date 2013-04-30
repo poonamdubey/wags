@@ -10,14 +10,6 @@ package webEditor.flow.view;
  *
  */
 public abstract class ActionState {
-	protected ActionType action;
-	
 	public abstract void undo();
-
-	public ActionType getAction() {
-		return action;
-	}
-	public void setAction(ActionType action) {
-		this.action = action;
-	}
+	public abstract void execute();
 }

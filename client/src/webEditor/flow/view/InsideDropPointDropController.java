@@ -19,21 +19,28 @@ public class InsideDropPointDropController extends SimpleDropController {
 	public void onDrop(DragContext context) {
 		SegmentType dtType = dropTarget.getType();             // dropTarget type
 		SegmentType swType = ((DropPoint) context.selectedWidgets.get(0)).getType();     // type of widget being dropped
-//		Window.alert(dropTarget.toString()+" | "+dropTarget.getParent().toString()+ " | "+dropTarget.getParent().getParent().toString()+ " | "+dropTarget.getParent().getParent().getParent().toString()+ " | "+dropTarget.getParent().getParent().getParent().getParent().toString());
+		Window.alert(dropTarget.toString()+" | "+dropTarget.getParent().toString()+ " | "+dropTarget.getParent().getParent().toString()+ " | "+dropTarget.getParent().getParent().getParent().toString()+ " | "+dropTarget.getParent().getParent().getParent().getParent().toString());
 		if(dropTarget.getInsidePanel().getWidgetCount() == 0){
 //			Window.alert("On Drop: "+dropTarget.getType()+" "+((DropPoint) context.selectedWidgets.get(0)).getType());
 			if( dtType == SegmentType.CONDITIONAL){
 				if(swType == SegmentType.CONDITION){
-					Window.alert("adding as condition");
-					dropTarget.addInsideContainer((DropPoint) context.selectedWidgets.get(0));
+	//				Window.alert("adding as condition");
+					DropPoint dp = ((DropPoint)context.selectedWidgets.get(0)).getCopy();
+					dropTarget.addInsideContainer(dp);
 				}
 			} else if(dropTarget.getParent().getParent().getParent().getParent() instanceof DropPoint && swType == SegmentType.ANSWER_CHOICE){
+				Window.alert("Answer Parent!!");
 				if(((DropPoint)dropTarget.getParent().getParent().getParent().getParent()).getType() == SegmentType.ANSWER){
-					dropTarget.addInsideContainer((DropPoint) context.selectedWidgets.get(0));
+					dropTarget.addInsideContainer((DropPoint)context.selectedWidgets.get(0));
 				}
 			} else if(swType == SegmentType.VARIABLE){
-				Window.alert("adding as var");
-				dropTarget.addInsideContainer((DropPoint) context.selectedWidgets.get(0));
+		//		Window.alert("adding as var");
+				//TODO only do a copy if it's going from segmentsPanel to canvasPanel
+				if(!(dropTarget.getParent().getParent().getParent().getParent() instanceof DropPoint 
+						&& swType == SegmentType.ANSWER_CHOICE)){  // making sure it's not an Answer droppoint.
+					DropPoint dp = ((DropPoint)context.selectedWidgets.get(0)).getCopy();
+					dropTarget.addInsideContainer(dp);
+				}
 			}
 		}
 		flow.redrawArrows();

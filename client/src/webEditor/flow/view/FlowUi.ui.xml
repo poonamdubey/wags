@@ -16,5 +16,14 @@
 		<g:layer right='0%' left='60%'>
 			<g:AbsolutePanel ui:field="segmentsPanel"></g:AbsolutePanel>
 		</g:layer>
+				<g:layer bottom='0px' left='0px' right='0px' height='30px'>
+			<g:AbsolutePanel ui:field="bottomPanel">
+			    <g:Button ui:field="restartButton">restart</g:Button>
+			    <g:Button ui:field="previousButton">previous</g:Button>
+			    <g:Button ui:field="nextButton">next</g:Button>
+			    <g:Button ui:field="resetButton">reset</g:Button>
+			</g:AbsolutePanel>
+		</g:layer>
+		
 	</g:LayoutPanel>
 </ui:UiBinder> 

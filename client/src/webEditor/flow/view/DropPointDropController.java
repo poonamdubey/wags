@@ -25,10 +25,10 @@ public class DropPointDropController extends SimpleDropController {
 
 	@Override
 	public void onDrop(DragContext context) {
-		if(dropTarget.isStackable()){
-			dropTarget.addInsideContainer(
-			(DropPoint) context.selectedWidgets.get(0),
-			context);
+		DropPoint sw = new DropPoint(((DropPoint)context.selectedWidgets.get(0)).getType(),flow);
+		if(dropTarget.isStackable() && (sw.getType() != SegmentType.VARIABLE) && (sw.getType() != SegmentType.CONDITION)
+				&& (sw.getType() != SegmentType.ANSWER_CHOICE) && dropTarget.getInsidePanel().getWidgetCount() <1){
+			dropTarget.addInsideContainer(sw ,context);
 			flow.updateArrows(dropTarget.getArrowList());
 		}
 
