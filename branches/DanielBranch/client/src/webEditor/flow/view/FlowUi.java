@@ -6,8 +6,6 @@ import java.util.Stack;
 import org.vaadin.gwtgraphics.client.DrawingArea;
 import org.vaadin.gwtgraphics.client.shape.Path;
 
-import webEditor.magnet.view.StackableContainer;
-
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -24,6 +22,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -38,6 +37,8 @@ public class FlowUi extends Composite {
 	@UiField AbsolutePanel canvasPanel;
 	@UiField AbsolutePanel segmentsPanel;
 	@UiField AbsolutePanel bottomPanel;
+	@UiField ScrollPanel flowScrollPanel;
+	@UiField ScrollPanel segmentScrollPanel;
 	@UiField Button restartButton;
 	@UiField Button previousButton;
 	@UiField Button nextButton;
@@ -78,13 +79,14 @@ public class FlowUi extends Composite {
         
         // TODO figure out how to encode/where to keep which direction TRUE/FALSE leads to from a conditional box
         // A in from means Answer, C in front means Conditional.  Temporary for now...
-		this.dropPointCoords = "200:10,200:120,200:300,200:500";
+		this.dropPointCoords = "250:10,200:120,200:300,200:500";
         initDropPoints(dropPointCoords);
 		
         this.arrowOrder.add("0:1");
         this.arrowOrder.add("1:2");
         this.arrowOrder.add("1:3");
         this.arrowOrder.add("3:1");
+        this.arrowOrder.add("3:0"); // proof of concept
         
 		initArrows(arrowOrder);
 		setupResetPopupPanel();
