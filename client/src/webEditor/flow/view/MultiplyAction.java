@@ -12,7 +12,7 @@ public class MultiplyAction extends ActionState {
 	@Override
 	public void undo() {
 		VariableMap.INSTANCE.addVar(varName, VariableMap.INSTANCE.getValue(varName)/value);
-		
+		FlowUi.executeIndex--;
 	}
 
 	@Override
@@ -21,7 +21,7 @@ public class MultiplyAction extends ActionState {
 		this.value = dp.getBoxValue();
 		
 		VariableMap.INSTANCE.addVar(varName, VariableMap.INSTANCE.getValue(varName)*value);
-		
+		FlowUi.executeIndex++;
 	}
 
 }

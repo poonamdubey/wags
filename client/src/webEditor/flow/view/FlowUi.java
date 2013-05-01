@@ -31,7 +31,7 @@ public class FlowUi extends Composite {
 	PickupDragController dc;
 	private PopupPanel resetPopupPanel;
 	static int dropPointID=0;
-	int executeIndex = 0;
+	public static int executeIndex = 0;
 
 	@UiField LayoutPanel layout;
 	@UiField AbsolutePanel canvasPanel;
@@ -72,14 +72,13 @@ public class FlowUi extends Composite {
         segmentsPanel.add(new DropPoint(SegmentType.MOD, this));
         segmentsPanel.add(new DropPoint(SegmentType.ADD, this));
         segmentsPanel.add(new DropPoint(SegmentType.DIVIDE, this));
-        segmentsPanel.add(new DropPoint("Answer a",SegmentType.ANSWER_CHOICE, this));
         segmentsPanel.add(new DropPoint("var",SegmentType.VARIABLE, this));
-        segmentsPanel.add(new DropPoint("A < B",SegmentType.CONDITION, this));
+        segmentsPanel.add(new DropPoint("var < 10",SegmentType.CONDITION, this));
         segmentsPanel.add(new DropPoint("count",SegmentType.VARIABLE, this));
         
         // TODO figure out how to encode/where to keep which direction TRUE/FALSE leads to from a conditional box
         // A in from means Answer, C in front means Conditional.  Temporary for now...
-		this.dropPointCoords = "250:10,200:120,200:300,200:500";
+		this.dropPointCoords = "0:10,0:120,0:300,0:500,300:10,300:120,C:300:300:3|4,300:500";
         initDropPoints(dropPointCoords);
 		
         this.arrowOrder.add("0:1");
@@ -106,16 +105,20 @@ public class FlowUi extends Composite {
 	
 	@UiHandler("previousButton")
 	void handlePreviousClick(ClickEvent e) {
-		Window.alert("undoing?");
 		popUndoStack().undo();
-		executeIndex--;
+		Window.alert("undoing? "+executeIndex);
 	}
 	
 	@UiHandler("nextButton")
 	void handleNextClick(ClickEvent e) {
-		Window.alert("Next Hit");
-		((DropPoint) dropPoints.get(this.executeIndex).getInsidePanel().getWidget(0)).doAction();
-		pushUndoStack(((DropPoint) dropPoints.get(this.executeIndex++).getInsidePanel().getWidget(0)).getAction());
+		if(dropPoints.get(this.executeIndex).getType() == SegmentType.CONDITIONAL){
+			((DropPoint) dropPoints.get(this.executeIndex)).doAction();
+			pushUndoStack(((DropPoint) dropPoints.get(this.executeIndex)).getAction());
+		}else{
+			((DropPoint) dropPoints.get(this.executeIndex).getInsidePanel().getWidget(0)).doAction();
+			pushUndoStack(((DropPoint) dropPoints.get(this.executeIndex).getInsidePanel().getWidget(0)).getAction());
+		}
+		Window.alert("Executed action. "+executeIndex);
 	}
 	
 	@UiHandler("resetButton")
@@ -155,7 +158,7 @@ public class FlowUi extends Composite {
    				dropPoints.add(new DropPoint(SegmentType.DROPPOINT,this));
    	   			canvasPanel.add(dropPoints.get(i),Integer.parseInt(coords[0]), Integer.parseInt(coords[1]));
    			}else if(coords[0].equals("C")){
-            	dropPoints.add(new DropPoint(SegmentType.CONDITIONAL,this));
+            	dropPoints.add(new DropPoint(coords[3],SegmentType.CONDITIONAL,this));
        			canvasPanel.add(dropPoints.get(i),Integer.parseInt(coords[1]), Integer.parseInt(coords[2]));
             }else if(coords[0].equals("A")){
             	dropPoints.add(new DropPoint("Answer: ",SegmentType.ANSWER,this));

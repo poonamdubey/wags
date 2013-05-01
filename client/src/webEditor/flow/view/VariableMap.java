@@ -25,4 +25,8 @@ public enum VariableMap {
 	public void removeVar(String varName){
 		varMap.remove(varName);
 	}
+	
+	public boolean hasVar(String varName){
+		return varMap.containsKey(varName);
+	}
 }

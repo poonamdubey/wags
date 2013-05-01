@@ -12,6 +12,7 @@ public class SubstractAction extends ActionState {
 	public void undo() {
 		VariableMap.INSTANCE.addVar(varName, VariableMap.INSTANCE.getValue(varName)+value);
 		
+		FlowUi.executeIndex--;
 	}
 
 	@Override
@@ -20,7 +21,7 @@ public class SubstractAction extends ActionState {
 		this.value = dp.getBoxValue();
 		
 		VariableMap.INSTANCE.addVar(varName, VariableMap.INSTANCE.getValue(varName)-value);
-		
+		FlowUi.executeIndex++;
 	}
 
 }
