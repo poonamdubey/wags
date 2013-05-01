@@ -33,6 +33,8 @@ public class DropPoint extends FocusPanel {
 	String content = "";
 	
 	ActionState action;
+
+	private Label conditionLabel;
 	
 
 	public DropPoint(SegmentType segmentType, FlowUi flow) { // For mains, non draggable
@@ -48,11 +50,6 @@ public class DropPoint extends FocusPanel {
 			case DROPPOINT:         setStyleName( "droppoint");
 									this.dropController = new DropPointDropController(this,flow);
 									stackable = true;
-									break;
-			case CONDITIONAL:		setStyleName( "conditional");
-									this.dropController = new InsideDropPointDropController(this,flow);
-									stackable = true;
-									action = new ConditionalAction(this);
 									break;
 			case ADD:				setStyleName( "droppoint");
 									this.dropController = new DropPointDropController(this,flow);
@@ -154,8 +151,14 @@ public class DropPoint extends FocusPanel {
 		 						DragController.INSTANCE.makeDraggable(this);
 		 						this.dropController = new DropPointDropController(this,flow);
 		 						stackable = false;
-		 						horPanel.add(new Label(this.content));
+		 						this.conditionLabel = new Label(this.content);
+		 						horPanel.add(this.conditionLabel);
 		 						break;
+		case CONDITIONAL:		setStyleName( "conditional");
+								this.dropController = new InsideDropPointDropController(this,flow);
+								stackable = true;
+								action = new ConditionalAction(this);
+								break;
 		case ANSWER:   			setStyleName( "answer");
 								this.dropController = new DropPointDropController(this,flow);
 								stackable = false;
@@ -338,7 +341,7 @@ public class DropPoint extends FocusPanel {
 	}
 	
 	public void doAction(){
-		Window.alert("Executing Action");
+		Window.alert("Executing Action:    "+this.toString()+" | "+this.type);
 		action.execute();
 	}
 
@@ -358,5 +361,9 @@ public class DropPoint extends FocusPanel {
 
 	public String getInsideContent() {
 		return ((DropPoint)insideDropPoint.getInsidePanel().getWidget(0)).getContent();
+	}
+	
+	public String getConditionContent(){
+		return conditionLabel.getText();
 	}
 }

@@ -12,6 +12,7 @@ public class AddAction extends ActionState{
 	public void undo() {
 		VariableMap.INSTANCE.addVar(varName, VariableMap.INSTANCE.getValue(varName)-value);
 		
+		FlowUi.executeIndex--;
 	}
 
 	@Override
@@ -21,6 +22,7 @@ public class AddAction extends ActionState{
 		
 		VariableMap.INSTANCE.addVar(varName, VariableMap.INSTANCE.getValue(varName)+value);
 		
+		FlowUi.executeIndex++;
 	}
 
 }

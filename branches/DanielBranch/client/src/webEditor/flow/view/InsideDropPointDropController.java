@@ -19,7 +19,7 @@ public class InsideDropPointDropController extends SimpleDropController {
 	public void onDrop(DragContext context) {
 		SegmentType dtType = dropTarget.getType();             // dropTarget type
 		SegmentType swType = ((DropPoint) context.selectedWidgets.get(0)).getType();     // type of widget being dropped
-		Window.alert(dropTarget.toString()+" | "+dropTarget.getParent().toString()+ " | "+dropTarget.getParent().getParent().toString()+ " | "+dropTarget.getParent().getParent().getParent().toString()+ " | "+dropTarget.getParent().getParent().getParent().getParent().toString());
+//		Window.alert(dropTarget.toString()+" | "+dropTarget.getParent().toString()+ " | "+dropTarget.getParent().getParent().toString()+ " | "+dropTarget.getParent().getParent().getParent().toString()+ " | "+dropTarget.getParent().getParent().getParent().getParent().toString());
 		if(dropTarget.getInsidePanel().getWidgetCount() == 0){
 //			Window.alert("On Drop: "+dropTarget.getType()+" "+((DropPoint) context.selectedWidgets.get(0)).getType());
 			if( dtType == SegmentType.CONDITIONAL){

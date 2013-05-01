@@ -11,7 +11,7 @@ public class ModAction extends ActionState {
 	@Override
 	public void undo() {
 		VariableMap.INSTANCE.addVar(varName, original);
-		
+		FlowUi.executeIndex--;
 	}
 
 	@Override
@@ -21,7 +21,7 @@ public class ModAction extends ActionState {
 		this.original = VariableMap.INSTANCE.getValue(varName);
 		
 		VariableMap.INSTANCE.addVar(varName, VariableMap.INSTANCE.getValue(varName)%value);
-		
+		FlowUi.executeIndex++;
 	}
 
 }
