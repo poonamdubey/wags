@@ -201,19 +201,20 @@ public class FlowUi extends Composite {
 		Path arrow;
 		if(sc1.getAbsoluteTop() < sc2.getAbsoluteTop()) { // item 1 above item 2
 			arrow = new Path((int)(sc1.getAbsoluteLeft() + (.5*sc1.getOffsetWidth())), sc1.getAbsoluteTop());
-			arrow.lineTo((int)(sc2.getAbsoluteLeft() + (.5*sc2.getOffsetWidth())), sc2.getAbsoluteTop()- 25);
-			arrow.moveTo((int)(sc2.getAbsoluteLeft() + (.5*sc2.getOffsetWidth())), sc2.getAbsoluteTop()- 25);
+			arrow.lineTo((int)(sc2.getAbsoluteLeft() + (.5*sc2.getOffsetWidth())), (int) (sc2.getAbsoluteTop())-45); // 45 just seems right for putting
+			arrow.moveTo((int)(sc2.getAbsoluteLeft() + (.5*sc2.getOffsetWidth())), (int) (sc2.getAbsoluteTop())-45); // the arrow head in the right spot
+			arrow.lineRelativelyTo(0, 17);
 			arrow = addArrowHead(Direction.SOUTH, arrow);
 		} else if (sc1.getAbsoluteTop() == sc2.getAbsoluteTop()) { // same y position
 			arrow = new Path((int)(sc1.getAbsoluteLeft()+(.5*sc1.getOffsetWidth())),sc1.getAbsoluteTop()+(int)(.5*sc1.getOffsetHeight())-15);
 			arrow.lineTo((int)(sc2.getAbsoluteLeft()), sc2.getAbsoluteTop()+ (int)(.5*sc2.getOffsetHeight())-15);
 			arrow.moveTo((int)(sc2.getAbsoluteLeft()), sc2.getAbsoluteTop()+ (int)(.5*sc2.getOffsetHeight())-15);
 			arrow = addArrowHead(Direction.EAST, arrow);
-		} else if (source == dest){  // same item, do a loop
+		} else if (source == dest){  // same item, do a loop, also this will never be true, == doesn't work for objects
 			// TODO make the line go from the bottom to left side
 			arrow = new Path(0,0);
 		} else{ // item 1 below item 2
-			arrow = drawBezierCurve(sc1,sc2);
+			arrow = drawUpAndOutArrow(sc1, sc2);
 		}
 
 		arrow.setFillOpacity(0.0);
@@ -225,7 +226,8 @@ public class FlowUi extends Composite {
 	}
 	
 	/**
-	 * 
+	 * Takes a PATH and appends an arrow head to the end of it depending on
+	 * which direction the user specifies that the arrow head should face
 	 * @param dir The direction the arrow tip should face
 	 * @param arrow The arrow Path to append the tip onto
 	 * @return The entire arrow's Path
@@ -235,48 +237,72 @@ public class FlowUi extends Composite {
 		case EAST:
 			arrow.lineRelativelyTo(-17, -15);
 			arrow.lineRelativelyTo(0, 30);
-			arrow.close();
+			arrow.lineRelativelyTo(17, -15);
 			break;
 		case NORTH:
 			arrow.lineRelativelyTo(15, 17);
 			arrow.lineRelativelyTo(-30, 0);
-			arrow.close();
+			arrow.lineRelativelyTo(15, -17);
 			break;
 		case WEST:
 			arrow.lineRelativelyTo(17, 15);
-			arrow.lineRelativelyTo(0, -25);
-			arrow.close();
+			arrow.lineRelativelyTo(0, -30);
+			arrow.lineRelativelyTo(-17, 15);
 			break;
 		case NORTHEAST:
 			arrow.lineRelativelyTo(0, 25);
 			arrow.lineRelativelyTo(-25, -25);
-			arrow.close();
+			arrow.lineRelativelyTo(25, 0);
 			break;
 		case NORTHWEST:
 			arrow.lineRelativelyTo(0, 25);
 			arrow.lineRelativelyTo(25, -25);
-			arrow.close();
+			arrow.lineRelativelyTo(-25, 0);
 			break;
 		case SOUTHEAST:
 			arrow.lineRelativelyTo(0, -25);
 			arrow.lineRelativelyTo(-25, 25);
-			arrow.close();
+			arrow.lineRelativelyTo(25, 0);
 			break;
 		case SOUTHWEST:
 			arrow.lineRelativelyTo(0, -25);
 			arrow.lineRelativelyTo(25, 25);
-			arrow.close();
+			arrow.lineRelativelyTo(-25, 0);
 			break;
 		case SOUTH: default:
 			arrow.lineRelativelyTo(15, -17);
 			arrow.lineRelativelyTo(-30, 0);
-			arrow.close();
+			arrow.lineRelativelyTo(15, 17);
 			break;
 		}
 	
-		// TODO get this to only fill in the head
-//		arrow.setFillColor("darkblue");
+		return arrow;
+	}
+	
+	private Path drawUpAndOutArrow(DropPoint source, DropPoint dest) {
+		int X_OFFSET = 25;
+		int sX = source.getAbsoluteLeft();
+		int sY = source.getAbsoluteTop()+ (int)(.5*source.getOffsetHeight())-15;
+		int dX = dest.getAbsoluteLeft();
+		int dY = dest.getAbsoluteTop()+ (int)(.5*dest.getOffsetHeight())-30;
 		
+		int srcDstOffsetX = sX - dX;
+		int srcDstOffsetY = sY - dY;
+		
+		Path arrow = new Path(sX, sY);
+		
+		if (srcDstOffsetX >= 0) { // destination is to the left of source
+			arrow.lineRelativelyTo(-srcDstOffsetX - X_OFFSET, 0);
+			arrow.lineRelativelyTo(0, -srcDstOffsetY); // destination is above source
+			arrow.lineRelativelyTo(X_OFFSET, 0);
+			addArrowHead(Direction.EAST, arrow);
+		} else { // destination is to the right of source
+			arrow.lineRelativelyTo((int)dest.getOffsetWidth() - srcDstOffsetX + X_OFFSET, 0);
+			arrow.lineRelativelyTo(0, -srcDstOffsetY); // destination is above source
+			arrow.lineRelativelyTo(-X_OFFSET, 0);
+			addArrowHead(Direction.WEST, arrow);
+		}
+
 		return arrow;
 	}
 	
@@ -298,7 +324,7 @@ public class FlowUi extends Composite {
 		
 		int sX = start.getAbsoluteLeft();
 		int sY = start.getAbsoluteTop()+ (int)(.5*start.getOffsetHeight())-15;
-		if (sX < dX) {	// dest is to the right of start
+		if (sX <= dX) {	// dest is to the right of start
 			arrow = new Path(sX,sY);
 			
 			sCPX = sX - (30 + ((sX-dX)/4));
@@ -306,23 +332,25 @@ public class FlowUi extends Composite {
 			
 			dCPX = dX - (30 + ((sX-dX)/4));
 			dCPY = dY; 
-			addArrowHead(Direction.SOUTHEAST, arrow);
+			
+			arrow.curveTo(sCPX, sCPY, dCPX, dCPY, sX, sY);
+			addArrowHead(Direction.NORTHEAST, arrow);
 		} else { // dest is to the left of start
 			sX = start.getAbsoluteLeft() + start.getOffsetWidth(); // set start X-position to right side of start element
 			dX = dest.getAbsoluteLeft() + dest.getOffsetWidth();   // set dest X-position to right side of dest element
 			
 			arrow = new Path(sX,sY);
 			
-			sCPX = sX + (30 + ((dX-sX)/3));
+			sCPX = sX + (30 + ((dX-sX)/4));
 			sCPY = sY; 
 			
-			dCPX = dX + (30+ ((dX-sX)/3));
+			dCPX = dX + (30+ ((dX-sX)/4));
 			dCPY = dY; 
 			
-			addArrowHead(Direction.SOUTHWEST, arrow);	
+			arrow.curveTo(sCPX, sCPY, dCPX, dCPY, sX, sY);
+			addArrowHead(Direction.NORTHWEST, arrow);	
 		}
 		
-		arrow.curveTo(sCPX, sCPY, dCPX, dCPY, dX, dY);
 	return arrow;
 	}
 
