@@ -157,7 +157,7 @@ public class DropPoint extends FocusPanel {
 		case CONDITIONAL:		setStyleName( "conditional");
 								this.dropController = new InsideDropPointDropController(this,flow);
 								stackable = true;
-								action = new ConditionalAction(this);
+								this.action = new ConditionalAction(this);
 								break;
 		case ANSWER:   			setStyleName( "answer");
 								this.dropController = new DropPointDropController(this,flow);
@@ -165,6 +165,7 @@ public class DropPoint extends FocusPanel {
 								horPanel.add(new Label(content));
 								insideDropPoint = new DropPoint(SegmentType.INSIDE_DROPPOINT,flow);
 								horPanel.add(insideDropPoint);
+								this.action = new AnswerAction(this);
 							    break;
 		case ANSWER_CHOICE:     setStyleName( "inside_droppoint");
 							  	stackable = false;
@@ -313,14 +314,17 @@ public class DropPoint extends FocusPanel {
 	public void resetDropPoint(){
 		if(this.type == SegmentType.CONDITIONAL){
 			if(insidePanel.getWidgetCount() > 0){
-				flow.segmentsPanel.add(insidePanel.getWidget(0));
+				insidePanel.remove(0);
 			}
 		} else if(this.type == SegmentType.DROPPOINT){
 			if(insidePanel.getWidgetCount() > 0){
-				flow.segmentsPanel.add(insidePanel.getWidget(0));
+				insidePanel.remove(0);
 			}	
 		} else if(this.type == SegmentType.ANSWER){ // insidePanel->horPanel(content,inside_droppoint)
-			if(((DropPoint)((HorizontalPanel)insidePanel.getWidget(0)).getWidget(1)).getInsidePanel().getWidgetCount() >0){
+			Window.alert("inside answer reset");
+			if(((DropPoint)((HorizontalPanel)insidePanel.getWidget(0)).getWidget(1)).getInsidePanel().getWidgetCount() >0){	
+				Window.alert("has inside DropPoint hPanel)");
+				Window.alert(((DropPoint)((HorizontalPanel)insidePanel.getWidget(0)).getWidget(1)).getInsidePanel().getWidget(0).toString());
 				flow.segmentsPanel.add(((DropPoint)((HorizontalPanel)insidePanel.getWidget(0)).getWidget(1)).getInsidePanel().getWidget(0));
 			}
 		}
@@ -366,4 +370,5 @@ public class DropPoint extends FocusPanel {
 	public String getConditionContent(){
 		return conditionLabel.getText();
 	}
+	
 }
