@@ -1,5 +1,7 @@
 package webEditor.flow.view;
 
+import com.google.gwt.user.client.Window;
+
 public class AddAction extends ActionState{
 	DropPoint dp;
 	String varName;
@@ -10,6 +12,8 @@ public class AddAction extends ActionState{
 
 	@Override
 	public void undo() {
+		Window.alert("print1 in addUndo");
+		Window.alert("reversing add of "+value+" to "+varName);
 		VariableMap.INSTANCE.addVar(varName, VariableMap.INSTANCE.getValue(varName)-value);
 		
 		FlowUi.executeIndex--;

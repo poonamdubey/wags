@@ -28,16 +28,13 @@ public class InsideDropPointDropController extends SimpleDropController {
 					DropPoint dp = ((DropPoint)context.selectedWidgets.get(0)).getCopy();
 					dropTarget.addInsideContainer(dp);
 				}
-			} else if(dropTarget.getParent().getParent().getParent().getParent() instanceof DropPoint && swType == SegmentType.ANSWER_CHOICE){
+			} else if((((DropPoint)dropTarget.getParent().getParent().getParent().getParent()).getType() == SegmentType.ANSWER) && swType == SegmentType.ANSWER_CHOICE){
 				Window.alert("Answer Parent!!");
-				if(((DropPoint)dropTarget.getParent().getParent().getParent().getParent()).getType() == SegmentType.ANSWER){
-					dropTarget.addInsideContainer((DropPoint)context.selectedWidgets.get(0));
-				}
+				dropTarget.addInsideContainer((DropPoint)context.selectedWidgets.get(0));
 			} else if(swType == SegmentType.VARIABLE){
 		//		Window.alert("adding as var");
 				//TODO only do a copy if it's going from segmentsPanel to canvasPanel
-				if(!(dropTarget.getParent().getParent().getParent().getParent() instanceof DropPoint 
-						&& swType == SegmentType.ANSWER_CHOICE)){  // making sure it's not an Answer droppoint.
+				if(!(((DropPoint) dropTarget.getParent().getParent().getParent().getParent()).getType() == SegmentType.ANSWER)){  // making sure it's not an Answer droppoint.
 					DropPoint dp = ((DropPoint)context.selectedWidgets.get(0)).getCopy();
 					dropTarget.addInsideContainer(dp);
 				}

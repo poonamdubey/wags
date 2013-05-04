@@ -32,6 +32,7 @@ public class FlowUi extends Composite {
 	private PopupPanel resetPopupPanel;
 	static int dropPointID=0;
 	public static int executeIndex = 0;
+	public static int ANSWER = 6;
 
 	@UiField LayoutPanel layout;
 	@UiField AbsolutePanel canvasPanel;
@@ -75,17 +76,21 @@ public class FlowUi extends Composite {
         segmentsPanel.add(new DropPoint("var",SegmentType.VARIABLE, this));
         segmentsPanel.add(new DropPoint("var < 10",SegmentType.CONDITION, this));
         segmentsPanel.add(new DropPoint("count",SegmentType.VARIABLE, this));
+        segmentsPanel.add(new DropPoint("var",SegmentType.ANSWER_CHOICE,this));
         
         // TODO figure out how to encode/where to keep which direction TRUE/FALSE leads to from a conditional box
         // A in from means Answer, C in front means Conditional.  Temporary for now...
-		this.dropPointCoords = "0:10,0:120,0:300,0:500,300:10,300:120,C:300:300:3|4,300:500";
+		this.dropPointCoords = "0:10,0:120,0:300,C:0:500:4|5,300:10,300:120,300:300,A:300:500";
         initDropPoints(dropPointCoords);
 		
         this.arrowOrder.add("0:1");
         this.arrowOrder.add("1:2");
-        this.arrowOrder.add("1:3");
-        this.arrowOrder.add("3:1");
-        this.arrowOrder.add("3:0"); // proof of concept
+        this.arrowOrder.add("2:3");
+        this.arrowOrder.add("3:4");
+        this.arrowOrder.add("3:5");
+        this.arrowOrder.add("4:5");
+        this.arrowOrder.add("5:6");
+        this.arrowOrder.add("6:7");
         
 		initArrows(arrowOrder);
 		setupResetPopupPanel();
@@ -97,28 +102,30 @@ public class FlowUi extends Composite {
 	 */
 	@UiHandler("restartButton")
 	void handleRestartClick(ClickEvent e) {
-//		popupPanel.setPopupPosition(button.getAbsoluteLeft(),
-//				button.getAbsoluteTop() - 80);
-//		popupPanel.setVisible(true);
-//		popupPanel.show();
+		restartProblem();
+		Window.alert("Restarted Execution");
 	}
 	
 	@UiHandler("previousButton")
 	void handlePreviousClick(ClickEvent e) {
-		popUndoStack().undo();
-		Window.alert("undoing? "+executeIndex);
+		if(FlowUi.executeIndex > 0){
+			popUndoStack().undo();
+			Window.alert("undoing? "+executeIndex);
+		}
 	}
 	
 	@UiHandler("nextButton")
 	void handleNextClick(ClickEvent e) {
-		if(dropPoints.get(this.executeIndex).getType() == SegmentType.CONDITIONAL){
-			((DropPoint) dropPoints.get(this.executeIndex)).doAction();
-			pushUndoStack(((DropPoint) dropPoints.get(this.executeIndex)).getAction());
-		}else{
-			((DropPoint) dropPoints.get(this.executeIndex).getInsidePanel().getWidget(0)).doAction();
-			pushUndoStack(((DropPoint) dropPoints.get(this.executeIndex).getInsidePanel().getWidget(0)).getAction());
+		if(FlowUi.executeIndex < dropPoints.size()){
+			if(dropPoints.get(FlowUi.executeIndex).getType() == SegmentType.CONDITIONAL || dropPoints.get(FlowUi.executeIndex).getType() == SegmentType.ANSWER){
+				((DropPoint) dropPoints.get(FlowUi.executeIndex)).doAction();
+				pushUndoStack(((DropPoint) dropPoints.get(FlowUi.executeIndex-1)).getAction());
+			}else{
+				((DropPoint) dropPoints.get(FlowUi.executeIndex).getInsidePanel().getWidget(0)).doAction();
+				pushUndoStack(((DropPoint) dropPoints.get(FlowUi.executeIndex-1).getInsidePanel().getWidget(0)).getAction());
+			}
+			Window.alert("Executed action. "+executeIndex);
 		}
-		Window.alert("Executed action. "+executeIndex);
 	}
 	
 	@UiHandler("resetButton")
@@ -312,54 +319,6 @@ public class FlowUi extends Composite {
 	}
 	
 	/**
-	 * Draws a curved arrow.
-	 * @param start Source DropPoint
-	 * @param dest Destination DropPoint
-	 * @return The entire arrow
-	 */
-	private Path drawBezierCurve(DropPoint start, DropPoint dest){
-		Path arrow;
-		// the 6 arguments needed to make the bezier curve
-		int sCPX; // start control point X-position
-		int sCPY; // start control point Y-position
-		int dCPX; // destination control point X-position
-		int dCPY; // destination control point Y-position
-		int dX = dest.getAbsoluteLeft(); // destination X-position
-		int dY = dest.getAbsoluteTop() + dest.getOffsetHeight()-30; // destination Y-position
-		
-		int sX = start.getAbsoluteLeft();
-		int sY = start.getAbsoluteTop()+ (int)(.5*start.getOffsetHeight())-15;
-		if (sX <= dX) {	// dest is to the right of start
-			arrow = new Path(sX,sY);
-			
-			sCPX = sX - (30 + ((sX-dX)/4));
-			sCPY = sY; 
-			
-			dCPX = dX - (30 + ((sX-dX)/4));
-			dCPY = dY; 
-			
-			arrow.curveTo(sCPX, sCPY, dCPX, dCPY, sX, sY);
-			addArrowHead(Direction.NORTHEAST, arrow);
-		} else { // dest is to the left of start
-			sX = start.getAbsoluteLeft() + start.getOffsetWidth(); // set start X-position to right side of start element
-			dX = dest.getAbsoluteLeft() + dest.getOffsetWidth();   // set dest X-position to right side of dest element
-			
-			arrow = new Path(sX,sY);
-			
-			sCPX = sX + (30 + ((dX-sX)/4));
-			sCPY = sY; 
-			
-			dCPX = dX + (30+ ((dX-sX)/4));
-			dCPY = dY; 
-			
-			arrow.curveTo(sCPX, sCPY, dCPX, dCPY, sX, sY);
-			addArrowHead(Direction.NORTHWEST, arrow);	
-		}
-		
-	return arrow;
-	}
-
-	/**
 	 * Removes the specified arrows from the canvas and redraws them.
 	 * arrowOrder and arrowList need to stay in sync so that the proper Path can
 	 * be updated.
@@ -404,6 +363,15 @@ public class FlowUi extends Composite {
 			dp.resetDropPoint();
 		}
 		redrawArrows();
+		VariableMap.INSTANCE.clear();
+		executeIndex = 0;
+		undoStack.clear();
+	}
+	
+	public void restartProblem(){
+		VariableMap.INSTANCE.clear();
+		executeIndex = 0;
+		undoStack.clear();
 	}
 	/**
 	 * Clears the canvas and redraws all arrows on the screen.
