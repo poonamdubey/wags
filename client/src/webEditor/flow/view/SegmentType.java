@@ -2,6 +2,7 @@ package webEditor.flow.view;
 
 public enum SegmentType {
 	    VARIABLE,
+	    MASTER_VARIABLE,
 	    CONDITION,
 	    CONDITIONAL,
 	    SET,

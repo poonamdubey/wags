@@ -1,4 +1,9 @@
-package webEditor.flow.view;
+package webEditor.flow.actions;
+
+import webEditor.flow.view.ActionState;
+import webEditor.flow.view.DropPoint;
+import webEditor.flow.view.FlowUi;
+import webEditor.flow.view.VariableMap;
 
 import com.google.gwt.user.client.Window;
 
@@ -7,6 +12,7 @@ public class SetAction extends ActionState {
 	String varName;
 	int oldValue;
 	boolean hasOldValue = false;
+	private int oldExecuteID;
 	public SetAction(DropPoint dp){
 		this.dp = dp;
 	}
@@ -22,12 +28,12 @@ public class SetAction extends ActionState {
 		}
 		
 		Window.alert("undoing set "+ VariableMap.INSTANCE.hasVar(varName)+" to "+oldValue);
-		FlowUi.executeIndex--;
+		FlowUi.executeIndex = oldExecuteID;
 	}
 
 	@Override
 	public void execute() {
-
+		this.oldExecuteID = FlowUi.executeIndex;
 		this.varName = dp.getInsideContent();
 		if(VariableMap.INSTANCE.hasVar(varName)){
 			this.oldValue = VariableMap.INSTANCE.getValue(varName);
@@ -36,7 +42,11 @@ public class SetAction extends ActionState {
 		}
 		Window.alert("Setting "+varName+" to "+dp.getBoxValue());
 		VariableMap.INSTANCE.addVar(varName,dp.getBoxValue());
-		FlowUi.executeIndex++;
+		if(dp.getNextExecuteID() != -1){
+			FlowUi.executeIndex = dp.getNextExecuteID();
+		} else{
+			FlowUi.executeIndex++;
+		}
 	}
 
 }

@@ -69,28 +69,25 @@ public class FlowUi extends Composite {
 		canvas = new DrawingArea(Window.getClientHeight(), (int)(Window.getClientWidth()*.6));
         canvasPanel.add(canvas);
 
-        segmentsPanel.add(new DropPoint(SegmentType.SET, this));
-        segmentsPanel.add(new DropPoint(SegmentType.MOD, this));
-        segmentsPanel.add(new DropPoint(SegmentType.ADD, this));
-        segmentsPanel.add(new DropPoint(SegmentType.DIVIDE, this));
-        segmentsPanel.add(new DropPoint("var",SegmentType.VARIABLE, this));
-        segmentsPanel.add(new DropPoint("var < 10",SegmentType.CONDITION, this));
-        segmentsPanel.add(new DropPoint("count",SegmentType.VARIABLE, this));
-        segmentsPanel.add(new DropPoint("var",SegmentType.ANSWER_CHOICE,this));
+        addToSegmentsPanel(new DropPoint(SegmentType.SET, this));
+        addToSegmentsPanel(new DropPoint(SegmentType.MOD, this));
+        addToSegmentsPanel(new DropPoint(SegmentType.ADD, this));
+        addToSegmentsPanel(new DropPoint(SegmentType.DIVIDE, this));
+        addToSegmentsPanel(new DropPoint("var",SegmentType.MASTER_VARIABLE, this));
+        addToSegmentsPanel(new DropPoint("var < 6",SegmentType.CONDITION, this));
+        addToSegmentsPanel(new DropPoint("count",SegmentType.MASTER_VARIABLE, this));
+        addToSegmentsPanel(new DropPoint("var",SegmentType.ANSWER_CHOICE,this));
         
         // TODO figure out how to encode/where to keep which direction TRUE/FALSE leads to from a conditional box
         // A in from means Answer, C in front means Conditional.  Temporary for now...
-		this.dropPointCoords = "0:10,0:120,0:300,C:0:500:4|5,300:10,300:120,300:300,A:300:500";
+		this.dropPointCoords = "200:0,200:140,C:220:300:3|4,200:450:2,A:450:340";
         initDropPoints(dropPointCoords);
 		
         this.arrowOrder.add("0:1");
         this.arrowOrder.add("1:2");
         this.arrowOrder.add("2:3");
-        this.arrowOrder.add("3:4");
-        this.arrowOrder.add("3:5");
-        this.arrowOrder.add("4:5");
-        this.arrowOrder.add("5:6");
-        this.arrowOrder.add("6:7");
+        this.arrowOrder.add("3:2");
+        this.arrowOrder.add("2:4");
         
 		initArrows(arrowOrder);
 		setupResetPopupPanel();
@@ -111,6 +108,7 @@ public class FlowUi extends Composite {
 		if(FlowUi.executeIndex > 0){
 			popUndoStack().undo();
 			Window.alert("undoing? "+executeIndex);
+			updateMasterVariables();
 		}
 	}
 	
@@ -124,6 +122,7 @@ public class FlowUi extends Composite {
 				((DropPoint) dropPoints.get(FlowUi.executeIndex).getInsidePanel().getWidget(0)).doAction();
 				pushUndoStack(((DropPoint) dropPoints.get(FlowUi.executeIndex-1).getInsidePanel().getWidget(0)).getAction());
 			}
+			updateMasterVariables();
 			Window.alert("Executed action. "+executeIndex);
 		}
 	}
@@ -170,6 +169,9 @@ public class FlowUi extends Composite {
             }else if(coords[0].equals("A")){
             	dropPoints.add(new DropPoint("Answer: ",SegmentType.ANSWER,this));
        			canvasPanel.add(dropPoints.get(i),Integer.parseInt(coords[1]), Integer.parseInt(coords[2]));
+            }else{ // has 3 parameters with 3rd one being a custom next executeIndex
+            	dropPoints.add(new DropPoint(SegmentType.DROPPOINT,this,Integer.parseInt(coords[2])));
+            	canvasPanel.add(dropPoints.get(i),Integer.parseInt(coords[0]), Integer.parseInt(coords[1]));
             }
    			dropPoints.get(i).setID(getNextDropPointID());
 
@@ -380,9 +382,28 @@ public class FlowUi extends Composite {
 		canvas.clear();
 		initArrows(arrowOrder);
 	}
-
-	public void addNewArrow(){}
 	
+	// TODO will eventually just have the variables in their own list for when we're putting them in.
+	public void updateMasterVariables(){
+		DropPoint dp;
+		for(int i=0; i < segmentsPanel.getWidgetCount(); i++){
+			dp = (DropPoint)segmentsPanel.getWidget(i);
+			if(dp.getType() == SegmentType.MASTER_VARIABLE ){
+				if(VariableMap.INSTANCE.hasVar(dp.getContent())){
+					dp.setValueLabel(""+VariableMap.INSTANCE.getValue(dp.getContent()));
+				}
+				else{
+					dp.setValueLabel("");
+				}
+			}
+		}
+	}
+
+	public void addNewArrow(){} // TODO Why is this here?
+	
+	public void addToSegmentsPanel(DropPoint dp){
+		segmentsPanel.add(dp);
+	}
 	public void pushUndoStack(ActionState state) {
 		undoStack.push(state);
 	}

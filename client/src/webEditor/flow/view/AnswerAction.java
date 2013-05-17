@@ -23,7 +23,11 @@ public class AnswerAction extends ActionState{
 		if(VariableMap.INSTANCE.getValue(dp.getInsideContent()) == FlowUi.ANSWER){
 			Window.alert("Correct Answer");
 		}
-		FlowUi.executeIndex++;
+		if(dp.getNextExecuteID() != -1){
+			FlowUi.executeIndex = dp.getNextExecuteID();
+		} else{
+			FlowUi.executeIndex++;
+		}
 	}
 
 }
