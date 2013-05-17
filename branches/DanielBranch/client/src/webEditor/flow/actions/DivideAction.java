@@ -1,9 +1,15 @@
-package webEditor.flow.view;
+package webEditor.flow.actions;
+
+import webEditor.flow.view.ActionState;
+import webEditor.flow.view.DropPoint;
+import webEditor.flow.view.FlowUi;
+import webEditor.flow.view.VariableMap;
 
 public class DivideAction extends ActionState {
 	DropPoint dp;
 	String varName;
 	int value;
+	private int oldExecuteID;
 	
 	public DivideAction(DropPoint dp){
 		this.dp = dp;
@@ -11,16 +17,21 @@ public class DivideAction extends ActionState {
 	@Override
 	public void undo() {
 		VariableMap.INSTANCE.addVar(varName, VariableMap.INSTANCE.getValue(varName)*value);
-		FlowUi.executeIndex--;
+		FlowUi.executeIndex = oldExecuteID;
 	}
 
 	@Override
 	public void execute() {
 		this.varName = dp.getInsideContent();
 		this.value = dp.getBoxValue();
+		this.oldExecuteID = FlowUi.executeIndex;
 		
 		VariableMap.INSTANCE.addVar(varName, VariableMap.INSTANCE.getValue(varName)/value);
-		FlowUi.executeIndex++;
+		if(dp.getNextExecuteID() != -1){
+			FlowUi.executeIndex = dp.getNextExecuteID();
+		} else{
+			FlowUi.executeIndex++;
+		}
 	}
 
 }

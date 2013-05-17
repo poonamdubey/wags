@@ -1,4 +1,9 @@
-package webEditor.flow.view;
+package webEditor.flow.actions;
+
+import webEditor.flow.view.ActionState;
+import webEditor.flow.view.DropPoint;
+import webEditor.flow.view.FlowUi;
+import webEditor.flow.view.VariableMap;
 
 import com.google.gwt.user.client.Window;
 
@@ -18,7 +23,7 @@ public class ConditionalAction extends ActionState {
 	@Override
 	public void execute() {
 //		Window.alert("inside conditional execute");
-		Window.alert("inside conditional execute! "+((DropPoint) dp.getInsidePanel().getWidget(0)).getConditionContent()+" | "+dp.getContent());
+//		Window.alert("inside conditional execute! "+((DropPoint) dp.getInsidePanel().getWidget(0)).getConditionContent()+" | "+dp.getContent());
 		this.originalIndex = FlowUi.executeIndex;
 		//TODO Need to have a parser/evaluator that can handle more complex conditions like ((a < b) && (c < e)) || d)
 		this.content = ((DropPoint) dp.getInsidePanel().getWidget(0)).getConditionContent();

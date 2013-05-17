@@ -9,6 +9,13 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.allen_sauer.gwt.dnd.client.DragContext;
 import com.allen_sauer.gwt.dnd.client.drop.DropController;
 
+import webEditor.flow.actions.AddAction;
+import webEditor.flow.actions.ConditionalAction;
+import webEditor.flow.actions.DivideAction;
+import webEditor.flow.actions.ModAction;
+import webEditor.flow.actions.MultiplyAction;
+import webEditor.flow.actions.SetAction;
+import webEditor.flow.actions.SubstractAction;
 import webEditor.magnet.view.DragController;
 
 import java.util.ArrayList;
@@ -27,8 +34,11 @@ public class DropPoint extends FocusPanel {
 	private int containerID;
 	private SegmentType type;
 	private TextBox valueBox;
+	private Label valueLabel; // Segment_Variable's only
 	private DropPoint insideDropPoint;
 	private ArrayList<String> arrows = new ArrayList<String>();
+	
+	public int nextExecuteID = -1;
 	
 	String content = "";
 	
@@ -36,10 +46,13 @@ public class DropPoint extends FocusPanel {
 
 	private Label conditionLabel;
 	
-
-	public DropPoint(SegmentType segmentType, FlowUi flow) { // For mains, non draggable
+	public DropPoint(SegmentType segmentType, FlowUi flow){
+		this(segmentType,flow,-1);
+	}
+	public DropPoint(SegmentType segmentType, FlowUi flow, int nextExecuteID) { // For mains, non draggable
 		this.type = segmentType;
 		this.flow = flow;
+		this.nextExecuteID = nextExecuteID;
 		add(primaryPanel);  // primaryPanel holds everything else, because the focusPanel can only hold one widget
 		HorizontalPanel horPanel = new HorizontalPanel();
 		switch(segmentType){
@@ -135,6 +148,7 @@ public class DropPoint extends FocusPanel {
 	}
 	
 	public DropPoint(String content, SegmentType segmentType,  FlowUi flow) { 
+		this.flow = flow;
 		this.content = content;
 		this.type = segmentType;
 		add(primaryPanel);  // primaryPanel holds everything else, because the focusPanel can only hold one widget
@@ -146,6 +160,14 @@ public class DropPoint extends FocusPanel {
 								DragController.INSTANCE.makeDraggable(this);
 						 		stackable = false;
 						 		horPanel.add(new Label(this.content));
+						 		break;
+		case MASTER_VARIABLE:  setStyleName( "inside_droppoint");
+								this.dropController = new DropPointDropController(this,flow);
+								DragController.INSTANCE.makeDraggable(this);
+						 		stackable = false;
+						 		horPanel.add(new Label(this.content));
+						 		this.valueLabel = new Label("");
+						 		horPanel.add(valueLabel);
 						 		break;
 		case CONDITION:			setStyleName( "inside_droppoint");
 		 						DragController.INSTANCE.makeDraggable(this);
@@ -321,11 +343,9 @@ public class DropPoint extends FocusPanel {
 				insidePanel.remove(0);
 			}	
 		} else if(this.type == SegmentType.ANSWER){ // insidePanel->horPanel(content,inside_droppoint)
-			Window.alert("inside answer reset");
 			if(((DropPoint)((HorizontalPanel)insidePanel.getWidget(0)).getWidget(1)).getInsidePanel().getWidgetCount() >0){	
-				Window.alert("has inside DropPoint hPanel)");
-				Window.alert(((DropPoint)((HorizontalPanel)insidePanel.getWidget(0)).getWidget(1)).getInsidePanel().getWidget(0).toString());
-				flow.segmentsPanel.add(((DropPoint)((HorizontalPanel)insidePanel.getWidget(0)).getWidget(1)).getInsidePanel().getWidget(0));
+				DropPoint dp = (DropPoint) ((DropPoint)((HorizontalPanel)insidePanel.getWidget(0)).getWidget(1)).getInsidePanel().getWidget(0);
+				flow.addToSegmentsPanel(dp);
 			}
 		}
 	}
@@ -341,11 +361,15 @@ public class DropPoint extends FocusPanel {
 		DragController.INSTANCE.unregisterDropController(dropController);
 	}
 	public DropPoint getCopy(){
-		return new DropPoint(this.content,this.type,this.flow);
+		if(this.type == SegmentType.MASTER_VARIABLE){
+			return new DropPoint(this.content,SegmentType.VARIABLE,this.flow);
+		}else{
+			return new DropPoint(this.content,this.type,this.flow);
+		}
 	}
 	
 	public void doAction(){
-		Window.alert("Executing Action:    "+this.toString()+" | "+this.type);
+//		//Window.alert("Executing Action:    "+this.toString()+" | "+this.type);
 		action.execute();
 	}
 
@@ -358,7 +382,7 @@ public class DropPoint extends FocusPanel {
 			value = Integer.parseInt(valueBox.getText());
 		}
 		catch(NumberFormatException ex){
-			Window.alert("Contents of TextBox wasn't a number!");
+			//Window.alert("Contents of TextBox wasn't a number!");
 		}
 		return value;
 	}
@@ -369,6 +393,17 @@ public class DropPoint extends FocusPanel {
 	
 	public String getConditionContent(){
 		return conditionLabel.getText();
+	}
+	public int getNextExecuteID() {
+		return nextExecuteID;
+	}
+	public void setValueLabel(String value){
+		//Window.alert("inside dp setValueLabel");
+		if(value != ""){
+			valueLabel.setText(" = "+value);
+		}else{
+			valueLabel.setText("");
+		}
 	}
 	
 }
