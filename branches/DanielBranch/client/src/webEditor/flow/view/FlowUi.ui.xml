@@ -9,29 +9,37 @@
 	.scroll{
 		width:100%;
 	}
+	.controlButton{
+		width:25%;
+	}
 
 	</ui:style>
 
 	<g:LayoutPanel ui:field="layout" styleName='{style.base_panel}'>
 		<g:layer left='0%' right='40%'>
-			<g:ScrollPanel ui:field='flowScrollPanel' styleName='{style.scroll}'>
-				<g:AbsolutePanel ui:field="canvasPanel"></g:AbsolutePanel>
-			</g:ScrollPanel>
+		    <g:LayoutPanel styleName = '{style.base_panel}'>
+		    	<g:layer top='0px' height='100%'>
+		    	   	<g:ScrollPanel ui:field='flowScrollPanel' styleName='{style.scroll}'>
+		    	    	<g:AbsolutePanel ui:field="canvasPanel"></g:AbsolutePanel>
+		    	    </g:ScrollPanel>  
+		    	</g:layer>
+		    	<g:layer bottom='30px' height='30px'>
+		    	    <g:AbsolutePanel ui:field = "trashbin"></g:AbsolutePanel>
+		    	</g:layer>
+		    	<g:layer bottom='0px' height='30px' width='100%'>
+		    		<g:AbsolutePanel ui:field="bottomPanel" >
+			    		<g:Button ui:field="restartButton" styleName='{style.controlButton}'>restart</g:Button>
+			    		<g:Button ui:field="previousButton" styleName='{style.controlButton}'>previous</g:Button>
+			    		<g:Button ui:field="nextButton" styleName='{style.controlButton}'>next</g:Button>
+			    		<g:Button ui:field="resetButton" styleName='{style.controlButton}'>reset</g:Button>
+					</g:AbsolutePanel>
+		    	</g:layer>
+			</g:LayoutPanel>
 		</g:layer>
 		<g:layer right='0%' left='60%'>
 			<g:ScrollPanel ui:field='segmentScrollPanel' styleName='{style.scroll}'>
 				<g:AbsolutePanel ui:field="segmentsPanel"></g:AbsolutePanel>
 			</g:ScrollPanel>
-			
 		</g:layer>
-				<g:layer bottom='0px' left='20%' right='60%' height='30px'>
-			<g:AbsolutePanel ui:field="bottomPanel" >
-			    <g:Button ui:field="restartButton">restart</g:Button>
-			    <g:Button ui:field="previousButton">previous</g:Button>
-			    <g:Button ui:field="nextButton">next</g:Button>
-			    <g:Button ui:field="resetButton">reset</g:Button>
-			</g:AbsolutePanel>
-		</g:layer>
-		
 	</g:LayoutPanel>
 </ui:UiBinder> 

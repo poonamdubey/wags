@@ -5,6 +5,7 @@ import java.util.Stack;
 
 import org.vaadin.gwtgraphics.client.DrawingArea;
 import org.vaadin.gwtgraphics.client.shape.Path;
+import webEditor.magnet.view.DragController;
 
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
 import com.google.gwt.core.client.GWT;
@@ -30,6 +31,7 @@ public class FlowUi extends Composite {
 	DrawingArea canvas;
 	PickupDragController dc;
 	private PopupPanel resetPopupPanel;
+	TrashBin bin;
 	static int dropPointID=0;
 	public static int executeIndex = 0;
 	public static int ANSWER = 6;
@@ -37,6 +39,7 @@ public class FlowUi extends Composite {
 	@UiField LayoutPanel layout;
 	@UiField AbsolutePanel canvasPanel;
 	@UiField AbsolutePanel segmentsPanel;
+	@UiField AbsolutePanel trashbin;
 	@UiField AbsolutePanel bottomPanel;
 	@UiField ScrollPanel flowScrollPanel;
 	@UiField ScrollPanel segmentScrollPanel;
@@ -68,6 +71,10 @@ public class FlowUi extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 		canvas = new DrawingArea(Window.getClientHeight(), (int)(Window.getClientWidth()*.6));
         canvasPanel.add(canvas);
+        bin = new TrashBin(this);
+		BinDropController binController = new BinDropController(bin);
+		DragController.INSTANCE.registerDropController(binController);
+		trashbin.add(bin);
 
         addToSegmentsPanel(new DropPoint(SegmentType.SET, this));
         addToSegmentsPanel(new DropPoint(SegmentType.MOD, this));
@@ -82,6 +89,7 @@ public class FlowUi extends Composite {
         // A in from means Answer, C in front means Conditional.  Temporary for now...
 		this.dropPointCoords = "200:0,200:140,C:220:300:3|4,200:450:2,A:450:340";
         initDropPoints(dropPointCoords);
+		flowScrollPanel.scrollToTop();
 		
         this.arrowOrder.add("0:1");
         this.arrowOrder.add("1:2");
