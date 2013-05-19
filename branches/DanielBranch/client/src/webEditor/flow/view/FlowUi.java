@@ -39,6 +39,10 @@ public class FlowUi extends Composite {
 	@UiField LayoutPanel layout;
 	@UiField AbsolutePanel canvasPanel;
 	@UiField AbsolutePanel segmentsPanel;
+	@UiField AbsolutePanel variablesPanel;
+	@UiField AbsolutePanel operatorsPanel;
+	@UiField AbsolutePanel conditionsPanel;
+	@UiField AbsolutePanel answerChoicesPanel;
 	@UiField AbsolutePanel trashbin;
 	@UiField AbsolutePanel bottomPanel;
 	@UiField ScrollPanel flowScrollPanel;
@@ -55,6 +59,13 @@ public class FlowUi extends Composite {
 	ArrayList<Path> arrowList = new ArrayList<Path>();
 	ArrayList<DropPoint> dropPoints = new ArrayList<DropPoint>();
 	String dropPointCoords;
+	
+	// These ArrayLists hold the different types of DropPoints that are going to start in the
+	// segmentsPanel.
+	ArrayList<DropPoint> variableDropPoints = new ArrayList<DropPoint>();
+	ArrayList<DropPoint> operatorDropPoints = new ArrayList<DropPoint>();
+	ArrayList<DropPoint> conditionDropPoints = new ArrayList<DropPoint>();
+	ArrayList<DropPoint> answerChoiceDropPoints = new ArrayList<DropPoint>();
 	
 	// Limiting access to the stack so that it can reside in one place instead of having to
 	// pass it around. Allowed actions are push, pop, clear, and size and must be called
@@ -218,21 +229,22 @@ public class FlowUi extends Composite {
 	 * @param dest Index of the destination DropPoint of the arrow
 	 */
 	public void drawArrow(int source, int dest) {
+		int vertOffset = flowScrollPanel.getVerticalScrollPosition();
 		DropPoint sc1 = dropPoints.get(source);
 		DropPoint sc2 = dropPoints.get(dest);
 		Path arrow;
 		if(sc1.getAbsoluteTop() < sc2.getAbsoluteTop()) { // item 1 above item 2
-			arrow = new Path((int)(sc1.getAbsoluteLeft() + (.5*sc1.getOffsetWidth())), sc1.getAbsoluteTop());
-			arrow.lineTo((int)(sc2.getAbsoluteLeft() + (.5*sc2.getOffsetWidth())), (int) (sc2.getAbsoluteTop())-45); // 45 just seems right for putting
-			arrow.moveTo((int)(sc2.getAbsoluteLeft() + (.5*sc2.getOffsetWidth())), (int) (sc2.getAbsoluteTop())-45); // the arrow head in the right spot
+			arrow = new Path((int)(sc1.getAbsoluteLeft() + (.5*sc1.getOffsetWidth())), sc1.getAbsoluteTop()+vertOffset);
+			arrow.lineTo((int)(sc2.getAbsoluteLeft() + (.5*sc2.getOffsetWidth())), (int) (sc2.getAbsoluteTop()+vertOffset)-45); // 45 just seems right for putting
+			arrow.moveTo((int)(sc2.getAbsoluteLeft() + (.5*sc2.getOffsetWidth())), (int) (sc2.getAbsoluteTop()+vertOffset)-45); // the arrow head in the right spot
 			arrow.lineRelativelyTo(0, 17);
 			arrow = addArrowHead(Direction.SOUTH, arrow);
 		} else if (sc1.getAbsoluteTop() == sc2.getAbsoluteTop()) { // same y position
-			arrow = new Path((int)(sc1.getAbsoluteLeft()+(.5*sc1.getOffsetWidth())),sc1.getAbsoluteTop()+(int)(.5*sc1.getOffsetHeight())-15);
-			arrow.lineTo((int)(sc2.getAbsoluteLeft()), sc2.getAbsoluteTop()+ (int)(.5*sc2.getOffsetHeight())-15);
-			arrow.moveTo((int)(sc2.getAbsoluteLeft()), sc2.getAbsoluteTop()+ (int)(.5*sc2.getOffsetHeight())-15);
+			arrow = new Path((int)(sc1.getAbsoluteLeft()+(.5*sc1.getOffsetWidth())),sc1.getAbsoluteTop()+(int)(.5*sc1.getOffsetHeight())-15+vertOffset);
+			arrow.lineTo((int)(sc2.getAbsoluteLeft()), sc2.getAbsoluteTop()+vertOffset+ (int)(.5*sc2.getOffsetHeight())-15);
+			arrow.moveTo((int)(sc2.getAbsoluteLeft()), sc2.getAbsoluteTop()+vertOffset+ (int)(.5*sc2.getOffsetHeight())-15);
 			arrow = addArrowHead(Direction.EAST, arrow);
-		} else if (source == dest){  // same item, do a loop, also this will never be true, == doesn't work for objects
+		} else if (source == dest){  // same item, do a loop
 			// TODO make the line go from the bottom to left side
 			arrow = new Path(0,0);
 		} else{ // item 1 below item 2
@@ -302,11 +314,12 @@ public class FlowUi extends Composite {
 	}
 	
 	private Path drawUpAndOutArrow(DropPoint source, DropPoint dest) {
+		int vertOffset = flowScrollPanel.getVerticalScrollPosition();
 		int X_OFFSET = 25;
 		int sX = source.getAbsoluteLeft();
-		int sY = source.getAbsoluteTop()+ (int)(.5*source.getOffsetHeight())-15;
+		int sY = source.getAbsoluteTop()+ (int)(.5*source.getOffsetHeight())-15+vertOffset;
 		int dX = dest.getAbsoluteLeft();
-		int dY = dest.getAbsoluteTop()+ (int)(.5*dest.getOffsetHeight())-30;
+		int dY = dest.getAbsoluteTop()+ (int)(.5*dest.getOffsetHeight())-30+vertOffset;
 		
 		int srcDstOffsetX = sX - dX;
 		int srcDstOffsetY = sY - dY;
@@ -391,18 +404,14 @@ public class FlowUi extends Composite {
 		initArrows(arrowOrder);
 	}
 	
-	// TODO will eventually just have the variables in their own list for when we're putting them in.
 	public void updateMasterVariables(){
 		DropPoint dp;
-		for(int i=0; i < segmentsPanel.getWidgetCount(); i++){
-			dp = (DropPoint)segmentsPanel.getWidget(i);
-			if(dp.getType() == SegmentType.MASTER_VARIABLE ){
-				if(VariableMap.INSTANCE.hasVar(dp.getContent())){
-					dp.setValueLabel(""+VariableMap.INSTANCE.getValue(dp.getContent()));
-				}
-				else{
-					dp.setValueLabel("");
-				}
+		for(int i = 0; i < variableDropPoints.size(); i++){
+			dp = variableDropPoints.get(i);
+			if(VariableMap.INSTANCE.hasVar(dp.getContent())){
+				dp.setValueLabel(""+VariableMap.INSTANCE.getValue(dp.getContent()));
+			}else{
+				dp.setValueLabel("");
 			}
 		}
 	}
@@ -410,7 +419,29 @@ public class FlowUi extends Composite {
 	public void addNewArrow(){} // TODO Why is this here?
 	
 	public void addToSegmentsPanel(DropPoint dp){
-		segmentsPanel.add(dp);
+		SegmentType type = dp.getType();
+		switch(type){
+		case MASTER_VARIABLE:	variableDropPoints.add(dp);
+								variablesPanel.add(dp);
+			break;
+		case ADD:
+		case DIVIDE:
+		case MOD:
+		case MULTIPLY:
+		case SET:
+		case SUBTRACT:			operatorDropPoints.add(dp);
+								operatorsPanel.add(dp);
+			break;
+		case CONDITION:			conditionDropPoints.add(dp);
+								conditionsPanel.add(dp);
+			break;
+    	case ANSWER_CHOICE:			answerChoiceDropPoints.add(dp);
+									answerChoicesPanel.add(dp);
+			break;
+
+		default:				Window.alert("Trying to add an invalid type: "+type+"segmentsPanel");
+			break; 
+		}
 	}
 	public void pushUndoStack(ActionState state) {
 		undoStack.push(state);
