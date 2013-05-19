@@ -28,6 +28,7 @@ final class TrashBin extends AbsolutePanel {
 		}else{
 			dp.removeFromParent();
 		}
+		flow.redrawArrows();
 	}
 
 	public boolean isWidgetEater() {

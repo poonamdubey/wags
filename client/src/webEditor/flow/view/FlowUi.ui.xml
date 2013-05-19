@@ -38,7 +38,20 @@
 		</g:layer>
 		<g:layer right='0%' left='60%'>
 			<g:ScrollPanel ui:field='segmentScrollPanel' styleName='{style.scroll}'>
-				<g:AbsolutePanel ui:field="segmentsPanel"></g:AbsolutePanel>
+				<g:AbsolutePanel ui:field="segmentsPanel">
+				    <g:AbsolutePanel ui:field="variablesPanel">
+				        <g:Label>Variables</g:Label>
+				    </g:AbsolutePanel>
+				    <g:AbsolutePanel ui:field="operatorsPanel">
+				        <g:Label>Operators</g:Label>
+				    </g:AbsolutePanel>
+				    <g:AbsolutePanel ui:field="conditionsPanel">
+				        <g:Label>Conditions</g:Label>
+				    </g:AbsolutePanel>
+				    <g:AbsolutePanel ui:field="answerChoicesPanel">
+				        <g:Label>Answer Choices</g:Label>
+				    </g:AbsolutePanel>
+				</g:AbsolutePanel>
 			</g:ScrollPanel>
 		</g:layer>
 	</g:LayoutPanel>

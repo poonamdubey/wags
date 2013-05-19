@@ -45,7 +45,7 @@ public final class BinDropController extends SimpleDropController {
 
 	@Override
 	public void onDrop(DragContext context) {
-		if(context.draggable.getParent() != bin.getFlowSegmentPanel()){
+		if(context.draggable.getParent().getParent() != bin.getFlowSegmentPanel()){
 			bin.eatWidget((DropPoint) context.draggable);
 			super.onDrop(context);
 		}
