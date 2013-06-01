@@ -1,6 +1,7 @@
 package webEditor.flow.view;
 
 import java.util.HashMap;
+import java.util.Set;
 
 import com.google.gwt.user.client.Window;
 
@@ -32,5 +33,9 @@ public enum VariableMap {
 	
 	public void clear(){
 		varMap.clear();
+	}
+	
+	public Set<String> getKeySet(){
+		return varMap.keySet();
 	}
 }

@@ -6,7 +6,8 @@ import com.google.gwt.user.client.ui.Button;
  * 
  * A button that has an id associated with it.
  * 
- * This id corresponds to the id in the magnetProblem table in the database.
+ * This id corresponds to the id in the appropriate table in the database.
+ * Used for MagnetProblems and FlowProblems.
  *
  */
 public class ProblemButton extends Button {
