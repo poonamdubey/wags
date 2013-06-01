@@ -13,7 +13,6 @@ import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONString;
 import com.google.gwt.json.client.JSONValue;
 
-
 public class WEStatus {
 	public static final int NOTHING = -1;
 	public static final int STATUS_ERROR   = 0;
@@ -249,6 +248,16 @@ public class WEStatus {
 					messageMap.get("nodeType"), 
 					Integer.parseInt(messageMap.get("group")), 
 					messageMap.get("genre"));
+		} else if (objType == "FlowProblem"){			
+			myObject = new FlowProblem(messageMap.get("title"),
+					messageMap.get("directions"),
+					messageMap.get("dropPointPositions"),
+					messageMap.get("arrowRelations"),
+					parseArray(messageMap.get("variables")),
+					parseArray(messageMap.get("operators")),
+					parseArray(messageMap.get("conditions")),
+					parseArray(messageMap.get("answerChoices")),
+					parseArray(messageMap.get("solution")));
 		}
 	}
 	

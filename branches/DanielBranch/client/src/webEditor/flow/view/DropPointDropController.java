@@ -29,7 +29,7 @@ public class DropPointDropController extends SimpleDropController {
 		if(dropTarget.isStackable() && (sw.getType() != SegmentType.VARIABLE) && (sw.getType() != SegmentType.CONDITION)
 				&& (sw.getType() != SegmentType.ANSWER_CHOICE) && dropTarget.getInsidePanel().getWidgetCount() <1){
 			dropTarget.addInsideContainer(sw ,context);
-			flow.updateArrows(dropTarget.getArrowList());
+			flow.redrawArrows();
 		}
 
 	}

@@ -24,17 +24,15 @@ public class AdminPage extends Composite {
 	@UiField ReviewTab review;
 	@UiField StudentTab students;
 	@UiField TabLayoutPanel tabPanel;
+	@UiField LMEditTab lmEditTab;
 
 	public AdminPage() {
 		initWidget(uiBinder.createAndBindUi(this));		
 		SectionTab sections = new SectionTab();
 		sections.setAdmin(this);
-		Proxy.isAdmin(tabPanel, sections);
+		Proxy.isAdmin(tabPanel, sections);		
 	}
 	
-	public TabLayoutPanel getLayoutPanel() {
-		return tabPanel;
-	}
 	
 	public void update(){
 		logical.update();
@@ -43,5 +41,9 @@ public class AdminPage extends Composite {
 		students.update();
 		review.update();
 		magnetPC.update();
+	}
+	
+	public void setSelectedTab(int tab) {
+		tabPanel.selectTab( tab );
 	}
 }

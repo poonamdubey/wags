@@ -1,8 +1,9 @@
-package webEditor.magnet.view;
+package webEditor.flow.view;
 
-import webEditor.MagnetProblem;
+import webEditor.FlowProblem;
 import webEditor.Proxy;
 import webEditor.Wags;
+import webEditor.magnet.view.ProblemButton;
 
 import java.util.ArrayList;
 
@@ -10,6 +11,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -26,7 +28,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * 
  *
  */
-public class Magnets extends AbsolutePanel {
+public class FlowSplashPage extends AbsolutePanel {
 	
 	public static final String EMPTY_LABEL = "No Magnet Exercises Assigned!";
 	public static int INCOMPLETE = 0;
@@ -36,7 +38,6 @@ public class Magnets extends AbsolutePanel {
 	private int[] ids;				//array of problem id numbers
 	private String[] titles;		//array of problem names
 	private int[] statuses;			//array of success values
-	private int idAssignor = 0;
 	private boolean initialLoad = true;
 	private Wags wags;
 
@@ -53,19 +54,19 @@ public class Magnets extends AbsolutePanel {
 	 * This will generate a list of ProblemButtons corresponding to the ids and problems 
 	 * passed in.
 	 * 
-	 * @param ids		id numbers for magnet problems
-	 * @param titles	title text of magnet problems
-	 * @param success	boolean for if magnet problem was completed successfully by the user
+	 * @param ids		id numbers for flow problems
+	 * @param titles	title text of flow problems
+	 * @param success	boolean for if flow problem was completed successfully by the user
 	 * @param wags		reference to Wags so that Wags can switch between different pages
 	 * 					while retaining the top bar
 	 */
-	public Magnets(int[] ids, String[] titles, int[] statuses, Wags wags) {
+	public FlowSplashPage(int[] ids, String[] titles, int[] statuses, Wags wags) {
 		this.ids = ids;
 		this.titles = titles;
 		this.statuses = statuses;
 		this.wags = wags;
 
-		banner = new Label("Code Magnet Microlabs");
+		banner = new Label("Flow Microlabs");
 		attemptButtons = new ArrayList<ProblemButton>();
 		reviewButtons = new ArrayList<ProblemButton>();
 		createButtons();	
@@ -203,8 +204,9 @@ public class Magnets extends AbsolutePanel {
             public void onClick(ClickEvent event) {
             	Timer timer = new Timer() {
             		public void run() {
-            			Proxy.getMagnetProblem(id, wags);
-            			History.newItem("?loc=magnetproblem");
+            			Window.alert("Getting Flow Problem");
+            			Proxy.getFlowProblem(id, wags);
+            		//	History.newItem("?loc=magnetproblem");
             		}
             	};
             	timer.schedule(1);
@@ -216,92 +218,10 @@ public class Magnets extends AbsolutePanel {
 	 * @return a RefrigeratorMagnet object, created from the MagnetProblem 
 	 * that was grabbed from the server using Proxy.getMagnetProblem()
 	 */
-	public RefrigeratorMagnet makeProblem(MagnetProblem magnet) {
-		idAssignor = 0;
-		return new RefrigeratorMagnet(
-				magnet,
-				getMainContainer(magnet.mainFunction),
-				buildFunctions(magnet.innerFunctions),
-				decodePremade(magnet.statements, magnet.createdIDs, magnet.numStatements), 
-				new String[][] { magnet.forLeft, magnet.forMid, magnet.forRight }
-		);
+	public FlowUi makeProblem(FlowProblem problem) {
+		Window.alert("FSP makeProblem");
+		return new FlowUi(problem);
 	}
+
 	
-	/**
-	 * Creates an array of StackableContainers from an array of 
-	 * StackableContainers with the text from an array of Strings.
-	 * 
-	 * @param segments Array of Strings representing each code segment.
-	 * 
-	 * @return An array of StackableContainers. Will return null 
-	 * if segments is null.
-	 */
-	private StackableContainer[] decodePremade(String[] segments, String[] createdIDs, int numStatements) {
-		if (segments == null) {
-			return null;
-		}
-		
-		StackableContainer[] preMadeList = new StackableContainer[segments.length]; //should never need this many
-		
-		for (int i = 0; i < segments.length; i++) {
-			StackableContainer sc = new StackableContainer(segments[i], Consts.STATEMENT);
-			if (idAssignor > numStatements) {
-				sc.setID(Integer.parseInt(createdIDs[idAssignor - numStatements - 1]));
-				sc.setCreated(true);
-				idAssignor++;
-			} else {
-				sc.setID(getID());
-			}
-			preMadeList[i] = sc;
-		}
-		return preMadeList;
-	}
-	
-	
-	/**
-	 * Creates the main StackableContainer that holds all of 
-	 * the other StackableContainers.
-	 * 
-	 * @param str The text for the main StackableContainer
-	 * 
-	 * @return The main StackableContainer
-	 */
-	private StackableContainer getMainContainer(String str) {
-		StackableContainer sc = new StackableContainer(str, Consts.MAIN);
-		sc.setID(getID());
-		return sc;
-	}
-	
-	/**
-	 * Creates an array of StackableContainers from a String array
-	 * 
-	 * @param insideFunctions array of text for inner functions
-	 * 
-	 * @return An array of StackableContainers. Will return null if 
-	 * insideFunctions is null.
-	 */
-	private StackableContainer[] buildFunctions(String[] insideFunctions) {
-		if (insideFunctions == null) {
-			return null;
-		}
-		
-		StackableContainer[] insideFunctionsList = new StackableContainer[insideFunctions.length]; //should never need this many
-		
-		for (int i = 0; i < insideFunctions.length; i++) {
-			StackableContainer sc = new StackableContainer(insideFunctions[i], Consts.INNER);
-			sc.setID(getID());
-			insideFunctionsList[i] = sc;
-		}
-		
-		return insideFunctionsList;
-	}
-	
-	/**
-	 * Returns the next unused id and increments the global varaible idAssignor
-	 * @return the next id number
-	 */
-	private int getID() {
-		idAssignor++;
-		return idAssignor - 1;
-	}
 }

@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 
+import webEditor.flow.view.FlowSplashPage;
 import webEditor.logical.DataStructureTool;
 
 import webEditor.magnet.view.Magnets;
@@ -269,6 +270,52 @@ public class Proxy
 		    } catch (RequestException e) {
 		      Window.alert("Failed to send the request: " + e.getMessage());
 		    }
+	}
+	
+	public static void buildFlowSplashPage(Wags wags2) {
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetFlowExercises");
+		try{
+			builder.sendRequest(null, new RequestCallback() {
+				
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					WEStatus stat = new WEStatus(response);
+					
+					String[] problems = stat.getMessageArray();
+					int[] idList = new int[problems.length / 3];
+					String[] problemsList = new String[problems.length / 3];
+					int[] statusList = new int[problems.length / 3];
+					
+					// To understand this, you must understand that problems is an array
+					// following a sequence of id, name, success.  Thus, we iterate over it
+					// in steps of three, to "group" the entries corresponding to the same exercise
+					for(int i = 0; i < problems.length - 2; i += 3){
+						final int id = Integer.parseInt(problems[i]);
+						
+						if (id != 0) {
+							int idx = i / 3;
+							
+							idList[idx] = id;
+							problemsList[idx] = problems[i + 1];
+							statusList[idx] = Integer.parseInt(problems[i + 2]);
+						}
+					}
+					
+					FlowSplashPage flowSplashPage = new FlowSplashPage(idList, problemsList, statusList, wags);
+					wags.flow = flowSplashPage;
+					flowSplashPage.getElement().getStyle().setOverflowY(Overflow.AUTO);
+					wags.replaceCenterContent(flowSplashPage);
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception) {
+					Window.alert("Flow Exercises error");
+				}
+			});
+		} catch (RequestException e){
+			Window.alert("error: " + e.getMessage());
+		}
+		
 	}
 	
 	public static void buildMagnets(final Wags wags) {
@@ -1202,7 +1249,7 @@ public class Proxy
 				public void onResponseReceived(Request request, Response response) {
 					WEStatus status = new WEStatus(response);
 					MagnetProblem magProblem = (MagnetProblem) status.getObject();
-					wags.placeProblem(magProblem);
+					wags.placeMagnetProblem(magProblem);
 				}
 				
 				@Override
@@ -2107,6 +2154,29 @@ public class Proxy
 		    } catch (RequestException e) {
 		      Window.alert("Failed to send the request: " + e.getMessage());	
 		    }
+	}
+
+	public static void getFlowProblem(int id, final Wags wags) {
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=GetFlowProblem&id=" + id);
+		try{
+			builder.sendRequest("", new RequestCallback() {
+				
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					WEStatus status = new WEStatus(response);
+					FlowProblem flowProblem = (FlowProblem) status.getObject();
+					wags.placeFlowProblem(flowProblem);
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception) {
+					Window.alert("Error getting magnet problem");					
+				}
+			});
+		} catch(Exception e){
+			Window.alert(e.getMessage());
+		}
+		
 	}
 	
 }

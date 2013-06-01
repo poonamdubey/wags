@@ -5,6 +5,8 @@ import java.util.Stack;
 
 import org.vaadin.gwtgraphics.client.DrawingArea;
 import org.vaadin.gwtgraphics.client.shape.Path;
+
+import webEditor.FlowProblem;
 import webEditor.magnet.view.DragController;
 
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
@@ -28,13 +30,13 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class FlowUi extends Composite {
+	FlowProblem problem;
 	DrawingArea canvas;
 	PickupDragController dc;
 	private PopupPanel resetPopupPanel;
 	TrashBin bin;
 	static int dropPointID=0;
 	public static int executeIndex = 0;
-	public static int ANSWER = 6;
 
 	@UiField LayoutPanel layout;
 	@UiField AbsolutePanel canvasPanel;
@@ -55,17 +57,17 @@ public class FlowUi extends Composite {
 	// The arrowOrder list holds the strings specifying the source and destination DropPoints
 	// for arrows. The arrowList holds the actual Path Vector Object in the same order.
 	// Order is necessary so that arrows can be updated without redrawing the entire canvas.
-	ArrayList<String> arrowOrder = new ArrayList<String>();
 	ArrayList<Path> arrowList = new ArrayList<Path>();
 	ArrayList<DropPoint> dropPoints = new ArrayList<DropPoint>();
 	String dropPointCoords;
+	String[] arrowRelations;
 	
 	// These ArrayLists hold the different types of DropPoints that are going to start in the
 	// segmentsPanel.
-	ArrayList<DropPoint> variableDropPoints = new ArrayList<DropPoint>();
-	ArrayList<DropPoint> operatorDropPoints = new ArrayList<DropPoint>();
-	ArrayList<DropPoint> conditionDropPoints = new ArrayList<DropPoint>();
-	ArrayList<DropPoint> answerChoiceDropPoints = new ArrayList<DropPoint>();
+	DropPoint[] conditionDropPoints;
+	DropPoint[] answerChoiceDropPoints;
+	DropPoint[] variableDropPoints;
+	DropPoint[] operatorDropPoints;
 	
 	// Limiting access to the stack so that it can reside in one place instead of having to
 	// pass it around. Allowed actions are push, pop, clear, and size and must be called
@@ -78,40 +80,36 @@ public class FlowUi extends Composite {
 	interface FlowUiUiBinder extends UiBinder<Widget, FlowUi> {
 	}
 	
-	public FlowUi(){
+	public FlowUi(FlowProblem problem){
 		initWidget(uiBinder.createAndBindUi(this));
+		this.problem = problem;
 		canvas = new DrawingArea(Window.getClientHeight(), (int)(Window.getClientWidth()*.6));
         canvasPanel.add(canvas);
         bin = new TrashBin(this);
 		BinDropController binController = new BinDropController(bin);
 		DragController.INSTANCE.registerDropController(binController);
 		trashbin.add(bin);
+		
+		this.operatorDropPoints = decodeOperators(problem.operators);
+		this.conditionDropPoints = decodeContentDropPoints('C', problem.conditions);
+		this.variableDropPoints = decodeContentDropPoints('V', problem.variables);
+		this.answerChoiceDropPoints = decodeContentDropPoints('A', problem.answerChoices);
 
-        addToSegmentsPanel(new DropPoint(SegmentType.SET, this));
-        addToSegmentsPanel(new DropPoint(SegmentType.MOD, this));
-        addToSegmentsPanel(new DropPoint(SegmentType.ADD, this));
-        addToSegmentsPanel(new DropPoint(SegmentType.DIVIDE, this));
-        addToSegmentsPanel(new DropPoint("var",SegmentType.MASTER_VARIABLE, this));
-        addToSegmentsPanel(new DropPoint("var < 6",SegmentType.CONDITION, this));
-        addToSegmentsPanel(new DropPoint("count",SegmentType.MASTER_VARIABLE, this));
-        addToSegmentsPanel(new DropPoint("var",SegmentType.ANSWER_CHOICE,this));
+        addToSegmentsPanel('O',operatorDropPoints);
+        addToSegmentsPanel('C',conditionDropPoints);
+        addToSegmentsPanel('V',variableDropPoints);
+        addToSegmentsPanel('A',answerChoiceDropPoints);
         
         // TODO figure out how to encode/where to keep which direction TRUE/FALSE leads to from a conditional box
         // A in from means Answer, C in front means Conditional.  Temporary for now...
-		this.dropPointCoords = "200:0,200:140,C:220:300:3|4,200:450:2,A:450:340";
-        initDropPoints(dropPointCoords);
+        initDropPoints(problem.dropPointPositions);
 		flowScrollPanel.scrollToTop();
-		
-        this.arrowOrder.add("0:1");
-        this.arrowOrder.add("1:2");
-        this.arrowOrder.add("2:3");
-        this.arrowOrder.add("3:2");
-        this.arrowOrder.add("2:4");
         
-		initArrows(arrowOrder);
+		this.arrowRelations = problem.arrowRelations.split(",");
+		initArrows(this.arrowRelations);
 		setupResetPopupPanel();
 	}
-	
+
 	/*
 	 * Handlers for the buttons 
 	 * 
@@ -156,9 +154,7 @@ public class FlowUi extends Composite {
 	
 	private class yesResetHandler implements ClickHandler {
 		public void onClick(ClickEvent event) {
-			Window.alert("before resting");
 			resetProblem();
-			Window.alert("after resting");
 			resetPopupPanel.setVisible(false);
 		}
 	}
@@ -169,6 +165,62 @@ public class FlowUi extends Composite {
 		}
 	}
 
+	/* decodeOperators
+	 * Creates the Operator DropPoints array from the given string array.
+	 */
+	private DropPoint[] decodeOperators(String[] operators) {
+		DropPoint[] operatorDropPoints = new DropPoint[operators.length];
+		for(int i=0; i < operators.length; i++){
+			String s = operators[i];
+			SegmentType type;
+			if(s.equals("ADD")){
+				type = SegmentType.ADD;
+			}else if(s.equals("SUBTRACT")){
+				type = SegmentType.SUBTRACT;
+			}else if(s.equals("DIVIDE")){
+				type = SegmentType.DIVIDE;
+			}else if(s.equals("MULTIPLY")){
+				type = SegmentType.MULTIPLY;
+			}else if(s.equals("MOD")){
+				type = SegmentType.MOD;
+			}else if(s.equals("SET")){
+				type = SegmentType.SET;
+			}else{ // Should never get here.
+				type = SegmentType.SET;
+			}
+			
+			operatorDropPoints[i] = new DropPoint(type,this);
+		}
+		return operatorDropPoints;
+	}
+	/*
+	 * Creates an array of DropPoints that use user provided content such Variables, AnswerChoices or Conditions.
+	 * The first parameter is the selector for what type of DropPoint you should be making.
+	 * -'A' = AnswerChoiced, 'V' = Variables, 'C' = Conditions
+	 * 
+	 */
+	private DropPoint[] decodeContentDropPoints(char selector, String[] params) {
+		DropPoint[] dropPoints = new DropPoint[params.length];
+		SegmentType type;
+		switch(selector){
+			case 'A': type = SegmentType.ANSWER_CHOICE;
+			break;
+			case 'C': type = SegmentType.CONDITION;
+			break;
+			case 'V': type = SegmentType.VARIABLE;
+			break;
+			default: type = SegmentType.VARIABLE; // should never get here.
+			break;
+		}
+		
+		for(int i=0; i < params.length; i++){
+			dropPoints[i] = new DropPoint(params[i],type,this);
+		}
+		
+		return dropPoints;
+	}
+
+	
 	
 	/**
 	 * Adds DropPoints the list and draws them on the canvas
@@ -202,22 +254,21 @@ public class FlowUi extends Composite {
 	 * Called after all of the DropPoints have been added to their list.
 	 * @param order List of strings formatted "source:dest"
 	 */
-	public void initArrows(final ArrayList<String> order) {
+	public void initArrows(String[] arrowRelations) {
+		final String[] relations = arrowRelations;
         Timer timer = new Timer() {
             @Override
             public void run() {
-        		for(int i = 0; i < order.size(); i++) {
-        			String[] items = order.get(i).split(":");
+        		for(int i = 0; i < relations.length; i++) {
+        			String[] items = relations[i].split(":");
         			int src = Integer.parseInt(items[0]);
         			int dst = Integer.parseInt(items[1]);
         			drawArrow(src, dst);
-        			dropPoints.get(dst).addArrowToList(order.get(i));	// each DropPoint holds a list of
-        			dropPoints.get(src).addArrowToList(order.get(i));	// all arrows that point to and from it
         		}
             }
         };
 
-        timer.schedule(100);
+        timer.schedule(10);
 	}
 	
 	/**
@@ -254,7 +305,7 @@ public class FlowUi extends Composite {
 		arrow.setFillOpacity(0.0);
 		arrow.setStrokeWidth(2);	// Thicker arrows
 		arrow.setStrokeColor("darkblue");
-		arrowList.add(arrowOrder.indexOf(source + ":" + dest), arrow);
+		arrowList.add(arrow);
 		canvas.add(arrow);
 
 	}
@@ -347,16 +398,16 @@ public class FlowUi extends Composite {
 	 * be updated.
 	 * @param srcDst The list of DropPoints
 	 */
-	public void updateArrows(ArrayList<String> srcDst) {
-		String[] tmp;
-		for (int i = 0; i < srcDst.size(); i++) {
-			tmp = srcDst.get(i).split(":");
-			int source = Integer.parseInt(tmp[0]);
-			int dest = Integer.parseInt(tmp[1]);
-			canvas.remove(arrowList.remove(arrowOrder.indexOf(srcDst.get(i))));
-			drawArrow(source, dest);
-		}
-	}
+//	public void updateArrows(ArrayList<String> srcDst) {
+//		String[] tmp;
+//		for (int i = 0; i < srcDst.size(); i++) {
+//			tmp = srcDst.get(i).split(":");
+//			int source = Integer.parseInt(tmp[0]);
+//			int dest = Integer.parseInt(tmp[1]);
+//			canvas.remove(arrowList.remove(arrowOrder.indexOf(srcDst.get(i))));
+//			drawArrow(source, dest);
+//		}
+//	}
 	/*
 	 * Building UI elements
 	 * 
@@ -401,13 +452,13 @@ public class FlowUi extends Composite {
 	 */
 	public void redrawArrows(){
 		canvas.clear();
-		initArrows(arrowOrder);
+		initArrows(this.arrowRelations);
 	}
 	
 	public void updateMasterVariables(){
 		DropPoint dp;
-		for(int i = 0; i < variableDropPoints.size(); i++){
-			dp = variableDropPoints.get(i);
+		for(int i = 0; i < variableDropPoints.length; i++){
+			dp = variableDropPoints[i];
 			if(VariableMap.INSTANCE.hasVar(dp.getContent())){
 				dp.setValueLabel(""+VariableMap.INSTANCE.getValue(dp.getContent()));
 			}else{
@@ -416,27 +467,43 @@ public class FlowUi extends Composite {
 		}
 	}
 
-	public void addNewArrow(){} // TODO Why is this here?
+	
+	private void addToSegmentsPanel(char panelSelector, DropPoint[] dropPoints) {
+		AbsolutePanel panel;
+		switch(panelSelector){
+			case 'V': panel = variablesPanel;
+			break;
+			case 'O': panel = operatorsPanel;
+			break;
+			case 'C': panel = conditionsPanel;
+			break;
+			case 'A': panel = answerChoicesPanel;
+			break;
+			default: panel = variablesPanel; // should not get here
+			break;
+		}
+		
+		for(DropPoint dp: dropPoints){
+			panel.add(dp);
+		}
+		
+	}
 	
 	public void addToSegmentsPanel(DropPoint dp){
 		SegmentType type = dp.getType();
 		switch(type){
-		case MASTER_VARIABLE:	variableDropPoints.add(dp);
-								variablesPanel.add(dp);
+		case MASTER_VARIABLE:	variablesPanel.add(dp);
 			break;
 		case ADD:
 		case DIVIDE:
 		case MOD:
 		case MULTIPLY:
 		case SET:
-		case SUBTRACT:			operatorDropPoints.add(dp);
-								operatorsPanel.add(dp);
+		case SUBTRACT:			operatorsPanel.add(dp);
 			break;
-		case CONDITION:			conditionDropPoints.add(dp);
-								conditionsPanel.add(dp);
+		case CONDITION:			conditionsPanel.add(dp);
 			break;
-    	case ANSWER_CHOICE:			answerChoiceDropPoints.add(dp);
-									answerChoicesPanel.add(dp);
+    	case ANSWER_CHOICE:			answerChoicesPanel.add(dp);
 			break;
 
 		default:				Window.alert("Trying to add an invalid type: "+type+"segmentsPanel");
@@ -457,6 +524,10 @@ public class FlowUi extends Composite {
 	}
 	public int getNextDropPointID(){
 		return dropPointID++;
+	}
+	
+	public String[] getSolution(){
+		return problem.solution;
 	}
 	
 }

@@ -42,7 +42,6 @@ public class MagnetMaker extends VerticalPanel {
 	private int nextID;
 	private int[] limits;
 	private int[] initialLimits;
-	private int startOfCreatedIds;
 	private int selectedStructureIndex = 0;
 
 	public MagnetMaker(String[][] forLists, String[] booleanList, int[] limits,
@@ -50,13 +49,13 @@ public class MagnetMaker extends VerticalPanel {
 		this.setStyleName("dropdown_panel");
 		this.limits = limits;
 		this.initialLimits = new int[limits.length];
+		
 		for (int i = 0; i < limits.length; i++) {
 			this.initialLimits[i] = limits[i];
 		}
 			
 		this.constructPanel = constructPanel;
 		this.nextID = nextID;
-		this.startOfCreatedIds = nextID;
 
 		// set up Structures MenuBar(used as a ListBox but we can set html for the elements)
 		structures = new MenuBar(true);
@@ -126,7 +125,7 @@ public class MagnetMaker extends VerticalPanel {
 	private void updateStructure() {
 		structures.clearItems();
 		if (selectedStructureIndex == 0) {
-			structures.addItem("<div style=\"display:inline-block;min-width:110px;\" >" + structuresList[selectedStructureIndex] + "</div>", true, structureOptions);
+			structures.addItem("<div style=\"display:inline-block;min-width:110px;padding:5px\" >" + structuresList[selectedStructureIndex] + "</div>", true, structureOptions);
 			return;
 		}
 		
@@ -137,7 +136,7 @@ public class MagnetMaker extends VerticalPanel {
 			css = "structureLimitUnvailable";
 		}
 		
-		String html = "<div style=\"display:inline-block;min-width:110px;\" >"
+		String html = "<div style=\"display:inline-block;min-width:110px\" >"
 					+ structuresList[selectedStructureIndex]
 					+ "<span style=\"float:right;\" class=\"" + css + "\">"
 					+ limits[selectedStructureIndex - 1]
@@ -210,10 +209,10 @@ public class MagnetMaker extends VerticalPanel {
 				break;
 			}
 
-			createdContainer.setID("" + nextID++);
+			createdContainer.setID(nextID++);
 			createdContainer.setCreated(true);
 			constructPanel.addSegment(createdContainer);
-			limits[selectedStructureIndex - 1]--;
+			decrementLimitCounter(selectedStructureIndex);
 			updateStructureOptions();
 		}
 	}
@@ -222,16 +221,13 @@ public class MagnetMaker extends VerticalPanel {
 		limits[i - 1]++;
 		updateStructureOptions();
 	}
+	
 	public void decrementLimitCounter(int i) {
 		limits[i - 1]--;
 		updateStructureOptions();
 	}
 	
-	public int getStartOfCreatedIds() {
-		return startOfCreatedIds;
-	}
-	
-	public void resetLimits(){
+	public void resetLimits() {
 		for (int i = 0; i < limits.length; i++) {
 			this.limits[i] = initialLimits[i];
 		}

@@ -109,7 +109,7 @@ public class DataStructureTool  extends AbsolutePanel
 					// add button to attempt problem, Note: handlers are added later
 					Button b = buttons.get(i);
 					addClickHandling(b, b.getText());
-					b.setStyleName("problem");
+					b.setStyleName("button");
 					problemPane.add(b);
 
 					// find the maximum width of buttons
@@ -216,9 +216,6 @@ public class DataStructureTool  extends AbsolutePanel
 		 */
 		Proxy.getLogicalMicrolab(problem, this);
 		//Problem prob = ProblemServiceImpl.getProblem(problem);
-		/*if(prob instanceof RedBlackProblem){
-			((RedBlackProblem) prob).printDetails();
-		}*/
 
 		//initialize(prob);
 	}

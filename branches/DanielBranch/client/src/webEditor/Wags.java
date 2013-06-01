@@ -2,6 +2,7 @@
 package webEditor;
 
 import webEditor.admin.AdminPage;
+import webEditor.flow.view.FlowSplashPage;
 import webEditor.flow.view.FlowUi;
 import webEditor.magnet.view.Magnets;
 import webEditor.magnet.view.RefrigeratorMagnet;
@@ -45,7 +46,7 @@ public class Wags extends View
 	public Magnets splashPage;
 	private Editor editor;
 	private AdminPage adminPage;
-	private FlowUi flow;
+	public FlowSplashPage flow;
 	
 	private String startingPlace;
 	
@@ -68,7 +69,6 @@ public class Wags extends View
 		}
 		editor = new Editor();
 		adminPage = new AdminPage();
-		flow = new FlowUi();
 		
 		//Make back/forward buttons work.
 		createHistoryHandler();
@@ -192,7 +192,7 @@ public class Wags extends View
 	}
 	
 	public void loadFlow() {
-		replaceCenterContent(flow);
+		Proxy.buildFlowSplashPage(this);
 		History.newItem("?loc=flow");
 	}
 
@@ -243,9 +243,15 @@ public class Wags extends View
 		password.setFocus(true);
 	}
 	
-	public void placeProblem(MagnetProblem magnet){
+	public void placeMagnetProblem(MagnetProblem magnet){
 		RefrigeratorMagnet problem = splashPage.makeProblem(magnet);
     	replaceCenterContentMagnet(problem);
+	}
+	
+	public void placeFlowProblem(FlowProblem flowProblem) {
+		FlowUi problem = flow.makeProblem(flowProblem);
+    	replaceCenterContent(problem);
+		
 	}
 	
 	public void replaceCenterContentMagnet(RefrigeratorMagnet w){
@@ -276,4 +282,5 @@ public class Wags extends View
 	public AdminPage getAdmin() {
 		return adminPage;
 	}
+
 }

@@ -27,6 +27,7 @@ public class ManyButtonPanel extends Composite
 	@UiField VerticalPanel btnHolder;
 	@UiField VerticalPanel btnHolder2;
 	@UiField VerticalPanel btnHolder3;
+	@UiField VerticalPanel btnHolder4;
 	@UiField HorizontalPanel btnHolderHolder;
 	ArrayList<Button> myButtons = new ArrayList<Button>();
 	private int btnWidth = 175;
@@ -39,6 +40,7 @@ public class ManyButtonPanel extends Composite
 		btnHolder.setSpacing(CELL_SPACING);
 		btnHolder2.setSpacing(CELL_SPACING);
 		btnHolder3.setSpacing(CELL_SPACING);
+		btnHolder4.setSpacing(CELL_SPACING);
 	}
 	
 	public void setTitle(String title){
@@ -49,14 +51,14 @@ public class ManyButtonPanel extends Composite
 		btnHolder.clear();
 		btnHolder2.clear();
 		btnHolder3.clear();
+		btnHolder4.clear();
 		myButtons.clear();
 		Button tmpBtn;
 		
 		for(String button: buttons){
 			tmpBtn = new Button(button);
-			tmpBtn.setStyleName("problem");
+			tmpBtn.setStyleName("button");
 			tmpBtn.setVisible(true);
-			tmpBtn.setPixelSize(btnWidth, btnHeight);
 			myButtons.add(tmpBtn);
 			addButton(tmpBtn);
 		}
@@ -65,12 +67,14 @@ public class ManyButtonPanel extends Composite
 	private void addButton( Button tmpBtn )
 	{
 		int numberOfButtons = myButtons.size();
-		if (numberOfButtons <= 10) {
+		if (numberOfButtons <= 15) {
 			this.btnHolder.add(tmpBtn);
-		} else if (numberOfButtons <= 20) {
-			this.btnHolder2.add(tmpBtn);
 		} else if (numberOfButtons <= 30) {
+			this.btnHolder2.add(tmpBtn);
+		} else if (numberOfButtons <= 45) {
 			this.btnHolder3.add(tmpBtn);
+		} else if (numberOfButtons <= 60) {
+			this.btnHolder4.add(tmpBtn);
 		}
 	}
 	
@@ -104,7 +108,7 @@ public class ManyButtonPanel extends Composite
 		
 	}
 	
-	private void colorBlack(){
+	void colorBlack(){
 		for(Button btn: myButtons){
 			btn.getElement().getStyle().setColor("black");
 		}
@@ -115,6 +119,8 @@ public class ManyButtonPanel extends Composite
 			btn.addClickHandler(new btnClickHandler(btn));
 		}
 	}
+	
+	
 
 
 }

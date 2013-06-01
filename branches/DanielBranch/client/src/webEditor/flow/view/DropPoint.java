@@ -10,6 +10,7 @@ import com.allen_sauer.gwt.dnd.client.DragContext;
 import com.allen_sauer.gwt.dnd.client.drop.DropController;
 
 import webEditor.flow.actions.AddAction;
+import webEditor.flow.actions.AnswerAction;
 import webEditor.flow.actions.ConditionalAction;
 import webEditor.flow.actions.DivideAction;
 import webEditor.flow.actions.ModAction;
@@ -36,7 +37,6 @@ public class DropPoint extends FocusPanel {
 	private TextBox valueBox;
 	private Label valueLabel; // Segment_Variable's only
 	private DropPoint insideDropPoint;
-	private ArrayList<String> arrows = new ArrayList<String>();
 	
 	public int nextExecuteID = -1;
 	
@@ -325,12 +325,6 @@ public class DropPoint extends FocusPanel {
 	}
 	public SegmentType getType(){
 		return type;
-	}
-	public void addArrowToList(String arrow) {
-		arrows.add(arrow);
-	}
-	public ArrayList<String> getArrowList() {
-		return arrows;
 	}
 	
 	public void resetDropPoint(){
