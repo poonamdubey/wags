@@ -1,0 +1,32 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:my="urn:import:webEditor.admin">
+	<ui:style>
+		.title {
+			padding-bottom: 8px;
+			padding-top: 8px;
+			font-size: x-large;
+			font-family: helvetica;	
+			text-align: center;
+		}
+		.grid{
+			height: 100%;
+			background-color: #FFFFFF;
+			margin-top: 45px;
+			margin-left: 10px;
+		}
+	</ui:style>
+	<g:VerticalPanel>
+		<g:HorizontalPanel>
+			<g:VerticalPanel>
+				<g:Label styleName="{style.title}" ui:field="title">View Grades</g:Label> 
+				<g:Button ui:field="btnExTypes" width="100%">Switch to Review</g:Button>
+				<my:ManyButtonPanel ui:field="btnPnlCurrent"/>
+				<my:ManyButtonPanel ui:field="btnPnlReview"/>
+				<my:ManyButtonPanel ui:field="btnPnlStudent" visible="false"/>
+			</g:VerticalPanel>
+			<g:Grid ui:field="grdGrades" styleName="{style.grid}"/>
+		</g:HorizontalPanel>
+	</g:VerticalPanel>
+</ui:UiBinder> 

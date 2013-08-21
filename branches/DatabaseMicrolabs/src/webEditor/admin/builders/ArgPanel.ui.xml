@@ -1,0 +1,20 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		.txtAlign{
+			padding-top: 5px;
+			width: 80px;
+		}
+		.padding {
+			padding-top: 3px;
+			padding-right: 5px;
+			padding-left: 5px;
+		}
+	</ui:style>
+	<g:HorizontalPanel>
+		<g:Label styleName="{style.txtAlign}" ui:field="lblArg"/>
+		<g:TextBox ui:field="txtArg" width="200px"/>
+		<g:Button styleName="{style.padding}" ui:field="btnArg"/>
+	</g:HorizontalPanel>
+</ui:UiBinder> 
