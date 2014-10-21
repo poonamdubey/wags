@@ -74,7 +74,9 @@ class DownloadMagnetFiles extends Command{
             // if it does have an extension then it's Prolog.
             if(pathinfo($name, PATHINFO_EXTENSION) === "pl"){
                 $name = $dir.'/'.$name;
-            }else{
+            }else if (pathinfo($name, PATHINFO_EXTENSION) === "c") {
+                $name = $dir.'/'.$name;
+            } else {
                 $name = $dir.'/'.$name.".java";
             }
             

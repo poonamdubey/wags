@@ -14,7 +14,7 @@ class MagnetReview extends Command
 
         if(strpos($type, "prolog") !== FALSE){
             $lang = "pl";
-        } else if(strpos($type, "c") !== FALSE) {
+        } else if(strpos($type, "c_") !== FALSE) {
             $lang = "c";
         } else {
             $lang = "java";
@@ -23,11 +23,17 @@ class MagnetReview extends Command
 
         // Grab the necessary simple files
         $simpleFiles = SimpleFile::getFilesForMP($magnetProblem->getId());
+
+        //Make sure there are test files associated with this problem
+        if (count($simpleFiles) == 0) {
+            JSON::error("No Test Files Found");
+        }            
   
         // Find the correct directory (i.e., package structure or not) to
         // place the files
         $dir = "/tmp/magnets/".$user->getUsername();
         $dir = $dir . $simpleFiles[0]->getPackage();
+
         // Create a directory for the files if it doesn't exist
         if(!is_dir($dir)) mkdir($dir, 0777, true);
 
@@ -38,19 +44,23 @@ class MagnetReview extends Command
         $givenFiles = "";
         foreach($simpleFiles as $simpleFile){
             $fileName = $simpleFile->getClassName();
-            if(strpos($fileName, ".pl") !== FALSE ){
-                $filePath = "$dir/$fileName.pl";
-            } else if(strpos($fileName, ".c") !== FALSE) {
+
+            if ($lang == "c" And strpos($fileName, ".c") === FALSE) {
                 $filePath = "$dir/$fileName.c";
-            } else {
+            }
+            else if(strpos($fileName, ".pl") !== FALSE ) {
+                $filePath = "$dir/$fileName.pl";
+            } else if ($lang == "java" And strpos($fileName, ".java") === FALSE) {
                 $filePath = "$dir/$fileName.java";
+            } else {
+                $filePath = "$dir/$fileName";
             }
             $file = fopen($filePath, "w+");
             $fileResult = fwrite($file, $simpleFile->getContents());
             fflush($file);
             fclose($file);
             
-            if(!$fileResult){
+            if(!$fileResult) {
                 return JSON::error("Couldn't write $filePath");
             }
 
@@ -65,7 +75,6 @@ class MagnetReview extends Command
         fwrite($file, $code);
         fflush($file);
         fclose($file);
-        
         // Find the test class (the driver/main class)
         $driver = SimpleFile::getTestFileForMP($magnetProblem->getId());
         $driverName = $driver->getClassName();
@@ -77,7 +86,7 @@ class MagnetReview extends Command
             // Assuming the only java file is the driver
             exec("/usr/bin/javac $dir/$driverName.java 2>&1", $output, $result);
         } else if ($lang == "c") {
-            exec("/usr/bin/gcc $dir/$driverName -o $dir/$driverName.o 2>&1", $output, $result);
+            exec("/usr/bin/gcc -std=c99 $dir/$driverName -o $dir/$driverName.o 2>&1", $output, $result);
         }
         // Check compilation -- Success 
         if($result == EXEC_SUCCESS){
