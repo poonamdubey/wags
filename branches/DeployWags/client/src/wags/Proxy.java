@@ -10,6 +10,7 @@ import wags.ProxyFramework.GetVisibleExercisesCommand;
 import wags.database.DatabasePanel;
 import wags.database.DatabaseProblem;
 import wags.logical.DataStructureTool;
+import wags.magnet.view.Consts;
 import wags.magnet.view.MagnetProblemCreator;
 import wags.magnet.view.RefrigeratorMagnet;
 import wags.magnet.view.ResultsPanelUi;
@@ -1053,7 +1054,7 @@ public class Proxy
 					classArea.setText(magProblem.solution);
 					
 					
-					if (magProblem.type.equals(wags.magnet.view.Consts.ADVANCED_PROBLEM)) {
+					if (magProblem.type.equals(Consts.ADVANCED_PROBLEM)) {
 						//set radio button
 						btnAdvancedProblem.setValue( true );
 						String fors = "";
@@ -1138,9 +1139,9 @@ public class Proxy
 							returnAllowed.setText("0");
 							assignmentAllowed.setText("0");
 						}
-					} else if(magProblem.type.equals(wags.magnet.view.Consts.PROLOG_BASIC_PROBLEM)) {
+					} else if(magProblem.type.equals(Consts.PROLOG_BASIC_PROBLEM)) {
 						btnPrologBasicProblem.setValue(true);
-					} else if (magProblem.type.equals(wags.magnet.view.Consts.C_BASIC_PROBLEM)) {
+					} else if (magProblem.type.equals(Consts.C_BASIC_PROBLEM)) {
 						btnCBasicProblem.setValue(true);
 					}
 					else{
