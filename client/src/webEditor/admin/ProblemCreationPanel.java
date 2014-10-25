@@ -4,20 +4,18 @@ import webEditor.MagnetProblem;
 import webEditor.Notification;
 import webEditor.Proxy;
 import webEditor.WEStatus;
+import webEditor.Common.Presenter;
+import webEditor.ProxyFramework.AbstractServerCall;
+import webEditor.ProxyFramework.AddMagnetLinkageCommand;
+import webEditor.ProxyFramework.DeleteMagnetExerciseCommand;
+import webEditor.ProxyFramework.GetFileTimeCommand;
+import webEditor.ProxyFramework.GetMagnetGroupsCommand;
+import webEditor.ProxyFramework.GetMagnetsByGroupCommand;
 import webEditor.magnet.view.Consts;
 import webEditor.magnet.view.MagnetProblemCreator;
 import webEditor.magnet.view.MagnetType;
 import webEditor.presenters.interfaces.ProblemCreationPanelPresenter;
 import webEditor.views.interfaces.ProblemCreationPanelView;
-import webEditor.Common.Presenter;
-import webEditor.ProxyFramework.AbstractServerCall;
-import webEditor.ProxyFramework.AddMagnetLinkageCommand;
-import webEditor.ProxyFramework.GetMagnetGroupsCommand;
-import webEditor.ProxyFramework.GetMagnetsByGroupCommand;
-
-
-import webEditor.ProxyFramework.DeleteMagnetExerciseCommand;
-import webEditor.ProxyFramework.GetFileTimeCommand;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -39,6 +37,8 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -48,8 +48,6 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
-import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
 
 /**
  * This class creates, populates, and adds the functionality to the problem creation page
@@ -67,11 +65,6 @@ public class ProblemCreationPanel extends Composite implements ProblemCreationPa
 	interface ProblemCreationPanelUiBinder extends UiBinder<Widget, ProblemCreationPanel> {
 	}
 	
-	final String ADVANCED_PROBLEM = "advanced_problem";
-	final String BASIC_PROBLEM = "basic_problem";
-	final String PROLOG_BASIC_PROBLEM = "prolog_basic_problem";
-	final String C_BASIC_PROBLEM = "c_basic_problem";
-	
 	@UiField FormPanel problemCreateFormPanel, fileParseFormPanel, downloadMagnetFilesForm;
 	@UiField TextBox titleTxtBox, topLabelTxtBox, topRealCodeTxtBox, 
 		commentsTxtBox, bottomLabelTxtBox, bottomRealCodeTxtBox, forAllowed, whileAllowed, ifAllowed, 
@@ -88,7 +81,7 @@ public class ProblemCreationPanel extends Composite implements ProblemCreationPa
 		statementsButton, clearDataButton, createHidFunctionButton, btnLoadExercise,
 		btnDeleteExercise, btnMoreHelpers, testProblemButton, prologFactBtn, prologRuleBtn, prologTermBtn,
 		prologProcedureBtn;
-	@UiField RadioButton btnBasicProblem, btnAdvancedProblem, btnPrologBasicProblem, btnCBasicProblem;
+	@UiField RadioButton btnBasicProblem, btnAdvancedProblem, btnPrologBasicProblem, btnCBasicProblem, btnPythonBasicProblem;
 	@UiField FileUpload solutionUpload, helperUpload;
 	@UiField Label uploadStamp, helperStamp;
 	@UiField ListBox lstGroup, lstLoadGroup, lstLoadExercise;
@@ -222,10 +215,9 @@ public class ProblemCreationPanel extends Composite implements ProblemCreationPa
 						innerFunctionsTxtArea, statementsTxtArea, lstLoadExercise.getItemText(lstLoadExercise.getSelectedIndex()),
 						finalTypeTxtArea,forLoop1TextArea, forLoop2TextArea, forLoop3TextArea, ifsTextArea, whilesTextArea, returnsTextArea,
 						assignmentsVarTextArea, assignmentsValTextArea, ifAllowed, elseAllowed, elseIfAllowed, forAllowed, whileAllowed, 
-						returnAllowed, assignmentAllowed, btnBasicProblem, btnAdvancedProblem, btnPrologBasicProblem, btnCBasicProblem);
+						returnAllowed, assignmentAllowed, btnBasicProblem, btnAdvancedProblem, btnPrologBasicProblem, btnCBasicProblem, btnPythonBasicProblem);
 				AbstractServerCall timeCmd = new GetFileTimeCommand(lstLoadExercise.getItemText(lstLoadExercise.getSelectedIndex()), uploadStamp, helperStamp);
 			    timeCmd.sendRequest();
-				//Proxy.getFileTime(lstLoadExercise.getItemText(lstLoadExercise.getSelectedIndex()), uploadStamp, helperStamp);
 				// dear god help me please
 				Timer t = new Timer() {
 			      @Override
@@ -234,26 +226,30 @@ public class ProblemCreationPanel extends Composite implements ProblemCreationPa
 							btnBasicProblem.setValue(true);
 							clearMagnetMakerOptions();
 							setupJavaOptions();
-							finalTypeTxtArea.setText( BASIC_PROBLEM );
+							finalTypeTxtArea.setText( Consts.BASIC_PROBLEM );
 						} else if (btnAdvancedProblem.getValue() == true) {
 							btnAdvancedProblem.setValue(true);
 							setupMagnetMakerOptions();
 							setupJavaOptions();
-							finalTypeTxtArea.setText( ADVANCED_PROBLEM );
+							finalTypeTxtArea.setText( Consts.ADVANCED_PROBLEM );
 						}else if (btnPrologBasicProblem.getValue() == true){
 							btnPrologBasicProblem.setValue(true);
 							clearMagnetMakerOptions();
 							setupPrologOptions();
-							finalTypeTxtArea.setText( PROLOG_BASIC_PROBLEM );
+							finalTypeTxtArea.setText( Consts.PROLOG_BASIC_PROBLEM );
 						} else if (btnCBasicProblem.getValue() == true) {
 							btnCBasicProblem.setValue(true);
 							clearMagnetMakerOptions();
 							setupCOptions();
-							finalTypeTxtArea.setText( C_BASIC_PROBLEM );
+							finalTypeTxtArea.setText( Consts.C_BASIC_PROBLEM );
+						} else if (btnPythonBasicProblem.getValue() == true) {
+							btnPythonBasicProblem.setValue(true);
+							clearMagnetMakerOptions();
+							setupPythonOptions();
+							finalTypeTxtArea.setText( Consts.PYTHON_BASIC_PROBLEM );
 						}
 						AbstractServerCall timeCmd = new GetFileTimeCommand(lstLoadExercise.getItemText(lstLoadExercise.getSelectedIndex()), uploadStamp, helperStamp);
 					    timeCmd.sendRequest();
-						//Proxy.getFileTime(lstLoadExercise.getItemText(lstLoadExercise.getSelectedIndex()), uploadStamp, helperStamp);
 			      }
 			    };
 			    t.schedule(160);
@@ -627,6 +623,20 @@ public class ProblemCreationPanel extends Composite implements ProblemCreationPa
 		createHidFunctionButton.setVisible(true);
 	}
 	
+	private void setupPythonOptions()
+	{
+		javaMagnetMaker.setVisible(true);
+		prologMagnetMaker.setVisible(false);
+		helperClassLabel.setText("Helper Class: ");
+		testClassLabel.setText("Testing Class: ");
+		fileParseFormPanel.setVisible(true);
+		statementsTxtAreaLabel.setText("Statements:");
+		innerFunctionsTxtAreaLabel.setText("Functions: ");
+		hiddenFunctionsArea.setVisible(true);
+		hiddenFunctionsLabel.setVisible(true);
+		createHidFunctionButton.setVisible(true);
+	}
+	
 	/** 
 	 * THis method does most of the work for implementing the users choice of decision structure
 	 * when creating magnets through the advanced magnet creator.
@@ -746,7 +756,7 @@ public class ProblemCreationPanel extends Composite implements ProblemCreationPa
 	{
 		clearMagnetMakerOptions();
 		setupJavaOptions();
-		finalTypeTxtArea.setText(BASIC_PROBLEM);
+		finalTypeTxtArea.setText(Consts.BASIC_PROBLEM);
 	}
 	
 	/**
@@ -760,7 +770,7 @@ public class ProblemCreationPanel extends Composite implements ProblemCreationPa
 	{
 		setupMagnetMakerOptions();
 		setupJavaOptions();
-		finalTypeTxtArea.setText(ADVANCED_PROBLEM);
+		finalTypeTxtArea.setText(Consts.ADVANCED_PROBLEM);
 		
 	}
 	
@@ -769,7 +779,7 @@ public class ProblemCreationPanel extends Composite implements ProblemCreationPa
 	{
 		clearMagnetMakerOptions();
 		setupPrologOptions();
-		finalTypeTxtArea.setText(PROLOG_BASIC_PROBLEM);
+		finalTypeTxtArea.setText(Consts.PROLOG_BASIC_PROBLEM);
 	}
 	
 	@UiHandler("btnCBasicProblem")
@@ -777,7 +787,14 @@ public class ProblemCreationPanel extends Composite implements ProblemCreationPa
 	{
 		clearMagnetMakerOptions();
 		setupCOptions();
-		finalTypeTxtArea.setText(C_BASIC_PROBLEM);
+		finalTypeTxtArea.setText(Consts.C_BASIC_PROBLEM);
+	}
+	
+	@UiHandler("btnPythonBasicProblem")
+	void onPythonBasicProblemClick(ValueChangeEvent<Boolean> event) {
+		clearMagnetMakerOptions();
+		setupPythonOptions();
+		finalTypeTxtArea.setText(Consts.PYTHON_BASIC_PROBLEM);
 	}
 	
 	/**
@@ -975,7 +992,7 @@ public class ProblemCreationPanel extends Composite implements ProblemCreationPa
 	@UiHandler("testProblemButton")
 	void onTestProblemClick(ClickEvent event){
 		MagnetProblem problem;
-		if(finalTypeTxtArea.getText().equals(ADVANCED_PROBLEM)){	
+		if(finalTypeTxtArea.getText().equals(Consts.ADVANCED_PROBLEM)){	
 			
 			String[] limits = new String[7];
 			limits[0] = forAllowed.getText();

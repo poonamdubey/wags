@@ -1038,7 +1038,7 @@ public class Proxy
 			final TextArea functions, final TextArea statements, String title, final TextArea finalTypeTxtArea, final TextArea forLoop1TextArea, final TextArea forLoop2TextArea, 
 			final TextArea forLoop3TextArea, final TextArea ifsTextArea, final TextArea whilesTextArea, final TextArea returnsTextArea, final TextArea assignmentsVarTextArea,
 			final TextArea assignmentValTextArea, final TextBox ifAllowed, final TextBox elseAllowed, final TextBox elseIfAllowed, final TextBox forAllowed, final TextBox whileAllowed,
-			final TextBox returnAllowed, final TextBox assignmentAllowed, final RadioButton btnBasicProblem, final RadioButton btnAdvancedProblem, final RadioButton btnPrologBasicProblem, final RadioButton btnCBasicProblem) {
+			final TextBox returnAllowed, final TextBox assignmentAllowed, final RadioButton btnBasicProblem, final RadioButton btnAdvancedProblem, final RadioButton btnPrologBasicProblem, final RadioButton btnCBasicProblem, final RadioButton btnPythonBasicProblem) {
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=GetMagnetProblem&title=" + title);
 		try{
 			builder.sendRequest("", new RequestCallback() {
