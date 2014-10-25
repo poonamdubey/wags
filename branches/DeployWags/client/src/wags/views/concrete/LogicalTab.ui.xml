@@ -1,0 +1,35 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:my="urn:import:wags.admin">
+	<ui:style>
+		.btns_panel {
+			width: 100%;
+		}
+		
+		.assigned_panel {
+			padding-right: 5px;
+		}
+		
+		.section {
+			width: 100%;
+		}
+</ui:style>
+    <g:HorizontalPanel width= "100%">
+	    <g:ScrollPanel width="20em" styleName='{style.section}'>
+				<my:ButtonPanel styleName="{style.btns_panel}" ui:field="btnPanelSubjects" />
+		</g:ScrollPanel>
+        <g:ScrollPanel width="20em" styleName='{style.section}'>
+			<my:ButtonPanel styleName="{style.btns_panel}" ui:field="btnPanelGroups" />
+		</g:ScrollPanel>
+	    <g:ScrollPanel width="20em" styleName='{style.section}'>
+			<my:CheckBoxPanel ui:field="chkPanelExercises" />
+		</g:ScrollPanel>
+	    <g:ScrollPanel width="20em" styleName='{style.section}'>
+			<g:AbsolutePanel>
+				<my:AssignedPanel styleName="{style.assigned_panel}" ui:field="assigned"/>
+				<my:AssignedPanel styleName="{style.assigned_panel}" ui:field="selected"/>
+			</g:AbsolutePanel>
+		</g:ScrollPanel>
+	</g:HorizontalPanel>
+</ui:UiBinder> 
