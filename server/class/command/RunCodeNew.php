@@ -86,7 +86,14 @@ switch($lang)
 		
     case "C":
 		$process = proc_open("exec $dir/$testFileName $nonce 2>&1", $descriptorspec, $pipes);
-        break;    
+
+        break;
+
+    case "Python":
+        $process = proc_open("exec python $dir/$testFilename $nonce 2>&1", $descriptorspec, $pipes);
+
+        break;
+
 	default:
 		// if not able to match language, return error
 		return JSON::error("Error in matching language to execution");
