@@ -126,6 +126,9 @@
 				<g:customCell styleName='{style.halfCell}'>
 					<g:RadioButton ui:field="btnCBasicProblem" name="problemTypes" text="C"></g:RadioButton>
 				</g:customCell>
+				<g:customCell styleName='{style.halfCell}'>
+				    <g:RadioButton ui:field="btnPythonBasicProblem" name="problemTypes" text="Python"></g:RadioButton>
+				</g:customCell>
 			</g:row>
 		</g:Grid>
 	<b:Column size="6" styleName='{style.leftColumnContainer}'>

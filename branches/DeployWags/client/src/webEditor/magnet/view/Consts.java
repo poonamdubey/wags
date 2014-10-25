@@ -15,6 +15,7 @@ public class Consts {
 	public static String PROLOG_BASIC_PROBLEM = "prolog_basic_problem";
 	public static String ADVANCED_PROBLEM = "advanced_problem";
 	public static String C_BASIC_PROBLEM = "c_basic_problem";
+	public static String PYTHON_BASIC_PROBLEM = "python_basic_problem";
 	
 	// Position inside block
 	public static String CONDITION = "<!-- condition -->";
