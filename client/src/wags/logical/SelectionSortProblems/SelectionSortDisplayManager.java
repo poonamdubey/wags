@@ -44,6 +44,7 @@ public class SelectionSortDisplayManager extends DisplayManager implements
 		this.itemsInPanel = new ArrayList<Widget>();
 	}
 
+	@Override
 	public void displayProblem() {
 		cont = new TraversalContainer(this);
 		cont.setHidden(true);
@@ -93,9 +94,11 @@ public class SelectionSortDisplayManager extends DisplayManager implements
 
 	private boolean showingSubMess;
 
+	@Override
 	protected void addResetButton() {
 		resetButton = new Button("Reset");
 		resetButton.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				step = 0;
 				removeWidgetsFromPanel();
@@ -117,6 +120,7 @@ public class SelectionSortDisplayManager extends DisplayManager implements
 		evaluateButton = new Button("Swap");
 		evaluateButton.setWidth("124px");
 		evaluateButton.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				String evalResult = "Please select a node.";
 				
@@ -163,6 +167,7 @@ public class SelectionSortDisplayManager extends DisplayManager implements
 		submitOkButton = new Button("Ok");
 		submitOkButton.setStyleName("control_button");
 		submitOkButton.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				Proxy.getDST().remove(submitText);
 				Proxy.getDST().remove(submitOkButton);
@@ -296,10 +301,12 @@ public class SelectionSortDisplayManager extends DisplayManager implements
 		return null;
 	}
 
+	@Override
 	public ArrayList<Node> getNodes() {
 		return nodeCollection.getNodes();
 	}
 
+	@Override
 	public ArrayList<EdgeParent> getEdges() {
 		return edgeCollection.getEdges();
 	}

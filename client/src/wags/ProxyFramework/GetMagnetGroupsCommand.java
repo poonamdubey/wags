@@ -1,15 +1,14 @@
 package wags.ProxyFramework;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import wags.WEStatus;
+
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import wags.Proxy;
-import wags.WEStatus;
 
 public class GetMagnetGroupsCommand extends AbstractServerCall {
 
@@ -19,6 +18,7 @@ public class GetMagnetGroupsCommand extends AbstractServerCall {
 	private HashMap<String, CheckBox> allMagnets;
 	private ListBox lstMagnetExercises;
 	
+	@Override
 	protected void handleResponse(Response response)
 	{
 		WEStatus status = new WEStatus(response);

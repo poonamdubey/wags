@@ -1,16 +1,17 @@
 package wags.ProxyFramework;
 
-import com.google.gwt.http.client.Response;
-
 import wags.Notification;
 import wags.ProxyFacilitator;
 import wags.WEStatus;
+
+import com.google.gwt.http.client.Response;
 
 public class SetMMExercisesCommand extends AbstractServerCall {
 	
 	private String assignedMagnets;
 	private ProxyFacilitator pf;
 	
+	@Override
 	protected void handleResponse(Response response)
 	{
 		if(assignedMagnets.equals("")) assignedMagnets = "none";

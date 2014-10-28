@@ -1,5 +1,7 @@
 package wags.views.interfaces;
 
+import wags.Common.View;
+
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FormPanel;
@@ -7,8 +9,6 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.SubmitButton;
 import com.google.gwt.user.client.ui.TextBox;
-
-import wags.Common.View;
 
 public interface ProgrammingTabView extends View {
 	

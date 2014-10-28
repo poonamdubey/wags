@@ -7,6 +7,7 @@ import com.google.gwt.http.client.Response;
 
 public class UploadLogicalMicrolabCommand extends AbstractServerCall {
 
+	@Override
 	protected void handleResponse(Response response)
 	{
 		WEStatus status = new WEStatus(response);

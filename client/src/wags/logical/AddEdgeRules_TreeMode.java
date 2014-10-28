@@ -4,12 +4,9 @@ import java.util.ArrayList;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
-import wags.logical.DSTConstants;
-import wags.logical.EdgeParent;
-import wags.logical.Node;
-
 public class AddEdgeRules_TreeMode extends AddEdgeRules implements IsSerializable
 {	
+	@Override
 	public String checkFirstNode(Node node, ArrayList<Node> nodes, ArrayList<EdgeParent> edges)
 	{
 		String result = checkNumNeighbors(node, edges);
@@ -20,6 +17,7 @@ public class AddEdgeRules_TreeMode extends AddEdgeRules implements IsSerializabl
 		return DSTConstants.CORRECT;
 	}
 
+	@Override
 	public String checkSecondNode(Node firstNode, Node secondNode, ArrayList<Node> nodes, ArrayList<EdgeParent> edges)
 	{
 		String result = checkForExistingEdge(firstNode, secondNode, edges);
@@ -92,6 +90,7 @@ public class AddEdgeRules_TreeMode extends AddEdgeRules implements IsSerializabl
 		return DSTConstants.CORRECT;
 	}
 	
+	@Override
 	public int returnKeyValue(){
 		return DSTConstants.TREE_MODE_KEY;
 	}

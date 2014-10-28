@@ -17,6 +17,7 @@ public class NodeSelectable extends Node {
 	}
 
 	private class NodeClickHandler implements ClickHandler {
+		@Override
 		public void onClick(ClickEvent event) {
 			if (label.getStyleName().equals("immobilized_node")) {
 				return;

@@ -2,13 +2,14 @@ package wags.ProxyFramework;
 
 import wags.WEStatus;
 
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.http.client.Response;
+import com.google.gwt.user.client.ui.ListBox;
 
 public class GetVisibleExercisesCommand extends AbstractServerCall {
 
 	private ListBox exercises;
 	
+	@Override
 	protected void handleResponse(Response response)
 	{
 		WEStatus status = new WEStatus(response);

@@ -126,6 +126,7 @@ public class CodePanelUi extends Composite {
 	}
 
 	private class yesFinalizeHandler implements ClickHandler {
+		@Override
 		public void finalize() {
 			plainText = new StringBuilder();
 
@@ -140,6 +141,7 @@ public class CodePanelUi extends Composite {
 			tabNumber = -1;
 		}
 
+		@Override
 		public void onClick(ClickEvent event) {
 			finalize();
 			popupPanel.setVisible(false);
@@ -147,6 +149,7 @@ public class CodePanelUi extends Composite {
 	}
 
 	private class noFinalizeHandler implements ClickHandler {
+		@Override
 		public void onClick(ClickEvent event) {
 			popupPanel.setVisible(false);
 		}
@@ -161,6 +164,7 @@ public class CodePanelUi extends Composite {
 	}
 
 	private class yesResetHandler implements ClickHandler {
+		@Override
 		public void onClick(ClickEvent event) {
 			refrigeratorMagnet.resetProblem();
 			resetPopupPanel.setVisible(false);
@@ -168,6 +172,7 @@ public class CodePanelUi extends Composite {
 	}
 
 	private class noResetHandler implements ClickHandler {
+		@Override
 		public void onClick(ClickEvent event) {
 			resetPopupPanel.setVisible(false);
 		}

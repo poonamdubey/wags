@@ -2,10 +2,9 @@ package wags.logical;
 
 import java.util.ArrayList;
 
-import wags.logical.AddEdgeRules;
-import wags.logical.TreeProblems.RedBlackProblems.TreeTypeDisplayManager;
-
 import org.vaadin.gwtgraphics.client.Line;
+
+import wags.logical.TreeProblems.RedBlackProblems.TreeTypeDisplayManager;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -48,6 +47,7 @@ public class EdgeCollection implements IsSerializable {
 	public void addNextEdge() {
 		dm.setEdgeNodeSelectionInstructions(nodeSelectionInstructions[0]);
 		class EdgeNodeSelectionHandler implements ClickHandler {
+			@Override
 			public void onClick(ClickEvent event) {
 				Label selectedNode = (Label) event.getSource();
 				if (numNodesSelected == 0) {
@@ -106,6 +106,7 @@ public class EdgeCollection implements IsSerializable {
 
 		Button ok = new Button("Ok");
 		ok.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				dm.resetEdgeStyles();
 				dm.removeWidgetsFromPanel();
@@ -297,6 +298,7 @@ public class EdgeCollection implements IsSerializable {
 	class EdgeClickListener implements ClickHandler {
 		private Line currElement = null;
 
+		@Override
 		public void onClick(ClickEvent event) {
 			dm.removeWidgetsFromPanel();
 			dm.addEdgeCancel();
@@ -327,6 +329,7 @@ public class EdgeCollection implements IsSerializable {
 			final Button b = new Button("Yes");
 
 			b.addClickHandler(new ClickHandler() {
+				@Override
 				public void onClick(ClickEvent event) {
 					edges.remove(getEdgeByLine(line));
 					for (int i = 0; i < edges.size(); i++) {
@@ -346,6 +349,7 @@ public class EdgeCollection implements IsSerializable {
 			final Button b = new Button("No");
 
 			b.addClickHandler(new ClickHandler() {
+				@Override
 				public void onClick(ClickEvent event) {
 					dm.resetEdgeStyles();
 					dm.removeWidgetsFromPanel();

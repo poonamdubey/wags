@@ -1,9 +1,9 @@
 package wags.presenters.interfaces;
 
+import wags.Common.Presenter;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.TreeItem;
-
-import wags.Common.Presenter;
 
 public interface EditorPresenter extends Presenter {
 

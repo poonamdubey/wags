@@ -1,8 +1,8 @@
 package wags.magnet.view;
 
-import com.google.gwt.user.client.ui.Composite;
-
 import wags.Common.View;
+
+import com.google.gwt.user.client.ui.Composite;
 
 public interface MagnetProblemView extends View {
 	public Composite getCodePanel();

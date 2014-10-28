@@ -2,10 +2,10 @@ package wags.presenters.concrete;
 
 import java.util.List;
 
-import com.google.gwt.user.client.ui.HasWidgets;
-
 import wags.presenters.interfaces.StudentTabPresenter;
 import wags.views.concrete.StudentTab;
+
+import com.google.gwt.user.client.ui.HasWidgets;
 
 public class StudentTabPresenterImpl implements StudentTabPresenter {
 

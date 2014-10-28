@@ -59,6 +59,7 @@ public class TreeTypeDisplayManager extends DisplayManager implements
 		this.weightsInPanel = new ArrayList<Widget>();
 	}
 
+	@Override
 	public void displayProblem() {
 		cont = new TraversalContainer(this);
 		addProblemTextArea();
@@ -134,6 +135,7 @@ public class TreeTypeDisplayManager extends DisplayManager implements
 	}
 
 	protected class AddEdgeClickHandler implements ClickHandler {
+		@Override
 		public void onClick(ClickEvent event) {
 			removeWidgetsFromPanel();
 			resetRemoveEdgeButton();
@@ -149,6 +151,7 @@ public class TreeTypeDisplayManager extends DisplayManager implements
 
 	// stays
 	protected class AddEdgeCancelClickHandler implements ClickHandler {
+		@Override
 		public void onClick(ClickEvent event) {
 			addEdgeCancel();
 			removeEdgeCancelEventHandler.removeHandler();
@@ -158,6 +161,7 @@ public class TreeTypeDisplayManager extends DisplayManager implements
     
 	// stays
 	protected class RemoveEdgeClickHandler implements ClickHandler {
+		@Override
 		public void onClick(ClickEvent event) {
 			if (getEdges().size() > 0) {
 				addEdgeCancel();
@@ -176,6 +180,7 @@ public class TreeTypeDisplayManager extends DisplayManager implements
 	}
 
 	protected class RemoveEdgeCancelClickHandler implements ClickHandler {
+		@Override
 		public void onClick(ClickEvent event) {
 			resetRemoveEdgeButton();
 			removeWidgetsFromPanel();
@@ -241,9 +246,11 @@ public class TreeTypeDisplayManager extends DisplayManager implements
 		edgeAdditionIns.setText(ins);
 	}
 
+	@Override
 	protected void addResetButton() {
 		resetButton = new Button("Reset");
 		resetButton.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				removeWidgetsFromPanel();
 				addEdgeCancel();
@@ -273,6 +280,7 @@ public class TreeTypeDisplayManager extends DisplayManager implements
 		evaluateButton = new Button("Evaluate");
 		evaluateButton.setWidth("124px");
 		evaluateButton.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				setEdgeParentAndChildren();
 				String evalResult;
@@ -319,6 +327,7 @@ public class TreeTypeDisplayManager extends DisplayManager implements
 		submitOkButton = new Button("Ok");
 		submitOkButton.setStyleName("control_button");
 		submitOkButton.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				Proxy.getDST().remove(submitText);
 				Proxy.getDST().remove(submitOkButton);
@@ -477,10 +486,12 @@ public class TreeTypeDisplayManager extends DisplayManager implements
 		}
 	}
 
+	@Override
 	public ArrayList<Node> getNodes() {
 		return nodeCollection.getNodes();
 	}
 
+	@Override
 	public ArrayList<EdgeParent> getEdges() {
 		return edgeCollection.getEdges();
 	}

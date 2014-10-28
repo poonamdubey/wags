@@ -42,6 +42,7 @@ public class ButtonPanel extends Composite {
 		btnHolder.setSpacing(CELL_SPACING);
 	}
 	
+	@Override
 	public void setTitle(String title){
 		this.title.setText(title);
 	}
@@ -119,6 +120,7 @@ public class ButtonPanel extends Composite {
 			this.btn = btn;
 		}
 		
+		@Override
 		public void onClick(ClickEvent event) {
 			colorBlack();
 			btn.getElement().getStyle().setColor("blue");

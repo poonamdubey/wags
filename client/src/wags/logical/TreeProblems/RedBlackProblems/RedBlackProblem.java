@@ -53,6 +53,7 @@ public class RedBlackProblem extends TreeTypeProblem implements IsSerializable {
 		this.nodeType = nodeType;
 	}
 
+	@Override
 	public DisplayManager createDisplayManager(AbsolutePanel panel,
 			DrawingArea canvas) {
 		EdgeCollection ec = new EdgeCollection(getRules(), new String[] {

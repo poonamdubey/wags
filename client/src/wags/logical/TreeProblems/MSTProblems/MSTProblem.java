@@ -26,6 +26,7 @@ public class MSTProblem extends TreeProblem implements IsSerializable {
 				nodeType);
 	}
 
+	@Override
 	public DisplayManager createDisplayManager(AbsolutePanel panel,
 			DrawingArea canvas) {
 		EdgeCollection ec = new EdgeCollection(getRules(), new String[] {

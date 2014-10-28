@@ -1,5 +1,8 @@
 package wags.logical.RadixProblems;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.vaadin.gwtgraphics.client.DrawingArea;
 
 import wags.ProxyFramework.AbstractServerCall;
@@ -14,9 +17,6 @@ import wags.logical.Problem;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.AbsolutePanel;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class SearchProblem extends Problem implements IsSerializable {
 	private String name;
@@ -62,6 +62,7 @@ public class SearchProblem extends Problem implements IsSerializable {
 		this.yPositions = getResetValuesY(solutions);
 	}
 
+	@Override
 	public DisplayManager createDisplayManager(AbsolutePanel panel,
 			DrawingArea canvas) {
 		gridPanel = new AbsolutePanel();
@@ -79,6 +80,7 @@ public class SearchProblem extends Problem implements IsSerializable {
 		return dm;
 	}
 
+	@Override
 	public String evaluate() {
 		return getEval().evaluate(getName(), getArguments(), dm.getNodes(),
 				null);
@@ -87,6 +89,7 @@ public class SearchProblem extends Problem implements IsSerializable {
 	/**
 	 * @return the name
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -95,14 +98,17 @@ public class SearchProblem extends Problem implements IsSerializable {
 	 * @param name
 	 *            the name to set
 	 */
+	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	@Override
 	public String getProblemText() {
 		return problemText;
 	}
 
+	@Override
 	public void setProblemText(String problemText) {
 		this.problemText = problemText;
 	}
@@ -115,6 +121,7 @@ public class SearchProblem extends Problem implements IsSerializable {
 		this.nodes = nodes;
 	}
 
+	@Override
 	public Evaluation getEval() {
 		return eval;
 	}
@@ -131,6 +138,7 @@ public class SearchProblem extends Problem implements IsSerializable {
 		this.rules = rules;
 	}
 
+	@Override
 	public String[] getArguments() {
 		return arguments;
 	}
@@ -155,6 +163,7 @@ public class SearchProblem extends Problem implements IsSerializable {
 		return nodesDraggable;
 	}
 
+	@Override
 	public String getNodeType() {
 		return nodeType;
 	}

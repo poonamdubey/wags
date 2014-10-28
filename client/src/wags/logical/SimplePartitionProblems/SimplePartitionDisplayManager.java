@@ -51,6 +51,7 @@ public class SimplePartitionDisplayManager extends DisplayManager implements
 		ub = problem.nodes.split(" ").length - 1;
 	}
 
+	@Override
 	public void displayProblem() {
 		addProblemTextArea();
 		addLeftButtonPanel();
@@ -97,6 +98,7 @@ public class SimplePartitionDisplayManager extends DisplayManager implements
 	}
 	
 	private class PartitionLowNodeClickHandler implements ClickHandler {
+		@Override
 		public void onClick(ClickEvent event) {
 			Label low = nodeCollection.getNode(lb).getLabel();
 			
@@ -119,6 +121,7 @@ public class SimplePartitionDisplayManager extends DisplayManager implements
 	}
 	
 	private class PartitionHighNodeClickHandler implements ClickHandler {
+		@Override
 		public void onClick(ClickEvent event) {
 			Label high = nodeCollection.getNode(ub).getLabel();
 			
@@ -141,9 +144,11 @@ public class SimplePartitionDisplayManager extends DisplayManager implements
 
 	private boolean showingSubMess;
 
+	@Override
 	protected void addResetButton() {
 		resetButton = new Button("Reset");
 		resetButton.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				lb = 0;
 				ub = problem.getNodes().split(" ").length - 1;
@@ -171,6 +176,7 @@ public class SimplePartitionDisplayManager extends DisplayManager implements
 		evaluateButton = new Button("Finalize");
 		evaluateButton.setWidth("100px");
 		evaluateButton.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				String evalResult = "";
 
@@ -212,6 +218,7 @@ public class SimplePartitionDisplayManager extends DisplayManager implements
 		submitOkButton = new Button("Ok");
 		submitOkButton.setStyleName("control_button");
 		submitOkButton.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				Proxy.getDST().remove(submitText);
 				Proxy.getDST().remove(submitOkButton);
@@ -236,6 +243,7 @@ public class SimplePartitionDisplayManager extends DisplayManager implements
 		swapButton.bringToFront(swapText);
 		
 		swapButton.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				if (leftUpArrow.getX() + 60 <= rightUpArrow.getX()) {
 					swapNodes();
@@ -451,10 +459,12 @@ public class SimplePartitionDisplayManager extends DisplayManager implements
 		return null;
 	}
 
+	@Override
 	public ArrayList<Node> getNodes() {
 		return nodeCollection.getNodes();
 	}
 
+	@Override
 	public ArrayList<EdgeParent> getEdges() {
 		return edgeCollection.getEdges();
 	}

@@ -2,7 +2,6 @@ package wags.logical.RadixProblems;
 
 import java.util.ArrayList;
 
-import wags.Proxy;
 import wags.ProxyFramework.AbstractServerCall;
 import wags.ProxyFramework.SubmitDSTCommand;
 import wags.logical.DSTConstants;
@@ -27,6 +26,7 @@ public class Evaluation_RadixSortWithHelp extends Evaluation implements IsSerial
 	int CURRENT_SOLUTION = 3;	//represent where we are in the arguments array for solutions
 	SearchDisplayManager dm;
 	
+	@Override
 	public String evaluate(String problemName, String[] arguments, ArrayList<Node> nodes, ArrayList<EdgeParent> edges) {
 		Node[] sortedOrderOfNodes;
 		String solution = "";

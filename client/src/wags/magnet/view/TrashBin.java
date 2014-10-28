@@ -4,13 +4,13 @@ package wags.magnet.view;
  * Standard trash bin behavior, eats any stackablecontainer that is dropped into its drop area
  */
 
+import com.github.gwtbootstrap.client.ui.Row;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.AbsolutePanel;
 
 /**
  * Panel that removes StackableContainers that are dragged onto it.
  */
-final class TrashBin extends AbsolutePanel {
+final class TrashBin extends Row {
 	private static final String CSS_TRASHBIN = "trash_bin";
 	private static final String CSS_TRASHBIN_ENGAGE = "trash_bin-engage";
     private ConstructUi construct;

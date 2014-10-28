@@ -2,7 +2,6 @@ package wags.logical.TreeProblems.HeapProblems;
 
 import org.vaadin.gwtgraphics.client.DrawingArea;
 
-import wags.Proxy;
 import wags.ProxyFramework.AbstractServerCall;
 import wags.ProxyFramework.UploadLogicalMicrolabCommand;
 import wags.admin.builders.InsertMethod;
@@ -55,6 +54,7 @@ public class SortProblem extends Problem implements IsSerializable {
 		this.nodeType = nodeType;
 	}
 
+	@Override
 	public DisplayManager createDisplayManager(AbsolutePanel panel,
 			DrawingArea canvas) {
 		EdgeCollection ec = new EdgeCollection(getRules(), new String[] {
@@ -71,6 +71,7 @@ public class SortProblem extends Problem implements IsSerializable {
 		return dm;
 	}
 
+	@Override
 	public String evaluate() {
 		return getEval().evaluate(getName(), getArguments(), dm.getNodes(),
 				dm.getEdges());
@@ -79,6 +80,7 @@ public class SortProblem extends Problem implements IsSerializable {
 	/**
 	 * @return the name
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -87,14 +89,17 @@ public class SortProblem extends Problem implements IsSerializable {
 	 * @param name
 	 *            the name to set
 	 */
+	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	@Override
 	public String getProblemText() {
 		return problemText;
 	}
 
+	@Override
 	public void setProblemText(String problemText) {
 		this.problemText = problemText;
 	}
@@ -107,6 +112,7 @@ public class SortProblem extends Problem implements IsSerializable {
 		this.nodes = nodes;
 	}
 
+	@Override
 	public Evaluation getEval() {
 		return eval;
 	}
@@ -123,6 +129,7 @@ public class SortProblem extends Problem implements IsSerializable {
 		this.rules = rules;
 	}
 
+	@Override
 	public String[] getArguments() {
 		return arguments;
 	}
@@ -155,6 +162,7 @@ public class SortProblem extends Problem implements IsSerializable {
 		return nodesDraggable;
 	}
 
+	@Override
 	public String getNodeType() {
 		return nodeType;
 	}

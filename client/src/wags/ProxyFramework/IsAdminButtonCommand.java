@@ -9,6 +9,7 @@ public class IsAdminButtonCommand extends AbstractServerCall {
 
 	private Button section_btn;
 	
+	@Override
 	protected void handleResponse(Response response)
 	{
 		WEStatus status = new WEStatus(response);

@@ -24,6 +24,8 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -32,8 +34,6 @@ import com.google.gwt.user.client.ui.SubmitButton;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
-import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
 
 public class ProgrammingTab extends Composite implements ProgrammingTabView {
 
@@ -103,6 +103,7 @@ public class ProgrammingTab extends Composite implements ProgrammingTabView {
 		helperForm.addSubmitCompleteHandler(new SubmitCompleteHandler() {
 
 			// didn't want to create a whole proxy call, so added this instead
+			@Override
 			public void onSubmitComplete(SubmitCompleteEvent event) {
 				int status = WEStatus.STATUS_SUCCESS;
 				if (event.getResults() != "Upload Successful")

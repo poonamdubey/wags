@@ -19,6 +19,7 @@ public class DatabaseProblemButton extends Button {
 		this.title = title;
 	}
 	
+	@Override
 	public String getTitle() {
 		return title;
 	}

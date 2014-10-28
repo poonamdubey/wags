@@ -24,7 +24,7 @@ public class AssignPasswordCommand extends AbstractServerCall {
 	public AssignPasswordCommand(String password)
 	{
 		addArgument("pass", password);
-		method = RequestBuilder.GET;
+		method = RequestBuilder.POST;
 		command = ProxyCommands.AssignPassword;
 	}
 

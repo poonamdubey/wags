@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 import org.vaadin.gwtgraphics.client.DrawingArea;
 
+import wags.ProxyFramework.AbstractServerCall;
+import wags.ProxyFramework.GetDatabaseProblemCommand;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.History;
@@ -15,9 +18,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-
-import wags.ProxyFramework.AbstractServerCall;
-import wags.ProxyFramework.GetDatabaseProblemCommand;
 
 
 public class DatabasePanel  extends AbsolutePanel
@@ -104,6 +104,7 @@ public class DatabasePanel  extends AbsolutePanel
 		//Wrap all this stuff in a timer so that
 		//getOffsetWidth() works correctly (I am ashamed)
 		Timer timer = new Timer() {
+			@Override
 			public void run() {
 				int maxWidth = 250;
 
@@ -143,6 +144,7 @@ public class DatabasePanel  extends AbsolutePanel
 		assigned.setVisible(false);
 		review.setVisible(false);
 		assigned.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				buildUI(attemptButtons);
 				assigned.setVisible(false);
@@ -151,6 +153,7 @@ public class DatabasePanel  extends AbsolutePanel
 		});
 		
 		review.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				buildUI(reviewButtons);
 				review.setVisible(false);
@@ -172,7 +175,8 @@ public class DatabasePanel  extends AbsolutePanel
 			public void onClick(ClickEvent event) {
 				removeAllWidgets();
 				Timer timer = new Timer(){
-					 public void run() {
+					 @Override
+					public void run() {
 						 getProblem(id);
 						 History.newItem("?loc=databaseproblem");
 					 }

@@ -159,6 +159,7 @@ public class LogicalTab extends Composite implements ProxyFacilitator,
 	/**
 	 * Assigning exercises
 	 */
+	@Override
 	public void setExercises(String[] exercises) {
 		String toAssign = "";
 		for (int i = 0; i < exercises.length; i++) {
@@ -171,6 +172,7 @@ public class LogicalTab extends Composite implements ProxyFacilitator,
 	/**
 	 * Initial callback to set up currently assigned problems
 	 */
+	@Override
 	public void setCallback(String[] exercises, WEStatus status) {
 		if (status.getStat() == WEStatus.STATUS_SUCCESS) {
 			assigned.clear();

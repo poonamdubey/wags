@@ -1,14 +1,15 @@
 package wags.ProxyFramework;
 
-import com.google.gwt.http.client.Response;
-
 import wags.ProxyFacilitator;
 import wags.WEStatus;
+
+import com.google.gwt.http.client.Response;
 
 public class GetMMExercisesCommand extends AbstractServerCall {
 
 	private ProxyFacilitator pf;
 	
+	@Override
 	protected void handleResponse(Response response)
 	{
 		WEStatus status = new WEStatus (response);

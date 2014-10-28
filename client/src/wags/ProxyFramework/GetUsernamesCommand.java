@@ -1,15 +1,15 @@
 package wags.ProxyFramework;
 
-import com.google.gwt.http.client.Response;
-
 import wags.WEStatus;
 
+import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.ui.ListBox;
 
 public class GetUsernamesCommand extends AbstractServerCall {
 
 	private ListBox users;
 	
+		@Override
 		protected void handleResponse(Response response)
 		{
 			WEStatus status = new WEStatus(response);

@@ -3,7 +3,6 @@ package wags.admin.builders;
 import java.util.ArrayList;
 
 import com.google.gwt.user.client.Window;
-import com.sun.java.swing.plaf.windows.resources.windows;
 
 public class LMGraphsDisplay extends BasicDisplay {
 	ArgPanel orderPanel;

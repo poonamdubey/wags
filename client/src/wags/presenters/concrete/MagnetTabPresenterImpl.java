@@ -3,13 +3,6 @@ package wags.presenters.concrete;
 import java.util.HashMap;
 import java.util.List;
 
-import com.github.gwtbootstrap.client.ui.CheckBox;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HasWidgets;
-
-import wags.Proxy;
 import wags.ProxyFacilitator;
 import wags.Receiver;
 import wags.WEStatus;
@@ -20,6 +13,12 @@ import wags.ProxyFramework.GetMMGroupsCommand;
 import wags.ProxyFramework.SetMMExercisesCommand;
 import wags.presenters.interfaces.MagnetTabPresenter;
 import wags.views.concrete.MagnetTab;
+
+import com.github.gwtbootstrap.client.ui.CheckBox;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HasWidgets;
 
 public class MagnetTabPresenterImpl implements ProxyFacilitator, Receiver, MagnetTabPresenter {
 
@@ -69,10 +68,11 @@ public class MagnetTabPresenterImpl implements ProxyFacilitator, Receiver, Magne
 	//-------------------------------
 	// Group panel click handling
 	//-------------------------------
+	@Override
 	public void addGroupClickHandlers(){
 		for(int i = 0; i < magnetTab.getBtnPanelGroups().myButtons.size(); i++){
 			Button tmpBtn = magnetTab.getBtnPanelGroups().myButtons.get(i);
-			tmpBtn.addClickHandler(new groupClickHandler(tmpBtn.getText(), (ProxyFacilitator) this));
+			tmpBtn.addClickHandler(new groupClickHandler(tmpBtn.getText(), this));
 		}
 		magnetTab.getBtnPanelGroups().setClickHandlers();
 	}
@@ -110,7 +110,7 @@ public class MagnetTabPresenterImpl implements ProxyFacilitator, Receiver, Magne
 		if(exerciseList.length() > 0)  // a comma was added
 			exerciseList = exerciseList.substring(0, exerciseList.length()-1);
 		
-		AbstractServerCall setMMExercises = new SetMMExercisesCommand(exerciseList, (ProxyFacilitator) this);
+		AbstractServerCall setMMExercises = new SetMMExercisesCommand(exerciseList, this);
 		setMMExercises.sendRequest();
 	}
 

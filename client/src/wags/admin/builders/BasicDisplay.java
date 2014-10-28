@@ -18,7 +18,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -97,6 +96,7 @@ public abstract class BasicDisplay extends Composite {
 	private void addNodeHandling(){
 		// Add nodes
 		btnAddNode.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				if( currentNodes < maxNodes) {
 					String val = txtAddNode.getText();
@@ -130,6 +130,7 @@ public abstract class BasicDisplay extends Composite {
 	
 	private void deleteNodeHandling(){
 		btnDeleteNode.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				if (currentNodes > 0) {
 					canvas.deleteNode(txtAddNode.getText());

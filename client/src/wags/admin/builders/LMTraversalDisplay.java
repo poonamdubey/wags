@@ -6,12 +6,14 @@ import wags.logical.DSTConstants;
 public class LMTraversalDisplay extends BasicDisplay {
 	ArgPanel inorderPanel, preorderPanel, postorderPanel;
 	// For when nodes/edges are added/removed
+	@Override
 	public void onModify(){
 		inorderPanel.clear();
 		preorderPanel.clear();
 		postorderPanel.clear();
 	}
 	
+	@Override
 	public void calculate(){
 		Node_Basic root = canvas.getRoot();
 		
@@ -21,6 +23,7 @@ public class LMTraversalDisplay extends BasicDisplay {
 		postorderPanel.fillText(Traversals.getPostorderTraversal(root));
 	}
 	
+	@Override
 	public void clear(){
 		preorderPanel.fillText("");
 		inorderPanel.fillText("");
@@ -31,8 +34,8 @@ public class LMTraversalDisplay extends BasicDisplay {
 	public void fillBuilder(ArgHolder child) {
 		// Weird casting because ___.getAbsolute___ doesn't actually
 		// seem to be returning an int, although that is what it claims.
-		int canvasLeft = (int) Math.floor((double)canvas.getAbsoluteLeft());
-		int canvasTop = (int) Math.floor((double)canvas.getAbsoluteTop());
+		int canvasLeft = (int) Math.floor(canvas.getAbsoluteLeft());
+		int canvasTop = (int) Math.floor(canvas.getAbsoluteTop());
 		// Ehh... how to handle unattached nodes
 		int[] xPos = new int[canvas.nodes.size()];
 		int[] yPos = new int[canvas.nodes.size()];
@@ -51,9 +54,9 @@ public class LMTraversalDisplay extends BasicDisplay {
 			
 			// We're not really interested in absolute values, but rather the
 			// position within the canvas.
-			xPos[nodeCount] = (int) Math.floor((double)node.getAbsoluteLeft())
+			xPos[nodeCount] = (int) Math.floor(node.getAbsoluteLeft())
 					- canvasLeft;
-			yPos[nodeCount] = (int) Math.floor((double)node.getAbsoluteTop())
+			yPos[nodeCount] = (int) Math.floor(node.getAbsoluteTop())
 					- canvasTop;
 			
 			

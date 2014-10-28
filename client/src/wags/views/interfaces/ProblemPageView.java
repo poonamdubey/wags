@@ -1,9 +1,9 @@
 package wags.views.interfaces;
 
+import wags.Common.View;
+
 import com.github.gwtbootstrap.client.ui.Button;
 import com.google.gwt.user.client.ui.ComplexPanel;
-
-import wags.Common.View;
 
 public interface ProblemPageView extends View {
 

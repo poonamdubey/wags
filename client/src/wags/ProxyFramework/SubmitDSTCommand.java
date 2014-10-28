@@ -1,11 +1,12 @@
 package wags.ProxyFramework;
 
-import com.google.gwt.http.client.Response;
-
 import wags.WEStatus;
+
+import com.google.gwt.http.client.Response;
 
 public class SubmitDSTCommand extends AbstractServerCall{
 	
+	@Override
 	protected void handleResponse(Response response)
 	{
 		WEStatus status = new WEStatus(response);

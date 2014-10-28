@@ -27,6 +27,7 @@ public class MSTDisplayManager extends TreeDisplayManager implements
 		super(canvas, panel, nc, ec, problem);
 	}
 
+	@Override
 	protected void insertNodesAndEdges() {
 		cont = new TraversalContainer(this); // for reset of traversal problems
 		if (problem.getInsertMethod().equals(DSTConstants.INSERT_METHOD_VALUE)) {
@@ -45,9 +46,11 @@ public class MSTDisplayManager extends TreeDisplayManager implements
 
 	private boolean showingSubMess;
 
+	@Override
 	protected void addResetButton() {
 		resetButton = new Button("Reset");
 		resetButton.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				removeWidgetsFromPanel();
 				removeWeightLabelsFromPanel();
@@ -72,10 +75,12 @@ public class MSTDisplayManager extends TreeDisplayManager implements
 		leftButtonPanel.add(resetButton, 62, 2);
 	}
 
+	@Override
 	protected void addEvaluateButton() {
 		evaluateButton = new Button("Evaluate");
 		evaluateButton.setWidth("124px");
 		evaluateButton.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				setEdgeParentAndChildren();
 
@@ -116,6 +121,7 @@ public class MSTDisplayManager extends TreeDisplayManager implements
 		submitOkButton = new Button("Ok");
 		submitOkButton.setStyleName("control_button");
 		submitOkButton.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				Proxy.getDST().remove(submitText);
 				Proxy.getDST().remove(submitOkButton);
@@ -124,6 +130,7 @@ public class MSTDisplayManager extends TreeDisplayManager implements
 		});
 	}
 
+	@Override
 	public void insertNodesByValueAndLocation(String nodes, int[] xPositions,
 			int[] yPositions, boolean draggable, String nodeType) {
 		String[] splitNodes = nodes.split(" ");
@@ -140,6 +147,7 @@ public class MSTDisplayManager extends TreeDisplayManager implements
 		}
 	}
 
+	@Override
 	public void addDiagLabel(String s) {
 		Proxy.getDST().add(new Label(s), 250, 250);
 	}

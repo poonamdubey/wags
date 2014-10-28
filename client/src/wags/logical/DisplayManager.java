@@ -109,6 +109,7 @@ public abstract class DisplayManager implements IsSerializable {
 		Button backButton = new Button("Back");					
 		backButton.addClickHandler(new ClickHandler()
 		{
+			@Override
 			public void onClick(ClickEvent event)
 			{
 				//TODO Fix This Shit PLZ
@@ -124,6 +125,7 @@ public abstract class DisplayManager implements IsSerializable {
 		evaluateButton.setWidth("124px");
 		evaluateButton.addClickHandler(new ClickHandler()
 		{
+			@Override
 			public void onClick(ClickEvent event)
 			{				
 				String evalResult = problem.evaluate();
@@ -156,6 +158,7 @@ public abstract class DisplayManager implements IsSerializable {
 		submitOkButton = new Button("Ok");
 		submitOkButton.setStyleName("control_button");
 		submitOkButton.addClickHandler(new ClickHandler(){
+			@Override
 			public void onClick(ClickEvent event) {
 				Proxy.getDST().remove(submitText);
 				Proxy.getDST().remove(submitOkButton);

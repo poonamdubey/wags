@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 import org.vaadin.gwtgraphics.client.DrawingArea;
 
+import wags.Proxy;
+import wags.ProxyFramework.AbstractServerCall;
+import wags.ProxyFramework.GetLogicalMicrolabCommand;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.History;
@@ -15,10 +19,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-
-import wags.Proxy;
-import wags.ProxyFramework.AbstractServerCall;
-import wags.ProxyFramework.GetLogicalMicrolabCommand;
 
 
 public class DataStructureTool  extends AbsolutePanel
@@ -105,6 +105,7 @@ public class DataStructureTool  extends AbsolutePanel
 		//Wrap all this stuff in a timer so that
 		//getOffsetWidth() works correctly (I am ashamed)
 		Timer timer = new Timer() {
+			@Override
 			public void run() {
 				int maxWidth = 250;
 
@@ -144,6 +145,7 @@ public class DataStructureTool  extends AbsolutePanel
 		assigned.setVisible(false);
 		review.setVisible(false);
 		assigned.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				buildUI(attemptButtons);
 				assigned.setVisible(false);
@@ -152,6 +154,7 @@ public class DataStructureTool  extends AbsolutePanel
 		});
 		
 		review.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				buildUI(reviewButtons);
 				review.setVisible(false);
@@ -173,7 +176,8 @@ public class DataStructureTool  extends AbsolutePanel
 			public void onClick(ClickEvent event) {
 				removeAllWidgets();
 				Timer timer = new Timer(){
-					 public void run() {
+					 @Override
+					public void run() {
 						 getProblem(problem);
 						 History.newItem("?loc=dstproblem");
 					 }

@@ -1,8 +1,8 @@
 package wags.presenters.interfaces;
 
-import com.google.gwt.event.dom.client.KeyPressEvent;
-
 import wags.Common.Presenter;
+
+import com.google.gwt.event.dom.client.KeyPressEvent;
 
 public interface DefaultPagePresenter extends Presenter {
 	public void onProblemsClick();

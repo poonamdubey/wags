@@ -1,8 +1,8 @@
 package wags.presenters.interfaces;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-
 import wags.Common.Presenter;
+
+import com.google.gwt.event.dom.client.ClickEvent;
 
 public interface ProgrammingTabPresenter extends Presenter {
 

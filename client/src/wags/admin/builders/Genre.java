@@ -19,6 +19,7 @@ public enum Genre {
 		this.key = key;
 	}
 	
+	@Override
 	public String toString() {
 		return key;
 	}

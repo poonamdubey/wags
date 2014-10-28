@@ -2,10 +2,10 @@ package wags.presenters.concrete;
 
 import java.util.List;
 
-import com.google.gwt.user.client.ui.HasWidgets;
-
 import wags.presenters.interfaces.SectionTabPresenter;
 import wags.views.concrete.SectionTab;
+
+import com.google.gwt.user.client.ui.HasWidgets;
 
 public class SectionTabPresenterImpl implements SectionTabPresenter {
 	

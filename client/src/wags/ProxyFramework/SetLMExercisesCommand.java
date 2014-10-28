@@ -1,16 +1,17 @@
 package wags.ProxyFramework;
 
-import com.google.gwt.http.client.Response;
-
 import wags.Notification;
 import wags.ProxyFacilitator;
 import wags.WEStatus;
+
+import com.google.gwt.http.client.Response;
 
 public class SetLMExercisesCommand extends AbstractServerCall {
 
 	private ProxyFacilitator pf;
 	private String toAssign;
 	
+	@Override
 	protected void handleResponse(Response response)
 	{
 		if(toAssign.equals("")) toAssign = "none";

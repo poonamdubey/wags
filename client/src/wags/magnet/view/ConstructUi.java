@@ -7,6 +7,7 @@ import java.util.Random;
 
 import wags.MagnetProblem;
 
+import com.github.gwtbootstrap.client.ui.Row;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -40,7 +41,7 @@ public class ConstructUi extends Composite implements ProvidesResize, RequiresRe
 	private Random random = new Random();
 	
 	@UiField FlowPanel directionsContent;  //place for directions
-	@UiField FlowPanel trashbin;  
+	//@UiField FlowPanel trashbin;  
 	@UiField FlowPanel layout;  //panel that holds entire left hand side of UI
 	private int lastOffsetWidth;
 	private MagnetProblem magnet;
@@ -106,11 +107,12 @@ public class ConstructUi extends Composite implements ProvidesResize, RequiresRe
 			
 			layout.add(contentPanel);
 			
+			Row trashbin = new Row();
 			bin = new TrashBin(this);
 			BinDropController binController = new BinDropController(bin);
 			DragController.INSTANCE.registerDropController(binController);
 			trashbin.add(bin);
-			
+			layout.add(trashbin);
 			//timer fix: sets the height a millisecond after the panel is created so that it returns correct
 			//getOffsetHeight() values
 			Timer t = new Timer (){
@@ -265,7 +267,7 @@ public class ConstructUi extends Composite implements ProvidesResize, RequiresRe
 			//clear all panels in left side of screen
 			((MagnetTypePanel) segmentsContent.getWidget(i)).clear(this.bin);
 			//clear the code panel on the right side of the screen
-			this.bin.eatWidget((StackableContainer) codePanel.mainFunction);
+			this.bin.eatWidget(codePanel.mainFunction);
 	    }
 		//reinitialize problem
 		start();

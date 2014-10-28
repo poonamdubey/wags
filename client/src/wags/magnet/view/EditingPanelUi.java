@@ -5,8 +5,8 @@ import wags.MagnetProblem;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -25,9 +25,9 @@ public class EditingPanelUi extends Composite {
 	interface EditingPanelUiUiBinder extends UiBinder<Widget, EditingPanelUi> {
 	}
 	
-	@UiField FlowPanel codePanel;  	  //the right hand side -> build code here
-	@UiField FlowPanel constructPanel;  //the left hand side -> drag code segments from here
-	@UiField FlowPanel layout; 		  //the panel holding it all together
+	@UiField ComplexPanel codePanel;  	  //the right hand side -> build code here
+	@UiField ComplexPanel constructPanel;  //the left hand side -> drag code segments from here
+	@UiField ComplexPanel layout; 		  //the panel holding it all together
 	
 	public EditingPanelUi(RefrigeratorMagnet refrigeratorMagnet, int tabPanelHeight, MagnetProblem magnet, StackableContainer mainFunction,
 						  StackableContainer[] insideFunctions, StackableContainer[] premadeSegments, String[][] forLists) {

@@ -32,19 +32,19 @@
 	}
 	</ui:style>
 	
-    <b:FluidRow ui:field='layoutPanel' styleName='{style.base}'>
-        <b:FluidRow addStyleNames="{style.codeArea}">
+    <g:FlowPanel ui:field='layoutPanel' styleName='{style.base}'>
+        <g:FlowPanel addStyleNames="{style.codeArea}">
         		<g:ScrollPanel ui:field='nestPanel' styleName='{style.scroll}'>
         			<b:FluidRow ui:field='mainPanel' styleName='{style.main}'></b:FluidRow>
         		</g:ScrollPanel>
-        </b:FluidRow>
-        <b:FluidRow addStyleNames="{style.buttonArea}">
-            <b:FluidRow>
+        </g:FlowPanel>
+        <g:FlowPanel addStyleNames="{style.buttonArea}">
+            <g:FlowPanel>
         		<b:Button type="DEFAULT" size="LARGE" icon="CHECK" ui:field="button" addStyleNames='{style.button}'>Finalize</b:Button>
         		<b:Button type="DEFAULT" size="LARGE" icon="SAVE" ui:field = "stateButton" addStyleNames='{style.button}'>Save State</b:Button>
         		<b:Button type="DEFAULT" size="LARGE" icon="TRASH" ui:field="resetButton" addStyleNames='{style.button}'>Reset</b:Button>
-        	</b:FluidRow>
-        </b:FluidRow>
-    </b:FluidRow>
+        	</g:FlowPanel>
+        </g:FlowPanel>
+    </g:FlowPanel>
 </ui:UiBinder> 
 

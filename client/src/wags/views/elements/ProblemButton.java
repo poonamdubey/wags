@@ -56,7 +56,8 @@ public class ProblemButton extends Composite {
 			@Override
 			public void onClick(ClickEvent event) {
 				Timer timer = new Timer() {
-            		public void run() {
+            		@Override
+					public void run() {
             			if( type == ProblemType.MAGNET_PROBLEM) {
             				History.newItem(Tokens.MAGNETPROBLEM + Tokens.DELIM + "id=" + id);
             			} else {

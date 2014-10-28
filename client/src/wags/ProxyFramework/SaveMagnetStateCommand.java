@@ -1,14 +1,15 @@
 package wags.ProxyFramework;
 
-import com.google.gwt.http.client.Response;
-
 import wags.Notification;
 import wags.WEStatus;
+
+import com.google.gwt.http.client.Response;
 
 public class SaveMagnetStateCommand extends AbstractServerCall {
 
 	private boolean fromSuccess;
 	
+	@Override
 	protected void handleResponse(Response response)
 	{
 		WEStatus status = new WEStatus(response);

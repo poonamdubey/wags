@@ -2,6 +2,12 @@ package wags.presenters.concrete;
 
 import java.util.List;
 
+import wags.ProxyFramework.AbstractServerCall;
+import wags.ProxyFramework.DeleteMagnetExerciseCommand;
+import wags.ProxyFramework.GetFileTimeCommand;
+import wags.admin.ProblemCreationPanel;
+import wags.presenters.interfaces.ProblemCreationPanelPresenter;
+
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -16,12 +22,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-
-import wags.ProxyFramework.AbstractServerCall;
-import wags.ProxyFramework.DeleteMagnetExerciseCommand;
-import wags.ProxyFramework.GetFileTimeCommand;
-import wags.admin.ProblemCreationPanel;
-import wags.presenters.interfaces.ProblemCreationPanelPresenter;
 
 public class ProblemCreationPanelPresenterImpl implements ProblemCreationPanelPresenter {
 	
@@ -95,6 +95,7 @@ public class ProblemCreationPanelPresenterImpl implements ProblemCreationPanelPr
 		deleteBox.add(base);
 		
 		yes.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				AbstractServerCall cmd = new DeleteMagnetExerciseCommand(title);
 				cmd.sendRequest();
@@ -104,6 +105,7 @@ public class ProblemCreationPanelPresenterImpl implements ProblemCreationPanelPr
 		});
 		
 		no.addClickHandler(new ClickHandler() {	
+			@Override
 			public void onClick(ClickEvent event) {
 				deleteBox.hide();
 			}
@@ -139,6 +141,7 @@ public class ProblemCreationPanelPresenterImpl implements ProblemCreationPanelPr
 		// If yes, re-submit the form with overwrite flagged
 		yes.addClickHandler(new ClickHandler() {
 			
+			@Override
 			public void onClick(ClickEvent event) {
 				panel.overwrite().setValue(true);
 				panel.problemCreateFormPanel().submit();
@@ -150,6 +153,7 @@ public class ProblemCreationPanelPresenterImpl implements ProblemCreationPanelPr
 		// If no, clear title box and focus it for user
 		no.addClickHandler(new ClickHandler() {
 			
+			@Override
 			public void onClick(ClickEvent event) {
 				panel.titleTxtBox().setText("");
 				panel.finalTitleTxtBox().setText("");

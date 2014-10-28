@@ -2,7 +2,6 @@ package wags.logical.HashingProblems;
 
 import java.util.ArrayList;
 
-import wags.Proxy;
 import wags.ProxyFramework.AbstractServerCall;
 import wags.ProxyFramework.SubmitDSTCommand;
 import wags.logical.DSTConstants;
@@ -12,6 +11,7 @@ import wags.logical.Node;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 public class Evaluation_Hashing extends Evaluation implements IsSerializable {
+	@Override
 	public String evaluate(String problemName, String[] arguments,
 			ArrayList<Node> nodes, ArrayList<EdgeParent> edges) {
 		
@@ -164,6 +164,7 @@ public class Evaluation_Hashing extends Evaluation implements IsSerializable {
 			return location;
 		}
 		
+		@Override
 		public String toString(){
 			return value + " "+ location;
 		}

@@ -36,6 +36,7 @@ public class NodeDragController extends PickupDragController implements IsSerial
 		dc = new NodeDragController(boundaryPanel, allowDroppingOnBoundaryPanel);
 	}
 	
+	@Override
 	public void dragEnd()
 	{
 		super.dragEnd();

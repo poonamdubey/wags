@@ -4,12 +4,12 @@ import wags.Reviewer;
 import wags.WEStatus;
 
 import com.google.gwt.http.client.Response;
-import com.google.gwt.user.client.Window;
 
 public class GetUsernamesReviewerCommand extends AbstractServerCall {
 	
 	private Reviewer studentReviewer;
 	
+	@Override
 	protected void handleResponse(Response response)
 	{
 		WEStatus status = new WEStatus(response);

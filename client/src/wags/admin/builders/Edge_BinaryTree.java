@@ -29,6 +29,7 @@ public class Edge_BinaryTree extends Edge_Basic {
 		return true;
 	}
 	
+	@Override
 	protected void onDelete(){
 		if(connectLeftChild){
 			parent.leftChild = null;

@@ -33,6 +33,7 @@ public class NodeClickable extends Node {
 	}
 
 	private class NodeClickHandler implements ClickHandler {
+		@Override
 		public void onClick(ClickEvent event) {
 			if (!isSelected) {
 				label.setStyleName("selected_node");
@@ -51,6 +52,7 @@ public class NodeClickable extends Node {
 	}
 
 	private class WeightClickHandler implements ClickHandler {
+		@Override
 		public void onClick(ClickEvent event) {
 			if (!isSelected) {
 				label.setStyleName("selected_edge_weight");

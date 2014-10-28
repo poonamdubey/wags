@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 import wags.MagnetProblem;
 
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.TabPanel;
 
 /**
  * 

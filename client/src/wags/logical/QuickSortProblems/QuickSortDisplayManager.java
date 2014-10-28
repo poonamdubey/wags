@@ -39,6 +39,7 @@ public class QuickSortDisplayManager extends DisplayManager implements
 		cp = new TextArea();
 	}
 
+	@Override
 	public void displayProblem() {
 		addProblemTextArea();
 		addCounterPanel();
@@ -66,6 +67,7 @@ public class QuickSortDisplayManager extends DisplayManager implements
 
 	private boolean showingSubMess;
 
+	@Override
 	protected void addProblemTextArea() {
 		TextArea t = new TextArea();
 		t.setStyleName("problem_statement");
@@ -75,9 +77,11 @@ public class QuickSortDisplayManager extends DisplayManager implements
 		Proxy.getDST().add(t, 2, 5);
 	}
 
+	@Override
 	protected void addResetButton() {
 		resetButton = new Button("Reset");
 		resetButton.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				removeWidgetsFromPanel();
 
@@ -99,6 +103,7 @@ public class QuickSortDisplayManager extends DisplayManager implements
 		evaluateButton = new Button("Evaluate");
 		evaluateButton.setWidth("124px");
 		evaluateButton.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				String evalResult = problem.getEval().evaluate(
 						problem.getName(), problem.getArguments(), getNodes(),
@@ -135,6 +140,7 @@ public class QuickSortDisplayManager extends DisplayManager implements
 		submitOkButton = new Button("Ok");
 		submitOkButton.setStyleName("control_button");
 		submitOkButton.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				Proxy.getDST().remove(submitText);
 				Proxy.getDST().remove(submitOkButton);
@@ -216,10 +222,12 @@ public class QuickSortDisplayManager extends DisplayManager implements
 
 	}
 
+	@Override
 	public ArrayList<Node> getNodes() {
 		return nodeCollection.getNodes();
 	}
 
+	@Override
 	public ArrayList<EdgeParent> getEdges() {
 		return null;
 	}

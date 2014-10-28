@@ -1,12 +1,12 @@
 package wags.magnet.view;
 
+import java.util.ArrayList;
+
+import com.allen_sauer.gwt.dnd.client.DragContext;
+import com.allen_sauer.gwt.dnd.client.drop.DropController;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.allen_sauer.gwt.dnd.client.DragContext;
-import com.allen_sauer.gwt.dnd.client.drop.DropController;
-
-import java.util.ArrayList;
 
 /**
  * Stackable containers are the lifeblood of magnets.  This used to be a comment from r28,

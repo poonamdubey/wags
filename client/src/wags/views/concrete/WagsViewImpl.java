@@ -4,7 +4,6 @@ import wags.Common.Presenter;
 import wags.presenters.interfaces.WagsPresenter;
 import wags.views.interfaces.WagsView;
 
-import com.github.gwtbootstrap.client.ui.Label;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;

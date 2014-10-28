@@ -11,6 +11,7 @@ public enum InsertMethod {
 		this.key = key;
 	}
 	
+	@Override
 	public String toString() {
 		return key;
 	}

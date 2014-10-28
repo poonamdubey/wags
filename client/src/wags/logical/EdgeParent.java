@@ -69,6 +69,7 @@ public abstract class EdgeParent implements IsSerializable
 		return weight!=0;
 	}
 	
+	@Override
 	public String toString(){
 		return "Weight: "+this.weight+" N1: "+n1.toString()+" N2: "+n2.toString();
 	}

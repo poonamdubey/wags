@@ -38,6 +38,7 @@ public class EdgeUndirected extends EdgeParent implements IsSerializable
 		super(n1, n2, ec, ch, removable, weight);
 	}
 	
+	@Override
 	public void drawEdge()
 	{
 		int parentTopOffset = 105; // I do not like these numbers

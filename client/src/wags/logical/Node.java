@@ -38,6 +38,7 @@ public class Node {
 	public boolean getVisited() {
 		return visited;
 	}
+	@Override
 	public String toString(){
 		return this.getValue();
 	}

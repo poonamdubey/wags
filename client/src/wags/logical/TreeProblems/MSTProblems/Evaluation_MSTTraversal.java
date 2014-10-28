@@ -2,7 +2,6 @@ package wags.logical.TreeProblems.MSTProblems;
 
 import java.util.ArrayList;
 
-import wags.Proxy;
 import wags.ProxyFramework.AbstractServerCall;
 import wags.ProxyFramework.SubmitDSTCommand;
 import wags.logical.DSTConstants;
@@ -16,6 +15,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 public class Evaluation_MSTTraversal extends Evaluation implements IsSerializable
 {
 	
+	@Override
 	public String evaluate(String problemName, String[] arguments, ArrayList<Node> nodes, ArrayList<EdgeParent> edges)
 	{	
 		NodeClickable n = (NodeClickable) nodes.get(0);
