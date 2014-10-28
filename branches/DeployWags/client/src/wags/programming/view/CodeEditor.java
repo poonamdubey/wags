@@ -39,6 +39,7 @@ public class CodeEditor extends Composite implements HasHandlers
 		 * alberttattard.blogspot.com
 		 */
 		codeArea.addKeyDownHandler(new KeyDownHandler(){
+			@Override
 			public void onKeyDown(KeyDownEvent event)
 			{
 				if (event.getNativeKeyCode() == 9){

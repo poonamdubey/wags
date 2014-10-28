@@ -1,9 +1,9 @@
 package wags.ProxyFramework;
 
-import com.google.gwt.http.client.Response;
-
 import wags.Notification;
 import wags.WEStatus;
+
+import com.google.gwt.http.client.Response;
 
 /**
  * @author Dakota Murray

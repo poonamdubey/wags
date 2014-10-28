@@ -14,7 +14,7 @@ import wags.views.concrete.ProgrammingTab;
 import wags.views.concrete.ReviewTab;
 import wags.views.concrete.SectionTab;
 import wags.views.concrete.StudentTab;
-import wags.views.concrete.Wags;
+import wags.views.concrete.WagsViewImpl;
 
 /**
  * @author   Dakota Murray
@@ -33,7 +33,7 @@ public class ClientFactory {
 	
 	private static AppController app;
 	private static Login login;
-	private static Wags wags;
+	private static WagsViewImpl wags;
 	private static AppModel model;
 	private static Editor editor;
 	private static DefaultPage defaultPage;
@@ -64,10 +64,10 @@ public class ClientFactory {
 		return model;
 	}
 	
-	public static Wags getWagsView()
+	public static WagsViewImpl getWagsView()
 	{
 		if (wags == null) {
-			wags = new Wags();
+			wags = new WagsViewImpl();
 		}
 		return wags;
 	}

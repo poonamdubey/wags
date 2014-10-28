@@ -43,24 +43,8 @@
 	            </b:FluidRow>
 	        </g:ScrollPanel>
 	    </b:FluidRow>
-	    <b:FluidRow>
-	        <b:FluidRow ui:field="trashbin"></b:FluidRow>
-	    </b:FluidRow>
+	    
 	    
 	</b:FluidRow>
-	<!-- 
-	<g:DockLayoutPanel unit='PX' styleName='{style.margin-right}' ui:field='layout'>
-		<g:north size='110'>
-			<g:ScrollPanel styleName='{style.directions_panel}'>
-        		<g:AbsolutePanel ui:field="directionsContent" styleName='{style.directions_content}'>
-        		</g:AbsolutePanel>
-        	</g:ScrollPanel>
-		</g:north>
-		<g:south size='30'>
-			<g:AbsolutePanel ui:field='trashbin'>
-			</g:AbsolutePanel>
-		</g:south>
-	</g:DockLayoutPanel>
-	-->
 </ui:UiBinder> 
 

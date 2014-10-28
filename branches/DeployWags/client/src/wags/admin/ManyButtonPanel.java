@@ -1,6 +1,7 @@
 package wags.admin;
 
 import java.util.ArrayList;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -44,6 +45,7 @@ public class ManyButtonPanel extends Composite
 		btnHolder4.setSpacing(CELL_SPACING);
 	}
 	
+	@Override
 	public void setTitle(String title){
 		this.title.setText(title);
 	}
@@ -115,6 +117,7 @@ public class ManyButtonPanel extends Composite
 			this.btn = btn;
 		}
 		
+		@Override
 		public void onClick(ClickEvent event) {
 			colorBlack();
 			btn.getElement().getStyle().setColor("blue");

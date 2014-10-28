@@ -179,6 +179,7 @@ public class ProblemCreationPanel extends Composite implements ProblemCreationPa
 		 * user input will automatically be placed in the final title text area (on the right)
 		 */
 		titleTxtBox.addBlurHandler(new BlurHandler() {
+			@Override
 			public void onBlur(BlurEvent event) {
 				finalTitleTxtBox.setText(titleTxtBox.getText());
 			}
@@ -189,12 +190,14 @@ public class ProblemCreationPanel extends Composite implements ProblemCreationPa
 		 * user input will automatically be placed in the final description text area (on the right)
 		 */
 		descriptionTxtArea.addBlurHandler(new BlurHandler() {
+			@Override
 			public void onBlur(BlurEvent event) {
 				finalDescriptionTxtArea.setText(descriptionTxtArea.getText());
 			}
 		});
 		
 		lstLoadGroup.addChangeHandler(new ChangeHandler() {
+			@Override
 			public void onChange(ChangeEvent event) {
 				AbstractServerCall cmd = new GetMagnetsByGroupCommand(lstLoadGroup.getItemText(lstLoadGroup.getSelectedIndex()),
 						null, null, null, lstLoadExercise);
@@ -207,6 +210,7 @@ public class ProblemCreationPanel extends Composite implements ProblemCreationPa
 		 * database and into the problem creation menu. 
 		 */
 		btnLoadExercise.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				String lastProblemLoaded = lstLoadExercise.getItemText(lstLoadExercise.getSelectedIndex());
 				lastProblemLoadedTxtBox.setText(lastProblemLoaded);
@@ -258,6 +262,7 @@ public class ProblemCreationPanel extends Composite implements ProblemCreationPa
 		
 		/** Creates a button that when clicked will clear all exercise details */
 		btnDeleteExercise.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				String title = lstLoadExercise.getItemText(lstLoadExercise.getSelectedIndex());
 				verifyDelete(title);
@@ -270,6 +275,7 @@ public class ProblemCreationPanel extends Composite implements ProblemCreationPa
 		 * of that type of magnet. 
 		 */
 		numberAllowedButton.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				String value = numberAllowedText.getText();  //get value from text box
 				
@@ -301,6 +307,7 @@ public class ProblemCreationPanel extends Composite implements ProblemCreationPa
 		 * textbox on the right hand side of the screen.
 		 */
 		addMMOptionButton.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				//get which type of magnet maker you'll be inputting
 				int index = decisionStructures.getSelectedIndex();
@@ -356,6 +363,7 @@ public class ProblemCreationPanel extends Composite implements ProblemCreationPa
 		
 		btnMoreHelpers.addClickHandler(new ClickHandler() {
 			
+			@Override
 			public void onClick(ClickEvent event) {
 				addHelperUpload();				
 			}
@@ -416,6 +424,7 @@ public class ProblemCreationPanel extends Composite implements ProblemCreationPa
 		deleteBox.add(base);
 		
 		yes.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				AbstractServerCall cmd = new DeleteMagnetExerciseCommand(title);
 				cmd.sendRequest();
@@ -425,6 +434,7 @@ public class ProblemCreationPanel extends Composite implements ProblemCreationPa
 		});
 		
 		no.addClickHandler(new ClickHandler() {	
+			@Override
 			public void onClick(ClickEvent event) {
 				deleteBox.hide();
 			}
@@ -463,6 +473,7 @@ public class ProblemCreationPanel extends Composite implements ProblemCreationPa
 		// If yes, re-submit the form with overwrite flagged
 		yes.addClickHandler(new ClickHandler() {
 			
+			@Override
 			public void onClick(ClickEvent event) {
 				overwrite.setValue(true);
 				problemCreateFormPanel.submit();
@@ -474,6 +485,7 @@ public class ProblemCreationPanel extends Composite implements ProblemCreationPa
 		// If no, clear title box and focus it for user
 		no.addClickHandler(new ClickHandler() {
 			
+			@Override
 			public void onClick(ClickEvent event) {
 				titleTxtBox.setText("");
 				finalTitleTxtBox.setText("");

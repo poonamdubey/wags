@@ -7,6 +7,7 @@ import com.google.gwt.http.client.Response;
 
 public class LinkNewSectionCommand extends AbstractServerCall {
 	
+	@Override
 	protected void handleResponse(Response response)
 	{
 		WEStatus status = new WEStatus(response);

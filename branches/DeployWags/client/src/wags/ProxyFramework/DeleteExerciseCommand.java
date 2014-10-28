@@ -1,7 +1,6 @@
 package wags.ProxyFramework;
 
 import wags.Notification;
-import wags.Proxy;
 import wags.WEStatus;
 
 import com.google.gwt.http.client.Response;
@@ -17,6 +16,7 @@ public class DeleteExerciseCommand extends AbstractServerCall {
 		WEStatus status = new WEStatus(response);
 		Notification.notify(status.getStat(), status.getMessage());
 		AbstractServerCall cmd = new GetVisibleExercisesCommand(exercises);
+		cmd.sendRequest();
 	}
 	
 	public DeleteExerciseCommand(String ex, ListBox exercises)

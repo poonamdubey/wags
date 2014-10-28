@@ -17,13 +17,13 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
 
 public class SectionTab extends Composite implements HasText, SectionTabView {
 	
@@ -99,6 +99,7 @@ public class SectionTab extends Composite implements HasText, SectionTabView {
 	// If server is successful in changing the section, it will also
 	// ask the Admin page to update the exercise lists
 	private class ChangeCompleteHandler implements SubmitCompleteHandler{
+		@Override
 		public void onSubmitComplete(SubmitCompleteEvent event) {
 			WEStatus stat = new WEStatus(event.getResults());
 			Notification.notify(stat.getStat(), stat.getMessage());

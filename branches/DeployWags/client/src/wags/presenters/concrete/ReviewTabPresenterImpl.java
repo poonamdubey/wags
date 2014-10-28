@@ -2,8 +2,6 @@ package wags.presenters.concrete;
 
 import java.util.List;
 
-import com.google.gwt.user.client.ui.HasWidgets;
-
 import wags.Reviewer;
 import wags.ProxyFramework.AbstractServerCall;
 import wags.ProxyFramework.GetLMAssigned;
@@ -11,6 +9,8 @@ import wags.ProxyFramework.GetMMAssignedCommand;
 import wags.presenters.interfaces.ReviewTabPresenter;
 import wags.views.concrete.ReviewTab;
 import wags.views.interfaces.ReviewTabView;
+
+import com.google.gwt.user.client.ui.HasWidgets;
 
 public class ReviewTabPresenterImpl implements ReviewTabPresenter {
 
@@ -38,6 +38,7 @@ public class ReviewTabPresenterImpl implements ReviewTabPresenter {
 		return bound;
 	}
 
+	@Override
 	public void update() {
 
 		AbstractServerCall cmd1 = new GetLMAssigned(reviewTab.getLogHandler(), Reviewer.NONE);

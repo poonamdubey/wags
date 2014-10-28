@@ -3,7 +3,6 @@ package wags.logical;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
-
 import com.allen_sauer.gwt.dnd.client.DragController;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.Label;

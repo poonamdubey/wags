@@ -62,6 +62,7 @@ public class AssignedPanel extends Composite {
 		}
 	}
 	
+	@Override
 	public void setTitle(String title){
 		this.title.setText(title);
 	}

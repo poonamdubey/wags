@@ -40,6 +40,7 @@ public class HashingDisplayManager extends DisplayManager implements
 		this.itemsInPanel = new ArrayList<Widget>();
 	}
 
+	@Override
 	public void displayProblem() {
 		addProblemTextArea();
 		addLeftButtonPanel();
@@ -65,9 +66,11 @@ public class HashingDisplayManager extends DisplayManager implements
 
 	private boolean showingSubMess;
 
+	@Override
 	protected void addResetButton() {
 		resetButton = new Button("Reset");
 		resetButton.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				removeWidgetsFromPanel();
 
@@ -88,6 +91,7 @@ public class HashingDisplayManager extends DisplayManager implements
 		evaluateButton = new Button("Evaluate");
 		evaluateButton.setWidth("124px");
 		evaluateButton.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				String evalResult = problem.getEval().evaluate(
 						problem.getName(), problem.getArguments(), getNodes(),
@@ -124,6 +128,7 @@ public class HashingDisplayManager extends DisplayManager implements
 		submitOkButton = new Button("Ok");
 		submitOkButton.setStyleName("control_button");
 		submitOkButton.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				Proxy.getDST().remove(submitText);
 				Proxy.getDST().remove(submitOkButton);
@@ -195,10 +200,12 @@ public class HashingDisplayManager extends DisplayManager implements
 		drawEdge(new Line(0,95,650,95));
 	}
 	
+	@Override
 	public ArrayList<Node> getNodes() {
 		return nodeCollection.getNodes();
 	}
 
+	@Override
 	public ArrayList<EdgeParent> getEdges() {
 		return null;
 	}

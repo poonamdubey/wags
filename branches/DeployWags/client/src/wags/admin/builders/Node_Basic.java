@@ -81,6 +81,7 @@ public class Node_Basic extends Label{
 			this.node = node;
 		}
 
+		@Override
 		public void onDoubleClick(DoubleClickEvent event) {
 			node.state = ++node.state % 2;
 			setState(node.state);

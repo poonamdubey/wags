@@ -21,6 +21,7 @@ public class Evaluation_Quicksort extends Evaluation implements IsSerializable {
 	private ArrayList<int[]> partitionSteps;
 	private ArrayList<Integer> pivots;
 
+	@Override
 	public String evaluate(String problemName, String[] arguments,
 			ArrayList<Node> nodes, ArrayList<EdgeParent> edges) {
 	
@@ -208,8 +209,8 @@ public class Evaluation_Quicksort extends Evaluation implements IsSerializable {
         S.push(ub);
         while (!S.empty())
         {
-            ub = (Integer)S.pop();
-            lb = (Integer)S.pop();
+            ub = S.pop();
+            lb = S.pop();
             if (ub <= lb) continue;
             int i = partition(a, lb, ub);
             pivots.add(i);

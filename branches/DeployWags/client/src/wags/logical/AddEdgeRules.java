@@ -4,10 +4,6 @@ import java.util.ArrayList;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
-import wags.logical.DSTConstants;
-import wags.logical.EdgeParent;
-import wags.logical.Node;
-
 public class AddEdgeRules implements IsSerializable
 {
 	public String checkFirstNode(Node node, ArrayList<Node> nodes, ArrayList<EdgeParent> edges)

@@ -12,6 +12,7 @@ public class IsAdminCommand extends AbstractServerCall {
 	private Widget admin;
 	private Widget database;
 	
+	@Override
 	protected void handleResponse(Response response)
 	{
 		WEStatus status = new WEStatus(response);

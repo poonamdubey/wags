@@ -5,24 +5,39 @@
 	
 	<ui:style>
 	.base_panel{
-	min-height:100%;
-	min-width:100%;
+		min-height:100%;
+		min-width:100%;
 	}
 	
 	.pageSize {
-		height:76em;
+		height:80vh;
 	}
 
 	.border {
 		border: 2px solid grey;
 	}
+
+	.absolute {
+		position:absolute;
+	}
 	
 	</ui:style>
 
-	<b:FluidRow ui:field="layout" addStyleNames="{style.base_panel}">
-	    <b:Column size="8" ui:field ="constructPanel" addStyleNames=" {style.pageSize} {style.border}"></b:Column>
-	    <b:Column size="4" ui:field="codePanel" addStyleNames=" {style.pageSize} {style.border}"></b:Column>
-	</b:FluidRow>
+	<g:FlowPanel ui:field="layout" addStyleNames="{style.base_panel}">
+	    <g:SplitLayoutPanel styleName='{style.base_panel} {style.absolute} {style.pageSize}'>
+		<g:east size="550">
+			<g:FlowPanel ui:field="codePanel"></g:FlowPanel>
+		</g:east>
+		<g:center>
+			<g:FlowPanel ui:field="constructPanel"></g:FlowPanel>
+		</g:center>
+		</g:SplitLayoutPanel>
+	    
+	    <!--
+	    <g:FlowPanel ui:field ="constructPanel" addStyleNames=" {style.pageSize} {style.border}"></g:FlowPanel>
+	    <g:FlowPanel ui:field="codePanel" addStyleNames=" {style.pageSize} {style.border}"></g:FlowPanel>
+	    -->
+	</g:FlowPanel>
 	<!-- 
 	<g:SplitLayoutPanel ui:field="layout" styleName='{style.base_panel}'>
 		<g:east size="550">

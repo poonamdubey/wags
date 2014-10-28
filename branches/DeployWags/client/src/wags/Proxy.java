@@ -1,52 +1,29 @@
 package wags;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
-import wags.ProxyFramework.AbstractServerCall;
-import wags.ProxyFramework.GetVisibleExercisesCommand;
-import wags.database.DatabasePanel;
-import wags.database.DatabaseProblem;
 import wags.logical.DataStructureTool;
 import wags.magnet.view.Consts;
-import wags.magnet.view.MagnetProblemCreator;
-import wags.magnet.view.RefrigeratorMagnet;
-import wags.magnet.view.ResultsPanelUi;
-import wags.magnet.view.StackableContainer;
-import wags.programming.view.CodeEditor;
 import wags.programming.view.FileBrowser;
 import wags.programming.view.OutputReview;
-import wags.views.concrete.DefaultPage;
-import wags.views.concrete.Login;
-import wags.views.concrete.Wags;
+import wags.views.concrete.WagsViewImpl;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
-import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.AcceptsOneWidget;
-import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 public class Proxy
 {	
@@ -65,7 +42,7 @@ public class Proxy
 	private static final String login = getBaseURL()+"?cmd=Login";
 	private static final String registerURL = Proxy.getBaseURL()+"?cmd=RegisterUser";
 	private static DataStructureTool DST;
-	private static Wags wags;
+	private static WagsViewImpl wags;
 		
 	private static void holdMessage(String message){
 		Notification.cancel(); // Cancel previous clearing schedule if present
@@ -1743,7 +1720,8 @@ public class Proxy
 		      builder.setHeader("Content-Type", "application/x-www-form-urlencoded");
 		      @SuppressWarnings("unused")
 		      Request req = builder.sendRequest("code="+code+"&title="+exercise+"&name="+fileName, new RequestCallback() {
-		    	  public void onResponseReceived(Request request, Response response) {
+		    	  @Override
+				public void onResponseReceived(Request request, Response response) {
 			      
 			      WEStatus status = new WEStatus(response);
 			      clearMessage(); // clear out compilation notification message
@@ -1769,7 +1747,8 @@ public class Proxy
 			      submit.setEnabled(true);
 			    }
 			    
-			    public void onError(Request request, Throwable exception) {
+			    @Override
+				public void onError(Request request, Throwable exception) {
 			    	Window.alert("error");
 			    	// enable the submit button again
 			    	submit.setEnabled(true);
@@ -1851,11 +1830,11 @@ public class Proxy
 		DST = thisDST;
 	}
 	
-	public static void setWags(Wags thisWags) {
+	public static void setWags(WagsViewImpl thisWags) {
 		wags = thisWags;
 	}
 	
-	public static Wags getWags() {
+	public static WagsViewImpl getWags() {
 		return wags;
 	}
 	

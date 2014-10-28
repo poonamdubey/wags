@@ -18,6 +18,7 @@ public class BasicDragController extends PickupDragController {
 		this.setBehaviorDragStartSensitivity(1);
 	}
 	
+	@Override
 	public void dragEnd(){
 		super.dragEnd();
 	}

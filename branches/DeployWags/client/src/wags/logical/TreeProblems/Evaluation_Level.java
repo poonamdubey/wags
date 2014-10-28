@@ -8,7 +8,6 @@ package wags.logical.TreeProblems;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import wags.Proxy;
 import wags.ProxyFramework.AbstractServerCall;
 import wags.ProxyFramework.SubmitDSTCommand;
 import wags.logical.DSTConstants;
@@ -23,6 +22,7 @@ public class Evaluation_Level extends Evaluation  implements IsSerializable
 {	
 	private ArrayList<EvaluationNode> treeNodes;
 	
+	@Override
 	public String evaluate(String problemName, String[] arguments, ArrayList<Node> nodes, ArrayList<EdgeParent> edges)
 	{	
 		errorMessage = "";

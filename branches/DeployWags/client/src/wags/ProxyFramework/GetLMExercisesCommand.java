@@ -9,6 +9,7 @@ public class GetLMExercisesCommand extends AbstractServerCall {
 
 	private ProxyFacilitator pf;
 	
+	@Override
 	protected void handleResponse(Response response)
 	{
 		WEStatus status = new WEStatus(response);

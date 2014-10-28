@@ -2,12 +2,12 @@ package wags.ProxyFramework;
 
 import java.util.HashMap;
 
-import com.google.gwt.http.client.Response;
-import com.google.gwt.user.client.History;
-
 import wags.Notification;
 import wags.WEStatus;
 import wags.Common.AppController;
+
+import com.google.gwt.http.client.Response;
+import com.google.gwt.user.client.History;
 
 public class LoginCommand extends AbstractServerCall {
 

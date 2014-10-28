@@ -1,12 +1,12 @@
 package wags.views.interfaces;
 
+import wags.Common.View;
+import wags.admin.ReviewPanel;
+
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.SubmitButton;
-
-import wags.Common.View;
-import wags.admin.ReviewPanel;
 
 public interface StudentTabView extends View{
 	

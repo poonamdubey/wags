@@ -7,7 +7,6 @@ import java.util.Set;
 
 import com.github.gwtbootstrap.client.ui.CheckBox;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -37,6 +36,7 @@ public class CheckBoxPanel extends Composite {
 		//this.getElement().getStyle().setWidth(95, Unit.PCT); // needs to go away via CSS
 	}
 	
+	@Override
 	public void setTitle(String title){
 		this.title.setText(title);
 	}

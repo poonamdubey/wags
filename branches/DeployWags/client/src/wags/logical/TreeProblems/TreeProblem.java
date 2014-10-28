@@ -54,6 +54,7 @@ public class TreeProblem extends TreeTypeProblem implements IsSerializable {
 		this.nodeType = nodeType;
 	}
 
+	@Override
 	public DisplayManager createDisplayManager(AbsolutePanel panel,
 			DrawingArea canvas) {
 		EdgeCollection ec = new EdgeCollection(getRules(), new String[] {
@@ -71,6 +72,7 @@ public class TreeProblem extends TreeTypeProblem implements IsSerializable {
 		return dm;
 	}
 
+	@Override
 	public String evaluate() {
 		return getEval().evaluate(getName(), getArguments(), dm.getNodes(),
 				dm.getEdges());
@@ -79,6 +81,7 @@ public class TreeProblem extends TreeTypeProblem implements IsSerializable {
 	/**
 	 * @return the name
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -87,74 +90,92 @@ public class TreeProblem extends TreeTypeProblem implements IsSerializable {
 	 * @param name
 	 *            the name to set
 	 */
+	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	@Override
 	public String getProblemText() {
 		return problemText;
 	}
 
+	@Override
 	public void setProblemText(String problemText) {
 		this.problemText = problemText;
 	}
 
+	@Override
 	public String getNodes() {
 		return nodes;
 	}
 
+	@Override
 	public void setNodes(String nodes) {
 		this.nodes = nodes;
 	}
 
+	@Override
 	public Evaluation getEval() {
 		return eval;
 	}
 
+	@Override
 	public void setEval(Evaluation eval) {
 		this.eval = eval;
 	}
 
+	@Override
 	public AddEdgeRules getRules() {
 		return rules;
 	}
 
+	@Override
 	public void setRules(AddEdgeRules rules) {
 		this.rules = rules;
 	}
 
+	@Override
 	public String[] getArguments() {
 		return arguments;
 	}
 
+	@Override
 	public void setArguments(String[] arguments) {
 		this.arguments = arguments;
 	}
 
+	@Override
 	public int[] getXPositions() {
 		return xPositions;
 	}
 
+	@Override
 	public int[] getYPositions() {
 		return yPositions;
 	}
 
+	@Override
 	public String getInsertMethod() {
 		return insertMethod;
 	}
 
+	@Override
 	public String[] getEdges() {
 		return edges;
 	}
 
+	@Override
 	public boolean getEdgesRemovable() {
 		return edgesRemovable;
 	}
 
+	@Override
 	public boolean getNodesDraggable() {
 		return nodesDraggable;
 	}
 
+	@Override
 	public String getNodeType() {
 		return nodeType;
 	}

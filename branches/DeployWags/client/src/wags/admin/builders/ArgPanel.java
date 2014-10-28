@@ -56,6 +56,7 @@ public class ArgPanel extends Composite implements ArgHolder{
 		btnArg.setEnabled(true);
 	}
 	
+	@Override
 	public String[] getArguments(){
 		String[] args = new String[1];
 		args[0] = txtArg.getText();

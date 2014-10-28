@@ -64,6 +64,7 @@ public abstract class Edge_Basic extends Line {
 		}
 		
 		// Edges get removed whenever they are clicked
+		@Override
 		public void onClick(ClickEvent event) {
 			edge.delete();
 		}
@@ -71,6 +72,7 @@ public abstract class Edge_Basic extends Line {
 	}
 
 	
+	@Override
 	public String toString(){
 		return asString;
 	}

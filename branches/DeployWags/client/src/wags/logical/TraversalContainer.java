@@ -2,7 +2,6 @@ package wags.logical;
 
 import java.util.ArrayList;
 
-
 import com.google.gwt.user.client.ui.Label;
 
 public class TraversalContainer {

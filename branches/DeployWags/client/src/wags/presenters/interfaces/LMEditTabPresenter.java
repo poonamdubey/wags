@@ -1,8 +1,8 @@
 package wags.presenters.interfaces;
 
-import com.google.gwt.user.client.ui.Button;
-
 import wags.Common.Presenter;
+
+import com.google.gwt.user.client.ui.Button;
 
 
 public interface LMEditTabPresenter extends Presenter{

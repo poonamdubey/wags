@@ -2,6 +2,10 @@ package wags.presenters.concrete;
 
 import java.util.List;
 
+import wags.Proxy;
+import wags.presenters.interfaces.EditorPresenter;
+import wags.views.concrete.Editor;
+
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -12,10 +16,6 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.TreeItem;
-
-import wags.Proxy;
-import wags.presenters.interfaces.EditorPresenter;
-import wags.views.concrete.Editor;
 
 public class EditorPresenterImpl implements EditorPresenter {
 	
@@ -204,6 +204,7 @@ public class EditorPresenterImpl implements EditorPresenter {
 	public void initializeAutosaving() {
 		autosaveTimer = new Timer()
 		{
+			@Override
 			public void run() 
 			{
 				saveCurrentCode();
@@ -216,6 +217,7 @@ public class EditorPresenterImpl implements EditorPresenter {
 		
 		editor.editor().codeArea.addFocusHandler(new FocusHandler() 
 		{
+			@Override
 			public void onFocus(FocusEvent event)
 			{
 				Window.alert("Trying to activate the autosavetime");
@@ -228,6 +230,7 @@ public class EditorPresenterImpl implements EditorPresenter {
 		//		-want to stop autosaving now
 		editor.editor().codeArea.addBlurHandler(new BlurHandler() 
 		{
+			@Override
 			public void onBlur(BlurEvent event)
 			{
 				autosaveTimer.cancel();

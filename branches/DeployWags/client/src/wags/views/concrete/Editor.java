@@ -142,6 +142,7 @@ public class Editor extends Composite implements IsWidget, EditorView{
 		//  so that when the user switches tabs and comes back, the file tree won't
 		//  revert back to root
 		browser.getTree().addOpenHandler(new OpenHandler<TreeItem>() {
+			@Override
 			public void onOpen(OpenEvent<TreeItem> event) 
 			{
 				TreeItem t = event.getTarget();
@@ -215,6 +216,7 @@ public class Editor extends Composite implements IsWidget, EditorView{
 	{
 		autosaveTimer = new Timer()
 		{
+			@Override
 			public void run() 
 			{
 				saveCurrentCode();
@@ -226,6 +228,7 @@ public class Editor extends Composite implements IsWidget, EditorView{
 		//		-want to begin autosaving now
 		editor.codeArea.addFocusHandler(new FocusHandler() 
 		{
+			@Override
 			public void onFocus(FocusEvent event)
 			{
 				// save every AUTOSAVETIME seconds
@@ -236,6 +239,7 @@ public class Editor extends Composite implements IsWidget, EditorView{
 		//		-want to stop autosaving now
 		editor.codeArea.addBlurHandler(new BlurHandler() 
 		{
+			@Override
 			public void onBlur(BlurEvent event)
 			{
 				autosaveTimer.cancel();

@@ -2,7 +2,6 @@ package wags.logical.SelectionSortProblems;
 
 import java.util.ArrayList;
 
-import wags.Proxy;
 import wags.ProxyFramework.AbstractServerCall;
 import wags.ProxyFramework.SubmitDSTCommand;
 import wags.logical.DSTConstants;
@@ -16,6 +15,7 @@ public class Evaluation_SelectionSort extends Evaluation implements IsSerializab
 	
 	int step = 0;
 
+	@Override
 	public String evaluate(String problemName, String[] arguments,
 			ArrayList<Node> nodes, ArrayList<EdgeParent> edges) {
 		String node = arguments[0].trim();

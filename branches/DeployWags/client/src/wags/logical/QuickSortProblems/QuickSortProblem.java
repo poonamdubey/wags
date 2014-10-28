@@ -48,6 +48,7 @@ public class QuickSortProblem extends Problem implements IsSerializable {
 		this.nodeType = nodeType;
 	}
 
+	@Override
 	public DisplayManager createDisplayManager(AbsolutePanel panel,
 			DrawingArea canvas) {
 		EdgeCollection ec = new EdgeCollection(getRules(), new String[] {"", "" }, //does nothing
@@ -63,23 +64,28 @@ public class QuickSortProblem extends Problem implements IsSerializable {
 		return dm;
 	}
 
+	@Override
 	public String evaluate() {
 		return getEval().evaluate(getName(), getArguments(), dm.getNodes(),
 				dm.getEdges());
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
 
+	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	@Override
 	public String getProblemText() {
 		return problemText;
 	}
 
+	@Override
 	public void setProblemText(String problemText) {
 		this.problemText = problemText;
 	}
@@ -92,6 +98,7 @@ public class QuickSortProblem extends Problem implements IsSerializable {
 		this.nodes = nodes;
 	}
 
+	@Override
 	public Evaluation getEval() {
 		return eval;
 	}
@@ -108,6 +115,7 @@ public class QuickSortProblem extends Problem implements IsSerializable {
 		this.rules = rules;
 	}
 
+	@Override
 	public String[] getArguments() {
 		return arguments;
 	}
@@ -136,6 +144,7 @@ public class QuickSortProblem extends Problem implements IsSerializable {
 		return nodesDraggable;
 	}
 
+	@Override
 	public String getNodeType() {
 		return nodeType;
 	}

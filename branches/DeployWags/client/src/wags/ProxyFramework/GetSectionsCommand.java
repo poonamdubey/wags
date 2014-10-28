@@ -1,14 +1,15 @@
 package wags.ProxyFramework;
 
+import wags.WEStatus;
+
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.ui.ListBox;
-
-import wags.WEStatus;
 
 public class GetSectionsCommand extends AbstractServerCall {
 
 	private ListBox sections;
 	
+	@Override
 	protected void handleResponse(Response response)
 	{
 		WEStatus status = new WEStatus(response);

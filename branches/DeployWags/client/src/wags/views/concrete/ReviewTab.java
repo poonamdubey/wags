@@ -70,6 +70,7 @@ public class ReviewTab extends Composite implements ReviewTabView{
 	}
 
 	public class LogicalReviewHandler implements Reviewer{
+		@Override
 		public void getCallback(String[] exercises, WEStatus status,
 				String request) { 
 			// Currently assigned
@@ -99,6 +100,7 @@ public class ReviewTab extends Composite implements ReviewTabView{
 	}
 	
 	public class MagnetReviewHandler implements Reviewer{
+		@Override
 		public void getCallback(String[] exercises, WEStatus status,
 				String request) { 
 			// Currently assigned
@@ -130,6 +132,7 @@ public class ReviewTab extends Composite implements ReviewTabView{
 		presenter.update();
 	}
 
+	@Override
 	public boolean hasPresenter(){
 		return presenter != null;
 	}

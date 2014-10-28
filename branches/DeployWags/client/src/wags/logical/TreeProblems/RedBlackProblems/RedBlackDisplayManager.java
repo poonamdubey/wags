@@ -41,6 +41,7 @@ public class RedBlackDisplayManager extends TreeTypeDisplayManager implements
 		this.weightsInPanel = new ArrayList<Widget>();
 	}
 
+	@Override
 	public void displayProblem() {
 		cont = new TraversalContainer(this);
 		addProblemTextArea();
@@ -61,6 +62,7 @@ public class RedBlackDisplayManager extends TreeTypeDisplayManager implements
 		insertNodesAndEdges();
 	}
 	
+	@Override
 	protected void addRightButtonPanel() {
 		rightButtonPanel = new AbsolutePanel();
 		rightButtonPanel.setPixelSize(460, 30);
@@ -75,6 +77,7 @@ public class RedBlackDisplayManager extends TreeTypeDisplayManager implements
 	private ClickHandler colorButtonCancelClickHandler;
 
 	private class ColorButtonClickHandler implements ClickHandler {
+		@Override
 		public void onClick(ClickEvent event) {
 			//removeWidgetsFromPanel();
 			//resetColorButton();
@@ -84,6 +87,7 @@ public class RedBlackDisplayManager extends TreeTypeDisplayManager implements
 		}
 	}
 	private class ColorButtonCancelClickHander implements ClickHandler {
+		@Override
 		public void onClick(ClickEvent event){
 			colorButtonCancel();
 			colorButtonCancelEventHandler.removeHandler();
@@ -118,6 +122,7 @@ public class RedBlackDisplayManager extends TreeTypeDisplayManager implements
 		}
 	}
 	
+	@Override
 	protected void addMiddlePanel() {
 		middlePanel = new AbsolutePanel();
 		middlePanel.setPixelSize(12, 30);
@@ -136,6 +141,7 @@ public class RedBlackDisplayManager extends TreeTypeDisplayManager implements
 		
 	}
 	
+	@Override
 	protected void addRemoveEdgeButton() {
 		removeEdgeButton = new Button("Remove Edge");
 		removeEdgeButton.setWidth("130px");
@@ -147,6 +153,7 @@ public class RedBlackDisplayManager extends TreeTypeDisplayManager implements
 		rightButtonPanel.add(removeEdgeButton, 204, 2);
 	}
 	
+	@Override
 	protected void addAddEdgeButton() {
 		addEdgeButton = new Button("Add Edge");
 		addEdgeButton.setWidth("124px");
@@ -163,10 +170,12 @@ public class RedBlackDisplayManager extends TreeTypeDisplayManager implements
 		rightButtonPanel.add(addEdgeButton, 80, 2);
 	}
 	
+	@Override
 	protected void addEvaluateButton() {
 		evaluateButton = new Button("Evaluate");
 		evaluateButton.setWidth("124px");
 		evaluateButton.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				setEdgeParentAndChildren();
 				String evalResult;
@@ -213,6 +222,7 @@ public class RedBlackDisplayManager extends TreeTypeDisplayManager implements
 		submitOkButton = new Button("Ok");
 		submitOkButton.setStyleName("control_button");
 		submitOkButton.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				Proxy.getDST().remove(submitText);
 				Proxy.getDST().remove(submitOkButton);

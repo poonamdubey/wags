@@ -7,11 +7,10 @@ import wags.ProxyFramework.LoginCommand;
 import wags.presenters.interfaces.LoginPresenter;
 import wags.views.interfaces.LoginView;
 
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.PasswordTextBox;
 
 public class LoginPresenterImpl implements LoginPresenter
 {

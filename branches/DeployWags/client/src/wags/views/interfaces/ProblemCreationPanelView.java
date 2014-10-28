@@ -1,5 +1,7 @@
 package wags.views.interfaces;
 
+import wags.Common.View;
+
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FileUpload;
@@ -11,8 +13,6 @@ import com.google.gwt.user.client.ui.SubmitButton;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-
-import wags.Common.View;
 
 public interface ProblemCreationPanelView extends View{
 

@@ -1,11 +1,11 @@
 package wags.views.interfaces;
 
-import com.google.gwt.user.client.ui.FormPanel;
-import com.google.gwt.user.client.ui.SubmitButton;
-
 import wags.Reviewer;
 import wags.Common.View;
 import wags.admin.ReviewPanel;
+
+import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.SubmitButton;
 
 public interface ReviewTabView extends View {
 

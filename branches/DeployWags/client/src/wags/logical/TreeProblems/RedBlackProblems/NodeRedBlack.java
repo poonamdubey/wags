@@ -37,6 +37,7 @@ public class NodeRedBlack extends Node {
 	}
 
 	private class NodeClickHandler implements ClickHandler {
+		@Override
 		public void onClick(ClickEvent event) {
 			color = (label.getStyleName().equals(("black_node")));  //color is TRUE if black
 			if (!isSelected) { 

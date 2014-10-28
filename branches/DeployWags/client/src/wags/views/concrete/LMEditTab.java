@@ -72,7 +72,8 @@ public class LMEditTab extends Composite implements ProxyFacilitator, LMEditTabV
 		//On change it finds which item was selected and loads the graph
 		 listBox.addChangeHandler(new ChangeHandler()
 		 {
-		  public void onChange(ChangeEvent event)
+		  @Override
+		public void onChange(ChangeEvent event)
 		  {
 			  int selectedIndex = listBox.getSelectedIndex();
 			  if (selectedIndex > -1) 
@@ -121,13 +122,19 @@ public class LMEditTab extends Composite implements ProxyFacilitator, LMEditTabV
 		 
 	}
 
+	@Override
 	public void handleExercises(String[] exercises) {}
+	@Override
 	public void setExercises(String[] exercises) {}
+	@Override
 	public void setCallback(String[] exercises, WEStatus status) {}
+	@Override
 	public void getCallback(String[] exercises, WEStatus status, String request) {}
 	public void reviewExercise(String exercise) {}
 	public void reviewCallback(String[] data) {}
+	@Override
 	public void handleSubjects(String[] subjects) {}
+	@Override
 	public void handleGroups(String[] groups) {}
 
 	@Override

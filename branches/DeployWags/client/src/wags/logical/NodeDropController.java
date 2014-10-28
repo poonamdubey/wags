@@ -30,6 +30,7 @@ public class NodeDropController extends AbsolutePositionDropController implement
 		dc = new NodeDropController(boundaryPanel);
 	}
  
+	@Override
 	public void onDrop(DragContext context)
 	{
 		super.onDrop(context);

@@ -3,7 +3,6 @@ package wags.logical.TreeProblems;
 import java.util.ArrayList;
 import java.util.Stack;
 
-import wags.Proxy;
 import wags.ProxyFramework.AbstractServerCall;
 import wags.ProxyFramework.SubmitDSTCommand;
 import wags.logical.DSTConstants;
@@ -18,6 +17,7 @@ public class Evaluation_Preorder extends Evaluation  implements IsSerializable
 {	
 	private ArrayList<EvaluationNode> treeNodes;
 	
+	@Override
 	public String evaluate(String problemName, String[] arguments, ArrayList<Node> nodes, ArrayList<EdgeParent> edges)
 	{	
 		errorMessage = "";
@@ -262,6 +262,7 @@ public class Evaluation_Preorder extends Evaluation  implements IsSerializable
 			this.visited = false;
 		}
 		
+		@Override
 		public String toString(){
 			String left = this.left == null ? "" : this.left.toString();
 			String right = this.right == null ? "" : this.right.toString();

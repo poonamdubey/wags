@@ -1,4 +1,4 @@
-	package wags;
+package wags;
 
 
 import java.util.HashMap;
@@ -33,6 +33,7 @@ import com.google.gwt.user.client.Window;
 public class WagsEntry implements EntryPoint 
 {
 	
+	@Override
 	public void onModuleLoad() 
 	{
 		// Check if the user is logged in already.

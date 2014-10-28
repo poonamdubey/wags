@@ -80,6 +80,7 @@ public class NH_AlongTop extends NodeHandler {
 	 * exists.  Calls "update" in case parent LMDisplay needs to be notified
 	 * of change.
 	 */
+	@Override
 	public void deleteNode(String value){
 		// remove tree
 				parent.clear();  

@@ -22,6 +22,7 @@ public class NH_Heaps extends NodeHandler{
 	 * Relies on "positionNode(BasicNode)" to place node
 	 * Calls "update()" in case parent LMDisplay must be notified of change
 	 */
+	@Override
 	public void addNode(String value) {
 		// For traversals, we're going to force unique nodes
 		for(Node_Basic node: parent.nodes){

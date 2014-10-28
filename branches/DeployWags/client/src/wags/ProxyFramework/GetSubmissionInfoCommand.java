@@ -1,15 +1,16 @@
 package wags.ProxyFramework;
 
+import wags.WEStatus;
+
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.ui.Grid;
-
-import wags.WEStatus;
 
 public class GetSubmissionInfoCommand extends AbstractServerCall {
 
 	private Grid grid;
 	final int NUM_COLUMNS = 5;
 	
+	@Override
 	protected void handleResponse(Response response)
 	{
 		WEStatus status = new WEStatus(response);

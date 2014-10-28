@@ -88,6 +88,7 @@ public class ReviewPanel extends Composite {
 		this.parent = parent;
 	}
 	
+	@Override
 	public void setTitle(String title){
 		this.title.setText(title);
 	}
@@ -210,6 +211,7 @@ public class ReviewPanel extends Composite {
 	 */
 	private class switchClickHandler implements ClickHandler{
 
+		@Override
 		public void onClick(ClickEvent event) {
 			currentSet = !currentSet;
 			if(currentSet){
@@ -288,6 +290,7 @@ public class ReviewPanel extends Composite {
 			deleteBox.add(base);
 			
 			yes.addClickHandler(new ClickHandler() {
+				@Override
 				public void onClick(ClickEvent event) {
 					AbstractServerCall cmd = new RemoveUserFromSectionCommand(selectedUser.getText());
 					cmd.sendRequest();
@@ -299,6 +302,7 @@ public class ReviewPanel extends Composite {
 			});
 			
 			no.addClickHandler(new ClickHandler() {	
+				@Override
 				public void onClick(ClickEvent event) {
 					deleteBox.hide();
 				}

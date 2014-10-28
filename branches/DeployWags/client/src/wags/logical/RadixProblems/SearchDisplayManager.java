@@ -50,6 +50,7 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 		drawLines();
 	}
 
+	@Override
 	public void displayProblem()
 	{
 		cont = new TraversalContainer(this);
@@ -66,6 +67,7 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 		insertNodesAndEdges();
 	}
 	
+	@Override
 	protected void addProblemTextArea() {
         TextArea t = new TextArea();
         t.setStyleName("problem_statement");
@@ -119,10 +121,12 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 		Proxy.getDST().add(bucketHolder, 3, 174);
 	}
 
+	@Override
 	protected void addResetButton()
 	{
 		resetButton = new Button("Reset");
 		resetButton.addClickHandler(new ClickHandler(){
+			@Override
 			public void onClick(ClickEvent event)
 			{
 				removeWidgetsFromPanel();
@@ -146,6 +150,7 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 		evaluateButton.setWidth("124px");
 		evaluateButton.addClickHandler(new ClickHandler()
 		{
+			@Override
 			public void onClick(ClickEvent event)
 			{
 			//	setEdgeParentAndChildren();
@@ -179,6 +184,7 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 		submitOkButton = new Button("Ok");
 		submitOkButton.setStyleName("control_button");
 		submitOkButton.addClickHandler(new ClickHandler(){
+			@Override
 			public void onClick(ClickEvent event) {
 				Proxy.getDST().remove(submitText);
 				Proxy.getDST().remove(submitOkButton);
@@ -271,11 +277,13 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 		return this.counterPanel;
 	}
 
+	@Override
 	public ArrayList<Node> getNodes()
 	{
 		return nodeCollection.getNodes();
 	}
 
+	@Override
 	public ArrayList<EdgeParent> getEdges()
 	{
 		return edgeCollection.getEdges();

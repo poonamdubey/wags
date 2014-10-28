@@ -1,12 +1,6 @@
 package wags.presenters.concrete;
 import java.util.List;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HasWidgets;
-
 import wags.admin.builders.BasicDisplay;
 import wags.admin.builders.LMBuildBSTDisplay;
 import wags.admin.builders.LMBuildBTDisplay;
@@ -18,6 +12,12 @@ import wags.admin.builders.LMSimplePartitionDisplay;
 import wags.admin.builders.LMTraversalDisplay;
 import wags.presenters.interfaces.LMEditTabPresenter;
 import wags.views.concrete.LMEditTab;
+
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HasWidgets;
 
 public class LMEditTabPresenterImpl implements LMEditTabPresenter{
 
@@ -51,6 +51,7 @@ public class LMEditTabPresenterImpl implements LMEditTabPresenter{
 		
 	}	
 
+	@Override
 	public void assignGrpBtnClickHandler(Button button){
 		if(button.getText().equals("Traversals")){
 			button.addClickHandler(new checkClickHandler(
@@ -92,6 +93,7 @@ public class LMEditTabPresenterImpl implements LMEditTabPresenter{
 			this.builder = builder;
 		}
 		
+		@Override
 		public void onClick(ClickEvent event){
 			display.load(lmedittab.getvtDisplayHolder(), builder);
 		}

@@ -12,19 +12,19 @@ package wags.logical.SimplePartitionProblems;
 
 import java.util.ArrayList;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
-import wags.Proxy;
 import wags.ProxyFramework.AbstractServerCall;
 import wags.ProxyFramework.SubmitDSTCommand;
 import wags.logical.EdgeParent;
 import wags.logical.Evaluation;
 import wags.logical.Node;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 public class Evaluation_SimplePartition extends Evaluation implements IsSerializable {
 	private int evalLB;
 	private int evalUB;
 
+	@Override
 	public String evaluate(String problemName, String[] arguments,
 			ArrayList<Node> nodes, ArrayList<EdgeParent> edges) {
 		evalLB = 0;

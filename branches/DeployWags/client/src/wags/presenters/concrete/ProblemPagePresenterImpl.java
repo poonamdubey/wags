@@ -1,17 +1,17 @@
 package wags.presenters.concrete;
 import java.util.List;
 
-import com.github.gwtbootstrap.client.ui.constants.IconType;
-import com.google.gwt.user.client.ui.ComplexPanel;
-import com.google.gwt.user.client.ui.HasWidgets;
-import com.google.gwt.user.client.ui.UIObject;
-
 import wags.ProxyFramework.AbstractServerCall;
 import wags.ProxyFramework.LoadAssignedProblemsCommand;
 import wags.magnet.view.ProblemPageModel;
 import wags.presenters.interfaces.ProblemPagePresenter;
 import wags.views.elements.ProblemButton;
 import wags.views.interfaces.ProblemPageView;
+
+import com.github.gwtbootstrap.client.ui.constants.IconType;
+import com.google.gwt.user.client.ui.ComplexPanel;
+import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.UIObject;
 
 /**
  * @author Dakota Murray

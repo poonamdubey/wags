@@ -5,6 +5,7 @@ import com.google.gwt.user.client.ui.Button;
 public class LMInsertNodeDisplay extends BasicDisplay {
 	Button btnAssign;
 	
+	@Override
 	public void construct(){
 		btnCalculate.setVisible(false);
 		btnAssign = new Button("Assign");

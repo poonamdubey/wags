@@ -2,12 +2,10 @@ package wags.programming.view;
 
 import java.util.HashMap;
 
-import wags.Proxy;
 import wags.ProxyFramework.AbstractServerCall;
 import wags.ProxyFramework.LoadFileListingCommand;
 //import wags.View;
 //import wags.WEAnchor;
-
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;

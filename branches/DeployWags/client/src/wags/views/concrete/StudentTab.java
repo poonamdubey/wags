@@ -22,11 +22,11 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.SubmitButton;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
-import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
 
 public class StudentTab extends Composite implements StudentTabView {
 
@@ -56,6 +56,7 @@ public class StudentTab extends Composite implements StudentTabView {
 		passwordForm.setEncoding(FormPanel.ENCODING_MULTIPART);
 		passwordForm.setMethod(FormPanel.METHOD_POST);
 		passwordForm.addSubmitCompleteHandler(new SubmitCompleteHandler() {
+			@Override
 			public void onSubmitComplete(SubmitCompleteEvent event) {
 				WEStatus status = new WEStatus(event.getResults());
 				

@@ -3,12 +3,6 @@ package wags.presenters.concrete;
 import java.util.HashMap;
 import java.util.List;
 
-import com.github.gwtbootstrap.client.ui.CheckBox;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HasWidgets;
-
 import wags.ProxyFacilitator;
 import wags.WEStatus;
 import wags.ProxyFramework.AbstractServerCall;
@@ -17,6 +11,12 @@ import wags.ProxyFramework.GetLMGroupsCommand;
 import wags.ProxyFramework.SetLMExercisesCommand;
 import wags.presenters.interfaces.LogicalTabPresenter;
 import wags.views.concrete.LogicalTab;
+
+import com.github.gwtbootstrap.client.ui.CheckBox;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HasWidgets;
 
 public class LogicalTabPresenterImpl implements ProxyFacilitator,
 		LogicalTabPresenter {
@@ -28,12 +28,13 @@ public class LogicalTabPresenterImpl implements ProxyFacilitator,
 		this.logicalTab = view;
 	}
 
+	@Override
 	public void addSubjectClickHandlers() {
 
 		for (int i = 0; i < logicalTab.btnPanelSubjects().myButtons.size(); i++) {
 			Button tmpBtn = logicalTab.btnPanelSubjects().myButtons.get(i);
 			tmpBtn.addClickHandler(new subjectClickHandler(tmpBtn.getText(),
-					(ProxyFacilitator) this));
+					this));
 		}
 
 		logicalTab.btnPanelSubjects().setClickHandlers();
@@ -60,6 +61,7 @@ public class LogicalTabPresenterImpl implements ProxyFacilitator,
 	// -------------------------------
 	// Group panel click handling
 	// -------------------------------
+	@Override
 	public void addGroupClickHandlers() {
 
 		for (int i = 0; i < logicalTab.btnPanelGroups().myButtons.size(); i++) {
@@ -112,6 +114,7 @@ public class LogicalTabPresenterImpl implements ProxyFacilitator,
 	// -------------------------------
 	// Group panel click handling
 	// -------------------------------
+	@Override
 	public void handleGroups(String[] groups) {
 		logicalTab.btnPanelGroups().addButtons(groups);
 		addGroupClickHandlers();
@@ -120,11 +123,13 @@ public class LogicalTabPresenterImpl implements ProxyFacilitator,
 	// -----------------------------
 	// Proxy facilitation
 	// -----------------------------
+	@Override
 	public void handleSubjects(String[] subjects) {
 		logicalTab.btnPanelSubjects().addButtons(subjects);
 		addSubjectClickHandlers();
 	}
 
+	@Override
 	public void handleExercises(String[] exercises) {
 		logicalTab.chkPanelExercises().addCheckBoxes(exercises);
 	}
@@ -132,18 +137,20 @@ public class LogicalTabPresenterImpl implements ProxyFacilitator,
 	/**
 	 * Assigning exercises
 	 */
+	@Override
 	public void setExercises(String[] exercises) {
 		String toAssign = "";
 		for (int i = 0; i < exercises.length; i++) {
 			toAssign += exercises[i] + "|";
 		}
-		AbstractServerCall command = new SetLMExercisesCommand(toAssign, (ProxyFacilitator) this);
+		AbstractServerCall command = new SetLMExercisesCommand(toAssign, this);
 		command.sendRequest();
 	}
 
 	/**
 	 * Initial callback to set up currently assigned problems
 	 */
+	@Override
 	public void setCallback(String[] exercises, WEStatus status) {
 		if (status.getStat() == WEStatus.STATUS_SUCCESS) {
 			logicalTab.assigned().clear();
@@ -154,6 +161,7 @@ public class LogicalTabPresenterImpl implements ProxyFacilitator,
 		}
 	}
 
+	@Override
 	public void getCallback(String[] exercises, WEStatus status, String request) {
 		// Currently assigned
 		if (request.equals("")) {

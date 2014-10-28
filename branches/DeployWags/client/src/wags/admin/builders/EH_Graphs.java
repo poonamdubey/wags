@@ -16,6 +16,7 @@ public class EH_Graphs implements EH_Weighted {
 		return true;
 	}
 	
+	@Override
 	public void clear(){
 		Edge_Graphs.reset();
 	}

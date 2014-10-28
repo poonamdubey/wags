@@ -1,15 +1,16 @@
 package wags.ProxyFramework;
 
-import com.google.gwt.http.client.Response;
-
 import wags.Notification;
 import wags.WEStatus;
 import wags.magnet.view.StackableContainer;
+
+import com.google.gwt.http.client.Response;
 
 public class SaveCreatedMagnetCommand extends AbstractServerCall {
 
 	private StackableContainer magnet;
 	
+	@Override
 	protected void handleResponse(Response response)
 	{
 		WEStatus status = new WEStatus(response);

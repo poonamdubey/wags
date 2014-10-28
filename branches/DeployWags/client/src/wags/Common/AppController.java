@@ -27,6 +27,7 @@ import java.util.HashMap;
 
 import wags.ProxyFramework.AbstractServerCall;
 import wags.ProxyFramework.BuildDatabaseCommand;
+import wags.ProxyFramework.CheckPasswordCommand;
 import wags.ProxyFramework.GetMagnetProblemCommand;
 import wags.admin.ProblemCreationPanel;
 import wags.presenters.concrete.DefaultPagePresenterImpl;
@@ -61,7 +62,7 @@ import wags.views.concrete.MagnetTab;
 import wags.views.concrete.ProgrammingTab;
 import wags.views.concrete.ReviewTab;
 import wags.views.concrete.StudentTab;
-import wags.views.concrete.Wags;
+import wags.views.concrete.WagsViewImpl;
 import wags.views.interfaces.ProblemPageView;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -122,12 +123,14 @@ public class AppController implements ValueChangeHandler<String> {
 			token = Tokens.DEFAULT;
 		}
 		
-		Wags main = ClientFactory.getWagsView();
+		WagsViewImpl main = ClientFactory.getWagsView();
 		AcceptsOneWidget pres = new WagsPresenterImpl(main);
 		loadPage(token, pres, arg);
 		RootLayoutPanel root = RootLayoutPanel.get();
 		root.clear();
 		root.add(main);
+		AbstractServerCall checkPasswordCommand = new CheckPasswordCommand();
+		checkPasswordCommand.sendRequest();
 	}
 	
 	/**

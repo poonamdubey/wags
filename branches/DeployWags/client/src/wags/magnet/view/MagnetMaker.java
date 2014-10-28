@@ -151,6 +151,7 @@ public class MagnetMaker extends VerticalPanel {
 
 			final int target = calculatedTarget;
 			Command command = new Command() {
+				@Override
 				public void execute() {
 					showDropdowns(target);
 					selectedStructureIndex = target;
@@ -242,6 +243,7 @@ public class MagnetMaker extends VerticalPanel {
 	 * Create a stackable container and add it to the Construct Panel
 	 */
 	private class CreateHandler implements ClickHandler {
+		@Override
 		public void onClick(ClickEvent event) {
 			if (selectedStructureIndex == 0) {
 				return;

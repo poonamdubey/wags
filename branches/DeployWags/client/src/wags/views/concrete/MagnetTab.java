@@ -71,7 +71,8 @@ public class MagnetTab extends Composite implements ProxyFacilitator, MagnetTabV
 		
 		 listBox.addChangeHandler(new ChangeHandler()
 		 {
-		  public void onChange(ChangeEvent event)
+		  @Override
+		public void onChange(ChangeEvent event)
 		  {
 			  int selectedIndex = listBox.getSelectedIndex();
 			  if (selectedIndex > -1) 
@@ -102,6 +103,7 @@ public class MagnetTab extends Composite implements ProxyFacilitator, MagnetTabV
 		chkPanelExercises.addCheckBoxes(exercises);
 	}
 	
+	@Override
 	public void setExercises(String[] exercises){
 		String exerciseList = "";
 		for(int i = 0; i < exercises.length; i++){

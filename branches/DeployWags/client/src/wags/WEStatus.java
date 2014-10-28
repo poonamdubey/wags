@@ -59,7 +59,7 @@ public class WEStatus {
 			if (array != null) {
 				messageArray = new String[array.size()];
 				for (int i = 0; i < array.size(); i++) {
-					String msg = ((JSONValue) array.get(i)).toString();
+					String msg = array.get(i).toString();
 					messageArray[i] = msg.substring(1, msg.length() - 1);// Remove quotes
 				}
 				
@@ -127,7 +127,7 @@ public class WEStatus {
 			if (array != null) {
 				messageArray = new String[array.size()];
 				for (int i = 0; i < array.size(); i++) {
-					String msg = ((JSONValue) array.get(i)).toString();
+					String msg = array.get(i).toString();
 					messageArray[i] = msg.substring(1, msg.length() - 1);// Remove quotes
 				}
 				
