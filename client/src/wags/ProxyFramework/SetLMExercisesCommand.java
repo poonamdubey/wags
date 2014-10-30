@@ -19,13 +19,13 @@ public class SetLMExercisesCommand extends AbstractServerCall {
 		
 		WEStatus status = new WEStatus(response);
 		Notification.notify(status.getStat(), status.getMessage());
-		pf.setCallback(forCallback.substring(0, forCallback.length() - 1).split("\\|"), status);
+		pf.setCallback(forCallback.split("\\|"), status);
 	}
 	
 	public SetLMExercisesCommand(String toAssign, final ProxyFacilitator pf)
 	{
 		command = ProxyCommands.SetLogicalExercises;
-		addArgument("title", toAssign);
+		addArgument("list", toAssign);
 		this.pf = pf;
 		this.toAssign = toAssign;
 	}

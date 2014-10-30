@@ -3,25 +3,36 @@ package wags.views.concrete;
 import java.util.HashMap;
 
 import wags.ProxyFacilitator;
-import wags.WEStatus;
 import wags.Common.Presenter;
 import wags.ProxyFramework.AbstractServerCall;
+import wags.ProxyFramework.GetLMAssigned;
 import wags.ProxyFramework.GetLMExercisesCommand;
 import wags.ProxyFramework.GetLMGroupsCommand;
 import wags.ProxyFramework.GetLMSubjectsCommand;
+import wags.ProxyFramework.GetMMAssignedCommand;
+import wags.ProxyFramework.GetMMGroupsCommand;
+import wags.ProxyFramework.ProxyCommands;
 import wags.ProxyFramework.SetLMExercisesCommand;
+import wags.ProxyFramework.SetMMExercisesCommand;
 import wags.admin.AssignedPanel;
 import wags.admin.ButtonPanel;
 import wags.admin.CheckBoxPanel;
+import wags.admin.builders.LMBuilderFactory;
+import wags.admin.builders.LMTraversalDisplay;
 import wags.presenters.interfaces.LogicalTabPresenter;
 import wags.views.interfaces.LogicalTabView;
+import wags.WEStatus;
 
 import com.github.gwtbootstrap.client.ui.CheckBox;
+import com.github.gwtbootstrap.client.ui.ListBox;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
@@ -45,37 +56,91 @@ public class LogicalTab extends Composite implements ProxyFacilitator,
 	CheckBoxPanel chkPanelExercises;
 	@UiField
 	AssignedPanel assigned, selected;
+	@UiField ListBox subjectListBox, groupsListBox;
 
 	public LogicalTab() {
 		initWidget(uiBinder.createAndBindUi(this));
 
-		// Proxy calls
+		// Calls the server to get subjects
 		AbstractServerCall cmd = new GetLMSubjectsCommand(this);
 		cmd.sendRequest();
-
+		
+		//Calls the server to get already assigned exercises 
+		AbstractServerCall getCmd = new GetLMAssigned(this,"");
+		getCmd.sendRequest();
 		// Proxy.getLMAssigned(this);
 
 		// Initial set up
 		// set up button panels
-		btnPanelSubjects.setTitle("SUBJECTS");
-		btnPanelGroups.setTitle("GROUPS");
 		// set up checkbox panel
-		chkPanelExercises.setTitle("EXERCISES");
 		chkPanelExercises.setAssignedPanel(selected);
 
 		// setup assigned panels
-		selected.setTitle("SELECTED");
 		selected.setAssigned(false);
 		selected.setPartner(assigned);
 		selected.setParent(this);
 		selected.setExercises(chkPanelExercises);
-		assigned.setTitle("ASSIGNED");
 		assigned.setAssigned(true);
 		assigned.setPartner(selected);
 		assigned.setParent(this);
 
 		addSubjectClickHandlers();
 		addGroupClickHandlers();
+		
+		subjectListBox.addChangeHandler(new ChangeHandler()
+		 {
+		  public void onChange(ChangeEvent event)
+		  {
+			  int selectedIndex = subjectListBox.getSelectedIndex();
+			  if (selectedIndex > -1) 
+			  {
+				  String title = subjectListBox.getValue(selectedIndex);
+				  groupsListBox.clear();
+				  //This shouldn't be done. Please help. 
+				  switch( title) {
+				  case "Binary Trees":
+					  btnPanelSubjects.myButtons.get(0).click();
+				  	  break;
+				  case "Created":
+					  btnPanelSubjects.myButtons.get(6).click();
+				  	  break;
+				  case "Graphs":
+					  btnPanelSubjects.myButtons.get(1).click();
+				  	  break;
+				  case "Hashing":
+					  btnPanelSubjects.myButtons.get(2).click();
+				  	  break;
+				  case "Heaps":
+					  btnPanelSubjects.myButtons.get(3).click();
+				  	  break;
+				  case "Quicksort":
+					  btnPanelSubjects.myButtons.get(4).click();
+				  	  break;
+				  case "RadixSort":
+					  btnPanelSubjects.myButtons.get(5).click();
+				  	  break;
+				  default:
+				  	Window.alert("Not yet implemented");
+				  	btnPanelSubjects.myButtons.get(0).click();
+				  	
+				  }
+				  chkPanelExercises.clearCheckBoxes();
+		      }
+		  }
+		 });
+		
+		groupsListBox.addChangeHandler(new ChangeHandler()
+		 {
+		  public void onChange(ChangeEvent event)
+		  {
+			  int selectedIndex = groupsListBox.getSelectedIndex();
+			  if (selectedIndex > -1) 
+			  {
+				  btnPanelGroups.myButtons.get(selectedIndex).click();
+		      }
+		  }
+		 });
+		
 	}
 
 	// -------------------------------
@@ -142,12 +207,21 @@ public class LogicalTab extends Composite implements ProxyFacilitator,
 	@Override
 	public void handleSubjects(String[] subjects) {
 		btnPanelSubjects.addButtons(subjects);
+		subjectListBox.addItem("Subjects");
+		for (int i = 0; i < subjects.length; i++)
+		{
+			subjectListBox.addItem("" + subjects[i]);
+		}
 		addSubjectClickHandlers();
 	}
 
 	@Override
 	public void handleGroups(String[] groups) {
 		btnPanelGroups.addButtons(groups);
+		for (int i = 0; i < groups.length; i++)
+		{
+			groupsListBox.addItem("" + groups[i]);
+		}
 		addGroupClickHandlers();
 	}
 
@@ -159,20 +233,24 @@ public class LogicalTab extends Composite implements ProxyFacilitator,
 	/**
 	 * Assigning exercises
 	 */
-	@Override
-	public void setExercises(String[] exercises) {
-		String toAssign = "";
-		for (int i = 0; i < exercises.length; i++) {
-			toAssign += exercises[i] + "|";
+	public void setExercises(String[] exercises){
+		String exerciseList = "";
+		for(int i = 0; i < exercises.length; i++){
+			if(exercises.length>1 && !exercises[i].equals("none")){
+				exerciseList += exercises[i] + "|";
+			}
 		}
-		AbstractServerCall LMCmd = new SetLMExercisesCommand(toAssign, this);
-		LMCmd.sendRequest();
+		
+		if(exerciseList.length() > 0)  // a comma was added
+			exerciseList = exerciseList.substring(0, exerciseList.length()-1);
+		
+		AbstractServerCall cmd = new SetLMExercisesCommand(exerciseList, this);
+		cmd.sendRequest();
 	}
 
 	/**
 	 * Initial callback to set up currently assigned problems
 	 */
-	@Override
 	public void setCallback(String[] exercises, WEStatus status) {
 		if (status.getStat() == WEStatus.STATUS_SUCCESS) {
 			assigned.clear();
@@ -191,13 +269,20 @@ public class LogicalTab extends Composite implements ProxyFacilitator,
 					.getAssignments();
 			for (int i = 0; i < exercises.length; i++) {
 				assigned.add(exercises[i]);
-
 				CheckBox tmpCheck = new CheckBox(exercises[i]);
 				chkPanelExercises.addClickHandler(tmpCheck);
 				tmpCheck.setValue(true);
 				chkBoxes.put(exercises[i], tmpCheck);
 			}
 		}
+	}
+	
+	public void update(){
+		AbstractServerCall groupsCmd = new GetLMSubjectsCommand(this);
+		groupsCmd.sendRequest();
+		AbstractServerCall assignedCmd = new GetLMAssigned(this, "");
+		assignedCmd.sendRequest();
+		addGroupClickHandlers();
 	}
 
 	@Override
