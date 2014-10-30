@@ -4,6 +4,7 @@ import java.util.List;
 import wags.Common.ClientFactory;
 import wags.Common.Tokens;
 import wags.ProxyFramework.AbstractServerCall;
+import wags.ProxyFramework.CheckPasswordCommand;
 import wags.ProxyFramework.LogoutCommand;
 import wags.presenters.interfaces.WagsPresenter;
 import wags.views.concrete.ProblemPage;
@@ -50,6 +51,11 @@ public class WagsPresenterImpl implements WagsPresenter, AcceptsOneWidget
 		wags.getLogoutAnchor().setVisible(isLoggedIn);
 		//wags.getUserAnchor().setVisible(isLoggedIn);
 		wags.getAdminAnchor().setVisible(isAdmin);
+		
+		if (isLoggedIn) {
+			AbstractServerCall checkPasswordCommand = new CheckPasswordCommand();
+			checkPasswordCommand.sendRequest();
+		}
 	}
 
 	@Override
