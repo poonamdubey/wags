@@ -18,7 +18,6 @@
 
 	<b:Row>
 		<b:Column size="4">
-		    
 		    <g:VerticalPanel ui:field="chkBoxHolder"/>
 		    <b:Label ui:field="title" styleName="{style.inline}"/>
 		</b:Column>
