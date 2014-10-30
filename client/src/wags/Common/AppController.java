@@ -28,6 +28,7 @@ import java.util.HashMap;
 import wags.ProxyFramework.AbstractServerCall;
 import wags.ProxyFramework.BuildDatabaseCommand;
 import wags.ProxyFramework.CheckPasswordCommand;
+import wags.ProxyFramework.GetLogicalMicrolabCommand;
 import wags.ProxyFramework.GetMagnetProblemCommand;
 import wags.admin.ProblemCreationPanel;
 import wags.presenters.concrete.DefaultPagePresenterImpl;
@@ -129,8 +130,6 @@ public class AppController implements ValueChangeHandler<String> {
 		RootLayoutPanel root = RootLayoutPanel.get();
 		root.clear();
 		root.add(main);
-		AbstractServerCall checkPasswordCommand = new CheckPasswordCommand();
-		checkPasswordCommand.sendRequest();
 	}
 	
 	/**
@@ -179,6 +178,7 @@ public class AppController implements ValueChangeHandler<String> {
 		}	
 	}
 	
+
 	/**
 	 * A method called upon login and logout which will set the necessary details of the application
 	 * wide model with updated information about user status. 
