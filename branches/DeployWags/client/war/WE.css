@@ -15,6 +15,22 @@
 	border-width: 3px;
 }
 
+
+.accordion-toggle {
+        display: block;
+        background: #34495e !important;
+	color: white !important;
+	padding: 8px 15px;
+	text-align: center;
+	font-size: 22px;
+}
+
+.accordion-toggle:hover {
+       background: #34495e !important;
+       color: white !important;
+}
+
+
 /** GENERAL APP CSS **/
 .banner {
 	font-size: 16pt;
@@ -508,7 +524,7 @@ textarea {
 .conditional_over{
 	background: #B2B247;
 }
-.function{
+a, a:visited, a:hover.function{
 	background: #ffffff;
 }
 .function_over{
