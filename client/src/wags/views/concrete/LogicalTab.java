@@ -83,7 +83,7 @@ public class LogicalTab extends Composite implements ProxyFacilitator,
 		assigned.setAssigned(true);
 		assigned.setPartner(selected);
 		assigned.setParent(this);
-
+		groupsListBox.addItem("Select a group");
 		addSubjectClickHandlers();
 		addGroupClickHandlers();
 		
@@ -120,7 +120,6 @@ public class LogicalTab extends Composite implements ProxyFacilitator,
 					  btnPanelSubjects.myButtons.get(5).click();
 				  	  break;
 				  default:
-				  	Window.alert("Not yet implemented");
 				  	btnPanelSubjects.myButtons.get(0).click();
 				  	
 				  }
@@ -136,7 +135,7 @@ public class LogicalTab extends Composite implements ProxyFacilitator,
 			  int selectedIndex = groupsListBox.getSelectedIndex();
 			  if (selectedIndex > -1) 
 			  {
-				  btnPanelGroups.myButtons.get(selectedIndex).click();
+				  btnPanelGroups.myButtons.get(selectedIndex-1).click();
 		      }
 		  }
 		 });
@@ -207,7 +206,7 @@ public class LogicalTab extends Composite implements ProxyFacilitator,
 	@Override
 	public void handleSubjects(String[] subjects) {
 		btnPanelSubjects.addButtons(subjects);
-		subjectListBox.addItem("Subjects");
+		subjectListBox.addItem("Select a subject");
 		for (int i = 0; i < subjects.length; i++)
 		{
 			subjectListBox.addItem("" + subjects[i]);
@@ -218,6 +217,7 @@ public class LogicalTab extends Composite implements ProxyFacilitator,
 	@Override
 	public void handleGroups(String[] groups) {
 		btnPanelGroups.addButtons(groups);
+		groupsListBox.addItem("Select a group");
 		for (int i = 0; i < groups.length; i++)
 		{
 			groupsListBox.addItem("" + groups[i]);
@@ -236,13 +236,13 @@ public class LogicalTab extends Composite implements ProxyFacilitator,
 	public void setExercises(String[] exercises){
 		String exerciseList = "";
 		for(int i = 0; i < exercises.length; i++){
-			if(exercises.length>1 && !exercises[i].equals("none")){
+			if(exercises.length>=1 && !exercises[i].equals("none")){
 				exerciseList += exercises[i] + "|";
 			}
 		}
 		
 		if(exerciseList.length() > 0)  // a comma was added
-			exerciseList = exerciseList.substring(0, exerciseList.length()-1);
+			exerciseList = exerciseList.substring(0, exerciseList.length());
 		
 		AbstractServerCall cmd = new SetLMExercisesCommand(exerciseList, this);
 		cmd.sendRequest();
