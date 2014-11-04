@@ -135,6 +135,8 @@ public class CodePanelUi extends Composite {
 			ResultsPanelUi.clearCodeArea();
 			ResultsPanelUi.setCodeText(code);
 			code = code.replaceAll(Consts.HC_DELIMITER, "");
+			code = code.trim();
+			code = code.replace("\t", " ");
 			AbstractServerCall cmd = new MagnetReviewCommand(getSaveState(), refrigeratorMagnet.getID(), code, title);
 			cmd.sendRequest();
 			refrigeratorMagnet.tabPanel.selectTab(1);

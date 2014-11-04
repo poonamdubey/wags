@@ -6,6 +6,9 @@
 		.overflow {
 			overflow-y:scroll;
 		}
+		.page_width {
+			width:100vw;
+		}
 	</ui:style>
 	
 	<g:FlowPanel addStyleNames="{style.overflow}">
@@ -33,7 +36,7 @@
 			</b:NavCollapse>
 		</b:ResponsiveNavbar>
 		
-		<b:Container ui:field="center">
+		<b:Container ui:field="center" addStyleNames="{style.page_width}">
 		    
 		</b:Container>
 	</g:FlowPanel>
