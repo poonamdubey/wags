@@ -15,6 +15,7 @@
 // Wags code to keep processes from running indefinitely
 
 # define a time (in seconds) to wait for a program to finish
+
 define('WAIT_TIME', 3);
 
 # Get arguments passed in
@@ -90,8 +91,7 @@ switch($lang)
         break;
 
     case "Python":
-        $process = proc_open("exec python $dir/$testFilename $nonce 2>&1", $descriptorspec, $pipes);
-
+        $process = proc_open("exec /usr/bin/python $dir/$testFileName $nonce 2>&1", $descriptorspec, $pipes);
         break;
 
 	default:
