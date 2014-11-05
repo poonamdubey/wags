@@ -141,8 +141,6 @@ public class WagsPresenterImpl implements WagsPresenter, AcceptsOneWidget
 
 	@Override
 	public void onProblemsClick() {
-		History.newItem(Tokens.PROBLEMS);
+		History.newItem(Tokens.CODE);
 	}
-	
-	
 }

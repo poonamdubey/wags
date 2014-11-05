@@ -28,7 +28,6 @@ import java.util.HashMap;
 import wags.ProxyFramework.AbstractServerCall;
 import wags.ProxyFramework.BuildDatabaseCommand;
 import wags.ProxyFramework.CheckPasswordCommand;
-import wags.ProxyFramework.GetLogicalMicrolabCommand;
 import wags.ProxyFramework.GetMagnetProblemCommand;
 import wags.admin.ProblemCreationPanel;
 import wags.presenters.concrete.DefaultPagePresenterImpl;
@@ -91,7 +90,7 @@ public class AppController implements ValueChangeHandler<String> {
 	
 	/**
 	 * Called whenever GWT's History class notices a change (ie: the url is changed). Is the entry point
-	 * for all page transitions. Special page transition rules (privilage checks, redirectgs, etc) go in here.
+	 * for all page transitions. Special page transition rules (privilege checks, redirects, etc) go in here.
 	 * 
 	 * @param event An event which is triggered when the History value changes. The event object contains the 
 	 * 				updated url (the new token) which is used to carry out page transitions. 
@@ -120,7 +119,7 @@ public class AppController implements ValueChangeHandler<String> {
 			}
 		}
 		else if(token.startsWith(Tokens.ADMIN) && !isAdmin) {
-			Window.alert("You do not have admin privelages");
+			Window.alert("You do not have admin privileges");
 			token = Tokens.DEFAULT;
 		}
 		
@@ -178,7 +177,6 @@ public class AppController implements ValueChangeHandler<String> {
 		}	
 	}
 	
-
 	/**
 	 * A method called upon login and logout which will set the necessary details of the application
 	 * wide model with updated information about user status. 

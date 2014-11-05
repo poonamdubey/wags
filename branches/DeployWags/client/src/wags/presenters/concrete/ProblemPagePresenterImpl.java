@@ -1,6 +1,7 @@
 package wags.presenters.concrete;
 import java.util.List;
 
+import wags.Common.Tokens;
 import wags.ProxyFramework.AbstractServerCall;
 import wags.ProxyFramework.LoadAssignedProblemsCommand;
 import wags.magnet.view.ProblemPageModel;
@@ -9,6 +10,7 @@ import wags.views.elements.ProblemButton;
 import wags.views.interfaces.ProblemPageView;
 
 import com.github.gwtbootstrap.client.ui.constants.IconType;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.UIObject;
@@ -135,16 +137,19 @@ public class ProblemPagePresenterImpl implements ProblemPagePresenter {
 	@Override
 	public void onMagnetCategoryClick() {
 		model.setPageState(MAGNET_STATE, true);
+		History.newItem(Tokens.CODE);
 	}
 
 	@Override
 	public void onLogicalCategoryClick() {
 		model.setPageState(LOGICAL_STATE, true);
+		History.newItem(Tokens.LOGICAL);
 	}
 
 	@Override
-	public void onDatabaseCategroryClick() {
+	public void onDatabaseCategoryClick() {
 		model.setPageState(DATABASE_STATE, true);
+		History.newItem(Tokens.DBMAIN);
 	}
 
 	/**
