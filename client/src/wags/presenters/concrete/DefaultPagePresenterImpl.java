@@ -93,7 +93,7 @@ public class DefaultPagePresenterImpl implements DefaultPagePresenter, AcceptsOn
 
 	@Override
 	public void onProblemsClick() {
-		History.newItem(Tokens.PROBLEMS);
+		History.newItem(Tokens.CODE);
 		
 	}
 

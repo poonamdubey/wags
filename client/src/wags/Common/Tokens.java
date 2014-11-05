@@ -13,6 +13,9 @@ public abstract class Tokens
 	public static final String EDITOR = "editor";
 	public static final String MAGNET = "magnets";
 	public static final String PROBLEMS = "problems";
+	public static final String LOGICAL = "problems&loc=logical";
+	public static final String CODE = "problems&loc=code";
+	public static final String DBMAIN = "problems&loc=database";		
 	public static final String DST = "dst";
 	public static final String ADMIN = "admin";
 	public static final String DATABASE = "database";

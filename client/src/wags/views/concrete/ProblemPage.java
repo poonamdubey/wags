@@ -89,7 +89,7 @@ public class ProblemPage extends Composite implements ProblemPageView {
 	
 	@UiHandler ("databaseCategory")
 	public void onDatabaseCategoryClick(ClickEvent event) {
-		presenter.onDatabaseCategroryClick();
+		presenter.onDatabaseCategoryClick();
 	}
 
 	@Override

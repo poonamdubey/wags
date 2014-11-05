@@ -20,7 +20,7 @@ public interface ProblemPagePresenter extends Presenter {
 	
 	public void onMagnetCategoryClick();
 	public void onLogicalCategoryClick();
-	public void onDatabaseCategroryClick();
+	public void onDatabaseCategoryClick();
 	
 	public void setPageState(int pageState);
 }
