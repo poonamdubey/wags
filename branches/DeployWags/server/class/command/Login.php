@@ -13,7 +13,6 @@ class Login extends Command
         if(Auth::isLoggedIn()){
             return JSON::warn('Already logged in.');
         }
-
         if(isset($_REQUEST['username']) && isset($_REQUEST['password'])){
             $result = Auth::login($_REQUEST['username'],$_REQUEST['password']);
             if($result){
