@@ -45,10 +45,6 @@ class Auth
     public static function login($username, $password)
     {
         require_once('User.php');
-        if ($username === "" || $password === "") {
-            self::logout();
-            return false;
-        }
         if(!User::isUsername($username)){
             self::logout();
             return false;
