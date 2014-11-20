@@ -41,6 +41,7 @@ public class DefaultPage extends Composite implements DefaultPageView {
 	@UiField Label welcomeText; 
 	@UiField Label loginText;
 	@UiField Row loginScreen;
+	@UiField UIObject makeAccount;
 	
 	private DefaultPagePresenter presenter;
 	
@@ -94,6 +95,18 @@ public class DefaultPage extends Composite implements DefaultPageView {
 	void onClick(ClickEvent event)
 	{
 		presenter.onLoginClick();
+	}
+	
+	@UiHandler("guestLoginButton")
+	void onGuestClick(ClickEvent event)
+	{
+		presenter.onGuestLoginClick();
+	}
+	
+	@UiHandler("makeAccount")
+	void onClickForAccount(ClickEvent event)
+	{
+		presenter.onCreationClick();
 	}
 	
 	@Override

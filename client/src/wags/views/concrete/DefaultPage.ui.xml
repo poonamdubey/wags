@@ -90,7 +90,7 @@
 			margin-right: auto;
 			padding-top: 20px;
 			background-color:#1abc9c;
-			width: 30%;
+			width: 50%;
 			padding-bottom: 20px;
 			border: 1px solid grey;
 			border-radius: 6px;
@@ -111,16 +111,35 @@
 
 		.about {
 			text-align: left;
-			font-size: 14px;
-			background:#34495e;
 			color: white;
+			width: 75vw;
+			margin: 0 auto;
+		}
+
+		.aboutChild {
+			text-align:left;
+			color: white;
+			width: 94%;
+			margin: 0 auto;
 		}
 
 		.aboutIcon {
 			font-size: 6px;
 			vertical-align: middle;
-			color: white;
+			color: #34495e;
 		}
+
+		.makeAccount1 {
+			min-width: 16%;
+			margin: 2px;
+		}
+
+		.makeAccount2 {
+			min-width: 40%;
+			margin: 2px;
+		}
+                                                                                                       
+}  
 
 	</ui:style>
 
@@ -136,25 +155,34 @@
 			<b:Button size="LARGE" addStyleNames="{style.button}" ui:field='problemsButton'>Assigned Problems</b:Button>
 		</b:Row>
 		<b:Row ui:field="loginScreen" addStyleNames="{style.login}">
+		    <b:Column size="3">
 			<b:Row>
 	        	<b:TextBox placeholder="username" ui:field="username"/>
 			</b:Row>
 	    	<b:Row>
 			    <b:PasswordTextBox placeholder="password" ui:field="password"/>
 			</b:Row>
+			</b:Column>
+			<b:Column size="3">
 	        <b:Row>
-	            <b:Button addStyleNames="btn" ui:field="loginButton">Login</b:Button>
+	            <b:Button addStyleNames="btn, {style.makeAccount1}" ui:field="loginButton">Login</b:Button>
+	            <b:Button addStyleNames="btn, {style.makeAccount1}" ui:field="guestLoginButton">Guest</b:Button>
 	        </b:Row>
+	        <b:Row>
+	            <b:Button addStyleNames="btn, {style.makeAccount2}" ui:field="makeAccount">Request an Account</b:Button>
+	        </b:Row>
+	        </b:Column>
 	     </b:Row>
 		<b:Row addStyleNames="{style.aboutContain}">
-		    <b:Heading size="4">What is WAGS (Web Automated Grading System)?</b:Heading>
-		            <b:Accordion>
-		                <b:AccordionGroup addStyleNames="{style.about}" heading="Student Activities" defaultOpen="false">
+		      <b:Accordion>
+		          <b:AccordionGroup addStyleNames="{style.about}" heading="What features does WAGS provide?" defaultOpen="false" icon="CHEVRON_DOWN" iconPosition="RIGHT">
+		              <b:Accordion>
+		          		<b:AccordionGroup addStyleNames="{style.aboutChild}" heading="Student Activities" defaultOpen="false" icon="CHEVRON_DOWN" iconPosition="RIGHT">
 		            		<b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> Select a tab to complete from the currently visible microlabs</b:Paragraph>
 		            		<b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> View results on labs currently being attempted or already completed</b:Paragraph>
 		            		<b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> Review labs already completed, typically done in preparation for an exam</b:Paragraph>
-		        		</b:AccordionGroup>
-		        		<b:AccordionGroup heading="Instructor Activities" defaultOpen="false" addStyleNames="{style.about}">
+		           		</b:AccordionGroup>
+		        	<b:AccordionGroup heading="Instructor Activities" defaultOpen="false" addStyleNames="{style.aboutChild}" icon="CHEVRON_DOWN" iconPosition="RIGHT">
 		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> Enroll students into the system</b:Paragraph>
 		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> Activate each lab session</b:Paragraph>
 		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> Monitor completion of lab activities; this can be done on a real-time basis during class</b:Paragraph>
@@ -162,9 +190,12 @@
 		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> Download performance in a CSV format</b:Paragraph>
 		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> Allow students to review labs already completed</b:Paragraph>
 		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> Modify existing code magnet labs or create new labs</b:Paragraph>
-		        		</b:AccordionGroup>
-		        <b:Heading size="4">What labs are currently available?</b:Heading>
-		        		<b:AccordionGroup heading="Logical Microlabs" defaultOpen="false" addStyleNames="{style.about}">
+		        	</b:AccordionGroup>
+		        	</b:Accordion>
+		        </b:AccordionGroup>
+		        <b:AccordionGroup addStyleNames="{style.about}" heading="What labs are currently available?" defaultOpen="false" icon="CHEVRON_DOWN" iconPosition="RIGHT">
+		            <b:Accordion>
+		           		<b:AccordionGroup heading="Logical Microlabs" defaultOpen="false" addStyleNames="{style.aboutChild}" icon="CHEVRON_DOWN" iconPosition="RIGHT">
 		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> Binary Trees: Tree traversals (pre, in, post, level); insert into BST; build BST from postorder; build binary tree from pre/inorder</b:Paragraph>
 		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> Graphs: MST Kruskal, MST Prim</b:Paragraph>
 		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> Max Heaps: Insertion; Deletion, Build Heap</b:Paragraph>
@@ -172,7 +203,7 @@
 		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> Sorting: Heap Sort, Radix Sort</b:Paragraph>
 		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> Hashing: Linear probing; quadratic probing</b:Paragraph>
 		        		</b:AccordionGroup>
-		        		<b:AccordionGroup heading="Standard Code Magnet Labs (all available in Java, * means available in C)" defaultOpen="false" addStyleNames="{style.about}">
+		        		<b:AccordionGroup heading="Standard Code Magnet Labs" defaultOpen="false" addStyleNames="{style.aboutChild}" icon="CHEVRON_DOWN" iconPosition="RIGHT">
 		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> Class Operations: five labs</b:Paragraph>
 		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> Control Structures: If: four labs; While: four labs; For: four labs</b:Paragraph>
 		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> Arrays and ArrayLists: Arrays: five labs; ArrayLists: three labs</b:Paragraph>
@@ -185,13 +216,13 @@
 		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> Lists: Big Integer: Add, Big Integer: digit multiply, Big Integer: Multiply</b:Paragraph>
 		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> Stacks and Queues: Postfix Evaluation; Balance Checker; Josephus Algorithm</b:Paragraph>
 		        		</b:AccordionGroup>
-		        		<b:AccordionGroup heading="Prolog Code Magnet Labs" defaultOpen="false" addStyleNames="{style.about}">
+		        		<b:AccordionGroup heading="Prolog Code Magnet Labs" defaultOpen="false" addStyleNames="{style.aboutChild}" icon="CHEVRON_DOWN" iconPosition="RIGHT">
 		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> List Operations: deleteFirstOccurrence, myFlatten, myReverse, replace, removeAdjacentDuplicates, sublist, myAppend, deleteAll, myLength</b:Paragraph>
 		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> Numeric Operations: convert, allCombinations, primeFactors</b:Paragraph>
 		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> Tree Operations: buildBST, countLeaves, Preorder Traversal, Inorder Traversal</b:Paragraph>
 		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> Other: Family Tree: four labs; Graphs: two labs, N Queens</b:Paragraph>
 		        		</b:AccordionGroup>
-		        		<b:AccordionGroup heading="Advanced Code Magnet Labs" defaultOpen="false" addStyleNames="{style.about}">
+		        		<b:AccordionGroup heading="Advanced Code Magnet Labs" defaultOpen="false" addStyleNames="{style.aboutChild}" icon="CHEVRON_DOWN" iconPosition="RIGHT">
 		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> Control Structures: While: Log2; For: sumGeometricSeries</b:Paragraph>
 		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> Searching and Sorting: Recursive Binary Search, Recursive Insertion Sort</b:Paragraph>
 		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> Binary Trees: insert into BST</b:Paragraph>
@@ -199,30 +230,22 @@
 		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> Lists: Big Integer: Add, BigInteger: digit multiply, Big Integer: Multiply</b:Paragraph>
 		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> Stacks and Queues: Josephus Algorithm, Stacks: Balance Checker</b:Paragraph>
 		        		</b:AccordionGroup>
-		        <b:Heading size="4">What are Logical Microlabs?</b:Heading>
-		        		<b:AccordionGroup defaultOpen="false" addStyleNames="{style.about}" icon="CHEVRON_DOWN"> 
+		        	</b:Accordion>
+		        	</b:AccordionGroup>
+		        	<b:AccordionGroup heading="What are Logical Microlabs?" defaultOpen="false" addStyleNames="{style.about}" icon="CHEVRON_DOWN" iconPosition="RIGHT">
 		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> Students solve a conceptual problem by arranging icons on a screen, such as building a binary tree, or by selecting icons in a correct sequence when finding a minimum spanning tree</b:Paragraph>
 		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> Typically there are three or four variations for each topic, each with different data</b:Paragraph>
 		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> Students can attempt the same lab multiple times until they discover a solution</b:Paragraph>
 		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> If not completed during class, students can be given additional time to complete outside of class</b:Paragraph>
-		        		    </b:AccordionGroup>
-		        <b:Heading size="4">What are Code Magnet Microlabs?</b:Heading>
-		        		<b:AccordionGroup defaultOpen="false" addStyleNames="{style.about}" icon="CHEVRON_DOWN">
+		           </b:AccordionGroup>
+		           <b:AccordionGroup heading="What are Code Magnet Microlabs?" defaultOpen="false" addStyleNames="{style.about}" icon="CHEVRON_DOWN" iconPosition="RIGHT">
 		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> Students construct a method by arranging given code magnets inside the method</b:Paragraph>
 		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> Magnets can be nested inside control structure magnets</b:Paragraph>
 		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> The languages currently supported are Java, C/C++, and Prolog</b:Paragraph>
 		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> The student code is compiled and subjected to unit testing; feedback guides the student toward a correct solution; multiple attempts are allowed</b:Paragraph>
 		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> If not completed during class, students can be given additional time to complete ouside of class</b:Paragraph>
-		        		</b:AccordionGroup>
-		        <b:Heading size="4">What are Alternative Code Magnets?</b:Heading>
-		        		<b:AccordionGroup defaultOpen="false" addStyleNames="{style.about}" icon="CHEVRON_DOWN">
-		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> If every magnet is used, the problem is simply to get the magnets in the correct order</b:Paragraph>
-		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> If additional magnets are present, the student must also select which ones to use and which ones to leave unused</b:Paragraph>
-		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> The alternative magnets may contain variations, such as a &lt;= comparison versus a &lt; comparison</b:Paragraph>
-		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> Labs with alternative magnets are a bit more challenging and may take more attempts to complete</b:Paragraph>
-		        		</b:AccordionGroup>
-		        <b:Heading size="4">What are Advanced Code Magnets?</b:Heading>
-		        		<b:AccordionGroup defaultOpen="false" addStyleNames="{style.about}" icon="CHEVRON_DOWN">
+		        	</b:AccordionGroup>
+		        	<b:AccordionGroup heading="What are Advanced Code Magnets?" defaultOpen="false" addStyleNames="{style.about}" icon="CHEVRON_DOWN" iconPosition="RIGHT">
 		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> Students first build some of the needed magnets</b:Paragraph>
 		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> Magnet builders may exist for while, if, and for control structures and assignment and return statements</b:Paragraph>
 		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> The magnet itself has pull down menus where the student makes a selection from the choices</b:Paragraph>
@@ -230,8 +253,8 @@
 		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> The developer sets the maximum number of magnets allowed for each type</b:Paragraph>
 		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> Other magnets may be given as standard magnets; both types of magnets are then used to build the desired method or methods</b:Paragraph>
 		        		    <b:Paragraph><b:Icon type="CIRCLE" addStyleNames="{style.aboutIcon}"></b:Icon> These labs are substantially more challenging and typically are completed outside of lecture</b:Paragraph>
-		        		</b:AccordionGroup>
-		        </b:Accordion>
+		        	</b:AccordionGroup>
+		       </b:Accordion>
 		</b:Row>
 		
 	</b:Container>

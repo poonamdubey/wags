@@ -5,6 +5,7 @@ import java.util.List;
 import wags.Common.ClientFactory;
 import wags.Common.Tokens;
 import wags.ProxyFramework.AbstractServerCall;
+import wags.ProxyFramework.LoginAsGuestCommand;
 import wags.ProxyFramework.LoginCommand;
 import wags.presenters.interfaces.DefaultPagePresenter;
 import wags.views.interfaces.DefaultPageView;
@@ -68,6 +69,13 @@ public class DefaultPagePresenterImpl implements DefaultPagePresenter, AcceptsOn
 	}
 	
 	@Override
+	public void onGuestLoginClick() 
+	{
+		AbstractServerCall cmd = new LoginAsGuestCommand();
+		cmd.sendRequest();
+	}
+	
+	@Override
 	public void onKeyPressForUsername(KeyPressEvent event) {
 		if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER)
 		{
@@ -95,6 +103,11 @@ public class DefaultPagePresenterImpl implements DefaultPagePresenter, AcceptsOn
 	public void onProblemsClick() {
 		History.newItem(Tokens.CODE);
 		
+	}
+	
+	@Override
+	public void onCreationClick() {
+		History.newItem(Tokens.ACCOUNT);
 	}
 
 }
