@@ -51,5 +51,7 @@ public abstract class ProxyCommands
     public static final String SubmitDST = "SubmitDST";
     public static final String GetUserDetails = "GetUserDetails";
     public static final String LoginAsGuest = "LoginAsGuest";
+    public static final String RequestAccount = "RequestAccount";
+        		
 }
 

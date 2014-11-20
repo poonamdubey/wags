@@ -30,6 +30,7 @@ import wags.ProxyFramework.BuildDatabaseCommand;
 import wags.ProxyFramework.CheckPasswordCommand;
 import wags.ProxyFramework.GetMagnetProblemCommand;
 import wags.admin.ProblemCreationPanel;
+import wags.presenters.concrete.AccountPagePresenterImpl;
 import wags.presenters.concrete.DefaultPagePresenterImpl;
 import wags.presenters.concrete.EditorPresenterImpl;
 import wags.presenters.concrete.LMEditTabPresenterImpl;
@@ -42,6 +43,7 @@ import wags.presenters.concrete.ProgrammingTabPresenterImpl;
 import wags.presenters.concrete.ReviewTabPresenterImpl;
 import wags.presenters.concrete.StudentTabPresenterImpl;
 import wags.presenters.concrete.WagsPresenterImpl;
+import wags.presenters.interfaces.AccountPagePresenter;
 import wags.presenters.interfaces.DefaultPagePresenter;
 import wags.presenters.interfaces.EditorPresenter;
 import wags.presenters.interfaces.LMEditTabPresenter;
@@ -53,6 +55,7 @@ import wags.presenters.interfaces.ProblemPagePresenter;
 import wags.presenters.interfaces.ProgrammingTabPresenter;
 import wags.presenters.interfaces.ReviewTabPresenter;
 import wags.presenters.interfaces.StudentTabPresenter;
+import wags.views.concrete.AccountPage;
 import wags.views.concrete.DefaultPage;
 import wags.views.concrete.Editor;
 import wags.views.concrete.LMEditTab;
@@ -107,7 +110,7 @@ public class AppController implements ValueChangeHandler<String> {
 		if (token == null) {
 			token = Tokens.DEFAULT;
 		}
-		if (! isLoggedIn ) {
+		if (! isLoggedIn && token != Tokens.ACCOUNT) {
 			token = Tokens.DEFAULT;
 		}
 		if ( token.startsWith(Tokens.DEFAULT)) {
@@ -172,6 +175,9 @@ public class AppController implements ValueChangeHandler<String> {
 		case Tokens.MAGNETPROBLEM:
 			loadMagnetProblem(page, arg);
 			break;
+		case Tokens.ACCOUNT:
+			loadAccountCreate(page);
+			break;
 		default:
 			loadDefaultPage(page);
 		}	
@@ -200,7 +206,6 @@ public class AppController implements ValueChangeHandler<String> {
 	 * most follow similar logic. The basic idea is to either instantiate or retrieve an existing view, give it a presenter
 	 * if it does not already have one, and make it the current page. 
 	 */
-	
 	//As of right now not all of these transitions have been implemented using the new MVP pattern
 	
 	
@@ -259,7 +264,6 @@ public class AppController implements ValueChangeHandler<String> {
 			pres.bind();
 		}
 		page.setWidget(view);
-
 	}
 	
 	// TODO implement in MVP (save this one, we are make a new design after all)
@@ -310,6 +314,16 @@ public class AppController implements ValueChangeHandler<String> {
 		Login view = ClientFactory.getLoginView();
 		if ( !view.hasPresenter()) {
 			LoginPresenter pres = new LoginPresenterImpl(view);
+			pres.bind();
+		}
+		page.setWidget(view);
+	}
+	
+	public void loadAccountCreate(AcceptsOneWidget page)
+	{
+		AccountPage view = ClientFactory.getAccountView();
+		if (!view.hasPresenter()) {
+			AccountPagePresenter pres = new AccountPagePresenterImpl(view);
 			pres.bind();
 		}
 		page.setWidget(view);

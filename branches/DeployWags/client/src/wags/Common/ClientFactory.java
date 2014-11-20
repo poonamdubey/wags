@@ -3,6 +3,7 @@ package wags.Common;
 
 import wags.admin.ProblemCreationPanel;
 import wags.magnet.view.MagnetProblem;
+import wags.views.concrete.AccountPage;
 import wags.views.concrete.DefaultPage;
 import wags.views.concrete.Editor;
 import wags.views.concrete.LMEditTab;
@@ -36,6 +37,7 @@ public class ClientFactory {
 	private static WagsViewImpl wags;
 	private static AppModel model;
 	private static Editor editor;
+	private static AccountPage accountPage;
 	private static DefaultPage defaultPage;
 	private static ProblemCreationPanel mpcPanel;
 	private static SectionTab sectionTab;
@@ -86,6 +88,15 @@ public class ClientFactory {
 			editor = new Editor();
 		}
 		return editor;
+	}
+	
+	public static AccountPage getAccountView()
+	{
+		if (accountPage == null)
+		{
+			accountPage = new AccountPage();
+		}
+		return accountPage;
 	}
 	
 	public static DefaultPage getDefaultView()
