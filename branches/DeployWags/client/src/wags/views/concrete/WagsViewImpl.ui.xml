@@ -11,6 +11,7 @@
 		}
 		.navButton {
 			cursor: pointer;
+			background-image: linear-gradient(to bottom,#fff,#f2f2f2);
 		}
 	</ui:style>
 	
@@ -19,9 +20,9 @@
 			<b:Brand ui:field="Home" addStyleNames="{style.navButton}">WAGS</b:Brand>
 			<b:NavCollapse ui:field="navCollapse">
 			    <b:Nav>
-			        <b:NavLink ui:field="problems">Problems</b:NavLink>
+			        <b:NavLink ui:field="problems" addStyleNames="{style.navButton}">Problems</b:NavLink>
 			          
-			        <b:Dropdown text="Admin" ui:field="admin">
+			        <b:Dropdown text="Admin" ui:field="admin" addStyleNames="{style.navButton}">
 			            <b:NavLink ui:field="logicalProblemManagement">Logical Management</b:NavLink>
                         <b:NavLink ui:field="logicalProblemCreation">Logical Creation</b:NavLink>
 						<b:NavLink ui:field="magnetProblemManagement">Magnet Management</b:NavLink>
