@@ -178,5 +178,10 @@ public class ReviewTab extends Composite implements ReviewTabView{
 		this.presenter = (ReviewTabPresenter) presenter;
 	}
 
+	@Override
+	public boolean isAdmin() {
+		return true;
+	}
+
 
 }

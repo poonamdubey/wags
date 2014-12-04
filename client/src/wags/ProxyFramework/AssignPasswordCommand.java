@@ -5,6 +5,7 @@ import wags.WEStatus;
 
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.Response;
+import com.google.gwt.user.client.Window;
 
 /**
  * @author Dakota Murray
@@ -19,6 +20,7 @@ public class AssignPasswordCommand extends AbstractServerCall {
 	{
 		WEStatus status = new WEStatus(response);  
 		Notification.notify(status.getStat(), status.getMessage());
+		Window.Location.reload(); //reload the page, will determine if password still == "password"
 	}
 	
 	public AssignPasswordCommand(String password)

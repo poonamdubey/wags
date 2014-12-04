@@ -176,4 +176,9 @@ public class StudentTab extends Composite implements StudentTabView {
 	public ReviewPanel getStudentReviewPnl() {
 		return studentReviewPnl;
 	}
+
+	@Override
+	public boolean isAdmin() {
+		return true;
+	}
 }

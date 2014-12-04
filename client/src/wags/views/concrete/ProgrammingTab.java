@@ -286,4 +286,9 @@ public class ProgrammingTab extends Composite implements ProgrammingTabView {
 		return fileName;
 	}
 
+	@Override
+	public boolean isAdmin() {
+		return true;
+	}
+
 }

@@ -89,4 +89,9 @@ public class MagnetProblem extends Composite implements MagnetProblemView {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public boolean isAdmin() {
+		return false;
+	}
 }

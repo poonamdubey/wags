@@ -433,4 +433,8 @@ public class Editor extends Composite implements IsWidget, EditorView{
 	public TextArea lines() {
 		return lines;
 	}
+	@Override
+	public boolean isAdmin() {
+		return false;
+	}
 }

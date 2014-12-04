@@ -164,4 +164,9 @@ public class DefaultPage extends Composite implements DefaultPageView {
 		return problemsButton;
 	}
 
+	@Override
+	public boolean isAdmin() {
+		return false;
+	}
+
 }

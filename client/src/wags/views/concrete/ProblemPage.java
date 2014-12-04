@@ -106,4 +106,9 @@ public class ProblemPage extends Composite implements ProblemPageView {
 	public Button getDatabaseCategory() {
 		return databaseCategory;
 	}
+
+	@Override
+	public boolean isAdmin() {
+		return false;
+	}
 }

@@ -28,4 +28,6 @@ public interface View extends IsWidget {
 	void setPresenter(Presenter presenter);
 	boolean hasPresenter();
 	Presenter getPresenter();
+	public boolean isAdmin();
+	
 }
