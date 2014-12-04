@@ -1710,5 +1710,11 @@ public class ProblemCreationPanel extends Composite implements ProblemCreationPa
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+	@Override
+	public boolean isAdmin() {
+		return true;
+	}
 }
 

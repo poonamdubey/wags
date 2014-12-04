@@ -50,6 +50,34 @@ public class ClientFactory {
 	private static ProblemPage problemPage;
 	private static MagnetProblem magnetProblem;
 	
+	public static View findViewByToken(String token) {
+		switch(token) {
+		case Tokens.PROBLEMS:
+			return getMagnetPageView();
+		case Tokens.LOGICALCREATION:
+			return getLogicalCreationTab();
+		case Tokens.LOGICALMANAGEMENT:
+			return getLogicalManagementTab();
+		case Tokens.MAGNETMANAGEMENT:
+			return getMagnetManagementTab();
+		case Tokens.MANAGESECTION:
+			return getSectionTab();
+		case Tokens.MANAGESTUDENT:
+			return getStudentManagementTab();
+		case Tokens.PROGRAMMINGMANAGEMENT:
+			return getProgrammingTab();
+		case Tokens.REVIEW:
+			return getReviewTab();
+		case Tokens.MAGNETPROBLEM:
+			return getMagnetProblemView();
+		case Tokens.DEFAULT:
+			return getDefaultView();
+		default: 
+			return null;
+		}
+	}
+	
+	
 	public static AppController getAppController()
 	{
 		if (app == null) {

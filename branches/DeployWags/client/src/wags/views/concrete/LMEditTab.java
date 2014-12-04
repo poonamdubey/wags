@@ -162,4 +162,9 @@ public class LMEditTab extends Composite implements ProxyFacilitator, LMEditTabV
 		return listBox;
 	}
 
+	@Override
+	public boolean isAdmin() {
+		return true;
+	}
+
 }

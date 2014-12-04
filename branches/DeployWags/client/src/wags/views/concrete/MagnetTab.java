@@ -216,5 +216,10 @@ public class MagnetTab extends Composite implements ProxyFacilitator, MagnetTabV
 		return assigned;
 	}
 
+	@Override
+	public boolean isAdmin() {
+		return true;
+	}
+
 	
 }

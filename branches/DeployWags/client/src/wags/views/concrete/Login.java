@@ -120,6 +120,11 @@ public class Login extends Composite implements LoginView
 	public Presenter getPresenter() {
 		return presenter;
 	}
+
+	@Override
+	public boolean isAdmin() {
+		return false;
+	}
 	
 
 

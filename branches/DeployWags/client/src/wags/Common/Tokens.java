@@ -32,4 +32,5 @@ public abstract class Tokens
 	public static final String REVIEW = "review";
 	public static final String LOC = "?loc=";
 	public static final String DELIM = "&";
+	public static final String LOGICALPROBLEM = "logicalproblem";
 }

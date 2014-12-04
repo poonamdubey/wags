@@ -112,4 +112,9 @@ public class AccountPage extends Composite implements AccountPageView {
 	{
 		
 	}
+
+	@Override
+	public boolean isAdmin() {
+		return false;
+	}
 }

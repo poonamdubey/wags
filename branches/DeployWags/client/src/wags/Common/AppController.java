@@ -27,7 +27,6 @@ import java.util.HashMap;
 
 import wags.ProxyFramework.AbstractServerCall;
 import wags.ProxyFramework.BuildDatabaseCommand;
-import wags.ProxyFramework.CheckPasswordCommand;
 import wags.ProxyFramework.GetMagnetProblemCommand;
 import wags.admin.ProblemCreationPanel;
 import wags.presenters.concrete.AccountPagePresenterImpl;
@@ -71,7 +70,6 @@ import wags.views.interfaces.ProblemPageView;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 
@@ -101,28 +99,11 @@ public class AppController implements ValueChangeHandler<String> {
 	@Override
 	public void onValueChange(ValueChangeEvent<String> event) {
 		String url = event.getValue();
-		boolean isLoggedIn = ClientFactory.getAppModel().isLoggedIn();
-		boolean isAdmin = ClientFactory.getAppModel().isAdmin();
 		
 		String[] args = url.split("&");
 		String token = args[0];
 		String arg = args[1];
 		if (token == null) {
-			token = Tokens.DEFAULT;
-		}
-		if (! isLoggedIn && token != Tokens.ACCOUNT) {
-			token = Tokens.DEFAULT;
-		}
-		if ( token.startsWith(Tokens.DEFAULT)) {
-			if ( isLoggedIn ) {
-				token = Tokens.DEFAULT;
-			}
-			else {
-				token = Tokens.DEFAULT;
-			}
-		}
-		else if(token.startsWith(Tokens.ADMIN) && !isAdmin) {
-			Window.alert("You do not have admin privileges");
 			token = Tokens.DEFAULT;
 		}
 		
@@ -143,6 +124,18 @@ public class AppController implements ValueChangeHandler<String> {
 	 */
 	public void loadPage(String token, AcceptsOneWidget page, String arg) 
 	{
+		//user is not logged in and attempting to access a page other than account request
+		if ( (!ClientFactory.getAppModel().isLoggedIn() && ! token.equals(Tokens.ACCOUNT))) {
+			//redirect to default page
+			token = Tokens.DEFAULT; 
+		}
+		
+		//user is not an admin and attempting to access an admin page
+		if ( !ClientFactory.getAppModel().isAdmin() && ClientFactory.findViewByToken(token).isAdmin()) {
+			//redirect to default page
+			token = Tokens.DEFAULT; 
+		}
+		
 		switch(token)
 		{
 		case Tokens.PROBLEMS:

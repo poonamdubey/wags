@@ -4,7 +4,7 @@ import java.util.List;
 import com.google.gwt.user.client.ui.HasWidgets;
 
 public class MagnetProblemPresenterImpl implements MagnetProblemPresenter {
-
+	
 	private MagnetProblemModel model;
 	private MagnetProblemView view;
 	

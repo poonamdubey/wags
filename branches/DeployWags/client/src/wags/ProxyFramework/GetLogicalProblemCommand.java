@@ -6,10 +6,12 @@ import wags.WEStatus;
 import wags.logical.DataStructureTool;
 
 import com.google.gwt.http.client.Response;
+import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
-public class GetLogicalMicrolabCommand extends AbstractServerCall {
+public class GetLogicalProblemCommand extends AbstractServerCall {
 
-	DataStructureTool DST;
+	AcceptsOneWidget page;
+	
 	@Override
 	protected void handleResponse(Response response)
 	{
@@ -20,15 +22,16 @@ public class GetLogicalMicrolabCommand extends AbstractServerCall {
 			return;
 		}
 		
+		//DataStructureTool dst = new DataStructureTool();
 		LogicalMicrolab logMicro = (LogicalMicrolab) status.getObject();
-		DST.initialize(logMicro.getProblem());
+		DataStructureTool.initialize(logMicro.getProblem(), page);
 		/*Notification.notify(status.getStat(), "Loaded from server");*/
 	}
 
-	public GetLogicalMicrolabCommand(String title, DataStructureTool DST)
+	public GetLogicalProblemCommand(String title, AcceptsOneWidget page)
 	{
 		addArgument("title", title);
-		this.DST = DST;
+		this.page = page;
 		command = ProxyCommands.GetLogicalMicrolab;
 		
 	}

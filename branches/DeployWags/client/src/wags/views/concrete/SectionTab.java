@@ -184,4 +184,9 @@ public class SectionTab extends Composite implements HasText, SectionTabView {
 		return lblCurrentSection;
 	}
 
+	@Override
+	public boolean isAdmin() {
+		return true;
+	}
+
 }

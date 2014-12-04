@@ -11,6 +11,7 @@ import wags.views.concrete.ProblemPage;
 import wags.views.interfaces.WagsView;
 
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.IsWidget;
@@ -21,6 +22,7 @@ public class WagsPresenterImpl implements WagsPresenter, AcceptsOneWidget
 	private static final String TRUE = "TRUE";
 	
 	public ProblemPage splashPage;
+	AbstractServerCall checkPasswordCommand;
 	
 	private WagsView wags;
 	private boolean bound = false;
@@ -45,15 +47,13 @@ public class WagsPresenterImpl implements WagsPresenter, AcceptsOneWidget
 		boolean isLoggedIn = data.get(0).equals(TRUE);
 		boolean isAdmin = data.get(1).equals(TRUE);
 		
-		//wags.getHomeOutAnchor().setVisible(!isLoggedIn);
 		wags.getHomeAnchor().setVisible(true);
 		wags.getProblemsAnchor().setVisible(isLoggedIn);
 		wags.getLogoutAnchor().setVisible(isLoggedIn);
-		//wags.getUserAnchor().setVisible(isLoggedIn);
 		wags.getAdminAnchor().setVisible(isAdmin);
 		
-		if (isLoggedIn) {
-			AbstractServerCall checkPasswordCommand = new CheckPasswordCommand();
+		if (isLoggedIn && checkPasswordCommand == null) {
+			checkPasswordCommand = new CheckPasswordCommand();
 			checkPasswordCommand.sendRequest();
 		}
 	}
@@ -143,4 +143,5 @@ public class WagsPresenterImpl implements WagsPresenter, AcceptsOneWidget
 	public void onProblemsClick() {
 		History.newItem(Tokens.CODE);
 	}
+
 }

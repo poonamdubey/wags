@@ -143,4 +143,9 @@ public class WagsViewImpl extends Composite implements WagsView
 	public UIObject getNavCollapse() {
 		return navCollapse;
 	}
+
+	@Override
+	public boolean isAdmin() {
+		return false;
+	}
 }

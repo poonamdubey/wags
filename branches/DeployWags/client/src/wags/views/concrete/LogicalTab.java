@@ -325,4 +325,9 @@ public class LogicalTab extends Composite implements ProxyFacilitator,
 	public AssignedPanel selected() {
 		return selected;
 	}
+
+	@Override
+	public boolean isAdmin() {
+		return true;
+	}
 }
