@@ -10,7 +10,7 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 public class GetLogicalProblemCommand extends AbstractServerCall {
 
-	AcceptsOneWidget page;
+	DataStructureTool dst;
 	
 	@Override
 	protected void handleResponse(Response response)
@@ -24,14 +24,14 @@ public class GetLogicalProblemCommand extends AbstractServerCall {
 		
 		//DataStructureTool dst = new DataStructureTool();
 		LogicalMicrolab logMicro = (LogicalMicrolab) status.getObject();
-		DataStructureTool.initialize(logMicro.getProblem(), page);
+		dst.initialize(logMicro.getProblem());
 		/*Notification.notify(status.getStat(), "Loaded from server");*/
 	}
 
-	public GetLogicalProblemCommand(String title, AcceptsOneWidget page)
+	public GetLogicalProblemCommand(String title, DataStructureTool dst)
 	{
 		addArgument("title", title);
-		this.page = page;
+		this.dst = dst;
 		command = ProxyCommands.GetLogicalMicrolab;
 		
 	}
