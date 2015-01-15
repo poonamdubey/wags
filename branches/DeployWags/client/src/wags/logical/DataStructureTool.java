@@ -6,7 +6,7 @@ import org.vaadin.gwtgraphics.client.DrawingArea;
 
 import wags.Proxy;
 import wags.ProxyFramework.AbstractServerCall;
-import wags.ProxyFramework.GetLogicalMicrolabCommand;
+import wags.ProxyFramework.GetLogicalProblemCommand;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -221,7 +221,7 @@ public class DataStructureTool  extends AbsolutePanel
 		/* This is the 'switch' between DB LogicalMicrolabs and
 		 * ProblemServiceImpl
 		 */
-		AbstractServerCall cmd = new GetLogicalMicrolabCommand(problem, this);
+		AbstractServerCall cmd = new GetLogicalProblemCommand(problem, this);
 		cmd.sendRequest();
 		//Proxy.getLogicalMicrolab(problem, this);
 		//Problem prob = ProblemServiceImpl.getProblem(problem);
