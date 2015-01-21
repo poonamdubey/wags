@@ -4,6 +4,7 @@ import wags.Reviewer;
 import wags.WEStatus;
 
 import com.google.gwt.http.client.Response;
+import com.google.gwt.user.client.Window;
 
 public class ReviewStudentCommand extends AbstractServerCall {
 

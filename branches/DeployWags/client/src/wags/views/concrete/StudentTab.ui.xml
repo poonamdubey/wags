@@ -8,28 +8,58 @@
 		.label {
 			text-align: left;
 			width:170px;
-			padding-top: 4px;
+			padding: 5px;
 		}
 		.filePanel {
 			padding: 3px;
 			text-align: center;	
 		}
 		.button{
-			padding: 12px;
 			width: 140px;
 		}
 		.heading {
 			font-weight: bolder;
 			font-size: x-large;
+			padding: 10px;
+		}
+		.width {
+			min-width: 255px;
+		}
+		.rowMargin {
+			margin-left:20%;
+		}
+		.colLeftMargin {
+			margin-left:5%;
+			float: left;
+		}
+		.colRightMargin {
+			margin-left:10%;
+			float: left;
+		}
+		.bottomMargin {
+			margin-bottom: 10%;
+		}
+		.multiSelect {
+			height: 300px !important;
+		}
+		.top_adjust {
+			margin-top: 15px;
+			margin-left: 11px;
+		}
+		.grid{
+			height: 100%;
+			background-color: #FFFFFF;
+			margin-top: 52px;
+			margin-left: 10px;
 		}
 	</ui:style>
 	
 	
 	<b:FluidRow>
-	    <b:Column size="6">
-	        <g:FormPanel ui:field="registerForm">
+	    <b:Column size="6" styleName="{style.colLeftMargin}">
+	        <g:FormPanel ui:field="registerForm" styleName="{style.bottomMargin}">
 				<g:VerticalPanel>
-				    <g:Label styleName="{style.heading}">Register Students</g:Label>
+				    <b:Legend>Register a student</b:Legend>
 					<g:HorizontalPanel styleName="{style.filePanel}">
 						<g:Label styleName="{style.label}"> CSV (Last, First, E-mail): </g:Label>
 						<g:FileUpload ui:field="csvReg" name="csvReg"></g:FileUpload>
@@ -38,33 +68,40 @@
 					<g:SubmitButton styleName="{style.button}" ui:field="sbtRegister">Register</g:SubmitButton>
 				</g:VerticalPanel>
 			</g:FormPanel>
-	    </b:Column>
-	
-	    <b:Column size="6">
+
 	        <g:ScrollPanel>
 			<g:FormPanel ui:field="passwordForm">
 				<g:VerticalPanel>
-				    <g:Label styleName="{style.heading}">Password Reset</g:Label>
+				    <b:Legend>Reset a students password</b:Legend>
 					<g:ListBox ui:field="users" name="users"></g:ListBox>
 					
 					<g:HorizontalPanel styleName="{style.filePanel}">
 						<g:Label styleName="{style.label}">New Password:</g:Label>
-						<g:PasswordTextBox ui:field="newPassword" name="newPassword"></g:PasswordTextBox>
+						<g:PasswordTextBox ui:field="newPassword" name="newPassword" styleName="{style.width}"></g:PasswordTextBox>
 					</g:HorizontalPanel>
 					
-					<g:HorizontalPanel styleName="{style.filePanel}">
+					<g:HorizontalPanel>
 						<g:Label styleName="{style.label}">Re-Enter Password:</g:Label>
-						<g:PasswordTextBox ui:field="checkPassword" name="checkPassword"></g:PasswordTextBox>
+						<g:PasswordTextBox ui:field="checkPassword" name="checkPassword" styleName="{style.width}"></g:PasswordTextBox>
 					</g:HorizontalPanel>
-					
 					<g:SubmitButton ui:field="btnChgPassword" styleName="{style.button}">Change Password</g:SubmitButton>
-					
-					<my:ReviewPanel ui:field="studentReviewPnl"></my:ReviewPanel>
 				</g:VerticalPanel>
 			</g:FormPanel>
 			</g:ScrollPanel>
 	    </b:Column>
-	    
+	    <b:Column size="5" styleName="{style.colRightMargin}">
+	        <b:Legend>Review a student</b:Legend>
+	    <b:ListBox multipleSelect="true" ui:field="studentsListBox" styleName="{style.multiSelect}"></b:ListBox>
+	    	<g:VerticalPanel>
+				<g:cell horizontalAlignment = "ALIGN_CENTER" verticalAlignment = "ALIGN_TOP">
+					<g:Grid ui:field="grdGrades" styleName="{style.grid}"/>
+				</g:cell>
+				<g:cell horizontalAlignment = "ALIGN_LEFT" verticalAlignment = "ALIGN_BOTTOM">
+				    <g:Button styleName="{style.top_adjust}" visible="false" ui:field="removeStudentButton">Remove Student</g:Button>
+				</g:cell>
+			</g:VerticalPanel>
+	    <my:ReviewPanel ui:field="studentReviewPnl"></my:ReviewPanel>
+	    </b:Column>
 	</b:FluidRow>
 	
 	

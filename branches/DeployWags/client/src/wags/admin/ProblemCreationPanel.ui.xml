@@ -99,18 +99,15 @@
 
 		.leftColumnContainer{
 		width: 48.1%;
-		border: 2px solid #999;
 		padding: 10px;
 		float: left;
 		}
 		.columnContainer{
-		width: 48.1%;
-		border: 2px solid #999;
+		width: 45%;
 		padding: 10px;
 		float: right;
 		}
 	</ui:style>
-	
 	<b:FluidRow>
 		<g:Grid width="90%" styleName='{style.problemTypePanel}'>
 			<g:row>

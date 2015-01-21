@@ -22,21 +22,17 @@
 			padding-right: 5px;
 			padding-left: 5px;
 		}
-
-		.scrollPanel {
-			height: 50em;
-		}
 	</ui:style>
 	
 	<b:FluidRow>
 	    <b:FluidRow addStyleNames="{style.content}">
 	    	<b:Column size="6">
-	    	    <g:ScrollPanel addStyleNames="{style.scrollPanel}">
+	    	    <g:ScrollPanel>
 	        		<my:ReviewPanel styleName="{style.padding}" ui:field="rvLogPanel"/>
 	        	</g:ScrollPanel>
 	    	</b:Column>
 	    	<b:Column size="6">
-	    	    <g:ScrollPanel addStyleNames="{style.scrollPanel}">	        
+	    	    <g:ScrollPanel>	        
 	        		<my:ReviewPanel styleName="{style.padding}" ui:field="rvMagPanel"/>
 	        	</g:ScrollPanel>
 	    	</b:Column>
