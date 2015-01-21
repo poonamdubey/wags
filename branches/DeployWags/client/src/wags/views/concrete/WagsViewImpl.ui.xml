@@ -18,7 +18,9 @@
 		}
 		.navButton {
 			cursor: pointer;
-			background-image: linear-gradient(to bottom,#fff,#f2f2f2);
+		}
+		.navButton:hover {
+			color: #fff;
 		}
 	</ui:style>
 	

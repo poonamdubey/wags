@@ -41,14 +41,14 @@
 		}
 
 		.textarea {
-			width: 250px;
+			width: 60%;
 			height: 20px;
 			font-size: 14px;
 		}
 
 		.textArea {
-			width: 250px;
-			height: 125px;
+			width: 60%;
+			height: 20vw;
 			font-size: 14px;
 			padding-left: 6px;
 			padding-right: 6px;
