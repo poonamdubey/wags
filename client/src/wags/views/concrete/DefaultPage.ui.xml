@@ -135,7 +135,7 @@
 		.aboutIcon {
 			font-size: 6px;
 			vertical-align: middle;
-			color: #34495e;
+			color: #fff;
 		}
 
 		.makeAccount1 {
