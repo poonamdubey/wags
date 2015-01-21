@@ -3,12 +3,25 @@ package wags.admin;
 import wags.Reviewer;
 import wags.ProxyFramework.AbstractServerCall;
 import wags.ProxyFramework.RemoveUserFromSectionCommand;
+import wags.admin.builders.BasicDisplay;
+import wags.admin.builders.LMBuildBSTDisplay;
+import wags.admin.builders.LMBuildBTDisplay;
+import wags.admin.builders.LMBuilder;
+import wags.admin.builders.LMBuilderFactory;
+import wags.admin.builders.LMGraphsDisplay;
+import wags.admin.builders.LMInsertNodeDisplay;
+import wags.admin.builders.LMSimplePartitionDisplay;
+import wags.admin.builders.LMTraversalDisplay;
 
+import com.github.gwtbootstrap.client.ui.ListBox;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DialogBox;
@@ -97,6 +110,8 @@ public class ReviewPanel extends Composite {
 	 * Called to populate the review grid. The method will use different
 	 * titles and information for the grid depending on what context the
 	 * review panel is being used in.
+	 * 
+	 * StudentTab.java
 	 *  
 	 * @param data	The string data to populate the grid with
 	 * @param studentReview if true, populates the grid with labels and 
@@ -177,14 +192,17 @@ public class ReviewPanel extends Composite {
 	public void setStudents(String[] students){
 		Button btn;
 		btnPnlStudent.addButtons(students);
-		
+		//Window.alert(""+students[0]);
 		for(int i = 0; i < btnPnlStudent.myButtons.size(); i++){
 			btn = btnPnlStudent.myButtons.get(i);
+			//delete these
+			//Window.alert(""+btnPnlStudent.myButtons.get(i));
 			//change style because usernames tend to be longer
 			btn.setStyleName("student_button");
 			btn.addClickHandler(new reviewClickHandler(btn, true));
 		}
 	}
+
 
 	/**
 	 *  Adds buttons to the vertical panel on the left side of the screen (as of 30 Oct 2013).
@@ -246,6 +264,7 @@ public class ReviewPanel extends Composite {
 			//apply blue to clicked button
 			btn.getElement().getStyle().setColor("blue");
 			selectedUser = btn;
+			
 			parent.review(btn.getText());	
 			if(isStudent) {
 			  removeStudentButton.setVisible(true);
