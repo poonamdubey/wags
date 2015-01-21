@@ -13,7 +13,7 @@ public interface DefaultPageView extends View{
 	ValueBoxBase<String> getPasswordField();
 	public UIObject getLoginButton();
 	void setData(List<String> data);
-	public UIObject getWelcomeText();
 	public UIObject getLoginText();
 	public UIObject getLoginScreen();
+	public boolean isAdmin();
 }

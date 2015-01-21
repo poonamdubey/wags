@@ -38,7 +38,6 @@ public class DefaultPage extends Composite implements DefaultPageView {
 	@UiField ValueBoxBase<String> password;
 	@UiField Button loginButton;
 	@UiField Button problemsButton;
-	@UiField Label welcomeText; 
 	@UiField Label loginText;
 	@UiField Row loginScreen;
 	@UiField UIObject makeAccount;
@@ -139,10 +138,6 @@ public class DefaultPage extends Composite implements DefaultPageView {
 		return loginButton;
 	}
 	
-	@Override
-	public UIObject getWelcomeText() {
-		return welcomeText;
-	}
 	@Override
 	public UIObject getLoginText() {
 		return loginText;

@@ -48,6 +48,7 @@ public class WagsPresenterImpl implements WagsPresenter, AcceptsOneWidget
 		boolean isAdmin = data.get(1).equals(TRUE);
 		
 		wags.getHomeAnchor().setVisible(true);
+		wags.getNavCollapse().setVisible(isLoggedIn);
 		wags.getProblemsAnchor().setVisible(isLoggedIn);
 		wags.getLogoutAnchor().setVisible(isLoggedIn);
 		wags.getAdminAnchor().setVisible(isAdmin);
