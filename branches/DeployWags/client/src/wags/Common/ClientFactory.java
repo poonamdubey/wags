@@ -70,6 +70,8 @@ public class ClientFactory {
 			return getReviewTab();
 		case Tokens.MAGNETPROBLEM:
 			return getMagnetProblemView();
+		case Tokens.ACCOUNT:
+			return getAccountView();
 		case Tokens.DEFAULT:
 			return getDefaultView();
 		default: 
