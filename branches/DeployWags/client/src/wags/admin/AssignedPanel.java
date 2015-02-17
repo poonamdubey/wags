@@ -57,8 +57,8 @@ public class AssignedPanel extends Composite {
 	
 	public void setAssigned(boolean assigned) {
 		if (assigned) {
-			btnClearAssign.setVisible( true );
 			btnRemoveAssign.setVisible( true );
+			btnClearAssign.setVisible( true );
 		} else {
 			btnClearSel.setVisible( true );
 			btnAssign.setVisible( true );
@@ -176,7 +176,7 @@ public class AssignedPanel extends Composite {
     }
     for (int i = 0; i < toRemove.length; i++) {
     	for(int j = 0; j < alreadyAssigned.length; j++) {
-    	    //if not a duplicate, add to assigned
+    	    //if a duplicate, remove from assigned
         	if(toRemove[i].equals(alreadyAssigned[j])) {
         		finalAssigned.remove(toRemove[i]);	
     	    }
@@ -185,7 +185,7 @@ public class AssignedPanel extends Composite {
     String[] finalArray = new String[finalAssigned.size()];
     finalArray = finalAssigned.toArray(finalArray);
     parent.setExercises(finalArray);
-    addAll(finalArray);
+    this.addAll(finalArray);
 	
 	}
 	
