@@ -6,5 +6,6 @@
 	<classpathentry kind="lib" path="lib/gwt-graphics-1.0.0.jar"/>
 	<classpathentry kind="lib" path="lib/gwt-bootstrap-2.3.2.0.jar"/>
 	<classpathentry kind="lib" path="lib/gwt-dnd-3.3.2.jar"/>
+	<classpathentry kind="lib" path="lib/gwtbootstrap3-0.8.1.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

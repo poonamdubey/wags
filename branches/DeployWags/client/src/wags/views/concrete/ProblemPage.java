@@ -19,7 +19,7 @@ import com.google.gwt.user.client.ui.Widget;
  * This is the "landing page" for magnets problems. It displays a list of 
  * buttons corresponding to the code magnet exercises that have been assigned 
  * to the user. If they have successfully completed the problem, the text on 
- * the button will be green. Otherwise, it will simply be black test displaying 
+ * the button will be green. Otherwise, it will simply be black text displaying 
  * the name of the exercise.
  * 
  *
@@ -34,11 +34,11 @@ public class ProblemPage extends Composite implements ProblemPageView {
 	
 	@UiField ComplexPanel magnetPanel;
 	@UiField ComplexPanel logicalPanel;
-	@UiField ComplexPanel databasePanel;
+    //@UiField ComplexPanel databasePanel; Disabled until database problems are made
 	
 	@UiField Button magnetCategory;
 	@UiField Button logicalCategory;
-	@UiField Button databaseCategory;
+    //@UiField Button databaseCategory; Disabled until database problems are made
 	
 	private ProblemPagePresenter presenter;
 	
@@ -72,10 +72,12 @@ public class ProblemPage extends Composite implements ProblemPageView {
 		return logicalPanel;
 	}
 
+	/** Disabled until database problems are made
 	@Override
 	public ComplexPanel getDatabasePanel() {
 		return databasePanel;
 	}
+	*/
 	
 	@UiHandler ("magnetCategory")
 	public void onMagnetCategoryClick(ClickEvent event) {
@@ -87,10 +89,12 @@ public class ProblemPage extends Composite implements ProblemPageView {
 		presenter.onLogicalCategoryClick();
 	}
 	
+	/** Disabled until database problems are made
 	@UiHandler ("databaseCategory")
 	public void onDatabaseCategoryClick(ClickEvent event) {
 		presenter.onDatabaseCategoryClick();
 	}
+	*/
 
 	@Override
 	public Button getMagnetCategory() {
@@ -102,10 +106,12 @@ public class ProblemPage extends Composite implements ProblemPageView {
 		return logicalCategory;
 	}
 
+	/** Disabled until database problems are made
 	@Override
 	public Button getDatabaseCategory() {
 		return databaseCategory;
 	}
+	*/
 
 	@Override
 	public boolean isAdmin() {

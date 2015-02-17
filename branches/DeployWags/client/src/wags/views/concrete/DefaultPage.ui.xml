@@ -1,7 +1,8 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui"
-	xmlns:b="urn:import:com.github.gwtbootstrap.client.ui">
+	xmlns:b="urn:import:com.github.gwtbootstrap.client.ui"
+	xmlns:c="urn:import:org.gwtbootstrap3.client.ui">
 	<ui:style>
 
 		body {
@@ -31,88 +32,104 @@
 		.columns {
 			padding:0.2em;
 		}
-		.title {
-			font-family: Consolas, arial, verdana, san-serif;
-			text-decoration: none;
-			padding: 0px;
-			margin: 0px;
-			background-color:inherit;
+
+		.carousel {
+			width: 100%;
+			padding: 0;
+			height: 350px;
 		}
+
+		.carouselCaption {
+			background-color: rgba(0,0,0,0.3);
+			color: #fff;
+			font-size: 14px;
+		}
+
+		.carouselControlLeft {
+			border: 0;
+			opacity: 0.1;
+			border-radius: 0;
+			position: absolute;
+			font-size: 15px;
+			color: #fff;
+			background: linear-gradient(to left, #222, #000);
+			height: 350px;
+			width: 13.1%;
+			margin-top: 0;
+			top: 0;
+			left: 0 !important;
+			right: 0;
+			bottom: 0;
+		}
+
+		.carouselControlRight {
+			border: 0;
+			opacity: 0.1;
+			border-radius: 0;
+			position: absolute;
+			font-size: 15px;
+			color: #fff;
+			background: linear-gradient(to right, #222, #000);
+			height: 350px;
+			width: 13.1%;
+			margin-top: 0;
+			top: 0;
+			left: 0;
+			right: 0 !important;
+			bottom: 0;			
+		}
+
+		.carouselControlRight:hover {
+			opacity: 0.3;
+		}
+
+		.carouselControlLeft:hover {
+			opacity: 0.3;
+		}
+		.carouselImg {
+			width: 100%;
+			max-height: 350px;
+		}
+
 		.content {
 			text-align:center;
 			margin-left: auto;
 			margin-right: auto;
 			top:20px !important;
-			width:100%
-			background-color: #eee;
-		}
-		.text {
-			font-size: 18px;
-			font-family: Consolas, arial, verdana, san-serif;
-			color:black;
-			background-color: inherit;
-			width:60%;
-			margin-left:auto;
-			margin-right:auto;
-			margin-top:1em;
-		}
-		.icon {
-			font-size: 40px;
-			color: #fed130;
-		}
-		.strip {
+			width: 80%;
 			background-color: #222;
-			width: 100%;
-			height: 18em;
-			margin-left: auto;
-			margin-right:auto;
-			color:white;
-			padding: 0px;
-			border-radius: 0px;
-		}
-		.welcomeText {
-			background-color:inherit;
-			white-space: normal;
-			line-height: 100%;
-			color:white;
-			font-size: x-large;
-			padding-top: .5vw;
-			width: 100%;
-			background-color:inherit;
-		}
-
-		.circular {
-			width: 13%;
-			margin-top: .3vw;
-			border-radius: 100%;
-			background-repeat: no-repeat;
-			border: .3vw solid #fed130;
 		}
 
 		.login {
-			margin-top: 40px;
+			margin-top: 3vw;
 			margin-left: auto;
 			margin-right: auto;
 			padding-top: 20px;
 			background-color: #222;
-			width: 30%;
+			width: 40%;
 			padding-bottom: 20px;
-			border: 1px solid grey;
+			border: .2vw solid #fed130;
 			border-radius: 6px;
 			-moz-border-radius: 6px;
 			-webkit-border-radius: 6px;
 		}
 
 		.textBox {
-			width: 70%;
+			width: 60%;
+			margin-left: 0;
+		}
+
+		.about:hover {
+			text-decoration: none !important;
 		}
 
 		.aboutContain {
-			padding-top: 80px;
-			margin-bottom: 30px;
+			margin: 0;
 			font-weight: 200;
 			line-height: 30px;
 			text-align: center;
+			max-width: 100%;
+			padding: 8vw;
 			color: inherit;
 			background-color: #222;
 			border-radius: 6px;
@@ -120,9 +137,10 @@
 
 		.about {
 			text-align: left;
-			color: white;
-			width: 75vw;
+			color: #fff;
+			width: 100%;
 			margin: 0 auto;
+			text-decoration: none;
 		}
 
 		.aboutChild {
@@ -141,11 +159,18 @@
 		.makeAccount1 {
 			min-width: 16%;
 			margin: 2px;
+			margin-left: 0;
 		}
 
 		.makeAccount2 {
 			min-width: 40%;
 			margin: 2px;
+			margin-left: 0;
+		}
+
+		.row {
+			width: 100%;
+			margin-left: 0;
 		}
                                                                                                        
 }  
@@ -153,31 +178,50 @@
 	</ui:style>
 
 	<b:Container addStyleNames="{style.content}">
-	    <b:Hero addStyleNames="{style.strip}">
-	        <g:Image url="TRIANGLEDAWG.png" addStyleNames="{style.circular}" />
-	        <b:Heading size="1" addStyleNames="{style.title}">Welcome</b:Heading>
-	        <b:Paragraph><b:Label addStyleNames="{style.welcomeText}">This is WAGS, short for "Web Automated Grading System"</b:Label></b:Paragraph>
-	        <b:Paragraph><b:Label addStyleNames="{style.welcomeText}" ui:field='loginText'>Please enter your credentials below to log in.</b:Label></b:Paragraph>
-	       
-	    </b:Hero>
+	    <c:Carousel c:id="carousel-captions" addStyleNames="{style.carousel}">
+	        <c:CarouselIndicators>
+	        	<c:CarouselIndicator dataTarget="#carousel-captions" dataSlideTo="0" active="true"/>
+	        	<c:CarouselIndicator dataTarget="#carousel-captions" dataSlideTo="1"/>
+	        	<c:CarouselIndicator dataTarget="#carousel-captions" dataSlideTo="2"/>
+	        </c:CarouselIndicators>
+	        <c:CarouselInner>
+	            <c:CarouselSlide active="true">
+	                <b:Image addStyleNames="{style.carouselImg}" url="banner.png"/>
+	            </c:CarouselSlide>
+	            <c:CarouselSlide>
+	                <b:Image addStyleNames="{style.carouselImg}" url="carousel0.png"/>
+	                <c:CarouselCaption addStyleNames="{style.carouselCaption}">
+	                	<b:Paragraph text="Students using WAGS"/>
+	                </c:CarouselCaption>
+	            </c:CarouselSlide>
+	            <c:CarouselSlide>
+	                <b:Image addStyleNames="{style.carouselImg}" url="carousel1.png"/>
+	                <c:CarouselCaption addStyleNames="{style.carouselCaption}">
+	                    <b:Paragraph text="Great for tablets"/>
+	                </c:CarouselCaption>
+	            </c:CarouselSlide>
+	        </c:CarouselInner>
+	        <c:CarouselControl addStyleNames="{style.carouselControlLeft}" dataTarget="#carousel-captions" prev="true" iconType="CHEVRON_LEFT"/>
+	        <c:CarouselControl addStyleNames="{style.carouselControlRight}" dataTarget="#carousel-captions"  next="true" iconType="CHEVRON_RIGHT"/>
+	    </c:Carousel>
 	    <b:Row>
 			<b:Button size="LARGE" addStyleNames="{style.button}" ui:field='problemsButton'>Assigned Problems</b:Button>
 		</b:Row>
 		<b:Row ui:field="loginScreen" addStyleNames="{style.login}">
-		    <b:Column size="3">
-			<b:Row>
+		    <b:Column size="4">
+			<b:Row addStyleNames="{style.row}">
 	        	<b:TextBox placeholder="username" ui:field="username" addStyleNames="{style.textBox}"/>
 			</b:Row>
-	    	<b:Row>
+	    	<b:Row addStyleNames="{style.row}">
 			    <b:PasswordTextBox placeholder="password" ui:field="password" addStyleNames="{style.textBox}"/>
 			</b:Row>
 			</b:Column>
-			<b:Column size="3">
-	        <b:Row>
+			<b:Column size="4">
+	        <b:Row addStyleNames="{style.row}">
 	            <b:Button addStyleNames="btn, {style.makeAccount1}" ui:field="loginButton">Login</b:Button>
 	            <b:Button addStyleNames="btn, {style.makeAccount1}" ui:field="guestLoginButton">Guest</b:Button>
 	        </b:Row>
-	        <b:Row>
+	        <b:Row addStyleNames="{style.row}">
 	            <b:Button addStyleNames="btn, {style.makeAccount2}" ui:field="makeAccount">Request an Account</b:Button>
 	        </b:Row>
 	        </b:Column>

@@ -46,7 +46,7 @@
 	    <b:FluidRow addStyleNames="{style.problemCategoryContainer}">
 	        	<b:Button ui:field="magnetCategory" size="LARGE" icon="OK" addStyleNames="{style.problemCategory}">Code</b:Button>
 	        	<b:Button ui:field="logicalCategory" size="LARGE" icon="OK" addStyleNames="{style.problemCategory}">Logical</b:Button>
-				<b:Button ui:field="databaseCategory" size="LARGE" icon="OK" addStyleNames="{style.problemCategory}">Database</b:Button>
+		<!-- 	<b:Button ui:field="databaseCategory" size="LARGE" icon="OK" addStyleNames="{style.problemCategory}">Database</b:Button>   Disabled until database problems are made-->	
 	    </b:FluidRow>
 	    <b:FluidRow>
 	    	<b:incubator.Table visible="false" ui:field="magnetPanel">
@@ -55,8 +55,9 @@
 	    	<b:incubator.Table visible="false" ui:field="logicalPanel">
 		    </b:incubator.Table>
 		    
-	    	<b:incubator.Table visible="false" ui:field="databasePanel">
-		    </b:incubator.Table>
+	    <!-- Disabled until database problems are made 
+	   	    <b:incubator.Table visible="false" ui:field="databasePanel">
+		    </b:incubator.Table>	 -->
 	    </b:FluidRow>
 	</b:FluidRow>
 	

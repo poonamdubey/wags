@@ -28,6 +28,7 @@ public class AssignedPanel extends Composite {
 	@UiField Button	btnAssign;	//add the contents to the group of assigned problems
 	@UiField Button	btnClearSel;	//simply clear the problems selected, empty the text area
 	@UiField Button	btnClearAssign;	//clear the text area and unassigns all the problems that are assigned
+	@UiField Button btnRemoveAssign;
 	@UiField Label title;
 	
 	private AssignedPanel partner;		//the partner, selected to assigned and assigned to selected
@@ -57,6 +58,7 @@ public class AssignedPanel extends Composite {
 	public void setAssigned(boolean assigned) {
 		if (assigned) {
 			btnClearAssign.setVisible( true );
+			btnRemoveAssign.setVisible( true );
 		} else {
 			btnClearSel.setVisible( true );
 			btnAssign.setVisible( true );
@@ -90,6 +92,12 @@ public class AssignedPanel extends Composite {
 		txtAreaAssigned.setText(tmpText);
 	}
 	
+	public void removeAll(String[] text) {
+		for (int i = 0; i < text.length; i++) {
+			remove(text[i]);
+		}
+	}
+	
 	public String[] toStringArray(){
 		String exercises = txtAreaAssigned.getText();
 		exercises = exercises.substring(0, exercises.length()-1);
@@ -111,7 +119,7 @@ public class AssignedPanel extends Composite {
 	 * @version 16 March 2014
 	 * 
 	 * Description: Handles behavior of the "add to assigned" button in logical
-	 * 				problem creation. Does not allow suplicate exercises to be assigned.
+	 * 				problem creation. Does not allow duplicate exercises to be assigned.
 	 * 
 	 * Note: 		This is kind of messy complexity wise but I feel that all the operations are 
 	 * 				necessary in order to ensure that there are no duplicates and that the 
@@ -152,7 +160,33 @@ public class AssignedPanel extends Composite {
         //add the exercises from selected (this panel)
         //to the end of the contents of assigned (the partner panel)
         partner.clear();
+        
 		partner.addAll(finalArray);
+	}
+	
+	@UiHandler("btnRemoveAssign")
+	public void removeHandler(ClickEvent event) {
+	String[] toRemove = partner.toStringArray();
+	String[] alreadyAssigned = this.toStringArray();
+	ArrayList<String> finalAssigned = new ArrayList<String>();
+	for (int i = 0; i < alreadyAssigned.length; i++) {
+  	    if(alreadyAssigned[i] != "") {
+  	    	finalAssigned.add(alreadyAssigned[i]);
+  	    }
+    }
+    for (int i = 0; i < toRemove.length; i++) {
+    	for(int j = 0; j < alreadyAssigned.length; j++) {
+    	    //if not a duplicate, add to assigned
+        	if(toRemove[i].equals(alreadyAssigned[j])) {
+        		finalAssigned.remove(toRemove[i]);	
+    	    }
+        }
+    }
+    String[] finalArray = new String[finalAssigned.size()];
+    finalArray = finalAssigned.toArray(finalArray);
+    parent.setExercises(finalArray);
+    addAll(finalArray);
+	
 	}
 	
 	@UiHandler("btnClearAssign")

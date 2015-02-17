@@ -35,8 +35,10 @@
 					<b:Column size="2"><b:Button ui:field="btnAssign" visible="false">Add to Assigned</b:Button></b:Column>
 					<b:Column size="2"><b:Button ui:field="btnClearSel" visible="false">Clear Selected</b:Button></b:Column>
 				</b:Row>
-					<b:Button ui:field="btnClearAssign" visible="false">Clear Assigned</b:Button>
-				
+				<b:Row>
+					<b:Column size="2"><b:Button ui:field="btnRemoveAssign" visible="false">Remove Selected</b:Button></b:Column>
+					<b:Column size="2"><b:Button ui:field="btnClearAssign" visible="false">Clear Assigned</b:Button></b:Column>
+				</b:Row> 
 			</b:Column>
 		</b:Row>
 	</g:VerticalPanel>

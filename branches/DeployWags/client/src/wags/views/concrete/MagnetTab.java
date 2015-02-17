@@ -58,7 +58,7 @@ public class MagnetTab extends Composite implements ProxyFacilitator, MagnetTabV
 		 //exercises in each group
 		chkPanelExercises.setAssignedPanel(selected);
 		//set up assigned panels
-		 //ones youre picking
+		 //ones you're picking
 		selected.setAssigned(false);
 		selected.setPartner(assigned);
 		selected.setExercises( chkPanelExercises );
@@ -146,7 +146,7 @@ public class MagnetTab extends Composite implements ProxyFacilitator, MagnetTabV
 		
 	}
 
-	@Override
+	@Override	
 	public void setCallback(String[] exercises, WEStatus status) {
 		if(status.getStat() == WEStatus.STATUS_SUCCESS){
 			assigned.clear();
