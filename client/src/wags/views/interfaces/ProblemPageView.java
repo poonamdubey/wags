@@ -9,9 +9,9 @@ public interface ProblemPageView extends View {
 
 	public ComplexPanel getMagnetPanel();
 	public ComplexPanel getLogicalPanel();
-	public ComplexPanel getDatabasePanel();
+    //public ComplexPanel getDatabasePanel(); Disabled until database problems are made
 	
 	public Button getMagnetCategory();
 	public Button getLogicalCategory();
-	public Button getDatabaseCategory();
+	//public Button getDatabaseCategory(); Disabled until database problems are made
 }

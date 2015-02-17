@@ -55,7 +55,6 @@ public class DefaultPagePresenterImpl implements DefaultPagePresenter, AcceptsOn
 		def.getUsernameField().setVisible(!isLoggedIn);
 		def.getPasswordField().setVisible(!isLoggedIn);
 		def.getLoginButton().setVisible(!isLoggedIn);
-		def.getLoginText().setVisible(!isLoggedIn);
 		def.getLoginScreen().setVisible(!isLoggedIn);
 	}
 	

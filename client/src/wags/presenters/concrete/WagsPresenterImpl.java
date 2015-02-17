@@ -51,7 +51,7 @@ public class WagsPresenterImpl implements WagsPresenter, AcceptsOneWidget
 		wags.getNavCollapse().setVisible(isLoggedIn);
 		wags.getProblemsAnchor().setVisible(isLoggedIn);
 		wags.getLogoutAnchor().setVisible(isLoggedIn);
-		wags.getAdminAnchor().setVisible(isAdmin);
+		wags.getAdminAnchor().setVisible(isAdmin && isLoggedIn);
 		
 		if (isLoggedIn && checkPasswordCommand == null) {
 			checkPasswordCommand = new CheckPasswordCommand();

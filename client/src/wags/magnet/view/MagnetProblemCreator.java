@@ -94,7 +94,7 @@ public class MagnetProblemCreator {
 	}
 	
 	/**
-	 * Returns the next unused id and increments the global varaible idAssignor
+	 * Returns the next unused id and increments the global variable idAssignor
 	 * @return the next id number
 	 */
 	private int getID() {
