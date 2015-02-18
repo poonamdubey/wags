@@ -5,6 +5,7 @@ package wags.magnet.view;
  */
 
 import com.github.gwtbootstrap.client.ui.Row;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTML;
 
 /**
@@ -45,11 +46,13 @@ final class TrashBin extends Row {
 			eatWidget((StackableContainer)sc.getInsidePanel().getWidget(pos));
 			if(sc.getInsidePanel().getWidgetCount() == widgetCount) {
 				pos++;
+				Window.alert(""+pos);
 			}
 		}
+		
 		String type = sc.getMagnetType().toString();
-		if(type.equals("function") || type.equals("main")) {
-		    //do nothing
+		Window.alert("Trashbin.java");
+		if(type.equals("function") || type.equals("main")){
 		}
 		else if (sc.isCreated()) {
 			construct.manageLimits(content);

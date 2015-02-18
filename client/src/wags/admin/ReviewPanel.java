@@ -62,7 +62,7 @@ public class ReviewPanel extends Composite {
 		btnPnlReview.title.setVisible(false);
 		btnPnlReview.setVisible(false);
 		removeStudentButton.setVisible(false);
-		btnExTypes.addClickHandler(new switchClickHandler());
+		//btnExTypes.addClickHandler(new switchClickHandler());
 		
 		//starts out currentSet = true
 		info.setText( "Currently Assigned Microlabs" );
@@ -86,13 +86,13 @@ public class ReviewPanel extends Composite {
 			removeStudentButton.setVisible(false);
 			removeStudentButton.addClickHandler(new removeStudentClickHandler());
 			//finally, make student button panel visible
-			btnPnlStudent.setVisible( true );
+			btnPnlStudent.setVisible( false );
 		} else {
 			//do what the normal constructor would do
 			btnPnlCurrent.title.setVisible(false);
 			btnPnlReview.title.setVisible(false);
 			btnPnlReview.setVisible(false);
-			btnExTypes.addClickHandler(new switchClickHandler());
+			//btnExTypes.addClickHandler(new switchClickHandler());
 		}
 	}
 
@@ -141,6 +141,7 @@ public class ReviewPanel extends Composite {
 	public void fillGrid(String[] data){
       grdGrades.resize(data.length/3+1, 3);
   		grdGrades.setBorderWidth(1);
+  		
   		
   		//Sets the headers for the table
   		grdGrades.setHTML(0, 0, "<b> Username </b>");

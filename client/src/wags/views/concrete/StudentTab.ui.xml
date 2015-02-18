@@ -49,8 +49,6 @@
 		.grid{
 			height: 100%;
 			background-color: #FFFFFF;
-			margin-top: 52px;
-			margin-left: 10px;
 		}
 	</ui:style>
 	

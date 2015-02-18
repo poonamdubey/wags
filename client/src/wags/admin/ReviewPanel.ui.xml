@@ -14,8 +14,6 @@
 		.grid{
 			height: 100%;
 			background-color: #FFFFFF;
-			margin-top: 52px;
-			margin-left: 10px;
 		}
 		.info {
 			font-family: helvetica;
@@ -30,9 +28,9 @@
 	<g:VerticalPanel>
 		<g:HorizontalPanel>
 			<g:VerticalPanel>
-				<g:Label styleName="{style.title}" ui:field="title"></g:Label>
-				<g:Label styleName="{style.info}" ui:field="info"></g:Label> 
-				<g:Button ui:field="btnExTypes" width="100%">Switch to Review</g:Button>
+				<g:Label styleName="{style.title}" ui:field="title" visible="false"></g:Label>
+				<g:Label styleName="{style.info}" ui:field="info" visible="false"></g:Label> 
+				<g:Button ui:field="btnExTypes" width="100%" visible="false">Switch to Review</g:Button>
 				<my:ButtonPanel ui:field="btnPnlCurrent"/>
 				<my:ButtonPanel ui:field="btnPnlReview"/>
 				    <my:ButtonPanel ui:field="btnPnlStudent" visible="false"/>

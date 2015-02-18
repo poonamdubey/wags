@@ -10,40 +10,78 @@
 			font-size: x-large;
 			font-family: helvetica;	
 			text-align: center;
-			margin-top: 20px;
 		}
 		
 		.content {
 			height: 100%;
 			width: 100%;
+			min-width: 980px;
 		}
-		
+		.contentMargin {
+			height: 100%;
+			width: 100%;
+			min-width: 980px;
+			margin-left: 20px;
+		}
+		.clearMargin{
+			margin: 0px !important;
+		}
 		.padding {
 			padding-right: 5px;
 			padding-left: 5px;
 		}
+		.width {
+			min-width: 41% !important;
+		}
 	</ui:style>
-	
-	<b:FluidRow>
+	<b:FluidRow>	
+	    <b:FluidRow addStyleNames="{style.contentMargin}">
+	    	<b:Column size="3" addStyleNames="{style.clearMargin}">
+	    	    <b:Legend>Current Logical Problems</b:Legend>
+	        	<b:ListBox ui:field="logReview"></b:ListBox>
+	    	</b:Column>
+	    	<b:Column size="3" addStyleNames="{style.clearMargin}">
+	    	    <b:Legend>Previous Logical Problems</b:Legend>
+	        	<b:ListBox ui:field="logReviewPast"></b:ListBox>
+	    	</b:Column>
+	    	<b:Column size="3" addStyleNames="{style.clearMargin}">
+	    	    <b:Legend>Current Magnet Problems</b:Legend>
+	        	<b:ListBox ui:field="magReview"></b:ListBox>
+	    	</b:Column>
+	    	<b:Column size="3" addStyleNames="{style.clearMargin}">
+	    	    <b:Legend>Previous Magnet Problems</b:Legend>
+	        	<b:ListBox ui:field="magReviewPast"></b:ListBox>
+	    	</b:Column>
+	    </b:FluidRow>
 	    <b:FluidRow addStyleNames="{style.content}">
-	    	<b:Column size="6">
+	        <b:Column size="12"></b:Column>
+	    </b:FluidRow>
+	    <b:FluidRow addStyleNames="{style.contentMargin}">
+	    	<b:Column size="4">
 	    	    <g:ScrollPanel>
 	        		<my:ReviewPanel styleName="{style.padding}" ui:field="rvLogPanel"/>
 	        	</g:ScrollPanel>
 	    	</b:Column>
-	    	<b:Column size="6">
+	    	<b:Column size="2" addStyleNames="{style.clearMargin}"></b:Column>
+	    	<b:Column size="4" addStyleNames="{style.clearMargin}">
 	    	    <g:ScrollPanel>	        
 	        		<my:ReviewPanel styleName="{style.padding}" ui:field="rvMagPanel"/>
 	        	</g:ScrollPanel>
 	    	</b:Column>
 	    </b:FluidRow>
-	    <b:FluidRow>
-	        <g:FormPanel styleName="{style.padding}" ui:field="formCompReview">
+	    <b:FluidRow addStyleNames="{style.content}">
+	        <b:Column size="12"></b:Column>
+	    </b:FluidRow>
+	    <b:FluidRow addStyleNames="{style.contentMargin}">
+	        <b:Column size="5"></b:Column>
+	    	<b:Column size="3">
+	    	    <g:FormPanel ui:field="formCompReview">
 				<g:VerticalPanel>
-					<g:Label styleName="{style.title}"> Review All </g:Label>
+					<b:Legend>Review All</b:Legend>
 					<g:SubmitButton ui:field="btnCompReview">Download CSV</g:SubmitButton>
 				</g:VerticalPanel>
 			</g:FormPanel>
+			</b:Column>
 	    </b:FluidRow>
 	</b:FluidRow>
 </ui:UiBinder> 

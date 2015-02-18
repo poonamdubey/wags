@@ -13,6 +13,7 @@ import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -266,6 +267,7 @@ public class ConstructUi extends Composite implements ProvidesResize, RequiresRe
 		for(int i = 0; i < segmentsContent.getWidgetCount(); i++) {
 			//clear all panels in left side of screen
 			((MagnetTypePanel) segmentsContent.getWidget(i)).clear(this.bin);
+			Window.alert("Inside reset");
 			//clear the code panel on the right side of the screen
 			this.bin.eatWidget(codePanel.mainFunction);
 	    }
